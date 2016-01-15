@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seq</title>
+    <meta charset="utf-8">
+    <meta content="320" name="MobileOptimized">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="description">
+    <style>
+        *, :after, :before {
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #333;
+            color: #ccc;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            margin: 0;
+            text-align: center;
+        }
+        .pattern {
+            display: inline-block;
+            list-style: none;
+            margin: 50px 0 0 0;
+            padding: 0;
+            width: 100%;
+        }
+        .pattern__step {
+            background-color: #666;
+            border: 1px solid #333;
+            float: left;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            width: 12.5%;
+        }
+        .pattern__step:nth-child(8n + 1) {
+            clear: left;
+        }
+        #startup-overlay {
+            background-color: #333;
+            bottom: 0;
+            display: none;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+    <ul class="pattern">
+        <li class="pattern__step">1</li>
+        <li class="pattern__step">2</li>
+        <li class="pattern__step">3</li>
+        <li class="pattern__step">4</li>
+        <li class="pattern__step">5</li>
+        <li class="pattern__step">6</li>
+        <li class="pattern__step">7</li>
+        <li class="pattern__step">8</li>
+        <li class="pattern__step">9</li>
+        <li class="pattern__step">10</li>
+        <li class="pattern__step">11</li>
+        <li class="pattern__step">12</li>
+        <li class="pattern__step">13</li>
+        <li class="pattern__step">14</li>
+        <li class="pattern__step">15</li>
+        <li class="pattern__step">16</li>
+    </ul>
+    <div id="startup-overlay">
+        <p>Click to start.</p>
+    </div>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- script src="static/js/waax.min.js"></script -->
+    <script src="static/js/waax/waax.js"></script>
+    <script src="static/js/waax/waax.extension.js"></script>
+    <script src="static/js/waax/waax.util.js"></script>
+    <script src="static/js/waax/waax.core.js"></script>
+    <script src="static/js/waax/waax.timebase.js"></script>
+    <script src="static/js/waax/plugins/chorus.js"></script>
+    <script src="static/js/waax/plugins/cmp1.js"></script>
+    <script src="static/js/waax/plugins/converb.js"></script>
+    <script src="static/js/waax/plugins/eq4.js"></script>
+    <script src="static/js/waax/plugins/fader.js"></script>
+    <script src="static/js/waax/plugins/filterbank.js"></script>
+    <script src="static/js/waax/plugins/fmk1.js"></script>
+    <script src="static/js/waax/plugins/impulse.js"></script>
+    <script src="static/js/waax/plugins/noise.js"></script>
+    <script src="static/js/waax/plugins/simpleosc.js"></script>
+    <script src="static/js/waax/plugins/sp1.js"></script>
+    <script src="static/js/waax/plugins/stereodelay.js"></script>
+    <script src="static/js/waax/plugins/wxs1.js"></script>
+    <script src="static/js/app.js"></script>
+    <script src="static/js/wh.pattern.js"></script>
+    <script src="static/js/wh.project.js"></script>
+    <script src="static/js/wh.step.js"></script>
+    <script src="static/js/wh.timebase.js"></script>
+    <script src="static/js/wh.track.js"></script>
+    <script src="static/js/wh.util.js"></script>
+</body>
+</html>
