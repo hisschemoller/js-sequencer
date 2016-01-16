@@ -15,7 +15,10 @@ window.WH = window.WH || {};
      */
     function Step(pitch, velocity, start, duration, channel) {
         this.channel = channel || 0;
+        this.absStart = 0;
+        this.absEnd = 0;
         Note.apply(this, arguments);
+        this.velocity = velocity;
     }
 
     /**
@@ -32,6 +35,22 @@ window.WH = window.WH || {};
      */
     Step.prototype.cloneWithChangedStart = function(start) {
         return WH.Step(this.pitch, this.velocity, start, this.duration, this.channel);
+    };
+
+    /**
+     * Set absolute play start time in seconds since audio stream started.
+     * @param {number} absStart Start time in seconds.
+     */
+    Step.prototype.setAbsStart = function(absStart) {
+        this.absStart = absStart;
+    };
+
+    /**
+     * Set absolute play end time in seconds since audio stream started.
+     * @param {number} absEnd End time in seconds.
+     */
+    Step.prototype.setAbsEnd = function(absEnd) {
+        this.absEnd = absEnd;
     };
 
     /** 

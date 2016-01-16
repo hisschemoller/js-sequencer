@@ -21,9 +21,11 @@ window.WH = window.WH || {};
         /**
          * Initialise empty pattern.
          */
-        init: function(data, channelIndex) {
+        init: function(data, channel) {
+            var stepData;
             for(var i = 0; i < this.stepCount; i++) {
-                this.push(WH.Step(60, 100, i * 120, 60, channelIndex));
+                stepData = data.steps[i];
+                this.push(WH.Step(stepData.pitch, stepData.velocity, i * 120, stepData.duration, channel));
             }
         },
 

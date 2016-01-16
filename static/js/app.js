@@ -4,38 +4,7 @@
  * @version 0.0.0
  */
 
-/*
-The structure of a project:
-    a project has 1 song
-        a song has a sequence of 16 patterns
-    a project has 4 channels
-        a channel has 1 instrument (to play the channels )
-    a project has 16 patterns
-        a pattern has 4 tracks (1 for each channel)
-            a track has a duration (of 1 measure)
-            a track has events (maximum 16 16th events in the measure)
-            a track has note loop start and end
-                        pitch loop start and end
-                        velocity loop start and end
-                        pLock 1 t/m 8 loop start and end
-
-What an event needs:
-    the regular MIDI note properties:
-        type: type of event like NOTE_ON
-        data1: pitch for type note
-        data2: velocity for type note
-        channel: to know which instrument to play
-    the extra WX.Note properties:
-        start: in ticks
-        duration: in ticks
- */
-
 'use strict';
-
-/**
- * @namespace WH
- */
-window.WH = window.WH || {};
 
 /**
  * Application startup.
@@ -54,9 +23,7 @@ $(function() {
         WX.Transport = null;
         // add project to timeBase
         WH.TimeBase.setProject(project);
-
         WH.TimeBase.start();
-        console.log('startApp project: ', project);
         // var osc = WX.SimpleOsc();
         // osc.to(WX.Master);
         // osc.noteOn(72, 64);

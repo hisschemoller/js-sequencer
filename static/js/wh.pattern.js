@@ -9,9 +9,9 @@ window.WH = window.WH || {};
      * @constructor
      */
     function Pattern(data) {
-        this.trackCount = 1;
+        this.trackCount = 0;
         this.tracks = [];
-        this.init();
+        this.init(data);
     }
 
     Pattern.prototype = {
@@ -20,8 +20,9 @@ window.WH = window.WH || {};
          * Initialise pattern.
          */
         init: function(data) {
+            this.trackCount = data.tracks.length;
             for(var i = 0; i < this.trackCount; i++) {
-                this.tracks.push(WH.Track(data, i));
+                this.tracks.push(WH.Track(data.tracks[i], i));
             }
         }, 
 

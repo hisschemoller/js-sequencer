@@ -25,15 +25,20 @@ window.WH = window.WH || {};
             if (this.project) {
                 // fill _playbackQueue with project arrangement events 
                 this.project.scanEvents(this.sec2tick(this._scanStart), this.sec2tick(this._scanEnd), this._playbackQueue);
-            }
 
-            // send queued notes to target plug-ins and view
-            if (this._playbackQueue.length > 0) {
-                for (var i = 0; i < this._playbackQueue.length; i++) {
-                    var note = this._playbackQueue[i],
-                        start = this._absOrigin + this.tick2sec(note.start),
-                        end = start + this.tick2sec(note.dur);
-                    // console.log(note.channel, note.start);
+                if (this._playbackQueue.length) {
+                    // adjust event timing
+                    var start, 
+                        step;
+                    for (var i = 0; i < this._playbackQueue.length; i++) {
+                        step = this._playbackQueue[i];
+                        start = this._absOrigin + this.tick2sec(step.start);
+                        step.setAbsStart( start );
+                        step.setAbsEnd( start + this.tick2sec(step.dur) );
+                    }
+
+                    // play the events with sound generating plugin instruments
+                    WH.Studio.playEvents(this._playbackQueue);
                 }
             }
         }
@@ -52,6 +57,7 @@ window.WH = window.WH || {};
         // this.setTempoChange(this.project.getBPM(), factor);
         this.setBPM(this.project.getBPM());
     };
+    
     /** 
      * Singleton
      */

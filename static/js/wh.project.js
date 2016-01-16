@@ -13,11 +13,7 @@ window.WH = window.WH || {};
         this.patterns = [];
         this.patternIndex = 0;
         this.patternCount = 16;
-        if(data) {
-            this.initFromData(data);
-        } else {
-            this.init();
-        }
+        this.init( data || this.getEmptyProject() );
     }
     
     Project.prototype = {
@@ -25,13 +21,16 @@ window.WH = window.WH || {};
         /**
          * [init description]
          */
-        init: function() {
+        init: function(data) {
             // set default tempo
-            this.setBPM(121);
-            // set up empty patterns
+            this.setBPM(data.bpm);
+            // set up patterns
+            this.patternCount = data.patterns.length;
             for(var i = 0; i < this.patternCount; i++) {
-                this.patterns.push(WH.Pattern());
+                this.patterns.push(WH.Pattern(data.patterns[i]));
             }
+            // setup studio
+            WH.Studio.setup(data.channels);
         },
 
         /**
@@ -48,39 +47,59 @@ window.WH = window.WH || {};
             
             // scan current pattern for events
             var events = this.patterns[this.patternIndex].scanEvents(start, localStart, localEnd, playbackQueue);
-
-            // // test if sequences change
-            // var n = this.sequences.length;
-            // for(var i = 0; i < n; i++) {
-            //     var startBeat = this.sequences[i].getStartBeat();
-            //     if (localStart <= startBeat && startBeat <= localEnd) {
-            //         // add all-notes-off-on-every-channel event at end of sequence
-            //         this.addScannedSongEvent(start + (startBeat - localStart));
-            //         // next sequence index
-            //         this.sequenceIndex++;
-            //     }
-            // }
-
-            // // test if song ends
-            // if (localStart <= this.songLength && this.songLength <= localEnd) {
-            //     // add all-notes-off-on-every-channel event at end of sequence
-            //     this.addScannedSongEvent(start + (this.songLength - localStart));
-            //     // update scan range for restart of song
-            //     localStart -= this.songLength;
-            //     localEnd -= this.songLength;
-            //     // loop back to to first sequence
-            //     this.sequenceIndex = 0;
-            // }
-            
-            // if(this.songEvents.length) {
-            //     // scan patterns in current sequence for events
-            //     if(this.sequenceIndex >= 0 && this.sequenceIndex < this.sequences.length) {
-            //         var events = this.sequences[this.sequenceIndex].scanEvents(start, localStart, localEnd, playbackQueue);
-            //     }
-            // }
         }, 
 
         /**
+         * [playEvents description]
+         * @param  {[type]} playbackQueue [description]
+         * @return {[type]}               [description]
+         */
+        playEvents: function(playbackQueue) {
+
+        },
+
+        /**
+         * [getEmptyProject description]
+         * @return {[type]} [description]
+         */
+        getEmptyProject: function() {
+            var data = {
+                bpm: 120,
+                channels: [{
+                    instrument: {
+                        name: 'simpleosc'
+                    }
+                }], 
+                patterns: []
+            };
+
+            for(var i = 0; i < 16; i++) {
+                var pattern = {
+                    tracks: []
+                };
+                data.patterns.push(pattern);
+                for(var j = 0; j < 1; j++) {
+                    var track = {
+                        steps: []
+                    };
+                    pattern.tracks.push(track);
+                    for(var k = 0; k < 16; k++) {
+                        var step = {
+                            channel: j,
+                            pitch: 60 + k,
+                            velocity: (Math.random() > 0.66 ? 100 : 0),
+                            start: 0,
+                            duration: 60
+                        };
+                        track.steps.push(step);
+                    }
+                }
+            }
+
+            return data;
+        },
+
+        /** 
          * Getter for BPM.
          * @return {Number} Song tempo in Beats Per Minute.
          */
