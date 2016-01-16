@@ -13,7 +13,6 @@ window.WH = window.WH || {};
         this.patterns = [];
         this.patternIndex = 0;
         this.patternCount = 16;
-        this.init( data || this.getEmptyProject() );
     }
     
     Project.prototype = {
@@ -24,6 +23,7 @@ window.WH = window.WH || {};
         init: function(data) {
             // set default tempo
             this.setBPM(data.bpm);
+            WH.TimeBase.setBPM(data.bpm);
             // set up patterns
             this.patternCount = data.patterns.length;
             for(var i = 0; i < this.patternCount; i++) {
@@ -31,6 +31,10 @@ window.WH = window.WH || {};
             }
             // setup studio
             WH.Studio.setup(data.channels);
+        },
+
+        createNew: function() {
+            this.init(this.getEmptyProject());
         },
 
         /**
@@ -120,10 +124,9 @@ window.WH = window.WH || {};
             return factor;
         }
     };
+    
     /** 
-     * Exports
+     * Singleton
      */
-    WH.Project = function (data) {
-        return new Project(data);
-    };
+    WH.Project = new Project();
 })(WH);

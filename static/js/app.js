@@ -17,17 +17,11 @@ $(function() {
     function startApp() {
         // remove the iOS audio startup overlay
         overlay.remove();
-        // create the project
-        var project = WH.Project();
         // remove the WX.Transport because we use WH.TimeBase
         WX.Transport = null;
-        // add project to timeBase
-        WH.TimeBase.setProject(project);
+        
         WH.TimeBase.start();
-        // var osc = WX.SimpleOsc();
-        // osc.to(WX.Master);
-        // osc.noteOn(72, 64);
-        // osc.noteOff(WX.now + 1);
+        WH.Project.createNew();
     }
 
     /**
