@@ -9,32 +9,42 @@ window.WH = window.WH || {};
         this.secondsPerBeat = 0;
         this.oldBPM = 0;
         this.isSongMode = false;
-        this.totalDurationInTicks = 4 * 480; // pattern length is 4 beats
+        this.patternDurationInTicks; // pattern length is 4 beats
+        this.patternDurationInBeats = 4;
         this.patterns = [];
         this.patternIndex = 0;
         this.patternCount = 16;
+        this.trackCount = 1;
+        this.stepCount = 16;
     }
     
     Project.prototype = {
 
         /**
-         * [init description]
+         * [setup description]
          */
-        init: function(data) {
-            // set default tempo
+        setup: function(data) {
+            
+            var ppqn = WH.TimeBase.getPPQN();
+            this.patternDurationInTicks = this.patternDurationInBeats * ppqn;
+
+            var data = data || this.getEmptyProject();
+
+            // setup timing
             this.setBPM(data.bpm);
             WH.TimeBase.setBPM(data.bpm);
-            // set up patterns
-            this.patternCount = data.patterns.length;
+
+            // setup patterns
             for(var i = 0; i < this.patternCount; i++) {
-                this.patterns.push(WH.Pattern(data.patterns[i]));
+                this.patterns.push(WH.Pattern(data.patterns[i], ppqn));
             }
+
             // setup studio
             WH.Studio.setup(data.channels);
         },
 
         createNew: function() {
-            this.init(this.getEmptyProject());
+            this.setup();
         },
 
         /**
@@ -46,20 +56,11 @@ window.WH = window.WH || {};
         scanEvents: function (start, end, playbackQueue) {
 
             // convert transport time to song time
-            var localStart = start % this.totalDurationInTicks;
+            var localStart = start % this.patternDurationInTicks;
             var localEnd = localStart + (end - start);
             
             // scan current pattern for events
             var events = this.patterns[this.patternIndex].scanEvents(start, localStart, localEnd, playbackQueue);
-        }, 
-
-        /**
-         * [playEvents description]
-         * @param  {[type]} playbackQueue [description]
-         * @return {[type]}               [description]
-         */
-        playEvents: function(playbackQueue) {
-
         },
 
         /**
@@ -67,6 +68,11 @@ window.WH = window.WH || {};
          * @return {[type]} [description]
          */
         getEmptyProject: function() {
+
+            var ppqn = WH.TimeBase.getPPQN();
+            var stepDuration = Math.floor( this.patternDurationInTicks / this.stepCount );
+            console.log(stepDuration, this.patternDurationInTicks, this.stepCount);
+
             var data = {
                 bpm: 120,
                 channels: [{
@@ -77,29 +83,29 @@ window.WH = window.WH || {};
                 patterns: []
             };
 
-            for(var i = 0; i < 16; i++) {
+            for(var i = 0; i < this.patternCount; i++) {
                 var pattern = {
                     tracks: []
                 };
                 data.patterns.push(pattern);
-                for(var j = 0; j < 1; j++) {
+                for(var j = 0; j < this.trackCount; j++) {
                     var track = {
                         steps: []
                     };
                     pattern.tracks.push(track);
-                    for(var k = 0; k < 16; k++) {
+                    for(var k = 0; k < this.stepCount; k++) {
                         var step = {
                             channel: j,
                             pitch: 60 + k,
                             velocity: (Math.random() > 0.66 ? 100 : 0),
-                            start: 0,
-                            duration: 60
+                            start: stepDuration * k,
+                            duration: Math.floor( stepDuration / 2 )
                         };
                         track.steps.push(step);
                     }
                 }
             }
-
+console.log(data);
             return data;
         },
 
@@ -117,10 +123,8 @@ window.WH = window.WH || {};
          * @return {Number} Factor by which the playback speed has changed.
          */
         setBPM: function(beatsPerMinute) {
-            console.log('setBPM: ', beatsPerMinute);
             var factor = this.beatsPerMinute / beatsPerMinute;
             this.beatsPerMinute = beatsPerMinute;
-            this.secondsPerBeat = 60 / this.beatsPerMinute;
             return factor;
         }
     };

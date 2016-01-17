@@ -8,12 +8,10 @@ window.WH = window.WH || {};
     /**
      * @constructor
      */
-    function Track(data, channelIndex) {
-        this.stepCount = 16;
+    function Track(data, channel, ppqn) {
         this.steps = [];
-        this.size = 0; // unused?
-        this.lengthInTicks = 4 * 480;
-        this.init(data, channelIndex);
+        this.lengthInTicks = 4 * ppqn;
+        this.init(data, channel);
     };
 
     Track.prototype = {
@@ -22,10 +20,11 @@ window.WH = window.WH || {};
          * Initialise empty pattern.
          */
         init: function(data, channel) {
-            var stepData;
-            for(var i = 0; i < this.stepCount; i++) {
-                stepData = data.steps[i];
-                this.push(WH.Step(stepData.pitch, stepData.velocity, i * 120, stepData.duration, channel));
+            var d, 
+                n = data.steps.length;
+            for(var i = 0; i < n; i++) {
+                d = data.steps[i];
+                this.push( WH.Step(d.pitch, d.velocity, d.start, d.duration, channel) );
             }
         },
 
@@ -40,7 +39,6 @@ window.WH = window.WH || {};
                 id = WH.getUid4();
             }
             this.steps[id] = step;
-            this.size++;
             return id;
         }, 
 
@@ -87,8 +85,8 @@ window.WH = window.WH || {};
     /** 
      * Exports
      */
-    WH.Track = function (data, channelIndex) {
-        return new Track(data, channelIndex);
+    WH.Track = function (data, channel, ppqn) {
+        return new Track(data, channel, ppqn);
     };
 
 })(WH);

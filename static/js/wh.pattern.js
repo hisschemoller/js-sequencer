@@ -8,10 +8,10 @@ window.WH = window.WH || {};
     /**
      * @constructor
      */
-    function Pattern(data) {
+    function Pattern(data, ppqn) {
         this.trackCount = 0;
         this.tracks = [];
-        this.init(data);
+        this.init(data, ppqn);
     }
 
     Pattern.prototype = {
@@ -19,10 +19,10 @@ window.WH = window.WH || {};
         /**
          * Initialise pattern.
          */
-        init: function(data) {
+        init: function(data, ppqn) {
             this.trackCount = data.tracks.length;
             for(var i = 0; i < this.trackCount; i++) {
-                this.tracks.push(WH.Track(data.tracks[i], i));
+                this.tracks.push(WH.Track(data.tracks[i], i, ppqn));
             }
         }, 
 
@@ -44,8 +44,8 @@ window.WH = window.WH || {};
     /** 
      * Exports
      */
-    WH.Pattern = function (data) {
-        return new Pattern(data);
+    WH.Pattern = function (data, ppqn) {
+        return new Pattern(data, ppqn);
     };
 
 })(WH);

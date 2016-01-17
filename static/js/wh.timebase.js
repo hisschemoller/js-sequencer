@@ -28,8 +28,9 @@ window.WH = window.WH || {};
             if (this._playbackQueue.length) {
                 // adjust event timing
                 var start, 
-                    step;
-                for (var i = 0; i < this._playbackQueue.length; i++) {
+                    step,
+                    i;
+                for (; i < this._playbackQueue.length; i++) {
                     step = this._playbackQueue[i];
                     start = this._absOrigin + this.tick2sec(step.start);
                     step.setAbsStart( start );
@@ -40,6 +41,14 @@ window.WH = window.WH || {};
                 WH.Studio.playEvents(this._playbackQueue);
             }
         }
+    };
+
+    /**
+     * Get Pulses Per Quarter Note.
+     * @return {number} Pulses Per Quarter Note.
+     */
+    TimeBase.prototype.getPPQN = function() {
+        return _TICKS_PER_BEAT;
     };
     
     /** 

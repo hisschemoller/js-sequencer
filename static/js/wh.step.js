@@ -18,6 +18,9 @@ window.WH = window.WH || {};
         this.absStart = 0;
         this.absEnd = 0;
         Note.apply(this, arguments);
+        // overwrite velocity because it can't be 0 in Note 
+        // but it must be possible here in Step
+        // because 0 means a silent step
         this.velocity = velocity;
     }
 
