@@ -12,8 +12,9 @@ window.WH = window.WH || {};
      * @param {Number} start Start time in tick.
      * @param {Number} duration Note durtion in tick.
      * @param {Number} channel Channel (and instrument) on which this note is played.
+     * @param {Number} index Index of this step within the track.
      */
-    function Step(pitch, velocity, start, duration, channel) {
+    function Step(pitch, velocity, start, duration, channel, index) {
         this.channel = channel || 0;
         this.absStart = 0;
         this.absEnd = 0;
@@ -22,6 +23,7 @@ window.WH = window.WH || {};
         // but it must be possible here in Step
         // because 0 means a silent step
         this.velocity = velocity;
+        this.index = index;
     }
 
     /**
@@ -37,7 +39,7 @@ window.WH = window.WH || {};
      * @return {Step} Clone of this Step
      */
     Step.prototype.cloneWithChangedStart = function(start) {
-        return WH.Step(this.pitch, this.velocity, start, this.duration, this.channel);
+        return WH.Step(this.pitch, this.velocity, start, this.duration, this.channel, this.index);
     };
 
     /**
@@ -59,7 +61,7 @@ window.WH = window.WH || {};
     /** 
      * Exports
      */
-    WH.Step = function (pitch, velocity, start, duration, channel) {
-        return new Step(pitch, velocity, start, duration, channel);
+    WH.Step = function (pitch, velocity, start, duration, channel, index) {
+        return new Step(pitch, velocity, start, duration, channel, index);
     };
 })(WH);

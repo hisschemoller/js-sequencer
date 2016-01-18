@@ -24,7 +24,7 @@ window.WH = window.WH || {};
                 n = data.steps.length;
             for(var i = 0; i < n; i++) {
                 d = data.steps[i];
-                this.push( WH.Step(d.pitch, d.velocity, d.start, d.duration, channel) );
+                this.push( WH.Step(d.pitch, d.velocity, d.start, d.duration, channel, i) );
             }
         },
 

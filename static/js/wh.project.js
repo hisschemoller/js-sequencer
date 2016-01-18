@@ -70,8 +70,7 @@ window.WH = window.WH || {};
         getEmptyProject: function() {
 
             var ppqn = WH.TimeBase.getPPQN();
-            var stepDuration = Math.floor( this.patternDurationInTicks / this.stepCount );
-            console.log(stepDuration, this.patternDurationInTicks, this.stepCount);
+            var stepDuration = Math.floor( this.patternDurationInTicks / this.stepCount );  
 
             var data = {
                 bpm: 120,
@@ -105,7 +104,6 @@ window.WH = window.WH || {};
                     }
                 }
             }
-console.log(data);
             return data;
         },
 
