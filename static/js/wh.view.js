@@ -9,13 +9,15 @@ window.WH = window.WH || {};
         // private
         var settings = {
                 activeClass: 'is-active',
+                selectedClass: 'is-selected'
             },
             elements = {
                 playStopButton: $('#play-control'),
                 steps: $('.pattern__step')
             },
+            channelIndex = 0,
             init = function() {
-                elements.playStopButton.on('click', onPlayStopClick);
+                elements.playStopButton.on('click touchend', onPlayStopClick);
             },
             onPlayStopClick = function(e) {
                 if (WH.TimeBase.isRunning()) {
@@ -52,6 +54,18 @@ window.WH = window.WH || {};
                 }
             }
         };
+
+
+        this.updateSelectedSteps = function() {
+            var steps = WH.Project.getTrackSteps(channelIndex);
+            elements.steps.removeClass(settings.selectedClass);
+            for (var id in steps) {
+                var step = steps[id];
+                if(step.velocity) {
+                    $(elements.steps[step.index]).addClass(settings.selectedClass);
+                }
+            }
+        }
 
         init();
     }

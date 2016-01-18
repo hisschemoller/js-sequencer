@@ -41,6 +41,8 @@ window.WH = window.WH || {};
 
             // setup studio
             WH.Studio.setup(data.channels);
+            // update view
+            WH.View.updateSelectedSteps();
         },
 
         createNew: function() {
@@ -124,6 +126,10 @@ window.WH = window.WH || {};
             var factor = this.beatsPerMinute / beatsPerMinute;
             this.beatsPerMinute = beatsPerMinute;
             return factor;
+        },
+
+        getTrackSteps: function(index) {
+            return this.patterns[this.patternIndex].getTrackSteps(index);
         }
     };
     

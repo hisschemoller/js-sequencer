@@ -79,6 +79,10 @@ window.WH = window.WH || {};
                     }
                 }
             }
+        },
+
+        getSteps: function() {
+            return this.steps;
         }
     };
 

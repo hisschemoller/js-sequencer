@@ -38,6 +38,10 @@ window.WH = window.WH || {};
             for (var i = 0; i < this.tracks.length; i++) {
                 var events = this.tracks[i].scanEventsInTimeSpan(absoluteStart, start, end, playbackQueue);
             }
+        },
+
+        getTrackSteps: function(index) {
+            return this.tracks[index].getSteps();
         }
     };
 
