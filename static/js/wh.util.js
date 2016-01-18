@@ -24,7 +24,7 @@ window.WH = window.WH || {};
      * @return {String} A probably unique ID.
      */
     WH.getUid4 = function() {
-        var t = performance.now();
+        var t = Date.now();
         var id = 'xxxx'.replace(/[x]/g, function(c) {
             var r = (t + Math.random()*16) % 16 | 0;
             t = Math.floor(t/16);
