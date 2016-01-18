@@ -19,24 +19,42 @@
             text-align: center;
         }
         .pattern {
-            display: inline-block;
             list-style: none;
             margin: 50px 0 0 0;
             padding: 0;
-            width: 100%;
         }
-        .pattern__step {
-            background-color: #666;
-            border: 1px solid #333;
-            float: left;
-            height: 50px;
-            line-height: 50px;
-            text-align: center;
-            width: 12.5%;
-        }
-        .pattern__step:nth-child(8n + 1) {
-            clear: left;
-        }
+            .pattern__step {
+                background-color: #666;
+                border: 1px solid #333;
+                cursor: pointer;
+                float: left;
+                height: 50px;
+                line-height: 50px;
+                text-align: center;
+                width: 12.5%;
+            }
+            .pattern__step:nth-child(8n + 1) {
+                clear: left;
+            }
+        .control {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        } 
+            .control__item {
+                background-color: #666;
+                border: 1px solid #333;
+                cursor: pointer;
+                float: left;
+                height: 50px;
+                line-height: 50px;
+                text-align: center;
+                width: 25%;
+            }
+            .control__item:not(.is-active) .control__item-active,
+            .control__item.is-active .control__item-inactive {
+                display: none;
+            }
         #startup-overlay {
             background-color: #333;
             bottom: 0;
@@ -66,6 +84,15 @@
         <li class="pattern__step">14</li>
         <li class="pattern__step">15</li>
         <li class="pattern__step">16</li>
+    </ul>
+    <ul class="control">
+        <li class="control__item is-active" id="play-control">
+            <span class="control__item-active control__play">&#9724;</span>
+            <span class="control__item-inactive control__stop">&#9658;</span>
+        </li>
+        <li class="control__item"></li>
+        <li class="control__item"></li>
+        <li class="control__item"></li>
     </ul>
     <div id="startup-overlay">
         <p>Click to start.</p>
@@ -98,5 +125,6 @@
     <script src="static/js/wh.timebase.js"></script>
     <script src="static/js/wh.track.js"></script>
     <script src="static/js/wh.util.js"></script>
+    <script src="static/js/wh.view.js"></script>
 </body>
 </html>
