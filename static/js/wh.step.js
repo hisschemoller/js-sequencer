@@ -1,4 +1,7 @@
 /**
+ * A Step contains data for a single sound to be player.
+ * It extends Note.
+ * 
  * @namespace WH
  */
 window.WH = window.WH || {};
@@ -34,11 +37,12 @@ window.WH = window.WH || {};
     Step.prototype.constructor = Step;
 
     /**
-     * Create clone of this step with changed start time
-     * @param {number} start Start time in tick.
-     * @return {Step} Clone of this Step
+     * Create clone of this step with optional changed start time.
+     * @param {Number} start Start time in tick.
+     * @return {Step} Clone of this Step.
      */
     Step.prototype.cloneWithChangedStart = function(start) {
+        start = start || this.start;
         return WH.Step(this.pitch, this.velocity, start, this.duration, this.channel, this.index);
     };
 

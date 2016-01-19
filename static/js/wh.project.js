@@ -1,9 +1,19 @@
 /**
+ * Project holds all data of the current piece of music. 
+ * In that way it's sort of a model for the app.
+ * It can also provide the musical events that happen within a given timespan.
+ * It will probably also keep state of song or pattern mode.
+ * 
  * @namespace WH
  */
 window.WH = window.WH || {};
 
 (function (WH) {
+
+    /**
+     * @constructor
+     * @param {Object} data Project data.
+     */
     function Project(data) {
         this.beatsPerMinute = 0;
         this.secondsPerBeat = 0;
@@ -21,7 +31,8 @@ window.WH = window.WH || {};
     Project.prototype = {
 
         /**
-         * [setup description]
+         * Set up a project from the provided data, or create a new empty project.
+         * @param {Object} data Project data object.
          */
         setup: function(data) {
             
@@ -45,6 +56,9 @@ window.WH = window.WH || {};
             WH.View.updateSelectedSteps();
         },
 
+        /**
+         * Create a new empty project.
+         */
         createNew: function() {
             this.setup();
         },
@@ -66,8 +80,8 @@ window.WH = window.WH || {};
         },
 
         /**
-         * [getEmptyProject description]
-         * @return {[type]} [description]
+         * Create data for a new empty project.
+         * @return {Object}  Empty project setup data.
          */
         getEmptyProject: function() {
 
@@ -128,6 +142,11 @@ window.WH = window.WH || {};
             return factor;
         },
 
+        /**
+         * Get steps of the track at index on the current pattern.
+         * @param  {Number} index Track index.
+         * @return {Array}       Array of Step objects.
+         */
         getTrackSteps: function(index) {
             return this.patterns[this.patternIndex].getTrackSteps(index);
         }

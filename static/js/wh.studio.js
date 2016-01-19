@@ -1,10 +1,20 @@
 /**
+ *  Studio contains the sound generating instruments.
+ *  One instrument for each channel.
+ *  Studio receives Step objects that trigger the instruments.
+ * 
  * @namespace WH
  */
 window.WH = window.WH || {};
 
 (function (WH, WX) {
+
+    /**
+     * @constructor
+     */
     function Studio() {
+
+        // private variables
         var instruments = [];
 
         /**
@@ -30,14 +40,13 @@ window.WH = window.WH || {};
 
         /**
          * Add instuments and connect them to the output.
-         * @param {object} data Studio setup data.
+         * @param {Array} playbackQueue Array to collect Steps.
          */
         this.playEvents = function(playbackQueue) {
             var step,
                 instrument;
             for (var i = 0; i < playbackQueue.length; i++) {
                 step = playbackQueue[i];
-                // console.log('WH.Studio.playEvents ch: ', step.channel, ', p: ', step.pitch, ', v: ', step.velocity, ', s: ', step.absStart);
                 instrument = instruments[step.channel];
                 instrument.noteOn(step.pitch, step.velocity, step.absStart);
                 instrument.noteOff(step.pitch, step.velocity, step.absEnd);

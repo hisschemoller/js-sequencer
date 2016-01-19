@@ -1,4 +1,6 @@
 /**
+ * TimeBase provides timing for the app. It extends Transport.
+ * 
  * TIMEBASE INFO
  * WX.now               Time since audio context stream started. Current audio context time in seconds, see waax.extension.js.
  * this._now            Transport playhead position in seconds.
@@ -19,14 +21,17 @@
  *
  *   |--------- this._absOrigin --------|
  *                                    
- */
-
-/**
+ *
  * @namespace WH
  */
 window.WH = window.WH || {};
 
 (function (WH) {
+
+    /**
+     * @constructor
+     * @param {Number} bpm Beats Per Minute.
+     */
     function TimeBase(bpm) {
         Transport.apply(this, arguments);
     }

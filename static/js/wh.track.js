@@ -1,4 +1,6 @@
 /**
+ * A Track contains 16 Steps with playback data.
+ * 
  * @namespace WH
  */
 window.WH = window.WH || {};
@@ -7,6 +9,9 @@ window.WH = window.WH || {};
 
     /**
      * @constructor
+     * @param {object} data Track setup data.
+     * @param {Number} channel Channel (and instrument) on which this note is played.
+     * @param {Number} ppqn Parts Per Quarter Note, the smallest sequencer time unit.
      */
     function Track(data, channel, ppqn) {
         this.steps = [];
@@ -18,6 +23,8 @@ window.WH = window.WH || {};
         
         /**
          * Initialise empty pattern.
+         * @param {object} data Track setup data.
+         * @param {Number} channel Channel (and instrument) on which this note is played.
          */
         init: function(data, channel) {
             var d, 
@@ -81,6 +88,10 @@ window.WH = window.WH || {};
             }
         },
 
+        /**
+         * Get steps array.
+         * @return {Array}  Array of Step objects.
+         */
         getSteps: function() {
             return this.steps;
         }

@@ -1,4 +1,6 @@
- /**
+/**
+ * Pattern contains a track for each channel.
+ * 
  * @namespace WH
  */
 window.WH = window.WH || {};
@@ -7,6 +9,8 @@ window.WH = window.WH || {};
 
     /**
      * @constructor
+     * @param {Object} data Pattern setup data.
+     * @param {Number} ppqn Parts Per Quarter Note, the smallest sequencer time unit.
      */
     function Pattern(data, ppqn) {
         this.trackCount = 0;
@@ -40,6 +44,11 @@ window.WH = window.WH || {};
             }
         },
 
+        /**
+         * Get steps of the track at index.
+         * @param  {Number} index Track index.
+         * @return {Array}  Array of Step objects.
+         */
         getTrackSteps: function(index) {
             return this.tracks[index].getSteps();
         }

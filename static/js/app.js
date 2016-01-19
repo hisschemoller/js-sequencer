@@ -10,7 +10,9 @@
  * Application startup.
  */
 $(function() {
+
     var overlay = $('#startup-overlay');
+
     /**
      * Application startup.
      */
@@ -50,6 +52,7 @@ $(function() {
             }
         }, 0);
     }
+    
     // show click overlay on iOS devices
     if(/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
         overlay.on('touchend', unlockIOSAudio).show();
