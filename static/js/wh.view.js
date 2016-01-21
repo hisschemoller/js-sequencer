@@ -48,8 +48,11 @@ window.WH = window.WH || {};
             init = function() {
                 updateSelectedChannel();
 
-                elements.playStopButton.on('click', onPlayStopClick);
-                elements.channels.on('click', onChannelClick);
+                var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints,
+                    eventType = isTouchDevice ? 'touchend' : 'click';
+                
+                elements.playStopButton.on(eventType, onPlayStopClick);
+                elements.channels.on(eventType, onChannelClick);
             },
 
             /**
