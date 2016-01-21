@@ -38,10 +38,18 @@ window.WH = window.WH || {};
             channelIndex = 0,
 
             /**
+             * Reference to this once function has closed.
+             */
+            self = this,
+
+            /**
              * Initialise the view, add DOM event handlers.
              */
             init = function() {
+                updateSelectedChannel();
+
                 elements.playStopButton.on('click', onPlayStopClick);
+                elements.channels.on('click', onChannelClick);
             },
 
             /**
@@ -56,7 +64,26 @@ window.WH = window.WH || {};
                     WH.TimeBase.start();
                     elements.playStopButton.addClass(settings.activeClass);
                 }
+            },
+
+            /**
+             * Channel button clicked.
+             * @param  {Event} e Click event.
+             */
+            onChannelClick = function(e) {
+                channelIndex = $(e.currentTarget).data('channel');
+                updateSelectedChannel();
+                self.updateSelectedSteps();
             }, 
+
+            updateSelectedChannel = function() {
+                elements.channels
+                    .removeClass(settings.selectedClass)
+                    .filter(function() {
+                        return $(this).data('channel') == channelIndex;
+                    })
+                    .addClass(settings.selectedClass);
+            },
 
             /**
              * Delay screen update to keep it synchronised with the audio.
