@@ -15,12 +15,43 @@
             color: #ccc;
             font-family: Helvetica, Arial, sans-serif;
             font-size: 16px;
-            margin: 0;
+            margin: 1px;
             text-align: center;
         }
+        .channel {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+            .channel__item {
+                background-color: #666;
+                border: 1px solid #333;
+                cursor: pointer;
+                float: left;
+                height: 50px;
+                position: relative;
+                text-align: center;
+                width: 25%;
+            }
+            .channel__item.is-active {
+                background-color: #888;
+            }
+                .channel__hilight {
+                    background-color: #999;
+                    bottom: 0;
+                    display: none;
+                    left: 0;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                }
+                .channel__label {
+                    line-height: 50px;
+                    position: absolute;
+                }
         .pattern {
             list-style: none;
-            margin: 50px 0 0 0;
+            margin: 0;
             padding: 0;
         }
             .pattern__step {
@@ -76,6 +107,24 @@
     </style>
 </head>
 <body>
+    <ul class="channel">
+        <li class="channel__item">
+            <div class="channel__hilight"></div>
+            <span class="channel__label">A</span>
+        </li>
+        <li class="channel__item">
+            <div class="channel__hilight"></div>
+            <span class="channel__label">B</span>
+        </li>
+        <li class="channel__item">
+            <div class="channel__hilight"></div>
+            <span class="channel__label">C</span>
+        </li>
+        <li class="channel__item">
+            <div class="channel__hilight"></div>
+            <span class="channel__label">D</span>
+        </li>
+    </ul>
     <ul class="pattern">
         <li class="pattern__step">1</li>
         <li class="pattern__step">2</li>

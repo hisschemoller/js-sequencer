@@ -24,7 +24,7 @@ window.WH = window.WH || {};
         this.patterns = [];
         this.patternIndex = 0;
         this.patternCount = 16;
-        this.trackCount = 1;
+        this.trackCount = 4;
         this.stepCount = 16;
     }
     
@@ -86,17 +86,22 @@ window.WH = window.WH || {};
         getEmptyProject: function() {
 
             var ppqn = WH.TimeBase.getPPQN();
-            var stepDuration = Math.floor( this.patternDurationInTicks / this.stepCount );  
+            var stepDuration = Math.floor( this.patternDurationInTicks / this.stepCount );
 
             var data = {
-                bpm: 120,
-                channels: [{
+                bpm: 100,
+                channels: [], 
+                patterns: []
+            };
+
+            for(var j = 0; j < this.trackCount; j++) {
+                var channel = {
                     instrument: {
                         name: 'simpleosc'
                     }
-                }], 
-                patterns: []
-            };
+                };
+                data.channels.push(channel);
+            }
 
             for(var i = 0; i < this.patternCount; i++) {
                 var pattern = {
@@ -109,10 +114,30 @@ window.WH = window.WH || {};
                     };
                     pattern.tracks.push(track);
                     for(var k = 0; k < this.stepCount; k++) {
+                        var pitch = 0,
+                            velocity = 0;
+                        switch(j) {
+                            case 0:
+                                pitch = 60 + k;
+                                velocity = (Math.random() > 0.66 ? 100 : 0);
+                                break;
+                            case 1:
+                                pitch = 76 - k;
+                                velocity = (Math.random() > 0.75 ? 100 : 0);
+                                break;
+                            case 2:
+                                pitch = 84 + k;
+                                velocity = (Math.random() > 0.80 ? 100 : 0);
+                                break;
+                            case 3:
+                                pitch = 24 + k;
+                                velocity = (Math.random() > 0.85 ? 100 : 0);
+                                break;
+                        }
                         var step = {
                             channel: j,
-                            pitch: 60 + k,
-                            velocity: (Math.random() > 0.66 ? 100 : 0),
+                            pitch: pitch,
+                            velocity: velocity,
                             start: stepDuration * k,
                             duration: Math.floor( stepDuration / 2 )
                         };

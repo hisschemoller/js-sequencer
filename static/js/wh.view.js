@@ -17,7 +17,8 @@ window.WH = window.WH || {};
         // private variables
         var settings = {
                 activeClass: 'is-active',
-                selectedClass: 'is-selected'
+                selectedClass: 'is-selected',
+                channelHighlightClass: '.channel__hilight'
             },
 
             /**
@@ -26,7 +27,8 @@ window.WH = window.WH || {};
              */
             elements = {
                 playStopButton: $('#play-control'),
-                steps: $('.pattern__step')
+                steps: $('.pattern__step'),
+                channels: $('.channel__item'),
             },
 
             /**
@@ -54,15 +56,52 @@ window.WH = window.WH || {};
                     WH.TimeBase.start();
                     elements.playStopButton.addClass(settings.activeClass);
                 }
+            }, 
+
+            /**
+             * Delay screen update to keep it synchronised with the audio.
+             * @param  {Number} start Time to wait before update in milliseconds.
+             * @param  {Array} activeSteps Steps that play in the current timespan. 
+             */
+            delayUpdateActiveSteps = function(start, activeSteps) {
+                if (start > 0) {
+                    setTimeout(function() {
+                        updateActiveSteps(activeSteps);
+                    }, start);
+                } else {
+                    updateActiveSteps(activeSteps);
+                }
             },
 
             /**
              * Update the active step, this creates the 'running light' animation.
-             * @param  {Number} index Index of the step to set as active.
+             * Also display flashing activity on the channel selectors.
+             * @param  {Array} stepArray Steps that play in the current timespan. 
              */
-            updateSteps = function(index) {
-                elements.steps.removeClass(settings.activeClass);
-                $(elements.steps[index]).addClass(settings.activeClass);
+            updateActiveSteps = function(stepArray) {
+                var i = 0,
+                    n = stepArray.length,
+                    step;
+
+                for (i; i < n; i++) {
+                    step = stepArray[i];
+                    
+                    // update the steps
+                    if (step.channel == channelIndex) {
+                        elements.steps.removeClass(settings.activeClass);
+                        $(elements.steps[step.index]).addClass(settings.activeClass);
+                    }
+
+                    // update the channels
+                    if (step.velocity > 0) {
+                        $(elements.channels[step.channel])
+                            .find(settings.channelHighlightClass)
+                                .show()
+                                .stop()
+                                .fadeIn(0)
+                                .fadeOut(300);
+                    }
+                }
             };
 
         /**
@@ -70,25 +109,27 @@ window.WH = window.WH || {};
          * @param  {Array} playbackQueue Array of Step objects.
          */
         this.onStepEvents = function(playbackQueue) {
-            var channel = 0,
-                i = 0,
+            var i = 0,
                 n = playbackQueue.length,
-                now = WH.TimeBase.getNow(),
                 step,
-                start;
+                start,
+                stepArray = [],
+                oldStart = -1;
+
             for (i; i < n; i++) {
                 step = playbackQueue[i];
-                if (step.channel == channel) {
-                    start = Math.max(0, WX.now - step.absStart) * 1000;
-                    if (start > 0) {
-                        setTimeout(function() {
-                            updateSteps(step.index);
-                        }, start);
-                    } else {
-                        updateSteps(step.index);
-                    }
+                start = Math.max(0, WX.now - step.absStart) * 1000;
+
+                if (start != oldStart && stepArray.length > 0) {
+                    delayUpdateActiveSteps(oldStart, stepArray);
+                    stepArray = [];
                 }
+
+                stepArray.push(step);
+                oldStart = start;
             }
+
+            delayUpdateActiveSteps(oldStart, stepArray);
         };
 
         /**
