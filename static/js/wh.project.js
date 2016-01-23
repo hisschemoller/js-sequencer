@@ -98,7 +98,8 @@ window.WH = window.WH || {};
                 var channel = {
                     instrument: {
                         name: 'simpleosc'
-                    }
+                    },
+                    pan: (j * 0.4) - 0.8
                 };
                 data.channels.push(channel);
             }
@@ -119,19 +120,19 @@ window.WH = window.WH || {};
                         switch(j) {
                             case 0:
                                 pitch = 60 + k;
-                                velocity = (Math.random() > 0.66 ? 100 : 0);
+                                velocity = (Math.random() > 0.66 ? 80 : 0);
                                 break;
                             case 1:
                                 pitch = 76 - k;
-                                velocity = (Math.random() > 0.75 ? 100 : 0);
+                                velocity = (Math.random() > 0.75 ? 70 : 0);
                                 break;
                             case 2:
                                 pitch = 84 + k;
-                                velocity = (Math.random() > 0.80 ? 100 : 0);
+                                velocity = (Math.random() > 0.85 ? 40 : 0);
                                 break;
                             case 3:
-                                pitch = 24 + k;
-                                velocity = (Math.random() > 0.85 ? 100 : 0);
+                                pitch = 36 + k;
+                                velocity = (Math.random() > 0.80 ? 100 : 0);
                                 break;
                         }
                         var step = {

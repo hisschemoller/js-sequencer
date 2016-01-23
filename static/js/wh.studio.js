@@ -15,7 +15,16 @@ window.WH = window.WH || {};
     function Studio() {
 
         // private variables
+        var channels = [];
         var instruments = [];
+
+        this.init = function() {
+            for(var i = 0; i < 4; i++) {
+                var channel = WX.Channel();
+                channel.to(WX.Master);
+                channels.push(channel);
+            }
+        };
 
         /**
          * Add instuments and connect them to the output.
@@ -32,11 +41,13 @@ window.WH = window.WH || {};
                 }
                 
                 if(instrument) {
-                    instrument.to(WX.Master);
+                    instrument.to(channels[i]);
                     instruments.push(instrument);
                 }
+
+                channels[i].set('pan', data[i].pan);
             }
-        }
+        };
 
         /**
          * Add instuments and connect them to the output.
@@ -51,7 +62,7 @@ window.WH = window.WH || {};
                 instrument.noteOn(step.pitch, step.velocity, step.absStart);
                 instrument.noteOff(step.pitch, step.velocity, step.absEnd);
             }
-        }
+        };
     }
     
     Studio.prototype = {};

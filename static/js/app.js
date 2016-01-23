@@ -22,6 +22,7 @@ $(function() {
         // remove the WX.Transport because we use WH.TimeBase
         WX.Transport = null;
         
+        WH.Studio.init();
         WH.Project.createNew();
     }
 
