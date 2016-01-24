@@ -62,7 +62,7 @@ window.WH = window.WH || {};
                     step = this._playbackQueue[i];
                     start = this._absOrigin + this.tick2sec(step.start);
                     step.setAbsStart( start );
-                    step.setAbsEnd( start + this.tick2sec(step.dur) );
+                    step.setAbsEnd( start + this.tick2sec(step.duration) );
                 }
 
                 // play the events with sound generating plugin instruments

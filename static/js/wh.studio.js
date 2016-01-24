@@ -60,7 +60,7 @@ window.WH = window.WH || {};
                 step = playbackQueue[i];
                 instrument = instruments[step.channel];
                 instrument.noteOn(step.pitch, step.velocity, step.absStart);
-                instrument.noteOff(step.pitch, step.velocity, step.absEnd);
+                instrument.noteOff(step.absEnd);
             }
         };
     }
