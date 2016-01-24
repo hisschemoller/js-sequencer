@@ -62,6 +62,7 @@ window.WH = window.WH || {};
             onPlayStopClick = function(e) {
                 if (WH.TimeBase.isRunning()) {
                     WH.TimeBase.pause();
+                    WH.TimeBase.rewind();
                     elements.playStopButton.removeClass(settings.activeClass);
                 } else {
                     WH.TimeBase.start();
