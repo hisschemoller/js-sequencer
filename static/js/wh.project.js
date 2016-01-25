@@ -35,7 +35,7 @@ window.WH = window.WH || {};
          * @param {Object} data Project data object.
          */
         setup: function(data) {
-            
+            console.log(data);
             var ppqn = WH.TimeBase.getPPQN();
             this.patternDurationInTicks = this.patternDurationInBeats * ppqn;
 
@@ -99,7 +99,57 @@ window.WH = window.WH || {};
                     instrument: {
                         name: 'simpleosc'
                     },
-                    pan: (j * 0.4) - 0.8
+                    pan: 0
+                };
+                data.channels.push(channel);
+            }
+
+            for(var i = 0; i < this.patternCount; i++) {
+                var pattern = {
+                    tracks: []
+                };
+                data.patterns.push(pattern);
+                for(var j = 0; j < this.trackCount; j++) {
+                    var track = {
+                        steps: []
+                    };
+                    pattern.tracks.push(track);
+                    for(var k = 0; k < this.stepCount; k++) {
+                        var step = {
+                            channel: j,
+                            pitch: 60,
+                            velocity: 0,
+                            start: stepDuration * k,
+                            duration: Math.floor( stepDuration / 2 )
+                        };
+                        track.steps.push(step);
+                    }
+                }
+            }
+            return data;
+        },
+
+        /**
+         * Create data for a project with randomized patterns and data.
+         * @return {Object}  Empty project setup data.
+         */
+        getRandomizedProject: function() {
+
+            var ppqn = WH.TimeBase.getPPQN();
+            var stepDuration = Math.floor( (this.patternDurationInBeats * ppqn) / this.stepCount );
+
+            var data = {
+                bpm: 100,
+                channels: [], 
+                patterns: []
+            };
+
+            for(var j = 0; j < this.trackCount; j++) {
+                var channel = {
+                    instrument: {
+                        name: 'simpleosc'
+                    },
+                    pan: (j * 0.5) - 0.75
                 };
                 data.channels.push(channel);
             }
@@ -123,16 +173,16 @@ window.WH = window.WH || {};
                                 velocity = (Math.random() > 0.66 ? 80 : 0);
                                 break;
                             case 1:
-                                pitch = 76 - k;
-                                velocity = (Math.random() > 0.75 ? 70 : 0);
+                                pitch = 84 + k;
+                                velocity = (Math.random() > 0.85 ? 30 : 0);
                                 break;
                             case 2:
-                                pitch = 84 + k;
-                                velocity = (Math.random() > 0.85 ? 40 : 0);
-                                break;
-                            case 3:
                                 pitch = 36 + k;
                                 velocity = (Math.random() > 0.80 ? 100 : 0);
+                                break;
+                            case 3:
+                                pitch = 76 - k;
+                                velocity = (Math.random() > 0.75 ? 70 : 0);
                                 break;
                         }
                         var step = {
