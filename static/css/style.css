@@ -1,0 +1,139 @@
+*, :after, :before {
+    box-sizing: border-box;
+}
+body {
+    background-color: #333;
+    color: #ccc;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    text-align: center;
+}
+.channelBgCol1 {
+    background-color: #fff !important;
+}
+.channelBgCol2 {
+    background-color: #ff0 !important;
+}
+.channelBgCol3 {
+    background-color: #f90 !important;
+}
+.channelBgCol4 {
+    background-color: #f00 !important;
+}
+.channel {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+    .channel__item {
+        background-color: #666;
+        border: 1px solid #333;
+        cursor: pointer;
+        float: left;
+        height: 50px;
+        position: relative;
+        text-align: center;
+        width: 25%;
+    }
+    .channel__item.is-selected {
+        background-color: #888;
+    }
+        .channel__background {
+            bottom: 0;
+            left: 0;
+            opacity: 0.2;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .channel__item.is-selected .channel__background {
+            opacity: 0.4;
+        }
+        .channel__hilight {
+            background-color: #999;
+            bottom: 0;
+            display: none;
+            left: 0;
+            opacity: 0.6;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .channel__label {
+            color: #ccc;
+            left: 0;
+            line-height: 50px;
+            position: absolute;
+            right: 0;
+        }
+        .channel__item.is-selected .channel__label  {
+            color: #fff;
+        }
+.pattern {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+    .pattern__step {
+        background-color: #666;
+        border: 1px solid #333;
+        cursor: pointer;
+        float: left;
+        height: 50px;
+        line-height: 50px;
+        position: relative;
+        text-align: center;
+        width: 12.5%;
+    }
+    .pattern__step:nth-child(8n + 1) {
+        clear: left;
+    }
+        .step__background,
+        .step__hilight {
+            bottom: 0;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .step__background {
+            opacity: 0.2;
+        }
+        .step__hilight {
+            display: none;
+            opacity: 0.6;
+        }
+    .pattern__step.is-active {
+        background-color: #777;
+    }
+    .pattern__step.is-selected  .step__label {
+        color: #fff;
+    }
+.control {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+} 
+    .control__item {
+        background-color: #666;
+        border: 1px solid #333;
+        cursor: pointer;
+        float: left;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        width: 25%;
+    }
+    .control__item:not(.is-active) .control__item-active,
+    .control__item.is-active .control__item-inactive {
+        display: none;
+    }
+#startup-overlay {
+    background-color: #333;
+    bottom: 0;
+    display: none;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
