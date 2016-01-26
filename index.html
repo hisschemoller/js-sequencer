@@ -17,6 +17,18 @@
             font-size: 16px;
             text-align: center;
         }
+        .channelBgCol1 {
+            background-color: #fff !important;
+        }
+        .channelBgCol2 {
+            background-color: #ff0 !important;
+        }
+        .channelBgCol3 {
+            background-color: #f90 !important;
+        }
+        .channelBgCol4 {
+            background-color: #f00 !important;
+        }
         .channel {
             list-style: none;
             margin: 0;
@@ -35,18 +47,36 @@
             .channel__item.is-selected {
                 background-color: #888;
             }
+                .channel__background {
+                    bottom: 0;
+                    left: 0;
+                    opacity: 0.2;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                }
+                .channel__item.is-selected .channel__background {
+                    opacity: 0.4;
+                }
                 .channel__hilight {
                     background-color: #999;
                     bottom: 0;
                     display: none;
                     left: 0;
+                    opacity: 0.6;
                     position: absolute;
                     right: 0;
                     top: 0;
                 }
                 .channel__label {
+                    color: #ccc;
+                    left: 0;
                     line-height: 50px;
                     position: absolute;
+                    right: 0;
+                }
+                .channel__item.is-selected .channel__label  {
+                    color: #fff;
                 }
         .pattern {
             list-style: none;
@@ -60,20 +90,33 @@
                 float: left;
                 height: 50px;
                 line-height: 50px;
+                position: relative;
                 text-align: center;
                 width: 12.5%;
             }
             .pattern__step:nth-child(8n + 1) {
                 clear: left;
             }
+                .step__background,
+                .step__hilight {
+                    bottom: 0;
+                    left: 0;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                }
+                .step__background {
+                    opacity: 0.2;
+                }
+                .step__hilight {
+                    display: none;
+                    opacity: 0.6;
+                }
             .pattern__step.is-active {
                 background-color: #777;
             }
-            .pattern__step.is-selected {
-                background-color: #888;
-            }
-            .pattern__step.is-selected.is-active {
-                background-color: #bbb;
+            .pattern__step.is-selected  .step__label {
+                color: #fff;
             }
         .control {
             list-style: none;
@@ -108,39 +151,107 @@
 <body>
     <ul class="channel">
         <li class="channel__item" data-channel="0">
+            <div class="channel__background"></div>
             <div class="channel__hilight"></div>
             <span class="channel__label">A</span>
         </li>
         <li class="channel__item" data-channel="1">
+            <div class="channel__background"></div>
             <div class="channel__hilight"></div>
             <span class="channel__label">B</span>
         </li>
         <li class="channel__item" data-channel="2">
+            <div class="channel__background"></div>
             <div class="channel__hilight"></div>
             <span class="channel__label">C</span>
         </li>
         <li class="channel__item" data-channel="3">
+            <div class="channel__background"></div>
             <div class="channel__hilight"></div>
             <span class="channel__label">D</span>
         </li>
     </ul>
     <ul class="pattern">
-        <li class="pattern__step">1</li>
-        <li class="pattern__step">2</li>
-        <li class="pattern__step">3</li>
-        <li class="pattern__step">4</li>
-        <li class="pattern__step">5</li>
-        <li class="pattern__step">6</li>
-        <li class="pattern__step">7</li>
-        <li class="pattern__step">8</li>
-        <li class="pattern__step">9</li>
-        <li class="pattern__step">10</li>
-        <li class="pattern__step">11</li>
-        <li class="pattern__step">12</li>
-        <li class="pattern__step">13</li>
-        <li class="pattern__step">14</li>
-        <li class="pattern__step">15</li>
-        <li class="pattern__step">16</li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">1</span>
+        </li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">2</span>
+        </li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">3</span>
+        </li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">4</span>
+        </li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">5</span>
+        </li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">6</span>
+        </li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">7</span>
+        </li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">8</span>
+        </li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">9</span>
+        </li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">10</span>
+        </li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">11</span>
+        </li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">12</span>
+        </li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">13</span>
+        </li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">14</span>
+        </li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">15</span>
+        </li>
+        <li class="pattern__step">
+            <div class="step__background"></div>
+            <div class="step__hilight"></div>
+            <span class="step__label">16</span>
+        </li>
     </ul>
     <ul class="control">
         <li class="control__item" id="play-control">

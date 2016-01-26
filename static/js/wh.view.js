@@ -18,7 +18,11 @@ window.WH = window.WH || {};
         var settings = {
                 activeClass: 'is-active',
                 selectedClass: 'is-selected',
-                channelHighlightClass: '.channel__hilight'
+                channelBackgroundClass: '.channel__background',
+                channelHighlightClass: '.channel__hilight',
+                stepBackgroundClass: '.step__background',
+                stepHighlightClass: '.step__hilight',
+                channelColorClasses: ['channelBgCol1', 'channelBgCol2', 'channelBgCol3', 'channelBgCol4']
             },
 
             /**
@@ -46,6 +50,14 @@ window.WH = window.WH || {};
              * Initialise the view, add DOM event handlers.
              */
             init = function() {
+
+                // set colors on the channel buttons
+                elements.channels.each(function(i, el) {
+                    var $el = $(el);
+                    $el.find(settings.channelBackgroundClass).addClass(settings.channelColorClasses[i]);
+                    $el.find(settings.channelHighlightClass).addClass(settings.channelColorClasses[i]);
+                });
+
                 updateSelectedChannel();
 
                 var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints,
@@ -121,6 +133,12 @@ window.WH = window.WH || {};
                     if (step.channel == channelIndex) {
                         elements.steps.removeClass(settings.activeClass);
                         $(elements.steps[step.index]).addClass(settings.activeClass);
+                        $(elements.steps[step.index])
+                            .find(settings.stepHighlightClass)
+                                .show()
+                                .stop()
+                                .fadeIn(0)
+                                .fadeOut(300);
                     }
 
                     // update the channels
@@ -168,12 +186,27 @@ window.WH = window.WH || {};
          * Typically after switching patterns or tracks.
          */
         this.updateSelectedSteps = function() {
-            var steps = WH.Project.getTrackSteps(channelIndex);
+            var steps = WH.Project.getTrackSteps(channelIndex),
+                id,
+                i = 0,
+                n = settings.channelColorClasses.length,
+                channelColorClass = settings.channelColorClasses[channelIndex];
+
+            // remove color classes
+            for (i; i < n; i++) {
+                elements.steps.find(settings.stepBackgroundClass).removeClass(settings.channelColorClasses[i]);
+                elements.steps.find(settings.stepHighlightClass).removeClass(settings.channelColorClasses[i]);
+            }
+
+            // set selected state
             elements.steps.removeClass(settings.selectedClass);
             for (var id in steps) {
                 var step = steps[id];
                 if(step.velocity) {
-                    $(elements.steps[step.index]).addClass(settings.selectedClass);
+                    var $step = $(elements.steps[step.index]);
+                    $step.addClass(settings.selectedClass);
+                    $step.find(settings.stepBackgroundClass).addClass(channelColorClass);
+                    $step.find(settings.stepHighlightClass).addClass(channelColorClass);
                 }
             }
         }
