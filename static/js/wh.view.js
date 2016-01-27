@@ -51,6 +51,11 @@ window.WH = window.WH || {};
              */
             init = function() {
 
+                if (!validateDomElements()) {
+                    console.error('DOM elements invalid.');
+                    return;
+                }
+
                 // set colors on the channel buttons
                 elements.channels.each(function(i, el) {
                     var $el = $(el);
@@ -65,6 +70,32 @@ window.WH = window.WH || {};
                 
                 elements.playStopButton.on(eventType, onPlayStopClick);
                 elements.channels.on(eventType, onChannelClick);
+            },
+
+            /**
+             * Test is the correct DOM elements are present.
+             * @return {Boolean} True if invalid.
+             */
+            validateDomElements = function() {
+
+                var isValid = true;
+
+                if (elements.channels.length != WH.Settings.getTrackCount()) {
+                    isValid = true;
+                    console.error('Wrong amount of channel DOM elements.');
+                }
+
+                if (elements.steps.length != WH.Settings.getStepCount()) {
+                    isValid = true;
+                    console.error('Wrong amount of step DOM elements.');
+                }
+
+                if (elements.playStopButton.length == 0) {
+                    isValid = true;
+                    console.error('No play button DOM element.');
+                }
+
+                return isValid;
             },
 
             /**
@@ -92,6 +123,9 @@ window.WH = window.WH || {};
                 self.updateSelectedSteps();
             }, 
 
+            /**
+             * Set a channel button as selected.
+             */
             updateSelectedChannel = function() {
                 elements.channels
                     .removeClass(settings.selectedClass)

@@ -23,9 +23,6 @@ window.WH = window.WH || {};
         this.patternDurationInBeats = 4;
         this.patterns = [];
         this.patternIndex = 0;
-        this.patternCount = 16;
-        this.trackCount = 4;
-        this.stepCount = 16;
     }
     
     Project.prototype = {
@@ -46,7 +43,8 @@ window.WH = window.WH || {};
             WH.TimeBase.setBPM(data.bpm);
 
             // setup patterns
-            for(var i = 0; i < this.patternCount; i++) {
+            var patternCount = WH.Settings.getPatternCount();
+            for(var i = 0; i < patternCount; i++) {
                 this.patterns.push(WH.Pattern(data.patterns[i], ppqn));
             }
 
@@ -85,8 +83,11 @@ window.WH = window.WH || {};
          */
         getEmptyProject: function() {
 
-            var ppqn = WH.TimeBase.getPPQN();
-            var stepDuration = Math.floor( this.patternDurationInTicks / this.stepCount );
+            var ppqn = WH.TimeBase.getPPQN(),
+                patternCount = WH.Settings.getPatternCount(),
+                trackCount = WH.Settings.getTrackCount(),
+                stepCount = WH.Settings.getStepCount(),
+                stepDuration = Math.floor( this.patternDurationInTicks / stepCount );
 
             var data = {
                 bpm: 100,
@@ -94,7 +95,7 @@ window.WH = window.WH || {};
                 patterns: []
             };
 
-            for(var j = 0; j < this.trackCount; j++) {
+            for (var j = 0; j < trackCount; j++) {
                 var channel = {
                     instrument: {
                         name: 'simpleosc'
@@ -104,17 +105,17 @@ window.WH = window.WH || {};
                 data.channels.push(channel);
             }
 
-            for(var i = 0; i < this.patternCount; i++) {
+            for (var i = 0; i < patternCount; i++) {
                 var pattern = {
                     tracks: []
                 };
                 data.patterns.push(pattern);
-                for(var j = 0; j < this.trackCount; j++) {
+                for(var j = 0; j < trackCount; j++) {
                     var track = {
                         steps: []
                     };
                     pattern.tracks.push(track);
-                    for(var k = 0; k < this.stepCount; k++) {
+                    for(var k = 0; k < stepCount; k++) {
                         var step = {
                             channel: j,
                             pitch: 60,
@@ -135,16 +136,18 @@ window.WH = window.WH || {};
          */
         getRandomizedProject: function() {
 
-            var ppqn = WH.TimeBase.getPPQN();
-            var stepDuration = Math.floor( (this.patternDurationInBeats * ppqn) / this.stepCount );
+            var ppqn = WH.TimeBase.getPPQN(),
+                patternCount = WH.Settings.getPatternCount(),
+                trackCount = WH.Settings.getTrackCount(),
+                stepCount = WH.Settings.getStepCount(),
+                stepDuration = Math.floor( (this.patternDurationInBeats * ppqn) / stepCount ),
+                data = {
+                    bpm: 100,
+                    channels: [], 
+                    patterns: []
+                };
 
-            var data = {
-                bpm: 100,
-                channels: [], 
-                patterns: []
-            };
-
-            for(var j = 0; j < this.trackCount; j++) {
+            for(var j = 0; j < trackCount; j++) {
                 var channel = {
                     instrument: {
                         name: 'simpleosc'
@@ -154,17 +157,17 @@ window.WH = window.WH || {};
                 data.channels.push(channel);
             }
 
-            for(var i = 0; i < this.patternCount; i++) {
+            for (var i = 0; i < patternCount; i++) {
                 var pattern = {
                     tracks: []
                 };
                 data.patterns.push(pattern);
-                for(var j = 0; j < this.trackCount; j++) {
+                for(var j = 0; j < trackCount; j++) {
                     var track = {
                         steps: []
                     };
                     pattern.tracks.push(track);
-                    for(var k = 0; k < this.stepCount; k++) {
+                    for(var k = 0; k < stepCount; k++) {
                         var pitch = 0,
                             velocity = 0;
                         switch(j) {
