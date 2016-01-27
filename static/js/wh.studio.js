@@ -36,7 +36,7 @@ window.WH = window.WH || {};
 
                 switch(data[i].instrument.name) {
                     case 'simpleosc':
-                        instrument = WX.SimpleOsc();
+                        instrument = WX.SimpleOsc(data[i].instrument.preset);
                         break;
                 }
                 

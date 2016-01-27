@@ -32,7 +32,7 @@ window.WH = window.WH || {};
          * @param {Object} data Project data object.
          */
         setup: function(data) {
-            console.log(data);
+            
             var ppqn = WH.TimeBase.getPPQN();
             this.patternDurationInTicks = this.patternDurationInBeats * ppqn;
 
@@ -98,7 +98,14 @@ window.WH = window.WH || {};
             for (var j = 0; j < trackCount; j++) {
                 var channel = {
                     instrument: {
-                        name: 'simpleosc'
+                        name: 'simpleosc',
+                        preset: {
+                            oscType: WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
+                            oscFreq: WX.mtof(60),
+                            lfoType: WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
+                            lfoRate: 1.0,
+                            lfoDepth: 1.0
+                        }
                     },
                     pan: 0
                 };
@@ -148,9 +155,35 @@ window.WH = window.WH || {};
                 };
 
             for(var j = 0; j < trackCount; j++) {
+                var oscType,
+                    lfoRate = 1,
+                    lfoDepth = 1;
+                switch(j) {
+                    case 0:
+                        oscType = WX.findValueByKey(WX.WAVEFORMS, 'Sine');
+                        lfoRate = 5;
+                        lfoDepth = 100;
+                        break;
+                    case 1:
+                        oscType = WX.findValueByKey(WX.WAVEFORMS, 'Sawtooth');
+                        break;
+                    case 2:
+                        oscType = WX.findValueByKey(WX.WAVEFORMS, 'Triangle');
+                        break;
+                    case 3:
+                        oscType = WX.findValueByKey(WX.WAVEFORMS, 'Square');
+                        break;
+                }
                 var channel = {
                     instrument: {
-                        name: 'simpleosc'
+                        name: 'simpleosc',
+                        preset: {
+                            oscType: oscType,
+                            oscFreq: WX.mtof(60),
+                            lfoType: WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
+                            lfoRate: lfoRate,
+                            lfoDepth: lfoDepth
+                        }
                     },
                     pan: (j * 0.5) - 0.75
                 };
