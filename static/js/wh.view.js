@@ -22,7 +22,10 @@ window.WH = window.WH || {};
                 channelHighlightClass: '.channel__hilight',
                 stepBackgroundClass: '.step__background',
                 stepHighlightClass: '.step__hilight',
-                channelColorClasses: ['channelBgCol1', 'channelBgCol2', 'channelBgCol3', 'channelBgCol4']
+                channelColorClasses: ['channelBgCol1', 'channelBgCol2', 'channelBgCol3', 'channelBgCol4'],
+                instrControlBackgroundClass: '.instr-control__background',
+                instrControlNameClass: '.instr-control__name',
+                instrControlValueClass: '.instr-control__value'
             },
 
             /**
@@ -33,6 +36,8 @@ window.WH = window.WH || {};
                 playStopButton: $('#play-control'),
                 steps: $('.pattern__step'),
                 channels: $('.channel__item'),
+                instrumentControlContainer: $('.instrument-control'),
+                instrumentControlTemplate: $('#template-instrument-control')
             },
 
             /**
@@ -121,6 +126,7 @@ window.WH = window.WH || {};
                 channelIndex = $(e.currentTarget).data('channel');
                 updateSelectedChannel();
                 self.updateSelectedSteps();
+                self.updateInstrument();
             }, 
 
             /**
@@ -242,6 +248,44 @@ window.WH = window.WH || {};
                     $step.find(settings.stepBackgroundClass).addClass(channelColorClass);
                     $step.find(settings.stepHighlightClass).addClass(channelColorClass);
                 }
+            }
+        };
+
+        /**
+         * Update the instrument controls,
+         * typically after project initialisation or channel switch.
+         */
+        this.updateInstrument = function() {
+
+            var instrument = WH.Studio.getInstrument(channelIndex),
+                paramKey,
+                param,
+                paramValue,
+                controlEl;
+
+            // remove the old instrument
+            elements.instrumentControlContainer.empty();
+            
+            for (paramKey in instrument.params) {
+                param = instrument.params[paramKey];
+                paramValue = param.value;
+
+                switch (param.type) {
+                    case 'Generic':
+                        paramValue = paramValue.toFixed(1);
+                        break;
+                    case 'Itemized':
+                        paramValue = WX.findKeyByValue(param.getModel(), paramValue);
+                        break;
+                    case 'Boolean':
+                        break;
+                }
+
+                controlEl = elements.instrumentControlTemplate.children().first().clone();
+                controlEl.find(settings.instrControlNameClass).text(param.name);
+                controlEl.find(settings.instrControlValueClass).text(paramValue);
+                elements.instrumentControlContainer.append(controlEl);
+                elements.instrumentControlContainer.find(settings.instrControlBackgroundClass).addClass(settings.channelColorClasses[channelIndex]);
             }
         }
 

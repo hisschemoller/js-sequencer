@@ -109,6 +109,50 @@ body {
     .pattern__step.is-selected  .step__label {
         color: #fff;
     }
+.instrument-control {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.instrument-control:after {
+    clear: both;
+    content: '';
+    display: table;
+}
+    .instr-control__item {
+        background-color: #666;
+        border: 1px solid #333;
+        cursor: pointer;
+        float: left;
+        height: 50px;
+        padding-top: 6px;
+        position: relative;
+        text-align: center;
+        width: 25%;
+    }
+        .instr-control__background {
+            bottom: 0;
+            left: 0;
+            opacity: 0.1;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .instr-control__name {
+            color: #eee;
+            font-size: 12px;
+            left: 0;
+            position: absolute;
+            right: 0;
+        }
+        .instr-control__value {
+            color: #eee;
+            font-size: 17px;
+            left: 0;
+            top: 20px;
+            position: absolute;
+            right: 0;
+        }
 .control {
     list-style: none;
     margin: 0;
@@ -136,4 +180,7 @@ body {
     position: absolute;
     right: 0;
     top: 0;
+}
+#templates {
+    display: none;
 }

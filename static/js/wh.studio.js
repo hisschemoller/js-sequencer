@@ -15,8 +15,13 @@ window.WH = window.WH || {};
     function Studio() {
 
         // private variables
-        var channels = [];
-        var instruments = [];
+        var channels = [],
+
+            /**
+             * Plugin instruments used by the current project.
+             * @type {Array}
+             */
+            instruments = [];
 
         this.init = function() {
             for(var i = 0; i < 4; i++) {
@@ -43,6 +48,8 @@ window.WH = window.WH || {};
                 if(instrument) {
                     instrument.to(channels[i]);
                     instruments.push(instrument);
+
+                    // refresh the instrument view with the instrument's controls
                 }
 
                 channels[i].set('pan', data[i].pan);
@@ -62,6 +69,15 @@ window.WH = window.WH || {};
                 instrument.noteOn(step.pitch, step.velocity, step.absStart);
                 instrument.noteOff(step.absEnd);
             }
+        };
+
+        /**
+         * Get the instrument plugin at the specified channel index.
+         * @param  {Number} channelIndex Channel index.
+         * @return {Object}              WX.PlugIn Generator instrument.
+         */
+        this.getInstrument = function(channelIndex) {
+            return instruments[channelIndex];
         };
     }
     
