@@ -6,6 +6,7 @@ body {
     color: #ccc;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 16px;
+    margin: 8px;
     text-align: center;
 }
 .channelBgCol1 {
@@ -127,6 +128,12 @@ body {
             position: absolute;
             right: 0;
         }
+.control {
+    bottom: 8px;
+    left: 8px;
+    position: fixed;
+    right: 8px;
+}
     .control__item {
         background-color: #666;
         border: 1px solid #333;
