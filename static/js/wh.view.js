@@ -18,11 +18,15 @@ window.WH = window.WH || {};
         var settings = {
                 activeClass: 'is-active',
                 selectedClass: 'is-selected',
-                channelBackgroundClass: '.channel__background',
-                channelHighlightClass: '.channel__hilight',
+                stepClass: '.step',
                 stepBackgroundClass: '.step__background',
                 stepHighlightClass: '.step__hilight',
+                stepLabelClass: '.step__label',
+                channelClass: '.channel',
+                channelBackgroundClass: '.channel__background',
+                channelHighlightClass: '.channel__hilight',
                 channelColorClasses: ['channelBgCol1', 'channelBgCol2', 'channelBgCol3', 'channelBgCol4'],
+                channelLabelClass: '.channel__label',
                 instrControlBackgroundClass: '.instr-control__background',
                 instrControlNameClass: '.instr-control__name',
                 instrControlValueClass: '.instr-control__value'
@@ -34,8 +38,12 @@ window.WH = window.WH || {};
              */
             elements = {
                 playStopButton: $('#play-control'),
-                steps: $('.pattern__step'),
-                channels: $('.channel__item'),
+                steps: null,
+                stepsContainer: $('.steps'),
+                stepTemplate: $('#template-step'),
+                channels: null,
+                channelContainer: $('.channels'),
+                channelTemplate: $('#template-channel'),
                 instrumentControlContainer: $('.instrument-control'),
                 instrumentControlTemplate: $('#template-instrument-control')
             },
@@ -61,18 +69,37 @@ window.WH = window.WH || {};
                     return;
                 }
 
-                // set colors on the channel buttons
-                elements.channels.each(function(i, el) {
-                    var $el = $(el);
-                    $el.find(settings.channelBackgroundClass).addClass(settings.channelColorClasses[i]);
-                    $el.find(settings.channelHighlightClass).addClass(settings.channelColorClasses[i]);
-                });
+                // create the step elements
+                var i = 0,
+                    n = WH.Settings.getStepCount(),
+                    stepEl;
+                for (i; i < n; i++) {
+                    stepEl = elements.stepTemplate.children().first().clone();
+                    stepEl.find(settings.stepLabelClass).text(i + 1);
+                    elements.stepsContainer.append(stepEl);
+                }
+                elements.steps = $(settings.stepClass);
+
+                // create the channel elements
+                var i = 0,
+                    n = WH.Settings.getTrackCount(),
+                    channelEl;
+                for (i; i < n; i++) {
+                    channelEl = elements.channelTemplate.children().first().clone();
+                    channelEl.find(settings.channelLabelClass).text(String.fromCharCode(65 + i));
+                    channelEl.find(settings.channelBackgroundClass).addClass(settings.channelColorClasses[i]);
+                    channelEl.find(settings.channelHighlightClass).addClass(settings.channelColorClasses[i]);
+                    channelEl.data('channel', i);
+                    elements.channelContainer.append(channelEl);
+                }
+                elements.channels = $(settings.channelClass);
 
                 updateSelectedChannel();
 
                 var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints,
                     eventType = isTouchDevice ? 'touchend' : 'click';
                 
+                // DOM event listeners
                 elements.playStopButton.on(eventType, onPlayStopClick);
                 elements.channels.on(eventType, onChannelClick);
             },
@@ -84,16 +111,6 @@ window.WH = window.WH || {};
             validateDomElements = function() {
 
                 var isValid = true;
-
-                if (elements.channels.length != WH.Settings.getTrackCount()) {
-                    isValid = true;
-                    console.error('Wrong amount of channel DOM elements.');
-                }
-
-                if (elements.steps.length != WH.Settings.getStepCount()) {
-                    isValid = true;
-                    console.error('Wrong amount of step DOM elements.');
-                }
 
                 if (elements.playStopButton.length == 0) {
                     isValid = true;

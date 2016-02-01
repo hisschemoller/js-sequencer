@@ -20,82 +20,71 @@ body {
 .channelBgCol4 {
     background-color: #f00 !important;
 }
-.channel {
+.channels,
+.steps,
+.instrument-control,
+.control {
     list-style: none;
     margin: 0;
     padding: 0;
 }
-    .channel__item {
-        background-color: #666;
-        border: 1px solid #333;
+    .channel,
+    .step,
+    .instr-control__item,
+    .control__item {
         cursor: pointer;
         float: left;
         height: 50px;
         position: relative;
         text-align: center;
-        width: 25%;
     }
-    .channel__item.is-selected {
-        background-color: #888;
-    }
-        .channel__background {
+        .channel__background,
+        .channel__hilight,
+        .channel__label,
+        .step__background,
+        .step__hilight,
+        .instr-control__background {
             bottom: 0;
             left: 0;
-            opacity: 0.2;
             position: absolute;
             right: 0;
             top: 0;
         }
-        .channel__item.is-selected .channel__background {
+    .channel {
+        background-color: #666;
+        border: 1px solid #333;
+        width: 25%;
+    }
+    .channel.is-selected {
+        background-color: #888;
+    }
+        .channel__background {
+            opacity: 0.2;
+        }
+        .channel.is-selected .channel__background {
             opacity: 0.4;
         }
         .channel__hilight {
             background-color: #999;
-            bottom: 0;
             display: none;
-            left: 0;
             opacity: 0.6;
-            position: absolute;
-            right: 0;
-            top: 0;
         }
         .channel__label {
             color: #ccc;
-            left: 0;
             line-height: 50px;
-            position: absolute;
-            right: 0;
         }
-        .channel__item.is-selected .channel__label  {
+        .channel.is-selected .channel__label  {
             color: #fff;
         }
-.pattern {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-    .pattern__step {
+    .step {
         background-color: #666;
         border: 1px solid #333;
-        cursor: pointer;
-        float: left;
-        height: 50px;
         line-height: 50px;
-        position: relative;
-        text-align: center;
         width: 12.5%;
     }
-    .pattern__step:nth-child(8n + 1) {
+    .step:nth-child(8n + 1) {
         clear: left;
     }
-        .step__background,
-        .step__hilight {
-            bottom: 0;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
         .step__background {
             opacity: 0.2;
         }
@@ -103,17 +92,12 @@ body {
             display: none;
             opacity: 0.6;
         }
-    .pattern__step.is-active {
+    .step.is-active {
         background-color: #777;
     }
-    .pattern__step.is-selected  .step__label {
+    .step.is-selected  .step__label {
         color: #fff;
     }
-.instrument-control {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
 .instrument-control:after {
     clear: both;
     content: '';
@@ -122,21 +106,11 @@ body {
     .instr-control__item {
         background-color: #666;
         border: 1px solid #333;
-        cursor: pointer;
-        float: left;
-        height: 50px;
         padding-top: 6px;
-        position: relative;
-        text-align: center;
         width: 25%;
     }
         .instr-control__background {
-            bottom: 0;
-            left: 0;
             opacity: 0.1;
-            position: absolute;
-            right: 0;
-            top: 0;
         }
         .instr-control__name {
             color: #eee;
@@ -153,19 +127,10 @@ body {
             position: absolute;
             right: 0;
         }
-.control {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-} 
     .control__item {
         background-color: #666;
         border: 1px solid #333;
-        cursor: pointer;
-        float: left;
-        height: 50px;
         line-height: 50px;
-        text-align: center;
         width: 25%;
     }
     .control__item:not(.is-active) .control__item-active,
