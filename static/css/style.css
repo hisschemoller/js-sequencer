@@ -9,16 +9,16 @@ body {
     margin: 8px;
     text-align: center;
 }
-.channelBgCol1 {
+.color1 {
     background-color: #fff !important;
 }
-.channelBgCol2 {
+.color2 {
     background-color: #ff0 !important;
 }
-.channelBgCol3 {
+.color3 {
     background-color: #f90 !important;
 }
-.channelBgCol4 {
+.color4 {
     background-color: #f00 !important;
 }
 ul,
@@ -58,6 +58,9 @@ ul,
             position: absolute;
             right: 0;
             top: 0;
+        }
+        .ctrl__background {
+            opacity: 0.1;
         }
         .ctrl__label {}
         .ctrl__text {
@@ -138,7 +141,12 @@ ul,
         .step.is-selected  .ctrl__name {
             color: #fff;
         }
-.rack {}
+.rack {
+    display: none;
+}
+.rack.is-selected {
+    display: block;
+}
     .rack__generator {}
         .plugin {}
             .plugin__controls {}

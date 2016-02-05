@@ -31,7 +31,7 @@ window.WH = window.WH || {};
                 channelClass: '.channel',
                 channelSelectClass: '.channel__select',
                 channelControlsClass: '.channel__controls',
-                channelColorClasses: ['channelBgCol1', 'channelBgCol2', 'channelBgCol3', 'channelBgCol4'],
+                channelColorClasses: ['color1', 'color2', 'color3', 'color4'],
 
                 rackClass: '.rack',
                 rackGeneratorClass: '.rack__generator',
@@ -206,12 +206,8 @@ window.WH = window.WH || {};
                     })
                     .addClass(settings.selectedClass);
 
-                elements.racks
-                    .removeClass(settings.selectedClass)
-                    .filter(function() {
-                        return $(this).data('channel') == channelIndex;
-                    })
-                    .addClass(settings.selectedClass);
+                elements.racks.removeClass(settings.selectedClass)
+                elements.racks.get(channelIndex).className += ' ' + settings.selectedClass;
             },
 
             /**
@@ -359,11 +355,11 @@ window.WH = window.WH || {};
                     case 'Boolean':
                         break;
                 }
-console.log(generatorRack)
+                ;
                 controlEl.find(settings.ctrlNameClass).text(param.name);
                 controlEl.find(settings.ctrlValueClass).text(paramValue);
                 generatorControlsContainer.append(controlEl);
-                generatorControlsContainer.find(settings.instrControlBackgroundClass).addClass(settings.channelColorClasses[channelIndex]);
+                generatorControlsContainer.find(settings.ctrlBackgroundClass).addClass(settings.channelColorClasses[channelIndex]);
             }
         }
 
