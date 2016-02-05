@@ -14,8 +14,8 @@
     <ul class="ctrls racks"></ul>
     <ul class="ctrls transport">
         <li class="ctrl ctrl--25" id="play-control">
-            <span class="ctrl__label ctrl__toggle-active">&#9724;</span>
-            <span class="ctrl__label ctrl__toggle-inactive">&#9658;</span>
+            <span class="ctrl__label ctrl__text ctrl__toggle-active">&#9724;</span>
+            <span class="ctrl__label ctrl__text ctrl__toggle-inactive">&#9658;</span>
         </li>
         <li class="ctrl ctrl--25"></li>
         <li class="ctrl ctrl--25"></li>
@@ -29,7 +29,7 @@
             <li class="ctrl step">
                 <div class="ctrl__layer ctrl__background"></div>
                 <div class="ctrl__layer ctrl__hilight"></div>
-                <span class="ctrl__label ctrl__name"></span>
+                <span class="ctrl__label ctrl__text"></span>
             </li>
         </div>
         <div id="template-ctrl-generic">
@@ -47,8 +47,11 @@
                 <span class="ctrl__label ctrl__value"></span>
             </li>
         </div>
-        <div id="template-ctrl--itemized">
-            <li class="ctrl ctrl-itemized">
+        <div id="template-ctrl-itemized">
+            <li class="ctrl ctrl--itemized">
+                <div class="ctrl__layer ctrl__background"></div>
+                <span class="ctrl__label ctrl__name"></span>
+                <span class="ctrl__label ctrl__value"></span>
             </li>
         </div>
         <div id="template-rack">
@@ -68,18 +71,18 @@
                 <div class="ctrl channel__select">
                     <div class="ctrl__layer ctrl__background"></div>
                     <div class="ctrl__layer ctrl__hilight"></div>
-                    <span class="ctrl__label ctrl__name"></span>
+                    <span class="ctrl__label ctrl__text"></span>
                 </div>
                 <ul class="ctrls channel__controls">
                     <li class="ctrl ctrl--50 channel__solo">
                         <div class="ctrl__layer ctrl__background"></div>
                         <div class="ctrl__layer ctrl__hilight"></div>
-                        <span class="ctrl__label ctrl__name"></span>
+                        <span class="ctrl__label ctrl__text"></span>
                     </li>
                     <li class="ctrl ctrl--50 channel__mute">
                         <div class="ctrl__layer ctrl__background"></div>
                         <div class="ctrl__layer ctrl__hilight"></div>
-                        <span class="ctrl__label ctrl__name"></span>
+                        <span class="ctrl__label ctrl__text"></span>
                     </li>
                     <li class="ctrl ctrl--100 channel__pan">
                         <div class="ctrl__layer ctrl__background"></div>

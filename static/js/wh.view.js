@@ -21,7 +21,10 @@ window.WH = window.WH || {};
 
                 ctrlBackgroundClass: '.ctrl__background',
                 ctrlHighlightClass: '.ctrl__hilight',
+                ctrlLabelClass: '.ctrl__label',
+                ctrlTextClass: '.ctrl__text',
                 ctrlNameClass: '.ctrl__name',
+                ctrlValueClass: '.ctrl__value',
 
                 stepClass: '.step',
 
@@ -31,6 +34,10 @@ window.WH = window.WH || {};
                 channelColorClasses: ['channelBgCol1', 'channelBgCol2', 'channelBgCol3', 'channelBgCol4'],
 
                 rackClass: '.rack',
+                rackGeneratorClass: '.rack__generator',
+
+                pluginClass: '.plugin',
+                pluginControlsClass: '.plugin__controls',
 
                 instrControlBackgroundClass: '.instr-control__background',
                 instrControlNameClass: '.instr-control__name',
@@ -51,6 +58,10 @@ window.WH = window.WH || {};
                 racks: null,
                 rackContainer: $('.racks'),
                 rackTemplate: $('#template-rack'),
+                pluginTemplate: $('#template-plugin'),
+                ctrlGenericTemplate: $('#template-ctrl-generic'),
+                ctrlBooleanTemplate: $('#template-ctrl-boolean'),
+                ctrlItemizedTemplate: $('#template-ctrl-itemized'),
 
                 playStopButton: $('#play-control'),
 
@@ -85,7 +96,7 @@ window.WH = window.WH || {};
                     stepEl;
                 for (i; i < n; i++) {
                     stepEl = elements.stepTemplate.children().first().clone();
-                    stepEl.find(settings.ctrlNameClass).text(i + 1);
+                    stepEl.find(settings.ctrlTextClass).text(i + 1);
                     elements.stepsContainer.append(stepEl);
                 }
                 elements.steps = $(settings.stepClass);
@@ -97,11 +108,12 @@ window.WH = window.WH || {};
                     channelEl,
                     channelSelectEl,
                     channelControlsEl;
+
                 for (i; i < n; i++) {
                     channelColor = settings.channelColorClasses[i];
                     channelEl = elements.channelTemplate.children().first().clone();
                     channelSelectEl = channelEl.find(settings.channelSelectClass);
-                    channelSelectEl.find(settings.ctrlNameClass).text(String.fromCharCode(65 + i));
+                    channelSelectEl.find(settings.ctrlTextClass).text(String.fromCharCode(65 + i));
                     channelSelectEl.find(settings.ctrlBackgroundClass).addClass(channelColor);
                     channelSelectEl.find(settings.ctrlHighlightClass).addClass(channelColor);
                     channelControlsEl = channelEl.find(settings.channelControlsClass);
@@ -114,12 +126,21 @@ window.WH = window.WH || {};
                 // create the plugin racks
                 var i = 0,
                     n = WH.Settings.getTrackCount(),
-                    rackEl;
+                    rackEl,
+                    generatorRackspaceEls,
+                    generatorPluginEl;
+
+                // create a rack for each channel
                 for (i; i < n; i++) {
                     rackEl = elements.rackTemplate.children().first().clone();
                     elements.rackContainer.append(rackEl);
                 }
-                elements.racks = $(settings.rackClass);
+
+                elements.racks = elements.rackContainer.find(settings.rackClass);
+
+                // add an empty default generator plugin to each rack 
+                generatorPluginEl = elements.pluginTemplate.children().first().clone();
+                elements.racks.find(settings.rackGeneratorClass).append(generatorPluginEl);
 
                 var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints,
                     eventType = isTouchDevice ? 'touchend' : 'click';
@@ -310,14 +331,18 @@ window.WH = window.WH || {};
         this.updateInstrument = function() {
 
             var instrument = WH.Studio.getInstrument(channelIndex),
+                rack = $(elements.racks[channelIndex]),
+                generatorRack = rack.find(settings.rackGeneratorClass),
+                generatorControlsContainer = generatorRack.find(settings.pluginControlsClass),
                 paramKey,
                 param,
                 paramValue,
                 controlEl;
 
-            // remove the old instrument
-            elements.instrumentControlContainer.empty();
+            // remove the old generator controls
+            generatorControlsContainer.empty();
             
+            // add 
             for (paramKey in instrument.params) {
                 param = instrument.params[paramKey];
                 paramValue = param.value;
@@ -325,19 +350,20 @@ window.WH = window.WH || {};
                 switch (param.type) {
                     case 'Generic':
                         paramValue = paramValue.toFixed(1);
+                        controlEl = elements.ctrlGenericTemplate.children().first().clone();
                         break;
                     case 'Itemized':
                         paramValue = WX.findKeyByValue(param.getModel(), paramValue);
+                        controlEl = elements.ctrlItemizedTemplate.children().first().clone();
                         break;
                     case 'Boolean':
                         break;
                 }
-
-                controlEl = elements.instrumentControlTemplate.children().first().clone();
-                controlEl.find(settings.instrControlNameClass).text(param.name);
-                controlEl.find(settings.instrControlValueClass).text(paramValue);
-                elements.instrumentControlContainer.append(controlEl);
-                elements.instrumentControlContainer.find(settings.instrControlBackgroundClass).addClass(settings.channelColorClasses[channelIndex]);
+console.log(generatorRack)
+                controlEl.find(settings.ctrlNameClass).text(param.name);
+                controlEl.find(settings.ctrlValueClass).text(paramValue);
+                generatorControlsContainer.append(controlEl);
+                generatorControlsContainer.find(settings.instrControlBackgroundClass).addClass(settings.channelColorClasses[channelIndex]);
             }
         }
 

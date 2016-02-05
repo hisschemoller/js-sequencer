@@ -27,6 +27,11 @@ ul,
     margin: 0;
     padding: 0;
 }
+.ctrls:after {
+    clear: both;
+    content: '';
+    display: table;
+}
     .ctrl {
         background-color: #666;
         border: 1px solid #333;
@@ -34,7 +39,6 @@ ul,
         display: block;
         float: left;
         height: 50px;
-        line-height: 50px;
         position: relative;
         text-align: center;
         width: 100%;
@@ -56,6 +60,31 @@ ul,
             top: 0;
         }
         .ctrl__label {}
+        .ctrl__text {
+            bottom: 0;
+            color: #eee;
+            line-height: 50px;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .ctrl__name {
+            color: #eee;
+            font-size: 12px;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 6px;
+        }
+        .ctrl__value {
+            color: #eee;
+            font-size: 17px;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 20px;
+        }
 .channels {}
     .channel {
         float: left;
@@ -109,9 +138,16 @@ ul,
         .step.is-selected  .ctrl__name {
             color: #fff;
         }
-.rack {
-    display: none;
-}
+.rack {}
+    .rack__generator {}
+        .plugin {}
+            .plugin__controls {}
+                .plugin__controls .ctrl {
+                    width: 25%;
+                }
+
+
+
 .instrument-control:after {
     clear: both;
     content: '';
@@ -130,14 +166,15 @@ ul,
             left: 0;
             position: absolute;
             right: 0;
+            top: 6px;
         }
         .instr-control__value {
             color: #eee;
             font-size: 17px;
             left: 0;
-            top: 20px;
             position: absolute;
             right: 0;
+            top: 20px;
         }
 .transport {
     bottom: 8px;
