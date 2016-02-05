@@ -19,10 +19,9 @@ $(function() {
     function startApp() {
         // remove the iOS audio startup overlay
         overlay.remove();
-        // remove the WX.Transport because we use WH.TimeBase
+        // remove WX.Transport because we use WH.TimeBase
         WX.Transport = null;
         
-        WH.Studio.init();
         WH.Project.setup(WH.Project.getRandomizedProject());
     }
 

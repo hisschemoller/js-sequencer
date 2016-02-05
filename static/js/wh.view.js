@@ -118,7 +118,6 @@ window.WH = window.WH || {};
                     channelSelectEl.find(settings.ctrlHighlightClass).addClass(channelColor);
                     channelControlsEl = channelEl.find(settings.channelControlsClass);
                     channelControlsEl.find(settings.ctrlBackgroundClass).addClass(channelColor);
-                    channelEl.data('channel', i);
                     elements.channelContainer.append(channelEl);
                 }
                 elements.channels = $(settings.channelClass);
@@ -148,8 +147,6 @@ window.WH = window.WH || {};
                 // DOM event listeners
                 elements.playStopButton.on(eventType, onPlayStopClick);
                 elements.channels.on(eventType, onChannelClick);
-
-                updateSelectedChannel();
             },
 
             /**
@@ -188,26 +185,32 @@ window.WH = window.WH || {};
              * @param  {Event} e Click event.
              */
             onChannelClick = function(e) {
-                channelIndex = $(e.currentTarget).data('channel');
-                updateSelectedChannel();
-                self.updateSelectedSteps();
-                self.updateInstrument();
+                var channel = $(e.target).closest(settings.channelClass),
+                    index = elements.channels.index(channel);
+                
+                setSelectedChannel(index);
             }, 
 
             /**
              * Select a channel.
              * - Set selected channel button as selected.
+             * - Show selected channel's instrument rack.
+             * @param {Number} index Index of the channel to select.
              */
-            updateSelectedChannel = function() {
-                elements.channels
-                    .removeClass(settings.selectedClass)
-                    .filter(function() {
-                        return $(this).data('channel') == channelIndex;
-                    })
-                    .addClass(settings.selectedClass);
+            setSelectedChannel = function(index) {
+                if (index == channelIndex) {
+                    return;
+                }
+
+                channelIndex = index;
+
+                elements.channels.removeClass(settings.selectedClass);
+                elements.channels.get(channelIndex).className += ' ' + settings.selectedClass;
 
                 elements.racks.removeClass(settings.selectedClass)
                 elements.racks.get(channelIndex).className += ' ' + settings.selectedClass;
+
+                self.setSelectedSteps();
             },
 
             /**
@@ -294,7 +297,7 @@ window.WH = window.WH || {};
          * Update the pattern to show selected steps.
          * Typically after switching patterns or tracks.
          */
-        this.updateSelectedSteps = function() {
+        this.setSelectedSteps = function() {
             var steps = WH.Project.getTrackSteps(channelIndex),
                 id,
                 i = 0,
@@ -323,11 +326,12 @@ window.WH = window.WH || {};
         /**
          * Update the instrument controls,
          * typically after project initialisation or channel switch.
+         * @param {Object} instrument WX.PlugIn Generator object.
+         * @param {Number} index Rack index in which to set the instrument.
          */
-        this.updateInstrument = function() {
+        this.setInstrument = function(instrument, index) {
 
-            var instrument = WH.Studio.getInstrument(channelIndex),
-                rack = $(elements.racks[channelIndex]),
+            var rack = $(elements.racks[index]),
                 generatorRack = rack.find(settings.rackGeneratorClass),
                 generatorControlsContainer = generatorRack.find(settings.pluginControlsClass),
                 paramKey,
@@ -355,15 +359,15 @@ window.WH = window.WH || {};
                     case 'Boolean':
                         break;
                 }
-                ;
+                
                 controlEl.find(settings.ctrlNameClass).text(param.name);
                 controlEl.find(settings.ctrlValueClass).text(paramValue);
                 generatorControlsContainer.append(controlEl);
-                generatorControlsContainer.find(settings.ctrlBackgroundClass).addClass(settings.channelColorClasses[channelIndex]);
+                generatorControlsContainer.find(settings.ctrlBackgroundClass).addClass(settings.channelColorClasses[index]);
             }
         }
 
-        // Initialise.
+        // initialise
         init();
     }
     

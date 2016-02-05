@@ -21,7 +21,11 @@ body {
 .color4 {
     background-color: #f00 !important;
 }
-ul,
+.racks,
+.rack__generator,
+.rack__processors,
+.plugin__header,
+.plugin__controls,
 .ctrls {
     list-style: none;
     margin: 0;
@@ -154,36 +158,6 @@ ul,
                     width: 25%;
                 }
 
-
-
-.instrument-control:after {
-    clear: both;
-    content: '';
-    display: table;
-}
-    .instr-control__item {
-        padding-top: 6px;
-        width: 25%;
-    }
-        .instr-control__background {
-            opacity: 0.1;
-        }
-        .instr-control__name {
-            color: #eee;
-            font-size: 12px;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 6px;
-        }
-        .instr-control__value {
-            color: #eee;
-            font-size: 17px;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 20px;
-        }
 .transport {
     bottom: 8px;
     left: 8px;

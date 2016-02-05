@@ -51,8 +51,7 @@ window.WH = window.WH || {};
             // setup studio
             WH.Studio.setup(data.channels);
             // update view
-            WH.View.updateSelectedSteps();
-            WH.View.updateInstrument();
+            WH.View.setSelectedSteps();
         },
 
         /**
