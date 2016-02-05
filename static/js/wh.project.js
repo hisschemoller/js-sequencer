@@ -158,7 +158,8 @@ window.WH = window.WH || {};
             for(var j = 0; j < trackCount; j++) {
                 var oscType,
                     lfoRate = 1,
-                    lfoDepth = 1;
+                    lfoDepth = 1,
+                    lfoType = WX.findValueByKey(WX.WAVEFORMS, 'Sine');
                 switch(j) {
                     case 0:
                         oscType = WX.findValueByKey(WX.WAVEFORMS, 'Sine');
@@ -169,10 +170,13 @@ window.WH = window.WH || {};
                         oscType = WX.findValueByKey(WX.WAVEFORMS, 'Sawtooth');
                         break;
                     case 2:
-                        oscType = WX.findValueByKey(WX.WAVEFORMS, 'Triangle');
+                        oscType = WX.findValueByKey(WX.WAVEFORMS, 'Square');
+                        lfoType = WX.findValueByKey(WX.WAVEFORMS, 'Square');
+                        lfoRate = 10;
+                        lfoDepth = 500;
                         break;
                     case 3:
-                        oscType = WX.findValueByKey(WX.WAVEFORMS, 'Square');
+                        oscType = WX.findValueByKey(WX.WAVEFORMS, 'Triangle');
                         break;
                 }
                 var channel = {
@@ -181,12 +185,12 @@ window.WH = window.WH || {};
                         preset: {
                             oscType: oscType,
                             oscFreq: WX.mtof(60),
-                            lfoType: WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
+                            lfoType: lfoType,
                             lfoRate: lfoRate,
                             lfoDepth: lfoDepth
                         }
                     },
-                    pan: (j * 0.5) - 0.75
+                    pan: (j * 0.4) - 0.6
                 };
                 data.channels.push(channel);
             }
@@ -203,23 +207,27 @@ window.WH = window.WH || {};
                     pattern.tracks.push(track);
                     for(var k = 0; k < stepCount; k++) {
                         var pitch = 0,
-                            velocity = 0;
+                            velocity = 0,
+                            duration = Math.floor( stepDuration / 2 );
                         switch(j) {
                             case 0:
                                 pitch = 60 + k;
-                                velocity = (Math.random() > 0.66 ? 80 : 0);
+                                velocity = (Math.random() > 0.90 ? 120 : 0);
+                                duration = stepDuration * 5;
                                 break;
                             case 1:
-                                pitch = 84 + k;
-                                velocity = (Math.random() > 0.85 ? 30 : 0);
+                                pitch = 24 + k;
+                                velocity = (Math.random() > 0.85 ? 50 : 0);
                                 break;
                             case 2:
-                                pitch = 36 + k;
-                                velocity = (Math.random() > 0.80 ? 100 : 0);
+                                pitch = 48 + k;
+                                velocity = (Math.random() > 0.85 ? 20 : 0);
+                                duration = stepDuration;
                                 break;
                             case 3:
                                 pitch = 76 - k;
-                                velocity = (Math.random() > 0.75 ? 70 : 0);
+                                velocity = (Math.random() > 0.80 ? 120 : 0);
+                                duration = Math.floor( stepDuration / 8 );
                                 break;
                         }
                         var step = {
@@ -227,7 +235,7 @@ window.WH = window.WH || {};
                             pitch: pitch,
                             velocity: velocity,
                             start: stepDuration * k,
-                            duration: Math.floor( stepDuration / 2 )
+                            duration: duration
                         };
                         track.steps.push(step);
                     }
