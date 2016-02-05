@@ -18,15 +18,20 @@ window.WH = window.WH || {};
         var settings = {
                 activeClass: 'is-active',
                 selectedClass: 'is-selected',
+
+                ctrlBackgroundClass: '.ctrl__background',
+                ctrlHighlightClass: '.ctrl__hilight',
+                ctrlNameClass: '.ctrl__name',
+
                 stepClass: '.step',
-                stepBackgroundClass: '.step__background',
-                stepHighlightClass: '.step__hilight',
-                stepLabelClass: '.step__label',
+
                 channelClass: '.channel',
-                channelBackgroundClass: '.channel__background',
-                channelHighlightClass: '.channel__hilight',
+                channelSelectClass: '.channel__select',
+                channelControlsClass: '.channel__controls',
                 channelColorClasses: ['channelBgCol1', 'channelBgCol2', 'channelBgCol3', 'channelBgCol4'],
-                channelLabelClass: '.channel__label',
+
+                rackClass: '.rack',
+
                 instrControlBackgroundClass: '.instr-control__background',
                 instrControlNameClass: '.instr-control__name',
                 instrControlValueClass: '.instr-control__value'
@@ -37,13 +42,18 @@ window.WH = window.WH || {};
              * @type {Object}
              */
             elements = {
-                playStopButton: $('#play-control'),
                 steps: null,
                 stepsContainer: $('.steps'),
                 stepTemplate: $('#template-step'),
                 channels: null,
                 channelContainer: $('.channels'),
                 channelTemplate: $('#template-channel'),
+                racks: null,
+                rackContainer: $('.racks'),
+                rackTemplate: $('#template-rack'),
+
+                playStopButton: $('#play-control'),
+
                 instrumentControlContainer: $('.instrument-control'),
                 instrumentControlTemplate: $('#template-instrument-control')
             },
@@ -75,7 +85,7 @@ window.WH = window.WH || {};
                     stepEl;
                 for (i; i < n; i++) {
                     stepEl = elements.stepTemplate.children().first().clone();
-                    stepEl.find(settings.stepLabelClass).text(i + 1);
+                    stepEl.find(settings.ctrlNameClass).text(i + 1);
                     elements.stepsContainer.append(stepEl);
                 }
                 elements.steps = $(settings.stepClass);
@@ -83,18 +93,33 @@ window.WH = window.WH || {};
                 // create the channel elements
                 var i = 0,
                     n = WH.Settings.getTrackCount(),
-                    channelEl;
+                    channelColor,
+                    channelEl,
+                    channelSelectEl,
+                    channelControlsEl;
                 for (i; i < n; i++) {
+                    channelColor = settings.channelColorClasses[i];
                     channelEl = elements.channelTemplate.children().first().clone();
-                    channelEl.find(settings.channelLabelClass).text(String.fromCharCode(65 + i));
-                    channelEl.find(settings.channelBackgroundClass).addClass(settings.channelColorClasses[i]);
-                    channelEl.find(settings.channelHighlightClass).addClass(settings.channelColorClasses[i]);
+                    channelSelectEl = channelEl.find(settings.channelSelectClass);
+                    channelSelectEl.find(settings.ctrlNameClass).text(String.fromCharCode(65 + i));
+                    channelSelectEl.find(settings.ctrlBackgroundClass).addClass(channelColor);
+                    channelSelectEl.find(settings.ctrlHighlightClass).addClass(channelColor);
+                    channelControlsEl = channelEl.find(settings.channelControlsClass);
+                    channelControlsEl.find(settings.ctrlBackgroundClass).addClass(channelColor);
                     channelEl.data('channel', i);
                     elements.channelContainer.append(channelEl);
                 }
                 elements.channels = $(settings.channelClass);
 
-                updateSelectedChannel();
+                // create the plugin racks
+                var i = 0,
+                    n = WH.Settings.getTrackCount(),
+                    rackEl;
+                for (i; i < n; i++) {
+                    rackEl = elements.rackTemplate.children().first().clone();
+                    elements.rackContainer.append(rackEl);
+                }
+                elements.racks = $(settings.rackClass);
 
                 var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints,
                     eventType = isTouchDevice ? 'touchend' : 'click';
@@ -102,6 +127,8 @@ window.WH = window.WH || {};
                 // DOM event listeners
                 elements.playStopButton.on(eventType, onPlayStopClick);
                 elements.channels.on(eventType, onChannelClick);
+
+                updateSelectedChannel();
             },
 
             /**
@@ -147,10 +174,18 @@ window.WH = window.WH || {};
             }, 
 
             /**
-             * Set a channel button as selected.
+             * Select a channel.
+             * - Set selected channel button as selected.
              */
             updateSelectedChannel = function() {
                 elements.channels
+                    .removeClass(settings.selectedClass)
+                    .filter(function() {
+                        return $(this).data('channel') == channelIndex;
+                    })
+                    .addClass(settings.selectedClass);
+
+                elements.racks
                     .removeClass(settings.selectedClass)
                     .filter(function() {
                         return $(this).data('channel') == channelIndex;
@@ -191,7 +226,7 @@ window.WH = window.WH || {};
                         elements.steps.removeClass(settings.activeClass);
                         $(elements.steps[step.index]).addClass(settings.activeClass);
                         $(elements.steps[step.index])
-                            .find(settings.stepHighlightClass)
+                            .find(settings.ctrlHighlightClass)
                                 .show()
                                 .stop()
                                 .fadeIn(0)
@@ -201,7 +236,7 @@ window.WH = window.WH || {};
                     // update the channels
                     if (step.velocity > 0) {
                         $(elements.channels[step.channel])
-                            .find(settings.channelHighlightClass)
+                            .find(settings.channelSelectClass + ' > ' + settings.ctrlHighlightClass)
                                 .show()
                                 .stop()
                                 .fadeIn(0)
@@ -251,8 +286,8 @@ window.WH = window.WH || {};
 
             // remove color classes
             for (i; i < n; i++) {
-                elements.steps.find(settings.stepBackgroundClass).removeClass(settings.channelColorClasses[i]);
-                elements.steps.find(settings.stepHighlightClass).removeClass(settings.channelColorClasses[i]);
+                elements.steps.find(settings.ctrlBackgroundClass).removeClass(settings.channelColorClasses[i]);
+                elements.steps.find(settings.ctrlHighlightClass).removeClass(settings.channelColorClasses[i]);
             }
 
             // set selected state
@@ -262,8 +297,8 @@ window.WH = window.WH || {};
                 if(step.velocity) {
                     var $step = $(elements.steps[step.index]);
                     $step.addClass(settings.selectedClass);
-                    $step.find(settings.stepBackgroundClass).addClass(channelColorClass);
-                    $step.find(settings.stepHighlightClass).addClass(channelColorClass);
+                    $step.find(settings.ctrlBackgroundClass).addClass(channelColorClass);
+                    $step.find(settings.ctrlHighlightClass).addClass(channelColorClass);
                 }
             }
         };

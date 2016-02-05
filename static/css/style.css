@@ -21,92 +21,103 @@ body {
 .channelBgCol4 {
     background-color: #f00 !important;
 }
-.channels,
-.steps,
-.instrument-control,
-.control {
+ul,
+.ctrls {
     list-style: none;
     margin: 0;
     padding: 0;
 }
-    .channel,
-    .step,
-    .instr-control__item,
-    .control__item {
+    .ctrl {
+        background-color: #666;
+        border: 1px solid #333;
         cursor: pointer;
+        display: block;
         float: left;
         height: 50px;
+        line-height: 50px;
         position: relative;
         text-align: center;
+        width: 100%;
     }
-        .channel__background,
-        .channel__hilight,
-        .channel__label,
-        .step__background,
-        .step__hilight,
-        .instr-control__background {
+    .ctrl--25 {
+        width: 25%;
+    }
+    .ctrl--50 {
+        width: 50%;
+    }
+    .ctrl--100 {
+        width: 100%;
+    }
+        .ctrl__layer {
             bottom: 0;
             left: 0;
             position: absolute;
             right: 0;
             top: 0;
         }
+        .ctrl__label {}
+.channels {}
     .channel {
-        background-color: #666;
-        border: 1px solid #333;
+        float: left;
         width: 25%;
     }
     .channel.is-selected {
         background-color: #888;
     }
-        .channel__background {
-            opacity: 0.2;
-        }
-        .channel.is-selected .channel__background {
-            opacity: 0.4;
-        }
-        .channel__hilight {
-            background-color: #999;
-            display: none;
-            opacity: 0.6;
-        }
-        .channel__label {
-            color: #ccc;
-            line-height: 50px;
-        }
-        .channel.is-selected .channel__label  {
-            color: #fff;
-        }
+        .channel__select {}
+            .channel__select > .ctrl__background {
+                opacity: 0.2;
+            }
+            .channel.is-selected .channel__select > .ctrl__background {
+                opacity: 0.4;
+            }
+            .channel__select > .ctrl__hilight {
+                background-color: #999;
+                display: none;
+                opacity: 0.6;
+            }
+            .channel__select > .ctrl__name {
+                color: #ccc;
+            }
+            .channel.is-selected .channel__select .ctrl__name  {
+                color: #fff;
+            }
+        .channel__controls {}
+            .channel__controls .ctrl__background {
+                opacity: 0.1;
+            }
+            .channel.is-selected .channel__controls .ctrl__background {
+                opacity: 0.2;
+            }
+.steps {}
     .step {
-        background-color: #666;
-        border: 1px solid #333;
-        line-height: 50px;
         width: 12.5%;
     }
     .step:nth-child(8n + 1) {
         clear: left;
     }
-        .step__background {
-            opacity: 0.2;
-        }
-        .step__hilight {
-            display: none;
-            opacity: 0.6;
-        }
     .step.is-active {
         background-color: #777;
     }
-    .step.is-selected  .step__label {
-        color: #fff;
-    }
+        .step > .ctrl__background {
+            opacity: 0.2;
+        }
+        .step > .ctrl__hilight {
+            display: none;
+            opacity: 0.6;
+        }
+        .step.is-selected  .ctrl__name {
+            color: #fff;
+        }
+.rack {
+    display: none;
+}
 .instrument-control:after {
     clear: both;
     content: '';
     display: table;
 }
     .instr-control__item {
-        background-color: #666;
-        border: 1px solid #333;
         padding-top: 6px;
         width: 25%;
     }
@@ -128,20 +139,14 @@ body {
             position: absolute;
             right: 0;
         }
-.control {
+.transport {
     bottom: 8px;
     left: 8px;
     position: fixed;
     right: 8px;
 }
-    .control__item {
-        background-color: #666;
-        border: 1px solid #333;
-        line-height: 50px;
-        width: 25%;
-    }
-    .control__item:not(.is-active) .control__item-active,
-    .control__item.is-active .control__item-inactive {
+    .ctrl:not(.is-active) .ctrl__toggle-active,
+    .ctrl.is-active .ctrl__toggle-inactive {
         display: none;
     }
 #startup-overlay {

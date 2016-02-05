@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Seq</title>
+    <title>sqncr</title>
     <meta charset="utf-8">
     <meta content="320" name="MobileOptimized">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -9,41 +9,85 @@
     <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
-    <ul class="channels"></ul>
-    <ul class="steps"></ul>
-    <ul class="instrument-control"></ul>
-    <ul class="control">
-        <li class="control__item" id="play-control">
-            <span class="control__item-active control__play">&#9724;</span>
-            <span class="control__item-inactive control__stop">&#9658;</span>
+    <ul class="ctrls channels"></ul>
+    <ul class="ctrls steps"></ul>
+    <ul class="ctrls racks"></ul>
+    <ul class="ctrls transport">
+        <li class="ctrl ctrl--25" id="play-control">
+            <span class="ctrl__label ctrl__toggle-active">&#9724;</span>
+            <span class="ctrl__label ctrl__toggle-inactive">&#9658;</span>
         </li>
-        <li class="control__item"></li>
-        <li class="control__item"></li>
-        <li class="control__item"></li>
+        <li class="ctrl ctrl--25"></li>
+        <li class="ctrl ctrl--25"></li>
+        <li class="ctrl ctrl--25"></li>
     </ul>
     <div id="startup-overlay">
         <p>Click to start.</p>
     </div>
     <div id="templates">
         <div id="template-step">
-            <li class="step">
-                <div class="step__background"></div>
-                <div class="step__hilight"></div>
-                <span class="step__label"></span>
+            <li class="ctrl step">
+                <div class="ctrl__layer ctrl__background"></div>
+                <div class="ctrl__layer ctrl__hilight"></div>
+                <span class="ctrl__label ctrl__name"></span>
             </li>
         </div>
-        <div id="template-instrument-control">
-            <li class="instr-control__item">
-                <div class="instr-control__background"></div>
-                <span class="instr-control__name"></span>
-                <span class="instr-control__value"></span>
+        <div id="template-ctrl-generic">
+            <li class="ctrl ctrl--generic">
+                <div class="ctrl__layer ctrl__background"></div>
+                <span class="ctrl__label ctrl__name"></span>
+                <span class="ctrl__label ctrl__value"></span>
             </li>
-        </div> 
+        </div>
+        <div id="template-ctrl-boolean">
+            <li class="ctrl ctrl--boolean">
+                <div class="ctrl__layer ctrl__background"></div>
+                <div class="ctrl__layer ctrl__hilight"></div>
+                <span class="ctrl__label ctrl__name"></span>
+                <span class="ctrl__label ctrl__value"></span>
+            </li>
+        </div>
+        <div id="template-ctrl--itemized">
+            <li class="ctrl ctrl-itemized">
+            </li>
+        </div>
+        <div id="template-rack">
+            <li class="rack">
+                <ul class="rack__generator"></ul>
+                <ul class="rack__processors"></ul>
+            </li>
+        </div>
+        <div id="template-plugin">
+            <li class="plugin">
+                <ul class="plugin__header"></ul>
+                <ul class="plugin__controls"></ul>
+            </li>
+        </div>
         <div id="template-channel">
             <li class="channel">
-                <div class="channel__background"></div>
-                <div class="channel__hilight"></div>
-                <span class="channel__label">A</span>
+                <div class="ctrl channel__select">
+                    <div class="ctrl__layer ctrl__background"></div>
+                    <div class="ctrl__layer ctrl__hilight"></div>
+                    <span class="ctrl__label ctrl__name"></span>
+                </div>
+                <ul class="ctrls channel__controls">
+                    <li class="ctrl ctrl--50 channel__solo">
+                        <div class="ctrl__layer ctrl__background"></div>
+                        <div class="ctrl__layer ctrl__hilight"></div>
+                        <span class="ctrl__label ctrl__name"></span>
+                    </li>
+                    <li class="ctrl ctrl--50 channel__mute">
+                        <div class="ctrl__layer ctrl__background"></div>
+                        <div class="ctrl__layer ctrl__hilight"></div>
+                        <span class="ctrl__label ctrl__name"></span>
+                    </li>
+                    <li class="ctrl ctrl--100 channel__pan">
+                        <div class="ctrl__layer ctrl__background"></div>
+                        <div class="ctrl__layer ctrl__hilight"></div>
+                        <span class="ctrl__label ctrl__name"></span>
+                        <span class="ctrl__label ctrl__value"></span>
+                    </li>
+                </ul>
             </li>
         </div>
     </div><!-- /templates -->
