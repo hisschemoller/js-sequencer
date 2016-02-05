@@ -73,7 +73,7 @@ window.WH = window.WH || {};
              * Channel currently selected to view and edit.
              * @type {Number}
              */
-            channelIndex = 0,
+            channelIndex = -1,
 
             /**
              * Reference to this once function has closed.
@@ -147,6 +147,8 @@ window.WH = window.WH || {};
                 // DOM event listeners
                 elements.playStopButton.on(eventType, onPlayStopClick);
                 elements.channels.on(eventType, onChannelClick);
+
+                setSelectedChannel(0);
             },
 
             /**
@@ -210,7 +212,7 @@ window.WH = window.WH || {};
                 elements.racks.removeClass(settings.selectedClass)
                 elements.racks.get(channelIndex).className += ' ' + settings.selectedClass;
 
-                self.setSelectedSteps();
+                self.setSelectedSteps(channelIndex);
             },
 
             /**
@@ -296,13 +298,14 @@ window.WH = window.WH || {};
         /**
          * Update the pattern to show selected steps.
          * Typically after switching patterns or tracks.
+         * @param {Number} index Channel / track index.
          */
-        this.setSelectedSteps = function() {
-            var steps = WH.Project.getTrackSteps(channelIndex),
+        this.setSelectedSteps = function(index) {
+            var steps = WH.Project.getTrackSteps(index),
                 id,
                 i = 0,
                 n = settings.channelColorClasses.length,
-                channelColorClass = settings.channelColorClasses[channelIndex];
+                channelColorClass = settings.channelColorClasses[index];
 
             // remove color classes
             for (i; i < n; i++) {

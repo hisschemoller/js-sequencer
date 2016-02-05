@@ -51,7 +51,7 @@ window.WH = window.WH || {};
             // setup studio
             WH.Studio.setup(data.channels);
             // update view
-            WH.View.setSelectedSteps();
+            WH.View.setSelectedSteps(0);
         },
 
         /**
@@ -268,7 +268,10 @@ window.WH = window.WH || {};
          * @return {Array}       Array of Step objects.
          */
         getTrackSteps: function(index) {
-            return this.patterns[this.patternIndex].getTrackSteps(index);
+            if (this.patterns[this.patternIndex]) {
+                return this.patterns[this.patternIndex].getTrackSteps(index);
+            }
+            return null;
         }
     };
     
