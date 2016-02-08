@@ -49,48 +49,47 @@
         });
 
         WX.PlugIn.initPreset(this, preset);
+
+        this.addEditableParams([{
+                key: 'mute',
+                shortname: 'M'
+            }, {
+                key: 'solo',
+                shortname: 'S'
+            }, {
+                key: 'pan',
+                shortname: 'Pan'
+            }, {
+                key: 'level',
+                shortname: 'Lvl'
+            }]);
     }
 
-    Channel.prototype = {
+    Channel.prototype = WH.PlugIn;
+    Channel.prototype.constructor = Channel;
 
-        info: {
-            name: 'Channel',
-            api_version: '1.0.0-alpha',
-            plugin_version: '1.0.0',
-            author: 'Wouter Hisschemöller',
-            type: 'Processor',
-            description: 'A mixer channel with gain, pan'
-        },
+    Channel.prototype.info = {
+        name: 'Channel',
+        api_version: '1.0.0-alpha',
+        plugin_version: '1.0.0',
+        author: 'Wouter Hisschemöller',
+        type: 'Processor',
+        description: 'A mixer channel with gain, pan'
+    };
 
-        defaultPreset: {
-            mute: false,
-            solo: false,
-            pan: 0.0,
-            level: 1.0
-        },
+    Channel.prototype.defaultPreset = {
+        mute: false,
+        solo: false,
+        pan: 0.0,
+        level: 1.0
+    };
 
-        $mute: function(value, time, rampType) {
-            
-        },
+    Channel.prototype.$mute = function(value, time, rampType) {
+        
+    };
 
-        $pan: function(value, time, rampType) {
-            this._panner.setPosition(value, 0, 0.5);
-        }, 
-
-        /**
-         * Parameters that should be shown in the view.
-         * @type {Array}
-         */
-        visibleParams: ['solo', 'mute', 'pan', 'level'],
-
-        /**
-         * [getIsVisibleParameter description]
-         * @param  {String} paramKey Key of the parameter to test.
-         * @return {Boolean} True if the parameter should be rendered on screen.
-         */
-        getIsVisibleParameter: function(paramKey) {
-            return $.inArray(paramKey, this.visibleParams) >= 0;
-        }
+    Channel.prototype.$pan = function(value, time, rampType) {
+        this._panner.setPosition(value, 0, 0.5);
     };
 
     WX.PlugIn.extendPrototype(Channel, 'Processor');

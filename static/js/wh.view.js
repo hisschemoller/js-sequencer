@@ -306,13 +306,13 @@ window.WH = window.WH || {};
                     paramValue,
                     paramType,
                     controlEl,
-                    hasVisibilityCheck = typeof plugin.getIsVisibleParameter == 'function';
+                    hasEditableCheck = typeof plugin.isEditableParam == 'function';
                 
                 // add controls
                 for (paramKey in plugin.params) {
 
                     // only render parameters that are allowed to by the plugin
-                    if (hasVisibilityCheck && !plugin.getIsVisibleParameter(paramKey)) {
+                    if (hasEditableCheck && !plugin.isEditableParam(paramKey) ) {
                         continue;
                     }
 
