@@ -19,6 +19,7 @@ window.WH = window.WH || {};
                 activeClass: 'is-active',
                 selectedClass: 'is-selected',
 
+                ctrlClass: '.ctrl',
                 ctrlBackgroundClass: '.ctrl__background',
                 ctrlHighlightClass: '.ctrl__hilight',
                 ctrlLabelClass: '.ctrl__label',
@@ -41,7 +42,18 @@ window.WH = window.WH || {};
 
                 instrControlBackgroundClass: '.instr-control__background',
                 instrControlNameClass: '.instr-control__name',
-                instrControlValueClass: '.instr-control__value'
+                instrControlValueClass: '.instr-control__value',
+
+                data: {
+                    paramKey:  'param_key',
+                    paramType: 'param_type'
+                },
+
+                ctrlTypes: {
+                    generic: 'generic',
+                    itemized: 'itemized',
+                    boolean: 'boolean'
+                }
             },
 
             /**
@@ -116,8 +128,6 @@ window.WH = window.WH || {};
                     channelSelectEl.find(settings.ctrlTextClass).text(String.fromCharCode(65 + i));
                     channelSelectEl.find(settings.ctrlBackgroundClass).addClass(channelColor);
                     channelSelectEl.find(settings.ctrlHighlightClass).addClass(channelColor);
-                    channelControlsEl = channelEl.find(settings.channelControlsClass);
-                    channelControlsEl.find(settings.ctrlBackgroundClass).addClass(channelColor);
                     elements.channelContainer.append(channelEl);
                 }
                 elements.channels = $(settings.channelClass);
@@ -146,7 +156,8 @@ window.WH = window.WH || {};
                 
                 // DOM event listeners
                 elements.playStopButton.on(eventType, onPlayStopClick);
-                elements.channels.on(eventType, onChannelClick);
+                elements.channels.find(settings.channelSelectClass).on(eventType, onChannelSelectClick);
+                elements.channels.find(settings.channelControlsClass).on(eventType, onChannelControlsClick);
 
                 setSelectedChannel(0);
             },
@@ -183,15 +194,36 @@ window.WH = window.WH || {};
             },
 
             /**
-             * Channel button clicked.
+             * Channel select button clicked.
              * @param  {Event} e Click event.
              */
-            onChannelClick = function(e) {
+            onChannelSelectClick = function(e) {
                 var channel = $(e.target).closest(settings.channelClass),
                     index = elements.channels.index(channel);
                 
                 setSelectedChannel(index);
             }, 
+
+            /**
+             * One of the 
+             * @param  {Event} e Click or touchend event, currentTarget it .ctrls container
+             * @return {[type]}   [description]
+             */
+            onChannelControlsClick = function(e) {
+                var controlEl = $(e.target).closest(settings.ctrlClass),
+                    channelEl = controlEl.closest(settings.channelClass),
+                    index = elements.channels.index(channelEl),
+                    paramKey = controlEl.data(settings.data.paramKey),
+                    paramType = controlEl.data(settings.data.paramType),
+                    paramValue;
+
+                switch(paramType) {
+                    case settings.ctrlTypes.boolean:
+                        paramValue = !controlEl.hasClass(settings.selectedClass);
+                        WH.Project.updateParameter(index, paramKey, paramValue);
+                        break;
+                }
+            },
 
             /**
              * Select a channel.
@@ -265,6 +297,57 @@ window.WH = window.WH || {};
                                 .fadeOut(300);
                     }
                 }
+            },
+
+            addControls = function(plugin, containerEl) {
+
+                var paramKey,
+                    param,
+                    paramValue,
+                    paramType,
+                    controlEl,
+                    hasVisibilityCheck = typeof plugin.getIsVisibleParameter == 'function';
+                
+                // add controls
+                for (paramKey in plugin.params) {
+
+                    // only render parameters that are allowed to by the plugin
+                    if (hasVisibilityCheck && !plugin.getIsVisibleParameter(paramKey)) {
+                        continue;
+                    }
+
+                    param = plugin.params[paramKey];
+                    paramValue = param.value;
+
+                    switch (param.type) {
+                        case 'Generic':
+                            paramValue = paramValue.toFixed(1);
+                            controlEl = elements.ctrlGenericTemplate.children().first().clone();
+                            controlEl.find(settings.ctrlNameClass).text(param.name);
+                            controlEl.find(settings.ctrlValueClass).text(paramValue);
+                            paramType = settings.ctrlTypes.generic;
+                            break;
+                        case 'Itemized':
+                            paramValue = WX.findKeyByValue(param.getModel(), paramValue);
+                            controlEl = elements.ctrlItemizedTemplate.children().first().clone();
+                            controlEl.find(settings.ctrlNameClass).text(param.name);
+                            controlEl.find(settings.ctrlValueClass).text(paramValue);
+                            paramType = settings.ctrlTypes.itemized;
+                            break;
+                        case 'Boolean':
+                            controlEl = elements.ctrlBooleanTemplate.children().first().clone();
+                            controlEl.find(settings.ctrlTextClass).text(param.name);
+                            if (paramValue) {
+                                controlEl.addClass(settings.selectedClass);
+                            }
+                            paramType = settings.ctrlTypes.boolean;
+                            break;
+                    }
+                    
+                    controlEl.data(settings.data.paramKey, paramKey);
+                    controlEl.data(settings.data.paramType, paramType);
+                    containerEl.append(controlEl);
+                }
             };
 
         /**
@@ -327,7 +410,23 @@ window.WH = window.WH || {};
         };
 
         /**
-         * Update the instrument controls,
+         * Fill a mixer channel with mixer channel controls.
+         * This happens once because the mixer is created only once.
+         * @param {Object} channel WX.PlugIn Processor object.
+         * @param {Number} index Channel index in which to create the channel controls.
+         */
+        this.setChannel = function(channel, index) {
+            
+            var channelEl = $(elements.channels[index]),
+                controlsEl = channelEl.find(settings.channelControlsClass);
+            
+            addControls(channel, controlsEl);
+            controlsEl.find(settings.ctrlBackgroundClass).addClass(settings.channelColorClasses[index]);
+            controlsEl.find(settings.ctrlHighlightClass).addClass(settings.channelColorClasses[index]);
+        };
+
+        /**
+         * Set the instrument controls,
          * typically after project initialisation or channel switch.
          * @param {Object} instrument WX.PlugIn Generator object.
          * @param {Number} index Rack index in which to set the instrument.
@@ -336,38 +435,12 @@ window.WH = window.WH || {};
 
             var rack = $(elements.racks[index]),
                 generatorRack = rack.find(settings.rackGeneratorClass),
-                generatorControlsContainer = generatorRack.find(settings.pluginControlsClass),
-                paramKey,
-                param,
-                paramValue,
-                controlEl;
+                controlsEl = generatorRack.find(settings.pluginControlsClass);
 
             // remove the old generator controls
-            generatorControlsContainer.empty();
-            
-            // add 
-            for (paramKey in instrument.params) {
-                param = instrument.params[paramKey];
-                paramValue = param.value;
-
-                switch (param.type) {
-                    case 'Generic':
-                        paramValue = paramValue.toFixed(1);
-                        controlEl = elements.ctrlGenericTemplate.children().first().clone();
-                        break;
-                    case 'Itemized':
-                        paramValue = WX.findKeyByValue(param.getModel(), paramValue);
-                        controlEl = elements.ctrlItemizedTemplate.children().first().clone();
-                        break;
-                    case 'Boolean':
-                        break;
-                }
-                
-                controlEl.find(settings.ctrlNameClass).text(param.name);
-                controlEl.find(settings.ctrlValueClass).text(paramValue);
-                generatorControlsContainer.append(controlEl);
-                generatorControlsContainer.find(settings.ctrlBackgroundClass).addClass(settings.channelColorClasses[index]);
-            }
+            controlsEl.empty();
+            addControls(instrument, controlsEl);
+            controlsEl.find(settings.ctrlBackgroundClass).addClass(settings.channelColorClasses[index]);
         }
 
         // initialise

@@ -31,25 +31,25 @@ window.WH = window.WH || {};
          * Set up a project from the provided data, or create a new empty project.
          * @param {Object} data Project data object.
          */
-        setup: function(data) {
+        setData: function(data) {
             
             var ppqn = WH.TimeBase.getPPQN();
             this.patternDurationInTicks = this.patternDurationInBeats * ppqn;
 
             var data = data || this.getEmptyProject();
 
-            // setup timing
+            // set timing
             this.setBPM(data.bpm);
             WH.TimeBase.setBPM(data.bpm);
 
-            // setup patterns
+            // set patterns
             var patternCount = WH.Settings.getPatternCount();
             for(var i = 0; i < patternCount; i++) {
                 this.patterns.push(WH.Pattern(data.patterns[i], ppqn));
             }
 
-            // setup studio
-            WH.Studio.setup(data.channels);
+            // set studio
+            WH.Studio.setProject(data.channels);
             // update view
             WH.View.setSelectedSteps(0);
         },
@@ -58,7 +58,7 @@ window.WH = window.WH || {};
          * Create a new empty project.
          */
         createNew: function() {
-            this.setup();
+            this.setData();
         },
 
         /**
@@ -107,7 +107,10 @@ window.WH = window.WH || {};
                             lfoDepth: 1.0
                         }
                     },
-                    pan: 0
+                    mute: false,
+                    solo: false,
+                    pan: 0,
+                    level: 1.0
                 };
                 data.channels.push(channel);
             }
@@ -189,7 +192,10 @@ window.WH = window.WH || {};
                             lfoDepth: lfoDepth
                         }
                     },
-                    pan: (j * 0.4) - 0.6
+                    mute: false,
+                    solo: false,
+                    pan: (j * 0.4) - 0.6,
+                    level: 1.0
                 };
                 data.channels.push(channel);
             }
@@ -272,6 +278,10 @@ window.WH = window.WH || {};
                 return this.patterns[this.patternIndex].getTrackSteps(index);
             }
             return null;
+        },
+
+        updateParameter: function(index, paramKey, paramValue) {
+            console.log(index, paramKey, paramValue);
         }
     };
     

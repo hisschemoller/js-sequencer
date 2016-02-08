@@ -21,31 +21,37 @@ window.WH = window.WH || {};
              * Plugin instruments used by the current project.
              * @type {Array}
              */
-            instruments = [],
+            instruments = [];
 
-            init = function() {
-                for(var i = 0; i < 4; i++) {
-                    var channel = WX.Channel();
-                    channel.to(WX.Master);
-                    channels.push(channel);
-                }
-            };
+        /**
+         * Initialisation.
+         */
+        this.setup = function() {
+            for (var i = 0; i < WH.Settings.getTrackCount(); i++) {
+                var channel = WX.Channel();
+                channel.to(WX.Master);
+                channels.push(channel);
+                WH.View.setChannel(channel, i);
+            }
+        };
 
         /**
          * Add instuments and connect them to the output.
          * @param {object} data Studio setup data.
          */
-        this.setup = function(data) {
-            var instrument;
-            for(var i = 0; i < data.length; i++) {
+        this.setProject = function(data) {
+            var instrument,
+                i = 0;
 
-                switch(data[i].instrument.name) {
+            for (i; i < data.length; i++) {
+
+                switch (data[i].instrument.name) {
                     case 'simpleosc':
                         instrument = WX.SimpleOsc(data[i].instrument.preset);
                         break;
                 }
                 
-                if(instrument) {
+                if (instrument) {
                     instrument.to(channels[i]);
                     instruments.push(instrument);
                 }
@@ -72,9 +78,6 @@ window.WH = window.WH || {};
                 }
             }
         };
-
-        // initialise
-        init();
     }
     
     Studio.prototype = {};

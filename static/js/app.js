@@ -22,7 +22,8 @@ $(function() {
         // remove WX.Transport because we use WH.TimeBase
         WX.Transport = null;
         
-        WH.Project.setup(WH.Project.getRandomizedProject());
+        WH.Studio.setup();
+        WH.Project.setData(WH.Project.getRandomizedProject());
     }
 
     /**

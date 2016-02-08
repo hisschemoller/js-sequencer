@@ -125,6 +125,16 @@ body {
             .channel.is-selected .channel__controls .ctrl__background {
                 opacity: 0.2;
             }
+            .channel__controls .ctrl__hilight {
+                display: none;
+                opacity: 0.3;
+            }
+            .channel__controls .ctrl.is-selected .ctrl__hilight {
+                display: block;
+            }
+            .channel__controls .ctrl.is-selected .ctrl__text {
+                color: #fff;
+            }
 .steps {}
     .step {
         width: 12.5%;
