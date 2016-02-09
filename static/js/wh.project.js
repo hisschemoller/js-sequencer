@@ -49,7 +49,7 @@ window.WH = window.WH || {};
             }
 
             // set studio
-            WH.Studio.setProject(data.channels);
+            WH.Studio.setProject(data.racks);
             // update view
             WH.View.setSelectedSteps(0);
         },
@@ -91,12 +91,12 @@ window.WH = window.WH || {};
 
             var data = {
                 bpm: 100,
-                channels: [], 
+                racks: [], 
                 patterns: []
             };
 
             for (var j = 0; j < trackCount; j++) {
-                var channel = {
+                var rack = {
                     instrument: {
                         name: 'simpleosc',
                         preset: {
@@ -107,12 +107,14 @@ window.WH = window.WH || {};
                             lfoDepth: 1.0
                         }
                     },
-                    mute: false,
-                    solo: false,
-                    pan: 0,
-                    level: 1.0
+                    channel: {
+                        mute: false,
+                        solo: false,
+                        pan: 0.0,
+                        level: 1.0
+                    }
                 };
-                data.channels.push(channel);
+                data.racks.push(rack);
             }
 
             for (var i = 0; i < patternCount; i++) {
@@ -153,7 +155,7 @@ window.WH = window.WH || {};
                 stepDuration = Math.floor( (this.patternDurationInBeats * ppqn) / stepCount ),
                 data = {
                     bpm: 100,
-                    channels: [], 
+                    racks: [], 
                     patterns: []
                 };
 
@@ -181,7 +183,7 @@ window.WH = window.WH || {};
                         oscType = WX.findValueByKey(WX.WAVEFORMS, 'Triangle');
                         break;
                 }
-                var channel = {
+                var rack = {
                     instrument: {
                         name: 'simpleosc',
                         preset: {
@@ -192,12 +194,14 @@ window.WH = window.WH || {};
                             lfoDepth: lfoDepth
                         }
                     },
-                    mute: false,
-                    solo: false,
-                    pan: (j * 0.4) - 0.6,
-                    level: 1.0
+                    channel: {
+                        mute: false,
+                        solo: false,
+                        pan: (j * 0.4) - 0.6,
+                        level: 1.0
+                    }
                 };
-                data.channels.push(channel);
+                data.racks.push(rack);
             }
 
             for (var i = 0; i < patternCount; i++) {
