@@ -282,10 +282,6 @@ window.WH = window.WH || {};
                 return this.patterns[this.patternIndex].getTrackSteps(index);
             }
             return null;
-        },
-
-        updateParameter: function(index, paramKey, paramValue) {
-            console.log(index, paramKey, paramValue);
         }
     };
     

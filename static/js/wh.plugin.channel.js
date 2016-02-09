@@ -12,9 +12,14 @@
     function Channel(preset) {
         WX.PlugIn.defineType(this, 'Processor');
 
+        // call prototype's constructor
+        // @see http://www.bennadel.com/blog/1566-using-super-constructors-is-critical-in-prototypal-inheritance-in-javascript.htm
+        WH.PlugIn.call(this);
+
         // plugin audio nodes
         this._panner = WX.Panner();
-        this._input.to(this._panner).to(this._output);
+        this._soloMute = WX.Gain();
+        this._input.to(this._soloMute).to(this._panner).to(this._output);
 
         // plugin parameters
         WX.defineParams(this, {
@@ -85,7 +90,11 @@
     };
 
     Channel.prototype.$mute = function(value, time, rampType) {
-        
+        this._soloMute.gain.value = value ? 0.0 : 1.0;
+    };
+
+    Channel.prototype.$solo = function(value, time, rampType) {
+        // this._soloMute
     };
 
     Channel.prototype.$pan = function(value, time, rampType) {

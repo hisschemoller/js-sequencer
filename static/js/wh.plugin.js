@@ -11,13 +11,43 @@ window.WH = window.WH || {};
 /**
  * @namespace WX.PlugIn
  */
-WH.PlugIn = {};
+WH.PlugIn = function() {
+    this.id = this.getNewPluginId();
+};
 
 /**
  * Editable parameters that should be shown in the view.
  * @type {Array}
  */
 WH.PlugIn.editableParams = [];
+
+/**
+ * Unique ID of this plugin instance.
+ * @type {Number}
+ */
+WH.PlugIn.id;
+
+/**
+ * Create a new plugin ID.
+ * @see http://stackoverflow.com/questions/1535631/static-variables-in-javascript
+ * @return {Number} The ID is a number.
+ */
+WH.PlugIn.getNewPluginId = function() {
+    // check to see if the counter has been initialized
+    if (typeof WH.PlugIn.getNewPluginId.counter == 'undefined') {
+        // it has not... perform the initialization
+        WH.PlugIn.getNewPluginId.counter = 0;
+    }
+    return WH.PlugIn.getNewPluginId.counter++;
+};
+
+/**
+ * Return the plugin's ID.
+ * @return {Number} Plugin ID.
+ */
+WH.PlugIn.getId = function() {
+    return this.id;
+};
 
 /**
  * Add parameters to the list of editable parameters.

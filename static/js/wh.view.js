@@ -46,7 +46,8 @@ window.WH = window.WH || {};
 
                 data: {
                     paramKey:  'param_key',
-                    paramType: 'param_type'
+                    paramType: 'param_type',
+                    pluginId: 'plugin_id'
                 },
 
                 ctrlTypes: {
@@ -212,15 +213,15 @@ window.WH = window.WH || {};
             onChannelControlsClick = function(e) {
                 var controlEl = $(e.target).closest(settings.ctrlClass),
                     channelEl = controlEl.closest(settings.channelClass),
-                    index = elements.channels.index(channelEl),
                     paramKey = controlEl.data(settings.data.paramKey),
                     paramType = controlEl.data(settings.data.paramType),
-                    paramValue;
+                    paramValue,
+                    pluginId = channelEl.data(settings.data.pluginId)
 
                 switch(paramType) {
                     case settings.ctrlTypes.boolean:
                         paramValue = !controlEl.hasClass(settings.selectedClass);
-                        WH.Project.updateParameter(index, paramKey, paramValue);
+                        WH.Studio.setParameter(pluginId, paramKey, paramValue);
                         break;
                 }
             },
@@ -344,8 +345,8 @@ window.WH = window.WH || {};
                             break;
                     }
                     
-                    controlEl.data(settings.data.paramKey, paramKey);
-                    controlEl.data(settings.data.paramType, paramType);
+                    controlEl.attr('data-' + settings.data.paramKey, paramKey);
+                    controlEl.attr('data-' + settings.data.paramType, paramType);
                     containerEl.append(controlEl);
                 }
             };
@@ -419,6 +420,9 @@ window.WH = window.WH || {};
             
             var channelEl = $(elements.channels[index]),
                 controlsEl = channelEl.find(settings.channelControlsClass);
+
+            // set plugin id on channel element
+            channelEl.attr('data-' + settings.data.pluginId, channel.getId());
             
             addControls(channel, controlsEl);
             controlsEl.find(settings.ctrlBackgroundClass).addClass(settings.channelColorClasses[index]);
@@ -441,6 +445,28 @@ window.WH = window.WH || {};
             controlsEl.empty();
             addControls(instrument, controlsEl);
             controlsEl.find(settings.ctrlBackgroundClass).addClass(settings.channelColorClasses[index]);
+        };
+
+        /**
+         * Update a control to reflect a changed plugin parameter.
+         * @param  {Number} pluginId Unique ID of the plugin.
+         * @param  {String} paramKey The parameter to change.
+         * @param  {Number, String or Boolean} paramValue The new value for the parameter.
+         */
+        this.updateControl = function(pluginId, paramKey, paramValue) {
+            var pluginEl = $('[data-' + settings.data.pluginId + '="' + pluginId + '"]'),
+                ctrlEl = pluginEl.find(settings.ctrlClass + '[data-' + settings.data.paramKey + '="' + paramKey + '"]')
+                ctrlType = ctrlEl.data(settings.data.paramType);
+
+            switch (ctrlType) {
+                case settings.ctrlTypes.generic:
+                    break;
+                case settings.ctrlTypes.itemized:
+                    break;
+                case settings.ctrlTypes.boolean:
+                    ctrlEl.toggleClass(settings.selectedClass, paramValue);
+                    break;
+            }
         }
 
         // initialise

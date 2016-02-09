@@ -14,7 +14,10 @@ window.WH = window.WH || {};
      */
     function Studio() {
 
-        // private variables
+            /**
+             * Channel plugins that form a mixer.
+             * @type {Array}
+             */
         var channels = [],
 
             /**
@@ -78,6 +81,45 @@ window.WH = window.WH || {};
                 }
             }
         };
+
+        /**
+         * Set the value of a parameters of one of the plugins.
+         * Typically after a user interacted with the UI.
+         * @param  {Number} pluginId Unique ID of the plugin.
+         * @param  {String} paramKey The parameter to change.
+         * @param  {Number, String or Boolean} paramValue The new value for the parameter.
+         */
+        this.setParameter = function(pluginId, paramKey, paramValue) {
+            var i = 0,
+                n,
+                plugin;
+
+            // is it a generator?
+            n = instruments.length;
+            for (i; i < n; i++) {
+                // if (pluginId == instruments[i].getId()) {
+                //     plugin = instruments[i];
+                //     break;
+                // }
+            }
+
+            // is it a channel?
+            if (!plugin) {
+                i = 0;
+                n = channels.length;
+                for (i; i < n; i++) {
+                    if (pluginId == channels[i].getId()) {
+                        plugin = channels[i];
+                        break;
+                    }
+                }
+            }
+
+            if (plugin) {
+                plugin.set(paramKey, paramValue);
+                WH.View.updateControl(pluginId, paramKey, plugin.get(paramKey));
+            }
+        }
     }
     
     Studio.prototype = {};
