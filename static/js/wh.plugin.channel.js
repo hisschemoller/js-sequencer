@@ -16,6 +16,13 @@
         // @see http://www.bennadel.com/blog/1566-using-super-constructors-is-critical-in-prototypal-inheritance-in-javascript.htm
         WH.PlugIn.call(this);
 
+        // callback to notify the other channels of a solo parameter change
+        this.soloCallback;
+
+        this.isMute = false;
+
+        this.isSolo = false;
+
         // plugin audio nodes
         this._panner = WX.Panner();
         this._soloMute = WX.Gain();
@@ -90,15 +97,56 @@
     };
 
     Channel.prototype.$mute = function(value, time, rampType) {
+
+        this.isMute = value;
         this._soloMute.gain.value = value ? 0.0 : 1.0;
     };
 
     Channel.prototype.$solo = function(value, time, rampType) {
-        // this._soloMute
+
+        this.isSolo = value;
+
+        // if solo is switched off, only unmute if the mute parameter is off
+        if (!this.isSolo) {
+            this._soloMute.gain.value = this.isMute ? 0.0 : 1.0;
+        } else {
+            this._soloMute.gain.value = 1.0;
+        }
+        
+        // callback to notify the other channels of the change
+        if (this.soloCallback) {
+            this.soloCallback(this.getId(), this.isSolo);
+        }
     };
 
     Channel.prototype.$pan = function(value, time, rampType) {
         this._panner.setPosition(value, 0, 0.5);
+    };
+
+    /**
+     * Set the callback function to notify the other channels of a solo parameter change.
+     * @param {Function} callback The callback function.
+     */
+    Channel.prototype.setSoloCallback = function(callback) {
+        this.soloCallback = callback;
+    };
+
+    /**
+     * Solo parameter on one of the other channels was changed.
+     * @param  {Number} pluginId ID of the plugin that changed its solo parameter.
+     * @param  {Boolean} isSolo Value of the other channel's solo parameter.
+     */
+    Channel.prototype.onExternalSolo = function(pluginId, isSolo) {
+        
+        // only mute if this isn't soloed as well
+        if (isSolo && !this.isSolo) {
+            this._soloMute.gain.value = 0.0;
+        }
+
+        // only unmute if this isn't muted
+        if (!isSolo && !this.isMute) {
+            this._soloMute.gain.value = 1.0;
+        }
     };
 
     WX.PlugIn.extendPrototype(Channel, 'Processor');

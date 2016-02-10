@@ -24,7 +24,20 @@ window.WH = window.WH || {};
              * Plugin instruments used by the current project.
              * @type {Array}
              */
-            instruments = [];
+            instruments = [],
+
+            /**
+             * Solo parameter was changed on one of the channel plugins.
+             * @param {Number} pluginId ID of the channel plugin that changed its solo parameter.
+             * @param {Boolean} isSolo Value of the channel's solo parameter.    
+             */
+            onSoloChange = function(pluginId, isSolo) {
+                for (var i = 0; i < channels.length; i++) {
+                    if (channels[i].getId() != pluginId) {
+                        channels[i].onExternalSolo(pluginId, isSolo);
+                    }
+                }
+            };
 
         /**
          * Initialisation.
@@ -32,6 +45,7 @@ window.WH = window.WH || {};
         this.setup = function() {
             for (var i = 0; i < WH.Settings.getTrackCount(); i++) {
                 var channel = WX.Channel();
+                channel.setSoloCallback(onSoloChange);
                 channel.to(WX.Master);
                 channels.push(channel);
                 WH.View.setChannel(channel, i);
