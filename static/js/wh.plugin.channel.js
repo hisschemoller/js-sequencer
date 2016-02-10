@@ -33,13 +33,13 @@
 
             mute: {
                 type: 'Boolean',
-                name: 'Mute',
+                name: 'M',
                 default: false
             },
 
             solo: {
                 type: 'Boolean',
-                name: 'Solo',
+                name: 'S',
                 default: false
             },
 
@@ -63,17 +63,13 @@
         WX.PlugIn.initPreset(this, preset);
 
         this.addEditableParams([{
-                key: 'mute',
-                shortname: 'M'
+                key: 'mute'
             }, {
-                key: 'solo',
-                shortname: 'S'
+                key: 'solo'
             }, {
-                key: 'pan',
-                shortname: 'Pan'
+                key: 'pan'
             }, {
-                key: 'level',
-                shortname: 'Lvl'
+                key: 'level'
             }]);
     }
 

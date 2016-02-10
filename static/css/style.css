@@ -135,6 +135,10 @@ body {
             .channel__controls .ctrl.is-selected .ctrl__text {
                 color: #fff;
             }
+            .channel__controls .ctrl:nth-child(1), 
+            .channel__controls .ctrl:nth-child(2) {
+                width: 50%;
+            }
 .steps {}
     .step {
         width: 12.5%;
