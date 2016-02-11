@@ -32,7 +32,24 @@ window.WH = window.WH || {};
              * @param {Boolean} isSolo Value of the channel's solo parameter.    
              */
             onSoloChange = function(pluginId, isSolo) {
-                for (var i = 0; i < channels.length; i++) {
+
+                var i = 0,
+                    n = channels.length,
+                    isAnySoloActive = false;
+
+                // test if any of the channels is soloed
+                for (i; i < n; i++) {
+                    isAnySoloActive = isAnySoloActive || channels[i].get('solo');
+                }
+
+                // if a channel stopped being solo while others still are soloed, 
+                // then nothing changes and there is no need to notify the other channels
+                if (!isSolo && isAnySoloActive) {
+                    return;
+                }
+
+                // notify the other channels
+                for (i = 0; i < n; i++) {
                     if (channels[i].getId() != pluginId) {
                         channels[i].onExternalSolo(pluginId, isSolo);
                     }
