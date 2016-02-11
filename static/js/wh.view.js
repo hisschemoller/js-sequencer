@@ -22,6 +22,7 @@ window.WH = window.WH || {};
                 ctrlClass: '.ctrl',
                 ctrlBackgroundClass: '.ctrl__background',
                 ctrlHighlightClass: '.ctrl__hilight',
+                ctrlGenericClass: '.ctrl--generic',
                 ctrlLabelClass: '.ctrl__label',
                 ctrlTextClass: '.ctrl__text',
                 ctrlNameClass: '.ctrl__name',
@@ -62,6 +63,9 @@ window.WH = window.WH || {};
              * @type {Object}
              */
             elements = {
+                app: $('#app'),
+                overlayCtrlGeneric: $('#overlay-ctrl-generic'),
+
                 steps: null,
                 stepsContainer: $('.steps'),
                 stepTemplate: $('#template-step'),
@@ -101,11 +105,6 @@ window.WH = window.WH || {};
              * Initialise the view, add DOM event handlers.
              */
             init = function() {
-
-                if (!validateDomElements()) {
-                    console.error('DOM elements invalid.');
-                    return;
-                }
 
                 // create the step elements
                 var i = 0,
@@ -156,9 +155,6 @@ window.WH = window.WH || {};
                 generatorPluginEl = elements.pluginTemplate.children().first().clone();
                 elements.racks.find(settings.rackGeneratorClass).append(generatorPluginEl);
 
-                var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints,
-                    eventType = isTouchDevice ? 'touchend' : 'click';
-
                 // create tabs
                 var i = 0,
                     n = settings.tabs.length,
@@ -171,30 +167,54 @@ window.WH = window.WH || {};
                 }
 
                 elements.tabs = elements.tabContainer.find(settings.tabClass);
+
+                var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints,
+                    eventStartType = isTouchDevice ? 'touchstart' : 'mousedown',
+                    eventEndType = isTouchDevice ? 'touchstart' : 'mouseup',
+                    eventClickType = isTouchDevice ? 'touchend' : 'click',
+                    eventMoveType = isTouchDevice ? 'touchmove' : 'mousemove';
                 
                 // DOM event listeners
-                elements.playStopButton.on(eventType, onPlayStopClick);
-                elements.channels.find(settings.channelSelectClass).on(eventType, onChannelSelectClick);
-                elements.channels.find(settings.channelControlsClass).on(eventType, onChannelControlsClick);
-                elements.tabs.on(eventType, onTabClick);
+                elements.playStopButton.on(eventClickType, onPlayStopClick);
+                elements.channels.find(settings.channelSelectClass).on(eventClickType, onChannelSelectClick);
+                elements.channels.find(settings.channelControlsClass).on(eventClickType, onChannelControlsClick);
+                elements.tabs.on(eventClickType, onTabClick);
+                elements.app.on(eventStartType, settings.ctrlGenericClass, onGenericControlTouchStart);
+                elements.overlayCtrlGeneric.on(eventEndType, onGenericControlTouchEnd);
+                elements.overlayCtrlGeneric.on(eventMoveType, onGenericControlTouchMove);
+
+                // prevent scroll and iOS bounce effect
+                if (isTouchDevice) {
+                    document.ontouchmove = function(event){
+                        event.preventDefault();
+                    }
+                }
 
                 setSelectedChannel(0);
             },
 
             /**
-             * Test is the correct DOM elements are present.
-             * @return {Boolean} True if invalid.
+             * Generic control pressed on a plugin.
+             * @param {Event} e Touch or mouse start event.
              */
-            validateDomElements = function() {
+            onGenericControlTouchStart = function(e) {
+                elements.overlayCtrlGeneric.show();
+            },
 
-                var isValid = true;
+            /**
+             * Generic control overlay touchend or mouseup.
+             * @param {Event} e Touch or mouse end event.
+             */
+            onGenericControlTouchEnd = function(e) {
+                elements.overlayCtrlGeneric.hide();
+            },
 
-                if (elements.playStopButton.length == 0) {
-                    isValid = true;
-                    console.error('No play button DOM element.');
-                }
-
-                return isValid;
+            /**
+             * Generic control overlay touchend or mouseup.
+             * @param {Event} e Touch or mouse move event.
+             */
+            onGenericControlTouchMove = function(e) {
+                elements.overlayCtrlGeneric.find('.value').text('ja');
             },
 
             /**

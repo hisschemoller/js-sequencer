@@ -9,21 +9,27 @@
     <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
-    <ul class="ctrls tabs"></ul>
-    <ul class="ctrls channels"></ul>
-    <ul class="ctrls steps"></ul>
-    <ul class="ctrls racks"></ul>
-    <ul class="ctrls transport">
-        <li class="ctrl ctrl--25" id="play-control">
-            <span class="ctrl__label ctrl__text ctrl__toggle-active">&#9724;</span>
-            <span class="ctrl__label ctrl__text ctrl__toggle-inactive">&#9658;</span>
-        </li>
-        <li class="ctrl ctrl--25"></li>
-        <li class="ctrl ctrl--25"></li>
-        <li class="ctrl ctrl--25"></li>
-    </ul>
-    <div id="startup-overlay">
-        <p>Click to start.</p>
+    <div id="app">
+        <ul class="ctrls tabs"></ul>
+        <ul class="ctrls channels"></ul>
+        <ul class="ctrls steps"></ul>
+        <ul class="ctrls racks"></ul>
+        <ul class="ctrls transport">
+            <li class="ctrl ctrl--25" id="play-control">
+                <span class="ctrl__label ctrl__text ctrl__toggle-active">&#9724;</span>
+                <span class="ctrl__label ctrl__text ctrl__toggle-inactive">&#9658;</span>
+            </li>
+            <li class="ctrl ctrl--25"></li>
+            <li class="ctrl ctrl--25"></li>
+            <li class="ctrl ctrl--25"></li>
+        </ul>
+        <div id="overlay-ctrl-generic">
+            <p>set generic control</p>
+            <p class="value"></p>
+        </div>
+        <div id="overlay-startup">
+            <p>Click to start.</p>
+        </div>
     </div>
     <div id="templates">
         <div id="template-step">

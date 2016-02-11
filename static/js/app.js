@@ -11,7 +11,7 @@
  */
 $(function() {
 
-    var overlay = $('#startup-overlay');
+    var overlay = $('#overlay-startup');
 
     /**
      * Application startup.

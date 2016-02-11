@@ -199,7 +199,8 @@ body {
     .ctrl.is-active .ctrl__toggle-inactive {
         display: none;
     }
-#startup-overlay {
+#overlay-startup,
+#overlay-ctrl-generic {
     background-color: #333;
     bottom: 0;
     display: none;
