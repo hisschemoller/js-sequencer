@@ -73,8 +73,7 @@
             }]);
     }
 
-    Channel.prototype = WH.PlugIn;
-    Channel.prototype.constructor = Channel;
+    Channel.prototype = Object.create(WH.PlugIn);
 
     Channel.prototype.info = {
         name: 'Channel',
