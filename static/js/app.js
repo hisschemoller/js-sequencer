@@ -23,7 +23,7 @@ $(function() {
         WX.Transport = null;
         
         WH.Studio.setup();
-        WH.Project.setData(WH.Project.getRandomizedProject());
+        WH.Project.createRandom();
     }
 
     /**

@@ -13,23 +13,20 @@ window.WH = window.WH || {};
      * @param {Number} ppqn Parts Per Quarter Note, the smallest sequencer time unit.
      */
     function Pattern(data, ppqn) {
-        this.trackCount = 0;
-        this.tracks = [];
-        this.init(data, ppqn);
-    }
 
-    Pattern.prototype = {
+        var trackCount = 0,
+            tracks = [],
+
+            /**
+             * Initialise pattern.
+             */
+            init = function(data, ppqn) {
+                trackCount = data.tracks.length;
+                for (var i = 0; i < trackCount; i++) {
+                    tracks.push(WH.Track(data.tracks[i], i, ppqn));
+                }
+            };
         
-        /**
-         * Initialise pattern.
-         */
-        init: function(data, ppqn) {
-            this.trackCount = data.tracks.length;
-            for(var i = 0; i < this.trackCount; i++) {
-                this.tracks.push(WH.Track(data.tracks[i], i, ppqn));
-            }
-        }, 
-
         /**
          * Scan events within time range.
          * @param {Number} absoluteStart Absolute start tick in Transport playback time.
@@ -37,22 +34,24 @@ window.WH = window.WH || {};
          * @param {Number} end End of time range in ticks.
          * @param {Array} playbackQueue Events that happen within the time range.
          */
-        scanEvents: function (absoluteStart, start, end, playbackQueue) {
+        this.scanEvents = function (absoluteStart, start, end, playbackQueue) {
             // scan for events
-            for (var i = 0; i < this.tracks.length; i++) {
-                var events = this.tracks[i].scanEventsInTimeSpan(absoluteStart, start, end, playbackQueue);
+            for (var i = 0; i < tracks.length; i++) {
+                var events = tracks[i].scanEventsInTimeSpan(absoluteStart, start, end, playbackQueue);
             }
-        },
+        };
 
         /**
          * Get steps of the track at index.
          * @param  {Number} index Track index.
          * @return {Array}  Array of Step objects.
          */
-        getTrackSteps: function(index) {
-            return this.tracks[index].getSteps();
-        }
-    };
+        this.getTrackSteps = function(index) {
+            return tracks[index].getSteps();
+        };
+
+        init(data, ppqn);
+    }
 
     /** 
      * Exports
