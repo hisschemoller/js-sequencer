@@ -40,9 +40,7 @@ window.WH = window.WH || {};
                 pluginClass: '.plugin',
                 pluginControlsClass: '.plugin__controls',
 
-                instrControlBackgroundClass: '.instr-control__background',
-                instrControlNameClass: '.instr-control__name',
-                instrControlValueClass: '.instr-control__value',
+                tabClass: '.ctrl--tab',
 
                 data: {
                     paramKey:  'param_key',
@@ -54,7 +52,9 @@ window.WH = window.WH || {};
                     generic: 'generic',
                     itemized: 'itemized',
                     boolean: 'boolean'
-                }
+                },
+
+                tabs: ['Sound', 'Mixer', 'Song', '']
             },
 
             /**
@@ -65,21 +65,25 @@ window.WH = window.WH || {};
                 steps: null,
                 stepsContainer: $('.steps'),
                 stepTemplate: $('#template-step'),
+
                 channels: null,
                 channelContainer: $('.channels'),
                 channelTemplate: $('#template-channel'),
+
                 racks: null,
                 rackContainer: $('.racks'),
                 rackTemplate: $('#template-rack'),
+
                 pluginTemplate: $('#template-plugin'),
                 ctrlGenericTemplate: $('#template-ctrl-generic'),
                 ctrlBooleanTemplate: $('#template-ctrl-boolean'),
                 ctrlItemizedTemplate: $('#template-ctrl-itemized'),
 
-                playStopButton: $('#play-control'),
+                tabs: null,
+                tabContainer: $('.tabs'),
+                tabTemplate: $('#template-tab'),
 
-                instrumentControlContainer: $('.instrument-control'),
-                instrumentControlTemplate: $('#template-instrument-control')
+                playStopButton: $('#play-control')
             },
 
             /**
@@ -154,11 +158,25 @@ window.WH = window.WH || {};
 
                 var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints,
                     eventType = isTouchDevice ? 'touchend' : 'click';
+
+                // create tabs
+                var i = 0,
+                    n = settings.tabs.length,
+                    tabEl;
+
+                for (i; i < n; i++) {
+                    tabEl = elements.tabTemplate.children().first().clone();
+                    tabEl.find(settings.ctrlTextClass).text(settings.tabs[i]);
+                    elements.tabContainer.append(tabEl);
+                }
+
+                elements.tabs = elements.tabContainer.find(settings.tabClass);
                 
                 // DOM event listeners
                 elements.playStopButton.on(eventType, onPlayStopClick);
                 elements.channels.find(settings.channelSelectClass).on(eventType, onChannelSelectClick);
                 elements.channels.find(settings.channelControlsClass).on(eventType, onChannelControlsClick);
+                elements.tabs.on(eventType, onTabClick);
 
                 setSelectedChannel(0);
             },
@@ -191,6 +209,42 @@ window.WH = window.WH || {};
                 } else {
                     WH.TimeBase.start();
                     elements.playStopButton.addClass(settings.activeClass);
+                }
+            },
+
+            /**
+             * Tab button clicked.
+             * @param  {Event} e Click event.
+             */
+            onTabClick = function(e) {
+
+                var tabEl = $(e.currentTarget),
+                    index = elements.tabs.index(tabEl),
+                    isOpen = tabEl.hasClass(settings.selectedClass),
+                    openTabs = elements.tabs.filter('.' + settings.selectedClass),
+                    i = 0,
+                    n = openTabs.length;
+
+                for (i; i < n; i++) {
+                    var tab = $(openTabs[i]),
+                        tabIndex = elements.tabs.index(tab);
+                    tab.removeClass(settings.selectedClass);
+                    switch (tabIndex) {
+                        case 1:
+                            // close mixer
+                            elements.channels.find(settings.channelControlsClass).slideUp();
+                            break;
+                    }
+                }
+
+                if (!isOpen) {
+                    tabEl.addClass(settings.selectedClass);
+                    switch (index) {
+                        case 1:
+                            // open mixer
+                            elements.channels.find(settings.channelControlsClass).slideDown();
+                            break;
+                    }
                 }
             },
 

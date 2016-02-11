@@ -118,7 +118,10 @@ body {
             .channel.is-selected .channel__select .ctrl__name  {
                 color: #fff;
             }
-        .channel__controls {}
+        .channel__controls {
+            display: none;
+            width: 100%;
+        }
             .channel__controls .ctrl__background {
                 opacity: 0.1;
             }
@@ -171,6 +174,20 @@ body {
                 .plugin__controls .ctrl {
                     width: 25%;
                 }
+.tabs {}
+    .ctrl--tab {
+        width: 25%;
+    }
+        .ctrl--tab > .ctrl__background {
+            background-color: #fff;
+            opacity: 0.0;
+        }
+        .ctrl--tab.is-selected > .ctrl__background {
+            opacity: 0.2;
+        }
+        .ctrl--tab.is-selected > .ctrl__text {
+            color: #fff;
+        }
 
 .transport {
     bottom: 8px;
