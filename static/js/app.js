@@ -51,7 +51,7 @@ $(function() {
                 overlay.off('touchend', unlockIOSAudio);
                 startApp();
             }
-        }, 0);
+        }, 1000);
     }
     
     // show click overlay on iOS devices
