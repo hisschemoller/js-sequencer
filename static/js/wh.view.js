@@ -170,7 +170,7 @@ window.WH = window.WH || {};
 
                 var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints,
                     eventStartType = isTouchDevice ? 'touchstart' : 'mousedown',
-                    eventEndType = isTouchDevice ? 'touchstart' : 'mouseup',
+                    eventEndType = isTouchDevice ? 'touchend' : 'mouseup',
                     eventClickType = isTouchDevice ? 'touchend' : 'click',
                     eventMoveType = isTouchDevice ? 'touchmove' : 'mousemove';
                 
@@ -180,13 +180,11 @@ window.WH = window.WH || {};
                 elements.channels.find(settings.channelControlsClass).on(eventClickType, onChannelControlsClick);
                 elements.tabs.on(eventClickType, onTabClick);
                 elements.app.on(eventStartType, settings.ctrlGenericClass, onGenericControlTouchStart);
-                elements.overlayCtrlGeneric.on(eventEndType, onGenericControlTouchEnd);
-                elements.overlayCtrlGeneric.on(eventMoveType, onGenericControlTouchMove);
 
                 // prevent scroll and iOS bounce effect
                 if (isTouchDevice) {
-                    document.ontouchmove = function(event){
-                        event.preventDefault();
+                    document.ontouchmove = function(e) {
+                        e.preventDefault();
                     }
                 }
 
@@ -199,22 +197,25 @@ window.WH = window.WH || {};
              */
             onGenericControlTouchStart = function(e) {
                 elements.overlayCtrlGeneric.show();
+                elements.app.on('touchmove', onGenericOverlayTouchMove);
+                elements.app.on('touchend', onGenericOverlayTouchEnd);
             },
 
             /**
              * Generic control overlay touchend or mouseup.
              * @param {Event} e Touch or mouse end event.
              */
-            onGenericControlTouchEnd = function(e) {
+            onGenericOverlayTouchEnd = function(e) {
                 elements.overlayCtrlGeneric.hide();
+                elements.app.off('touchmove', onGenericOverlayTouchMove);
+                elements.app.off('touchend', onGenericOverlayTouchEnd);
             },
 
             /**
              * Generic control overlay touchend or mouseup.
              * @param {Event} e Touch or mouse move event.
              */
-            onGenericControlTouchMove = function(e) {
-                elements.overlayCtrlGeneric.find('.value').text('ja');
+            onGenericOverlayTouchMove = function(e) {
             },
 
             /**
