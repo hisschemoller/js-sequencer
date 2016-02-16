@@ -19,14 +19,14 @@ window.WH = window.WH || {};
                 activeClass: 'is-active',
                 selectedClass: 'is-selected',
 
-                ctrlClass: '.ctrl',
-                ctrlBackgroundClass: '.ctrl__background',
-                ctrlHighlightClass: '.ctrl__hilight',
-                ctrlGenericClass: '.ctrl--generic',
-                ctrlLabelClass: '.ctrl__label',
-                ctrlTextClass: '.ctrl__text',
-                ctrlNameClass: '.ctrl__name',
-                ctrlValueClass: '.ctrl__value',
+                // ctrlClass: '.ctrl',
+                // ctrlBackgroundClass: '.ctrl__background',
+                // ctrlHighlightClass: '.ctrl__hilight',
+                // ctrlGenericClass: '.ctrl--generic',
+                // ctrlLabelClass: '.ctrl__label',
+                // ctrlTextClass: '.ctrl__text',
+                // ctrlNameClass: '.ctrl__name',
+                // ctrlValueClass: '.ctrl__value',
 
                 stepClass: '.step',
 
@@ -43,19 +43,23 @@ window.WH = window.WH || {};
 
                 tabClass: '.ctrl--tab',
 
+                transportClass: '.ctrl--transport',
+
                 data: {
-                    paramKey:  'param_key',
-                    paramType: 'param_type',
+                    // paramKey:  'param_key',
+                    // paramType: 'param_type',
                     pluginId: 'plugin_id'
                 },
 
-                ctrlTypes: {
-                    generic: 'generic',
-                    itemized: 'itemized',
-                    boolean: 'boolean'
-                },
+                // ctrlTypes: {
+                //     generic: 'generic',
+                //     itemized: 'itemized',
+                //     boolean: 'boolean'
+                // },
 
-                tabs: ['Sound', 'Mixer', 'Song', '']
+                tabs: ['Sound', 'Mixer', 'Song', ''],
+
+                transport: ['Play']
             },
 
             /**
@@ -68,7 +72,7 @@ window.WH = window.WH || {};
 
                 steps: null,
                 stepsContainer: $('.steps'),
-                stepTemplate: $('#template-step'),
+                // stepTemplate: $('#template-step'),
 
                 channels: null,
                 channelContainer: $('.channels'),
@@ -78,16 +82,19 @@ window.WH = window.WH || {};
                 rackContainer: $('.racks'),
                 rackTemplate: $('#template-rack'),
 
+                transports: null,
+                transportContainer: $('.transport'),
+
                 pluginTemplate: $('#template-plugin'),
-                ctrlGenericTemplate: $('#template-ctrl-generic'),
-                ctrlBooleanTemplate: $('#template-ctrl-boolean'),
-                ctrlItemizedTemplate: $('#template-ctrl-itemized'),
+                // ctrlGenericTemplate: $('#template-ctrl-generic'),
+                // ctrlBooleanTemplate: $('#template-ctrl-boolean'),
+                // ctrlItemizedTemplate: $('#template-ctrl-itemized'),
 
                 tabs: null,
                 tabContainer: $('.tabs'),
-                tabTemplate: $('#template-tab'),
+                // tabTemplate: $('#template-tab'),
 
-                playStopButton: $('#play-control')
+                // playStopButton: $('#play-control')
             },
 
             /**
@@ -102,37 +109,48 @@ window.WH = window.WH || {};
             self = this,
 
             /**
+             * [controls description]
+             * @type {Object}
+             */
+            controls = null,
+
+            /**
              * Initialise the view, add DOM event handlers.
              */
             init = function() {
 
+                controls = WH.ControlsView();
+
                 // create the step elements
-                var i = 0,
-                    n = WH.Settings.getStepCount(),
-                    stepEl;
-                for (i; i < n; i++) {
-                    stepEl = elements.stepTemplate.children().first().clone();
-                    stepEl.find(settings.ctrlTextClass).text(i + 1);
-                    elements.stepsContainer.append(stepEl);
-                }
+                controls.addStepControls(elements.stepsContainer, WH.Settings.getStepCount());
+                // var i = 0,
+                //     n = WH.Settings.getStepCount(),
+                //     stepEl;
+                // for (i; i < n; i++) {
+                //     stepEl = elements.stepTemplate.children().first().clone();
+                //     stepEl.find(settings.ctrlTextClass).text(i + 1);
+                //     elements.stepsContainer.append(stepEl);
+                // }
                 elements.steps = $(settings.stepClass);
 
                 // create the channel elements
                 var i = 0,
                     n = WH.Settings.getTrackCount(),
-                    channelColor,
-                    channelEl,
-                    channelSelectEl,
-                    channelControlsEl;
+                    channelEl;
 
                 for (i; i < n; i++) {
-                    channelColor = settings.channelColorClasses[i];
+                    // channel element
                     channelEl = elements.channelTemplate.children().first().clone();
-                    channelSelectEl = channelEl.find(settings.channelSelectClass);
-                    channelSelectEl.find(settings.ctrlTextClass).text(String.fromCharCode(65 + i));
-                    channelSelectEl.find(settings.ctrlBackgroundClass).addClass(channelColor);
-                    channelSelectEl.find(settings.ctrlHighlightClass).addClass(channelColor);
                     elements.channelContainer.append(channelEl);
+
+                    // channel select control
+                    controls.addChannelSelectControl(
+                        channelEl.find(settings.channelSelectClass), 
+                        settings.channelColorClasses[i], 
+                        String.fromCharCode(65 + i));
+                    // channelSelectEl.find(settings.ctrlTextClass).text(String.fromCharCode(65 + i));
+                    // channelSelectEl.find(settings.ctrlBackgroundClass).addClass(channelColor);
+                    // channelSelectEl.find(settings.ctrlHighlightClass).addClass(channelColor);
                 }
                 elements.channels = $(settings.channelClass);
 
@@ -156,17 +174,22 @@ window.WH = window.WH || {};
                 elements.racks.find(settings.rackGeneratorClass).append(generatorPluginEl);
 
                 // create tabs
-                var i = 0,
-                    n = settings.tabs.length,
-                    tabEl;
+                controls.addTabControls(elements.tabContainer, settings.tabs);
+                // var i = 0,
+                //     n = settings.tabs.length,
+                //     tabEl;
 
-                for (i; i < n; i++) {
-                    tabEl = elements.tabTemplate.children().first().clone();
-                    tabEl.find(settings.ctrlTextClass).text(settings.tabs[i]);
-                    elements.tabContainer.append(tabEl);
-                }
+                // for (i; i < n; i++) {
+                //     tabEl = elements.tabTemplate.children().first().clone();
+                //     tabEl.find(settings.ctrlTextClass).text(settings.tabs[i]);
+                //     elements.tabContainer.append(tabEl);
+                // }
 
                 elements.tabs = elements.tabContainer.find(settings.tabClass);
+
+                // create transport buttons
+                controls.addTransportControls(elements.transportContainer, settings.transport);
+                elements.transports = elements.transportContainer.find(settings.transportClass);
 
                 var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints,
                     eventStartType = isTouchDevice ? 'touchstart' : 'mousedown',
@@ -175,11 +198,11 @@ window.WH = window.WH || {};
                     eventMoveType = isTouchDevice ? 'touchmove' : 'mousemove';
                 
                 // DOM event listeners
-                elements.playStopButton.on(eventClickType, onPlayStopClick);
+                elements.transports.on(eventClickType, onTransportsClick);
                 elements.channels.find(settings.channelSelectClass).on(eventClickType, onChannelSelectClick);
                 elements.channels.find(settings.channelControlsClass).on(eventClickType, onChannelControlsClick);
                 elements.tabs.on(eventClickType, onTabClick);
-                elements.app.on(eventStartType, settings.ctrlGenericClass, onGenericControlTouchStart);
+                // elements.app.on(eventStartType, settings.ctrlGenericClass, onGenericControlTouchStart);
 
                 // prevent scroll and iOS bounce effect
                 if (isTouchDevice) {
@@ -222,7 +245,7 @@ window.WH = window.WH || {};
              * Play / Pause toggle button clicked.
              * @param  {Event} e Click event.
              */
-            onPlayStopClick = function(e) {
+            onTransportsClick = function(e) {
                 if (WH.TimeBase.isRunning()) {
                     WH.TimeBase.pause();
                     WH.TimeBase.rewind();
@@ -373,58 +396,58 @@ window.WH = window.WH || {};
                                 .fadeOut(300);
                     }
                 }
-            },
-
-            addControls = function(plugin, containerEl) {
-
-                var paramKey,
-                    param,
-                    paramValue,
-                    paramType,
-                    controlEl,
-                    hasEditableCheck = typeof plugin.isEditableParam == 'function';
-                
-                // add controls
-                for (paramKey in plugin.params) {
-
-                    // only render parameters that are allowed to by the plugin
-                    if (hasEditableCheck && !plugin.isEditableParam(paramKey) ) {
-                        continue;
-                    }
-
-                    param = plugin.params[paramKey];
-                    paramValue = param.value;
-
-                    switch (param.type) {
-                        case 'Generic':
-                            paramValue = paramValue.toFixed(1);
-                            controlEl = elements.ctrlGenericTemplate.children().first().clone();
-                            controlEl.find(settings.ctrlNameClass).text(param.name);
-                            controlEl.find(settings.ctrlValueClass).text(paramValue);
-                            paramType = settings.ctrlTypes.generic;
-                            break;
-                        case 'Itemized':
-                            paramValue = WX.findKeyByValue(param.getModel(), paramValue);
-                            controlEl = elements.ctrlItemizedTemplate.children().first().clone();
-                            controlEl.find(settings.ctrlNameClass).text(param.name);
-                            controlEl.find(settings.ctrlValueClass).text(paramValue);
-                            paramType = settings.ctrlTypes.itemized;
-                            break;
-                        case 'Boolean':
-                            controlEl = elements.ctrlBooleanTemplate.children().first().clone();
-                            controlEl.find(settings.ctrlTextClass).text(param.name);
-                            if (paramValue) {
-                                controlEl.addClass(settings.selectedClass);
-                            }
-                            paramType = settings.ctrlTypes.boolean;
-                            break;
-                    }
-                    
-                    controlEl.attr('data-' + settings.data.paramKey, paramKey);
-                    controlEl.attr('data-' + settings.data.paramType, paramType);
-                    containerEl.append(controlEl);
-                }
             };
+
+            // addControls = function(plugin, containerEl) {
+
+            //     var paramKey,
+            //         param,
+            //         paramValue,
+            //         paramType,
+            //         controlEl,
+            //         hasEditableCheck = typeof plugin.isEditableParam == 'function';
+                
+            //     // add controls
+            //     for (paramKey in plugin.params) {
+
+            //         // only render parameters that are allowed to by the plugin
+            //         if (hasEditableCheck && !plugin.isEditableParam(paramKey) ) {
+            //             continue;
+            //         }
+
+            //         param = plugin.params[paramKey];
+            //         paramValue = param.value;
+
+            //         switch (param.type) {
+            //             case 'Generic':
+            //                 paramValue = paramValue.toFixed(1);
+            //                 controlEl = elements.ctrlGenericTemplate.children().first().clone();
+            //                 controlEl.find(settings.ctrlNameClass).text(param.name);
+            //                 controlEl.find(settings.ctrlValueClass).text(paramValue);
+            //                 paramType = settings.ctrlTypes.generic;
+            //                 break;
+            //             case 'Itemized':
+            //                 paramValue = WX.findKeyByValue(param.getModel(), paramValue);
+            //                 controlEl = elements.ctrlItemizedTemplate.children().first().clone();
+            //                 controlEl.find(settings.ctrlNameClass).text(param.name);
+            //                 controlEl.find(settings.ctrlValueClass).text(paramValue);
+            //                 paramType = settings.ctrlTypes.itemized;
+            //                 break;
+            //             case 'Boolean':
+            //                 controlEl = elements.ctrlBooleanTemplate.children().first().clone();
+            //                 controlEl.find(settings.ctrlTextClass).text(param.name);
+            //                 if (paramValue) {
+            //                     controlEl.addClass(settings.selectedClass);
+            //                 }
+            //                 paramType = settings.ctrlTypes.boolean;
+            //                 break;
+            //         }
+                    
+            //         controlEl.attr('data-' + settings.data.paramKey, paramKey);
+            //         controlEl.attr('data-' + settings.data.paramType, paramType);
+            //         containerEl.append(controlEl);
+            //     }
+            // };
 
         /**
          * Receive Step objects during playback to update the view with.
@@ -476,7 +499,7 @@ window.WH = window.WH || {};
             elements.steps.removeClass(settings.selectedClass);
             for (var id in steps) {
                 var step = steps[id];
-                if(step.velocity) {
+                if (step.velocity) {
                     var $step = $(elements.steps[step.index]);
                     $step.addClass(settings.selectedClass);
                     $step.find(settings.ctrlBackgroundClass).addClass(channelColorClass);
@@ -499,7 +522,7 @@ window.WH = window.WH || {};
             // set plugin id on channel element
             channelEl.attr('data-' + settings.data.pluginId, channel.getId());
             
-            addControls(channel, controlsEl);
+            controls.addControls(controlsEl, channel);
             controlsEl.find(settings.ctrlBackgroundClass).addClass(settings.channelColorClasses[index]);
             controlsEl.find(settings.ctrlHighlightClass).addClass(settings.channelColorClasses[index]);
         };
@@ -518,7 +541,7 @@ window.WH = window.WH || {};
 
             // remove the old generator controls
             controlsEl.empty();
-            addControls(instrument, controlsEl);
+            controls.addControls(controlsEl, instrument);
             controlsEl.find(settings.ctrlBackgroundClass).addClass(settings.channelColorClasses[index]);
         };
 

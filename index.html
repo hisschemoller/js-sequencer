@@ -14,15 +14,7 @@
         <ul class="ctrls channels"></ul>
         <ul class="ctrls steps"></ul>
         <ul class="ctrls racks"></ul>
-        <ul class="ctrls transport">
-            <li class="ctrl ctrl--25" id="play-control">
-                <span class="ctrl__label ctrl__text ctrl__toggle-active">&#9724;</span>
-                <span class="ctrl__label ctrl__text ctrl__toggle-inactive">&#9658;</span>
-            </li>
-            <li class="ctrl ctrl--25"></li>
-            <li class="ctrl ctrl--25"></li>
-            <li class="ctrl ctrl--25"></li>
-        </ul>
+        <ul class="ctrls transport"></ul>
         <div id="overlay-ctrl-generic">
             <p>set generic control</p>
             <p class="overlay-ctrl__name"></p>
@@ -75,16 +67,26 @@
         </div>
         <div id="template-channel">
             <li class="channel">
-                <div class="ctrl channel__select">
-                    <div class="ctrl__layer ctrl__background"></div>
-                    <div class="ctrl__layer ctrl__hilight"></div>
-                    <span class="ctrl__label ctrl__text"></span>
-                </div>
+                <ul class="ctrls channel__select"></ul>
                 <ul class="ctrls channel__controls"></ul>
+            </li>
+        </div>
+        <div id="template-channel-select">
+            <li class="ctrl ctrl--channel-select">
+                <div class="ctrl__layer ctrl__background"></div>
+                <div class="ctrl__layer ctrl__hilight"></div>
+                <span class="ctrl__label ctrl__text"></span>
             </li>
         </div>
         <div id="template-tab">
             <li class="ctrl ctrl--tab">
+                <div class="ctrl__layer ctrl__background"></div>
+                <div class="ctrl__layer ctrl__hilight"></div>
+                <span class="ctrl__label ctrl__text"></span>
+            </li>
+        </div>
+        <div id="template-ctrl-transport">
+            <li class="ctrl ctrl--transport">
                 <div class="ctrl__layer ctrl__background"></div>
                 <div class="ctrl__layer ctrl__hilight"></div>
                 <span class="ctrl__label ctrl__text"></span>
@@ -123,6 +125,7 @@
     <script src="static/js/wh.timebase.js"></script>
     <script src="static/js/wh.track.js"></script>
     <script src="static/js/wh.util.js"></script>
+    <script src="static/js/wh.view.controls.js"></script>
     <script src="static/js/wh.view.js"></script>
 </body>
 </html>

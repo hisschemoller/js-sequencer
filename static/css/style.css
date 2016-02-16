@@ -101,23 +101,24 @@ body {
         background-color: #888;
     }
         .channel__select {}
-            .channel__select > .ctrl__background {
-                opacity: 0.2;
-            }
-            .channel.is-selected .channel__select > .ctrl__background {
-                opacity: 0.4;
-            }
-            .channel__select > .ctrl__hilight {
-                background-color: #999;
-                display: none;
-                opacity: 0.6;
-            }
-            .channel__select > .ctrl__name {
-                color: #ccc;
-            }
-            .channel.is-selected .channel__select .ctrl__name  {
-                color: #fff;
-            }
+        .ctrl--channel-select {}
+                .ctrl--channel-select > .ctrl__background {
+                    opacity: 0.2;
+                }
+                .channel.is-selected .ctrl--channel-select > .ctrl__background {
+                    opacity: 0.4;
+                }
+                .ctrl--channel-select > .ctrl__hilight {
+                    background-color: #999;
+                    display: none;
+                    opacity: 0.6;
+                }
+                .ctrl--channel-select > .ctrl__name {
+                    color: #ccc;
+                }
+                .channel.is-selected .ctrl--channel-select .ctrl__name  {
+                    color: #fff;
+                }
         .channel__controls {
             display: none;
             width: 100%;
@@ -195,6 +196,7 @@ body {
     position: fixed;
     right: 8px;
 }
+    .ctrl--transport {}
     .ctrl:not(.is-active) .ctrl__toggle-active,
     .ctrl.is-active .ctrl__toggle-inactive {
         display: none;
