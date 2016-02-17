@@ -14,14 +14,22 @@ window.WH = window.WH || {};
 
         // private variables
         var settings = {
+                activeClass: 'is-active',
+                selectedClass: 'is-selected',
+
                 ctrlClass: '.ctrl',
+                ctrlGenericClass: '.ctrl--generic',
+                ctrlBooleanClass: '.ctrl--boolean',
+                ctrlItemizedClass: '.ctrl--itemized',
                 ctrlBackgroundClass: '.ctrl__background',
                 ctrlHighlightClass: '.ctrl__hilight',
-                ctrlGenericClass: '.ctrl--generic',
                 ctrlLabelClass: '.ctrl__label',
                 ctrlTextClass: '.ctrl__text',
                 ctrlNameClass: '.ctrl__name',
                 ctrlValueClass: '.ctrl__value',
+
+                ctrlChannelSelectClass: '.ctrl--channel-select',
+                tabClass: '.ctrl--tab',
 
                 data: {
                     paramKey:  'param_key',
@@ -40,6 +48,7 @@ window.WH = window.WH || {};
              * @type {Object}
              */
             elements = {
+                app: $('#app'),
                 templates: {
                     ctrlGeneric: $('#template-ctrl-generic'),
                     ctrlBoolean: $('#template-ctrl-boolean'),
@@ -52,15 +61,39 @@ window.WH = window.WH || {};
             },
 
             /**
+             * True if a touch screen is detected.
+             * @type {Boolean}
+             */
+            isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints,
+
+            /**
+             * Type of events to use, touch or mouse
+             * @type {String}
+             */
+            eventType = {
+                start: isTouchDevice ? 'touchstart' : 'mousedown',
+                end: isTouchDevice ? 'touchend' : 'mouseup',
+                click: isTouchDevice ? 'touchend' : 'click',
+                move: isTouchDevice ? 'touchmove' : 'mousemove',
+            },
+
+            /**
              * Initialise the view, add DOM event handlers.
              */
             init = function() {
+
+                // prevent scroll and iOS bounce effect
+                if (isTouchDevice) {
+                    document.ontouchmove = function(e) {
+                        e.preventDefault();
+                    }
+                }
             };
 
         /**
          * Add controls for all editable parameters of a plugin.
          * @param {Object} containerEl jQuery HTML element. 
-         * @param {Object} plugin      WH.PlugIIn type audio plugin.
+         * @param {Object} plugin WH.PlugIn type audio plugin.
          */
         this.addControls = function(containerEl, plugin) {
 
@@ -111,6 +144,43 @@ window.WH = window.WH || {};
                 controlEl.attr('data-' + settings.data.paramType, paramType);
                 containerEl.append(controlEl);
             }
+
+            controlEls = containerEl.find(settings.ctrlClass);
+
+            // Boolean control click
+            containerEl.find(settings.ctrlBooleanClass).on(eventType.click, function(e) {
+                var controlEl = $(e.currentTarget),
+                    paramKey = controlEl.data(settings.data.paramKey),
+                    paramValue = !controlEl.hasClass(settings.selectedClass);
+
+                WH.Studio.setParameter(plugin.getId(), paramKey, paramValue);
+            });
+
+            // Generic control touchstart
+            containerEl.find(settings.ctrlGenericClass).on(eventType.start, function(e) {
+                console.log('gen');
+            });
+        };
+
+        /**
+         * Update a control to reflect a changed plugin parameter.
+         * @param  {Number} pluginId Unique ID of the plugin.
+         * @param  {String} paramKey The parameter to change.
+         * @param  {Number, String or Boolean} paramValue The new value for the parameter.
+         */
+        this.updateControl = function(pluginEl, paramKey, paramValue) {
+            var ctrlEl = pluginEl.find(settings.ctrlClass + '[data-' + settings.data.paramKey + '="' + paramKey + '"]')
+                ctrlType = ctrlEl.data(settings.data.paramType);
+
+            switch (ctrlType) {
+                case settings.ctrlTypes.generic:
+                    break;
+                case settings.ctrlTypes.itemized:
+                    break;
+                case settings.ctrlTypes.boolean:
+                    ctrlEl.toggleClass(settings.selectedClass, paramValue);
+                    break;
+            }
         };
 
         /**
@@ -134,29 +204,52 @@ window.WH = window.WH || {};
          * @param {Number} color       Hex number for the colour of the channel.
          * @param {String} label       Label to display on the channel.
          */
-        this.addChannelSelectControl = function(containerEl, color, label) {
-            var channelSelectEl = elements.templates.channelSelect.children().first().clone();
-            channelSelectEl.find(settings.ctrlTextClass).text(label);
-            channelSelectEl.find(settings.ctrlBackgroundClass).addClass(color);
-            channelSelectEl.find(settings.ctrlHighlightClass).addClass(color);
-            containerEl.append(channelSelectEl);
+        this.addChannelSelectControls = function(containerEls, colorClasses) {
+            var i = 0,
+                n = containerEls.length,
+                channelSelectEl,
+                channelSelectEls;
+
+            for (i; i < n; i++) {
+                var channelSelectEl = elements.templates.channelSelect.children().first().clone();
+                channelSelectEl.find(settings.ctrlTextClass).text(String.fromCharCode(65 + i));
+                channelSelectEl.find(settings.ctrlBackgroundClass).addClass(colorClasses[i]);
+                channelSelectEl.find(settings.ctrlHighlightClass).addClass(colorClasses[i]);
+                $(containerEls[i]).append(channelSelectEl);
+            }
+
+            channelSelectEls = containerEls.find(settings.ctrlChannelSelectClass);
+            channelSelectEls.on(eventType.click, function(e) {
+                var index = channelSelectEls.index(e.currentTarget);
+                WH.View.setSelectedChannel(index);
+            });
         };
 
         /**
          * Add the tab controls to the tab bar.
          * @param {Object} containerEl jQuery HTML element.
          * @param {Array} data Array of tab label strings.
+         * @return {Object} jQuery selector of the tab DOM elements.
          */
         this.addTabControls = function(containerEl, data) {
             var i = 0,
                 n = data.length,
-                tabEl;
+                tabEl,
+                tabEls;
 
             for (i; i < n; i++) {
                 tabEl = elements.templates.tab.children().first().clone();
                 tabEl.find(settings.ctrlTextClass).text(data[i]);
                 containerEl.append(tabEl);
             }
+
+            tabEls = containerEl.find(settings.tabClass);  
+            tabEls.on(eventType.click, function(e) {
+                var index = tabEls.index(e.currentTarget);
+                WH.View.setSelectedTab(index);
+            });
+
+            return tabEls;
         };
 
         /**
@@ -175,6 +268,42 @@ window.WH = window.WH || {};
                 containerEl.append(ctrlEl);
             }
         };
+
+        /**
+         * Set the color of a selection of controls.
+         * @param {Object} controls jQuery selection of elements.
+         * @param {String} colorClass Class to add that contains the color CSS.
+         */
+        this.setColor = function(controls, colorClass) {
+            controls.find(settings.ctrlBackgroundClass).addClass(colorClass);
+            controls.find(settings.ctrlHighlightClass).addClass(colorClass);
+        };
+
+        /**
+         * Clear the colors of a selection of controls.
+         * @param {Object} controls jQuery selection of elements.
+         * @param  {Array} colorClasses CSS classes to remove from the controls.
+         */
+        this.clearColors = function(controls, colorClasses) {
+            var i = 0,
+                n = colorClasses.length;
+            for (i; i < n; i++) {
+                controls.find(settings.ctrlBackgroundClass).removeClass(colorClasses[i]);
+                controls.find(settings.ctrlHighlightClass).removeClass(colorClasses[i]);
+            }
+        };
+
+        /**
+         * Play the light up animation of a control.
+         * @param {Object} controls jQuery selection of elements.
+         */
+        this.animateHighlight = function(controls) {
+            controls.find(settings.ctrlHighlightClass)
+                .show()
+                .stop()
+                .fadeIn(0)
+                .fadeOut(300);
+        }
 
         // initialise
         init();

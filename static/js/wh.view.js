@@ -16,18 +16,6 @@ window.WH = window.WH || {};
 
         // private variables
         var settings = {
-                activeClass: 'is-active',
-                selectedClass: 'is-selected',
-
-                // ctrlClass: '.ctrl',
-                // ctrlBackgroundClass: '.ctrl__background',
-                // ctrlHighlightClass: '.ctrl__hilight',
-                // ctrlGenericClass: '.ctrl--generic',
-                // ctrlLabelClass: '.ctrl__label',
-                // ctrlTextClass: '.ctrl__text',
-                // ctrlNameClass: '.ctrl__name',
-                // ctrlValueClass: '.ctrl__value',
-
                 stepClass: '.step',
 
                 channelClass: '.channel',
@@ -41,21 +29,13 @@ window.WH = window.WH || {};
                 pluginClass: '.plugin',
                 pluginControlsClass: '.plugin__controls',
 
-                tabClass: '.ctrl--tab',
+                // tabClass: '.ctrl--tab',
 
                 transportClass: '.ctrl--transport',
 
                 data: {
-                    // paramKey:  'param_key',
-                    // paramType: 'param_type',
                     pluginId: 'plugin_id'
                 },
-
-                // ctrlTypes: {
-                //     generic: 'generic',
-                //     itemized: 'itemized',
-                //     boolean: 'boolean'
-                // },
 
                 tabs: ['Sound', 'Mixer', 'Song', ''],
 
@@ -67,12 +47,11 @@ window.WH = window.WH || {};
              * @type {Object}
              */
             elements = {
-                app: $('#app'),
+                // app: $('#app'),
                 overlayCtrlGeneric: $('#overlay-ctrl-generic'),
 
                 steps: null,
                 stepsContainer: $('.steps'),
-                // stepTemplate: $('#template-step'),
 
                 channels: null,
                 channelContainer: $('.channels'),
@@ -86,15 +65,9 @@ window.WH = window.WH || {};
                 transportContainer: $('.transport'),
 
                 pluginTemplate: $('#template-plugin'),
-                // ctrlGenericTemplate: $('#template-ctrl-generic'),
-                // ctrlBooleanTemplate: $('#template-ctrl-boolean'),
-                // ctrlItemizedTemplate: $('#template-ctrl-itemized'),
 
-                tabs: null,
-                tabContainer: $('.tabs'),
-                // tabTemplate: $('#template-tab'),
-
-                // playStopButton: $('#play-control')
+                // tabs: null,
+                tabContainer: $('.tabs')
             },
 
             /**
@@ -105,11 +78,12 @@ window.WH = window.WH || {};
 
             /**
              * Reference to this once function has closed.
+             * @type {Object}
              */
             self = this,
 
             /**
-             * [controls description]
+             * ControlsView creates UI controls.
              * @type {Object}
              */
             controls = null,
@@ -123,14 +97,6 @@ window.WH = window.WH || {};
 
                 // create the step elements
                 controls.addStepControls(elements.stepsContainer, WH.Settings.getStepCount());
-                // var i = 0,
-                //     n = WH.Settings.getStepCount(),
-                //     stepEl;
-                // for (i; i < n; i++) {
-                //     stepEl = elements.stepTemplate.children().first().clone();
-                //     stepEl.find(settings.ctrlTextClass).text(i + 1);
-                //     elements.stepsContainer.append(stepEl);
-                // }
                 elements.steps = $(settings.stepClass);
 
                 // create the channel elements
@@ -139,20 +105,15 @@ window.WH = window.WH || {};
                     channelEl;
 
                 for (i; i < n; i++) {
-                    // channel element
+                    // create channel element
                     channelEl = elements.channelTemplate.children().first().clone();
                     elements.channelContainer.append(channelEl);
-
-                    // channel select control
-                    controls.addChannelSelectControl(
-                        channelEl.find(settings.channelSelectClass), 
-                        settings.channelColorClasses[i], 
-                        String.fromCharCode(65 + i));
-                    // channelSelectEl.find(settings.ctrlTextClass).text(String.fromCharCode(65 + i));
-                    // channelSelectEl.find(settings.ctrlBackgroundClass).addClass(channelColor);
-                    // channelSelectEl.find(settings.ctrlHighlightClass).addClass(channelColor);
                 }
                 elements.channels = $(settings.channelClass);
+
+                // create channel select controls.
+                var channelSelectContainers = elements.channelContainer.find(settings.channelSelectClass);
+                controls.addChannelSelectControls(channelSelectContainers, settings.channelColorClasses);
 
                 // create the plugin racks
                 var i = 0,
@@ -174,44 +135,14 @@ window.WH = window.WH || {};
                 elements.racks.find(settings.rackGeneratorClass).append(generatorPluginEl);
 
                 // create tabs
-                controls.addTabControls(elements.tabContainer, settings.tabs);
-                // var i = 0,
-                //     n = settings.tabs.length,
-                //     tabEl;
-
-                // for (i; i < n; i++) {
-                //     tabEl = elements.tabTemplate.children().first().clone();
-                //     tabEl.find(settings.ctrlTextClass).text(settings.tabs[i]);
-                //     elements.tabContainer.append(tabEl);
-                // }
-
-                elements.tabs = elements.tabContainer.find(settings.tabClass);
+                elements.tabs = controls.addTabControls(elements.tabContainer, settings.tabs);
+                // elements.tabs = elements.tabContainer.find(settings.tabClass);
 
                 // create transport buttons
                 controls.addTransportControls(elements.transportContainer, settings.transport);
                 elements.transports = elements.transportContainer.find(settings.transportClass);
 
-                var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints,
-                    eventStartType = isTouchDevice ? 'touchstart' : 'mousedown',
-                    eventEndType = isTouchDevice ? 'touchend' : 'mouseup',
-                    eventClickType = isTouchDevice ? 'touchend' : 'click',
-                    eventMoveType = isTouchDevice ? 'touchmove' : 'mousemove';
-                
-                // DOM event listeners
-                elements.transports.on(eventClickType, onTransportsClick);
-                elements.channels.find(settings.channelSelectClass).on(eventClickType, onChannelSelectClick);
-                elements.channels.find(settings.channelControlsClass).on(eventClickType, onChannelControlsClick);
-                elements.tabs.on(eventClickType, onTabClick);
-                // elements.app.on(eventStartType, settings.ctrlGenericClass, onGenericControlTouchStart);
-
-                // prevent scroll and iOS bounce effect
-                if (isTouchDevice) {
-                    document.ontouchmove = function(e) {
-                        e.preventDefault();
-                    }
-                }
-
-                setSelectedChannel(0);
+                self.setSelectedChannel(0);
             },
 
             /**
@@ -249,46 +180,10 @@ window.WH = window.WH || {};
                 if (WH.TimeBase.isRunning()) {
                     WH.TimeBase.pause();
                     WH.TimeBase.rewind();
-                    elements.playStopButton.removeClass(settings.activeClass);
+                    $(elements.transports[0]).removeClass(settings.activeClass);
                 } else {
                     WH.TimeBase.start();
-                    elements.playStopButton.addClass(settings.activeClass);
-                }
-            },
-
-            /**
-             * Tab button clicked.
-             * @param  {Event} e Click event.
-             */
-            onTabClick = function(e) {
-
-                var tabEl = $(e.currentTarget),
-                    index = elements.tabs.index(tabEl),
-                    isOpen = tabEl.hasClass(settings.selectedClass),
-                    openTabs = elements.tabs.filter('.' + settings.selectedClass),
-                    i = 0,
-                    n = openTabs.length;
-
-                for (i; i < n; i++) {
-                    var tab = $(openTabs[i]),
-                        tabIndex = elements.tabs.index(tab);
-                    tab.removeClass(settings.selectedClass);
-                    switch (tabIndex) {
-                        case 1:
-                            // close mixer
-                            elements.channels.find(settings.channelControlsClass).slideUp();
-                            break;
-                    }
-                }
-
-                if (!isOpen) {
-                    tabEl.addClass(settings.selectedClass);
-                    switch (index) {
-                        case 1:
-                            // open mixer
-                            elements.channels.find(settings.channelControlsClass).slideDown();
-                            break;
-                    }
+                    $(elements.transports[0]).addClass(settings.activeClass);
                 }
             },
 
@@ -296,17 +191,15 @@ window.WH = window.WH || {};
              * Channel select button clicked.
              * @param  {Event} e Click event.
              */
-            onChannelSelectClick = function(e) {
-                var channel = $(e.target).closest(settings.channelClass),
-                    index = elements.channels.index(channel);
-                
-                setSelectedChannel(index);
-            }, 
+            // onChannelSelectClick = function(e) {
+            //     var channel = $(e.target).closest(settings.channelClass),
+            //         index = elements.channels.index(channel);
+            //     setSelectedChannel(index);
+            // }, 
 
             /**
-             * One of the 
+             * One of the channel controls was clicked.
              * @param  {Event} e Click or touchend event, currentTarget it .ctrls container
-             * @return {[type]}   [description]
              */
             onChannelControlsClick = function(e) {
                 var controlEl = $(e.target).closest(settings.ctrlClass),
@@ -322,28 +215,6 @@ window.WH = window.WH || {};
                         WH.Studio.setParameter(pluginId, paramKey, paramValue);
                         break;
                 }
-            },
-
-            /**
-             * Select a channel.
-             * - Set selected channel button as selected.
-             * - Show selected channel's instrument rack.
-             * @param {Number} index Index of the channel to select.
-             */
-            setSelectedChannel = function(index) {
-                if (index == channelIndex) {
-                    return;
-                }
-
-                channelIndex = index;
-
-                elements.channels.removeClass(settings.selectedClass);
-                elements.channels.get(channelIndex).className += ' ' + settings.selectedClass;
-
-                elements.racks.removeClass(settings.selectedClass)
-                elements.racks.get(channelIndex).className += ' ' + settings.selectedClass;
-
-                self.setSelectedSteps(channelIndex);
             },
 
             /**
@@ -369,7 +240,8 @@ window.WH = window.WH || {};
             updateActiveSteps = function(stepArray) {
                 var i = 0,
                     n = stepArray.length,
-                    step;
+                    step,
+                    stepEl;
 
                 for (i; i < n; i++) {
                     step = stepArray[i];
@@ -377,77 +249,17 @@ window.WH = window.WH || {};
                     // update the steps
                     if (step.channel == channelIndex) {
                         elements.steps.removeClass(settings.activeClass);
-                        $(elements.steps[step.index]).addClass(settings.activeClass);
-                        $(elements.steps[step.index])
-                            .find(settings.ctrlHighlightClass)
-                                .show()
-                                .stop()
-                                .fadeIn(0)
-                                .fadeOut(300);
+                        stepEl = $(elements.steps[step.index]);
+                        stepEl.addClass(settings.activeClass);
+                        controls.animateHighlight(stepEl);
                     }
 
                     // update the channels
                     if (step.velocity > 0) {
-                        $(elements.channels[step.channel])
-                            .find(settings.channelSelectClass + ' > ' + settings.ctrlHighlightClass)
-                                .show()
-                                .stop()
-                                .fadeIn(0)
-                                .fadeOut(300);
+                        controls.animateHighlight($(elements.channels[step.channel]).find(settings.channelSelectClass));
                     }
                 }
             };
-
-            // addControls = function(plugin, containerEl) {
-
-            //     var paramKey,
-            //         param,
-            //         paramValue,
-            //         paramType,
-            //         controlEl,
-            //         hasEditableCheck = typeof plugin.isEditableParam == 'function';
-                
-            //     // add controls
-            //     for (paramKey in plugin.params) {
-
-            //         // only render parameters that are allowed to by the plugin
-            //         if (hasEditableCheck && !plugin.isEditableParam(paramKey) ) {
-            //             continue;
-            //         }
-
-            //         param = plugin.params[paramKey];
-            //         paramValue = param.value;
-
-            //         switch (param.type) {
-            //             case 'Generic':
-            //                 paramValue = paramValue.toFixed(1);
-            //                 controlEl = elements.ctrlGenericTemplate.children().first().clone();
-            //                 controlEl.find(settings.ctrlNameClass).text(param.name);
-            //                 controlEl.find(settings.ctrlValueClass).text(paramValue);
-            //                 paramType = settings.ctrlTypes.generic;
-            //                 break;
-            //             case 'Itemized':
-            //                 paramValue = WX.findKeyByValue(param.getModel(), paramValue);
-            //                 controlEl = elements.ctrlItemizedTemplate.children().first().clone();
-            //                 controlEl.find(settings.ctrlNameClass).text(param.name);
-            //                 controlEl.find(settings.ctrlValueClass).text(paramValue);
-            //                 paramType = settings.ctrlTypes.itemized;
-            //                 break;
-            //             case 'Boolean':
-            //                 controlEl = elements.ctrlBooleanTemplate.children().first().clone();
-            //                 controlEl.find(settings.ctrlTextClass).text(param.name);
-            //                 if (paramValue) {
-            //                     controlEl.addClass(settings.selectedClass);
-            //                 }
-            //                 paramType = settings.ctrlTypes.boolean;
-            //                 break;
-            //         }
-                    
-            //         controlEl.attr('data-' + settings.data.paramKey, paramKey);
-            //         controlEl.attr('data-' + settings.data.paramType, paramType);
-            //         containerEl.append(controlEl);
-            //     }
-            // };
 
         /**
          * Receive Step objects during playback to update the view with.
@@ -478,6 +290,62 @@ window.WH = window.WH || {};
         };
 
         /**
+         * Set a tab as selected and update the view state..
+         * @param {Number} index Index of the tab to select.
+         */
+        this.setSelectedTab = function(index) {
+            var tabEl = $(elements.tabs[index]);
+                isOpen = tabEl.hasClass(settings.selectedClass),
+                openTabs = elements.tabs.filter('.' + settings.selectedClass),
+                i = 0,
+                n = openTabs.length;
+
+            for (i; i < n; i++) {
+                var tab = $(openTabs[i]),
+                    tabIndex = elements.tabs.index(tab);
+                tab.removeClass(settings.selectedClass);
+                switch (tabIndex) {
+                    case 1:
+                        // close mixer
+                        elements.channels.find(settings.channelControlsClass).slideUp();
+                        break;
+                }
+            }
+
+            if (!isOpen) {
+                tabEl.addClass(settings.selectedClass);
+                switch (index) {
+                    case 1:
+                        // open mixer
+                        elements.channels.find(settings.channelControlsClass).slideDown();
+                        break;
+                }
+            }
+        };
+
+        /**
+         * Select a channel.
+         * - Set selected channel button as selected.
+         * - Show selected channel's instrument rack.
+         * @param {Number} index Index of the channel to select.
+         */
+        this.setSelectedChannel = function(index) {
+            if (index == channelIndex) {
+                return;
+            }
+
+            channelIndex = index;
+
+            elements.channels.removeClass(settings.selectedClass);
+            elements.channels.get(channelIndex).className += ' ' + settings.selectedClass;
+
+            elements.racks.removeClass(settings.selectedClass)
+            elements.racks.get(channelIndex).className += ' ' + settings.selectedClass;
+
+            self.setSelectedSteps(channelIndex);
+        };
+
+        /**
          * Update the pattern to show selected steps.
          * Typically after switching patterns or tracks.
          * @param {Number} index Channel / track index.
@@ -485,27 +353,23 @@ window.WH = window.WH || {};
         this.setSelectedSteps = function(index) {
             var steps = WH.Project.getTrackSteps(index),
                 id,
-                i = 0,
-                n = settings.channelColorClasses.length,
                 channelColorClass = settings.channelColorClasses[index];
 
             // remove color classes
-            for (i; i < n; i++) {
-                elements.steps.find(settings.ctrlBackgroundClass).removeClass(settings.channelColorClasses[i]);
-                elements.steps.find(settings.ctrlHighlightClass).removeClass(settings.channelColorClasses[i]);
-            }
+            controls.clearColors(elements.steps, settings.channelColorClasses);
 
             // set selected state
             elements.steps.removeClass(settings.selectedClass);
             for (var id in steps) {
                 var step = steps[id];
                 if (step.velocity) {
-                    var $step = $(elements.steps[step.index]);
-                    $step.addClass(settings.selectedClass);
-                    $step.find(settings.ctrlBackgroundClass).addClass(channelColorClass);
-                    $step.find(settings.ctrlHighlightClass).addClass(channelColorClass);
+                    var stepEl = $(elements.steps[step.index]);
+                    stepEl.addClass(settings.selectedClass);
                 }
             }
+
+            // add color
+            controls.setColor($(elements.steps.filter('.' + settings.selectedClass)), channelColorClass);
         };
 
         /**
@@ -515,16 +379,14 @@ window.WH = window.WH || {};
          * @param {Number} index Channel index in which to create the channel controls.
          */
         this.setChannel = function(channel, index) {
-            
             var channelEl = $(elements.channels[index]),
                 controlsEl = channelEl.find(settings.channelControlsClass);
 
             // set plugin id on channel element
             channelEl.attr('data-' + settings.data.pluginId, channel.getId());
-            
+            // add controls and color
             controls.addControls(controlsEl, channel);
-            controlsEl.find(settings.ctrlBackgroundClass).addClass(settings.channelColorClasses[index]);
-            controlsEl.find(settings.ctrlHighlightClass).addClass(settings.channelColorClasses[index]);
+            controls.setColor(controlsEl, settings.channelColorClasses[index]);
         };
 
         /**
@@ -534,15 +396,15 @@ window.WH = window.WH || {};
          * @param {Number} index Rack index in which to set the instrument.
          */
         this.setInstrument = function(instrument, index) {
-
             var rack = $(elements.racks[index]),
                 generatorRack = rack.find(settings.rackGeneratorClass),
                 controlsEl = generatorRack.find(settings.pluginControlsClass);
 
             // remove the old generator controls
             controlsEl.empty();
+            // add controls and color
             controls.addControls(controlsEl, instrument);
-            controlsEl.find(settings.ctrlBackgroundClass).addClass(settings.channelColorClasses[index]);
+            controls.setColor(controlsEl, settings.channelColorClasses[index]);
         };
 
         /**
@@ -551,21 +413,10 @@ window.WH = window.WH || {};
          * @param  {String} paramKey The parameter to change.
          * @param  {Number, String or Boolean} paramValue The new value for the parameter.
          */
-        this.updateControl = function(pluginId, paramKey, paramValue) {
-            var pluginEl = $('[data-' + settings.data.pluginId + '="' + pluginId + '"]'),
-                ctrlEl = pluginEl.find(settings.ctrlClass + '[data-' + settings.data.paramKey + '="' + paramKey + '"]')
-                ctrlType = ctrlEl.data(settings.data.paramType);
-
-            switch (ctrlType) {
-                case settings.ctrlTypes.generic:
-                    break;
-                case settings.ctrlTypes.itemized:
-                    break;
-                case settings.ctrlTypes.boolean:
-                    ctrlEl.toggleClass(settings.selectedClass, paramValue);
-                    break;
-            }
-        }
+        this.updatePluginControl = function(pluginId, paramKey, paramValue) {
+            var pluginEl = $('[data-' + settings.data.pluginId + '="' + pluginId + '"]')
+            controls.updateControl(pluginEl, paramKey, paramValue);
+        };
 
         // initialise
         init();

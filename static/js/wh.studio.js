@@ -148,7 +148,7 @@ window.WH = window.WH || {};
 
             if (plugin) {
                 plugin.set(paramKey, paramValue);
-                WH.View.updateControl(pluginId, paramKey, plugin.get(paramKey));
+                WH.View.updatePluginControl(pluginId, paramKey, plugin.get(paramKey));
             }
         }
     }
