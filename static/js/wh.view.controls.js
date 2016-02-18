@@ -30,6 +30,8 @@ window.WH = window.WH || {};
 
                 ctrlChannelSelectClass: '.ctrl--channel-select',
                 tabClass: '.ctrl--tab',
+                transportClass: '.ctrl--transport',
+                stepClass: '.step',
 
                 data: {
                     paramKey:  'param_key',
@@ -49,6 +51,8 @@ window.WH = window.WH || {};
              */
             elements = {
                 app: $('#app'),
+                overlayCtrlGeneric: $('#overlay-ctrl-generic'),
+
                 templates: {
                     ctrlGeneric: $('#template-ctrl-generic'),
                     ctrlBoolean: $('#template-ctrl-boolean'),
@@ -88,6 +92,36 @@ window.WH = window.WH || {};
                         e.preventDefault();
                     }
                 }
+            },
+
+            /**
+             * Generic control pressed on a plugin.
+             * @param {Event} e Touch or mouse start event.
+             */
+            onGenericControlTouchStart = function(e) {
+                // get parameter from studio
+                console.log('start ', $(e.currentTarget).data(settings.data.paramKey));
+                elements.overlayCtrlGeneric.show();
+                elements.app.on(eventType.move, onGenericOverlayTouchMove);
+                elements.app.on(eventType.end, onGenericOverlayTouchEnd);
+            },
+
+            /**
+             * Generic control overlay touchend or mouseup.
+             * @param {Event} e Touch or mouse end event.
+             */
+            onGenericOverlayTouchEnd = function(e) {
+                elements.overlayCtrlGeneric.hide();
+                elements.app.off(eventType.move, onGenericOverlayTouchMove);
+                elements.app.off(eventType.end, onGenericOverlayTouchEnd);
+            },
+
+            /**
+             * Generic control overlay touchend or mouseup.
+             * @param {Event} e Touch or mouse move event.
+             */
+            onGenericOverlayTouchMove = function(e) {
+                console.log('move');
             };
 
         /**
@@ -157,9 +191,9 @@ window.WH = window.WH || {};
             });
 
             // Generic control touchstart
-            containerEl.find(settings.ctrlGenericClass).on(eventType.start, function(e) {
-                console.log('gen');
-            });
+            containerEl.find(settings.ctrlGenericClass).on(eventType.start, onGenericControlTouchStart);
+
+            // Itemized control touchstart
         };
 
         /**
@@ -187,15 +221,25 @@ window.WH = window.WH || {};
          * Add controls for all steps in a pattern track.
          * @param {Object} containerEl jQuery HTML element.
          * @param {Number} amount      Number of steps to add.
+         * @return {Object} jQuery selector of step elements.                overlayCtrlGeneric: $('#overlay-ctrl-generic'),
          */
         this.addStepControls = function(containerEl, amount) {
             var i = 0,
-                stepEl;
+                stepEl,
+                stepEls;
+
             for (i; i < amount; i++) {
                 stepEl = elements.templates.step.children().first().clone();
                 stepEl.find(settings.ctrlTextClass).text(i + 1);
                 containerEl.append(stepEl);
             }
+
+            stepEls = containerEl.find(settings.stepClass);
+            stepEls.on(eventType.click, function(e) {
+
+            });
+
+            return stepEls;
         };
 
         /**
@@ -243,7 +287,7 @@ window.WH = window.WH || {};
                 containerEl.append(tabEl);
             }
 
-            tabEls = containerEl.find(settings.tabClass);  
+            tabEls = containerEl.find(settings.tabClass);
             tabEls.on(eventType.click, function(e) {
                 var index = tabEls.index(e.currentTarget);
                 WH.View.setSelectedTab(index);
@@ -260,13 +304,25 @@ window.WH = window.WH || {};
         this.addTransportControls = function(containerEl, data) {
             var i = 0,
                 n = data.length,
-                ctrlEl;
+                ctrlEl,
+                ctrlEls;
 
             for (i; i < n; i++) {
                 ctrlEl = elements.templates.transport.children().first().clone();
                 ctrlEl.find(settings.ctrlTextClass).text(data[i]);
                 containerEl.append(ctrlEl);
             }
+
+            ctrlEls = containerEl.find(settings.transportClass);
+            ctrlEls.on(eventType.click, function(e) {
+                var index = ctrlEls.index(e.currentTarget);
+                switch (index) {
+                    case 0:
+                        var isRunning = WH.TimeBase.togglePlayStop();
+                        $(e.currentTarget).toggleClass(settings.activeClass, isRunning);
+                        break;
+                }
+            });
         };
 
         /**
