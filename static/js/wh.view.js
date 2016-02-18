@@ -16,7 +16,7 @@ window.WH = window.WH || {};
 
         // private variables
         var settings = {
-                selectedClass: 'is-selected',
+                stepClass: '.step',
 
                 channelClass: '.channel',
                 channelSelectClass: '.channel__select',
@@ -28,6 +28,10 @@ window.WH = window.WH || {};
 
                 pluginClass: '.plugin',
                 pluginControlsClass: '.plugin__controls',
+
+                // tabClass: '.ctrl--tab',
+
+                transportClass: '.ctrl--transport',
 
                 data: {
                     pluginId: 'plugin_id'
@@ -43,6 +47,9 @@ window.WH = window.WH || {};
              * @type {Object}
              */
             elements = {
+                // app: $('#app'),
+                overlayCtrlGeneric: $('#overlay-ctrl-generic'),
+
                 steps: null,
                 stepsContainer: $('.steps'),
 
@@ -54,8 +61,12 @@ window.WH = window.WH || {};
                 rackContainer: $('.racks'),
                 rackTemplate: $('#template-rack'),
 
+                transports: null,
                 transportContainer: $('.transport'),
+
                 pluginTemplate: $('#template-plugin'),
+
+                // tabs: null,
                 tabContainer: $('.tabs')
             },
 
@@ -85,7 +96,8 @@ window.WH = window.WH || {};
                 controls = WH.ControlsView();
 
                 // create the step elements
-                elements.steps = controls.addStepControls(elements.stepsContainer, WH.Settings.getStepCount());
+                controls.addStepControls(elements.stepsContainer, WH.Settings.getStepCount());
+                elements.steps = $(settings.stepClass);
 
                 // create the channel elements
                 var i = 0,
@@ -124,11 +136,85 @@ window.WH = window.WH || {};
 
                 // create tabs
                 elements.tabs = controls.addTabControls(elements.tabContainer, settings.tabs);
+                // elements.tabs = elements.tabContainer.find(settings.tabClass);
 
                 // create transport buttons
                 controls.addTransportControls(elements.transportContainer, settings.transport);
+                elements.transports = elements.transportContainer.find(settings.transportClass);
 
                 self.setSelectedChannel(0);
+            },
+
+            /**
+             * Generic control pressed on a plugin.
+             * @param {Event} e Touch or mouse start event.
+             */
+            onGenericControlTouchStart = function(e) {
+                elements.overlayCtrlGeneric.show();
+                elements.app.on('touchmove', onGenericOverlayTouchMove);
+                elements.app.on('touchend', onGenericOverlayTouchEnd);
+            },
+
+            /**
+             * Generic control overlay touchend or mouseup.
+             * @param {Event} e Touch or mouse end event.
+             */
+            onGenericOverlayTouchEnd = function(e) {
+                elements.overlayCtrlGeneric.hide();
+                elements.app.off('touchmove', onGenericOverlayTouchMove);
+                elements.app.off('touchend', onGenericOverlayTouchEnd);
+            },
+
+            /**
+             * Generic control overlay touchend or mouseup.
+             * @param {Event} e Touch or mouse move event.
+             */
+            onGenericOverlayTouchMove = function(e) {
+            },
+
+            /**
+             * Play / Pause toggle button clicked.
+             * @param  {Event} e Click event.
+             */
+            onTransportsClick = function(e) {
+                if (WH.TimeBase.isRunning()) {
+                    WH.TimeBase.pause();
+                    WH.TimeBase.rewind();
+                    $(elements.transports[0]).removeClass(settings.activeClass);
+                } else {
+                    WH.TimeBase.start();
+                    $(elements.transports[0]).addClass(settings.activeClass);
+                }
+            },
+
+            /**
+             * Channel select button clicked.
+             * @param  {Event} e Click event.
+             */
+            // onChannelSelectClick = function(e) {
+            //     var channel = $(e.target).closest(settings.channelClass),
+            //         index = elements.channels.index(channel);
+            //     setSelectedChannel(index);
+            // }, 
+
+            /**
+             * One of the channel controls was clicked.
+             * @param  {Event} e Click or touchend event, currentTarget it .ctrls container
+             */
+            onChannelControlsClick = function(e) {
+                var controlEl = $(e.target).closest(settings.ctrlClass),
+                    channelEl = controlEl.closest(settings.channelClass),
+                    paramKey = controlEl.data(settings.data.paramKey),
+                    paramType = controlEl.data(settings.data.paramType),
+                    paramValue,
+                    pluginId = channelEl.data(settings.data.pluginId)
+
+                switch(paramType) {
+                    case settings.ctrlTypes.boolean:
+                        paramValue = !controlEl.hasClass(settings.selectedClass);
+                        WH.Studio.setParameter(pluginId, paramKey, paramValue);
+                        break;
+                }
             },
 
             /**
@@ -269,6 +355,7 @@ window.WH = window.WH || {};
                 id,
                 channelColorClass = settings.channelColorClasses[index];
 
+            // remove color classes
             controls.clearColors(elements.steps, settings.channelColorClasses);
 
             // set selected state
@@ -281,6 +368,7 @@ window.WH = window.WH || {};
                 }
             }
 
+            // add color
             controls.setColor($(elements.steps.filter('.' + settings.selectedClass)), channelColorClass);
         };
 
@@ -294,7 +382,9 @@ window.WH = window.WH || {};
             var channelEl = $(elements.channels[index]),
                 controlsEl = channelEl.find(settings.channelControlsClass);
 
+            // set plugin id on channel element
             channelEl.attr('data-' + settings.data.pluginId, channel.getId());
+            // add controls and color
             controls.addControls(controlsEl, channel);
             controls.setColor(controlsEl, settings.channelColorClasses[index]);
         };
@@ -310,7 +400,9 @@ window.WH = window.WH || {};
                 generatorRack = rack.find(settings.rackGeneratorClass),
                 controlsEl = generatorRack.find(settings.pluginControlsClass);
 
+            // remove the old generator controls
             controlsEl.empty();
+            // add controls and color
             controls.addControls(controlsEl, instrument);
             controls.setColor(controlsEl, settings.channelColorClasses[index]);
         };
