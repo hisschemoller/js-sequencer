@@ -73,6 +73,20 @@ window.WH = window.WH || {};
     };
 
     /**
+     * Toggle between stop and play
+     * @return {Boolean} True if transport is running.
+     */
+    TimeBase.prototype.togglePlayStop = function() {
+        if (WH.TimeBase.isRunning()) {
+            WH.TimeBase.pause();
+            WH.TimeBase.rewind();
+        } else {
+            WH.TimeBase.start();
+        }
+        return WH.TimeBase.isRunning();
+    }
+
+    /**
      * Get Pulses Per Quarter Note.
      * @return {number} Pulses Per Quarter Note.
      */
