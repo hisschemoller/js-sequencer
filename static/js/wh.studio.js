@@ -42,17 +42,8 @@ window.WH = window.WH || {};
                     isAnySoloActive = isAnySoloActive || channels[i].get('solo');
                 }
 
-                // if a channel stopped being solo while others still are soloed, 
-                // then nothing changes and there is no need to notify the other channels
-                if (!isSolo && isAnySoloActive) {
-                    return;
-                }
-
-                // notify the other channels
                 for (i = 0; i < n; i++) {
-                    if (channels[i].getId() != pluginId) {
-                        channels[i].onExternalSolo(pluginId, isSolo);
-                    }
+                    channels[i].onExternalSolo(pluginId, isSolo, isAnySoloActive);
                 }
             };
 

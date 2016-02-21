@@ -23,6 +23,8 @@
 
         this.isSolo = false;
 
+        this.isAnySoloActive = false;
+
         // plugin audio nodes
         this._panner = WX.Panner();
         this._soloMute = WX.Gain();
@@ -94,19 +96,25 @@
     Channel.prototype.$mute = function(value, time, rampType) {
 
         this.isMute = value;
-        this._soloMute.gain.value = value ? 0.0 : 1.0;
+
+        if (value) {
+            this._soloMute.gain.value = 0.0;
+        } else {
+            if (this.isAnySoloActive) {
+                if (this.isSolo) {
+                    this._soloMute.gain.value = 1.0;
+                } else {
+                    this._soloMute.gain.value = 0.0;
+                }
+            } else {
+                this._soloMute.gain.value = 1.0;
+            }
+        }
     };
 
     Channel.prototype.$solo = function(value, time, rampType) {
 
         this.isSolo = value;
-
-        // if solo is switched off, only unmute if the mute parameter is off
-        if (!this.isSolo) {
-            this._soloMute.gain.value = this.isMute ? 0.0 : 1.0;
-        } else {
-            this._soloMute.gain.value = 1.0;
-        }
         
         // callback to notify the other channels of the change
         if (this.soloCallback) {
@@ -131,16 +139,35 @@
      * @param  {Number} pluginId ID of the plugin that changed its solo parameter.
      * @param  {Boolean} isSolo Value of the other channel's solo parameter.
      */
-    Channel.prototype.onExternalSolo = function(pluginId, isSolo) {
+    Channel.prototype.onExternalSolo = function(pluginId, isSolo, isAnySoloActive) {
+
+        this.isAnySoloActive = isAnySoloActive;
         
-        // only mute if this isn't soloed as well
-        if (isSolo && !this.isSolo) {
+        if (this.isMute) {
             this._soloMute.gain.value = 0.0;
+            return;
         }
 
-        // only unmute if this isn't muted
-        if (!isSolo && !this.isMute) {
-            this._soloMute.gain.value = 1.0;
+        if (pluginId == this.getId()) {
+            if (isSolo) {
+                this._soloMute.gain.value = 1.0;
+            } else {
+                if (isAnySoloActive) {
+                    this._soloMute.gain.value = 0.0;
+                } else {
+                    this._soloMute.gain.value = 1.0;
+                }
+            }
+        } else {
+            if (this.isSolo) {
+                this._soloMute.gain.value = 1.0;
+            } else {
+                if (isAnySoloActive) {
+                    this._soloMute.gain.value = 0.0;
+                } else {
+                    this._soloMute.gain.value = 1.0;
+                }
+            }
         }
     };
 
