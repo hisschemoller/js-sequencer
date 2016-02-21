@@ -43,7 +43,7 @@ window.WH = window.WH || {};
 
                 // set patterns
                 var i = 0,
-                    patternCount = WH.Settings.getPatternCount();
+                    patternCount = WH.Conf.getPatternCount();
                 for (i; i < patternCount; i++) {
                     patterns.push(WH.Pattern(data.patterns[i], ppqn));
                 }
@@ -61,9 +61,9 @@ window.WH = window.WH || {};
             getEmptyProject = function() {
 
                 var ppqn = WH.TimeBase.getPPQN(),
-                    patternCount = WH.Settings.getPatternCount(),
-                    trackCount = WH.Settings.getTrackCount(),
-                    stepCount = WH.Settings.getStepCount(),
+                    patternCount = WH.Conf.getPatternCount(),
+                    trackCount = WH.Conf.getTrackCount(),
+                    stepCount = WH.Conf.getStepCount(),
                     stepDuration = Math.floor( patternDurationInTicks / stepCount );
 
                 var data = {
@@ -126,9 +126,9 @@ window.WH = window.WH || {};
             getRandomizedProject = function() {
 
                 var ppqn = WH.TimeBase.getPPQN(),
-                    patternCount = WH.Settings.getPatternCount(),
-                    trackCount = WH.Settings.getTrackCount(),
-                    stepCount = WH.Settings.getStepCount(),
+                    patternCount = WH.Conf.getPatternCount(),
+                    trackCount = WH.Conf.getTrackCount(),
+                    stepCount = WH.Conf.getStepCount(),
                     stepDuration = Math.floor( (patternDurationInBeats * ppqn) / stepCount ),
                     data = {
                         bpm: 100,

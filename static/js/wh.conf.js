@@ -1,5 +1,5 @@
 /**
- * Unchangeable application settings.
+ * Unchangeable application configuration settings.
  * 
  * @namespace WH
  */
@@ -10,7 +10,7 @@ window.WH = window.WH || {};
     /**
      * @constructor
      */
-    function Settings() {
+    function Conf() {
 
         var patternCount = 16,
             trackCount = 4,
@@ -32,5 +32,5 @@ window.WH = window.WH || {};
     /** 
      * Singleton
      */
-    WH.Settings = new Settings();
+    WH.Conf = new Conf();
 })(WH);

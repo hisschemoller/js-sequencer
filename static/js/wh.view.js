@@ -85,11 +85,11 @@ window.WH = window.WH || {};
                 controls = WH.ControlsView();
 
                 // create the step elements
-                elements.steps = controls.addStepControls(elements.stepsContainer, WH.Settings.getStepCount());
+                elements.steps = controls.addStepControls(elements.stepsContainer, WH.Conf.getStepCount());
 
                 // create the channel elements
                 var i = 0,
-                    n = WH.Settings.getTrackCount(),
+                    n = WH.Conf.getTrackCount(),
                     channelEl;
 
                 for (i; i < n; i++) {
@@ -105,7 +105,7 @@ window.WH = window.WH || {};
 
                 // create the plugin racks
                 var i = 0,
-                    n = WH.Settings.getTrackCount(),
+                    n = WH.Conf.getTrackCount(),
                     rackEl,
                     generatorRackspaceEls,
                     generatorPluginEl;

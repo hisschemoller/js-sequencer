@@ -51,7 +51,7 @@ window.WH = window.WH || {};
          * Initialisation.
          */
         this.setup = function() {
-            for (var i = 0; i < WH.Settings.getTrackCount(); i++) {
+            for (var i = 0; i < WH.Conf.getTrackCount(); i++) {
                 var channel = WX.Channel();
                 channel.setSoloCallback(onSoloChange);
                 channel.to(WX.Master);
