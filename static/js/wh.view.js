@@ -160,9 +160,9 @@ window.WH = window.WH || {};
                     
                     // update the steps
                     if (step.channel == channelIndex) {
-                        elements.steps.removeClass(WH.Conf.getActiveClass());
+                        elements.steps.removeClass(settings.activeClass);
                         stepEl = $(elements.steps[step.index]);
-                        stepEl.addClass(WH.Conf.getActiveClass());
+                        stepEl.addClass(settings.activeClass);
                         controls.animateHighlight(stepEl);
                     }
 
@@ -207,15 +207,15 @@ window.WH = window.WH || {};
          */
         this.setSelectedTab = function(index) {
             var tabEl = $(elements.tabs[index]);
-                isOpen = tabEl.hasClass(WH.Conf.getSelectedClass()),
-                openTabs = elements.tabs.filter('.' + WH.Conf.getSelectedClass()),
+                isOpen = tabEl.hasClass(settings.selectedClass),
+                openTabs = elements.tabs.filter('.' + settings.selectedClass),
                 i = 0,
                 n = openTabs.length;
 
             for (i; i < n; i++) {
                 var tab = $(openTabs[i]),
                     tabIndex = elements.tabs.index(tab);
-                tab.removeClass(WH.Conf.getSelectedClass());
+                tab.removeClass(settings.selectedClass);
                 switch (tabIndex) {
                     case 1:
                         // close mixer
@@ -225,7 +225,7 @@ window.WH = window.WH || {};
             }
 
             if (!isOpen) {
-                tabEl.addClass(WH.Conf.getSelectedClass());
+                tabEl.addClass(settings.selectedClass);
                 switch (index) {
                     case 1:
                         // open mixer
@@ -248,11 +248,11 @@ window.WH = window.WH || {};
 
             channelIndex = index;
 
-            elements.channels.removeClass(WH.Conf.getSelectedClass());
-            elements.channels.get(channelIndex).className += ' ' + WH.Conf.getSelectedClass();
+            elements.channels.removeClass(settings.selectedClass);
+            elements.channels.get(channelIndex).className += ' ' + settings.selectedClass;
 
-            elements.racks.removeClass(WH.Conf.getSelectedClass())
-            elements.racks.get(channelIndex).className += ' ' + WH.Conf.getSelectedClass();
+            elements.racks.removeClass(settings.selectedClass);
+            elements.racks.get(channelIndex).className += ' ' + settings.selectedClass;
 
             self.setSelectedSteps(channelIndex);
         };
@@ -270,16 +270,16 @@ window.WH = window.WH || {};
             controls.clearColors(elements.steps, settings.channelColorClasses);
 
             // set selected state
-            elements.steps.removeClass(WH.Conf.getSelectedClass());
+            elements.steps.removeClass(settings.selectedClass);
             for (var id in steps) {
                 var step = steps[id];
                 if (step.velocity) {
                     var stepEl = $(elements.steps[step.index]);
-                    stepEl.addClass(WH.Conf.getSelectedClass());
+                    stepEl.addClass(settings.selectedClass);
                 }
             }
 
-            controls.setColor($(elements.steps.filter('.' + WH.Conf.getSelectedClass())), channelColorClass);
+            controls.setColor($(elements.steps.filter('.' + settings.selectedClass)), channelColorClass);
         };
 
         /**
@@ -320,9 +320,12 @@ window.WH = window.WH || {};
          * @param  {Number, String or Boolean} paramValue The new value for the parameter.
          */
         this.updatePluginControl = function(pluginId, paramKey, paramValue) {
-            var pluginEl = $('[data-' + settings.data.pluginId + '="' + pluginId + '"]')
+            var pluginEl = $('[data-' + settings.data.pluginId + '="' + pluginId + '"]');
             controls.updateControl(pluginEl, paramKey, paramValue);
         };
+
+        // extend AbstractView
+        WH.AbstractView.call(this, settings);
 
         // initialise
         init();

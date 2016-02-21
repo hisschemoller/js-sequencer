@@ -165,7 +165,7 @@ window.WH = window.WH || {};
                         controlEl = elements.templates.ctrlBoolean.children().first().clone();
                         controlEl.find(settings.ctrlTextClass).text(param.name);
                         if (paramValue) {
-                            controlEl.addClass(WH.Conf.getSelectedClass());
+                            controlEl.addClass(settings.selectedClass);
                         }
                         paramType = settings.ctrlTypes.boolean;
                         break;
@@ -209,7 +209,7 @@ window.WH = window.WH || {};
                 case settings.ctrlTypes.itemized:
                     break;
                 case settings.ctrlTypes.boolean:
-                    ctrlEl.toggleClass(WH.Conf.getSelectedClass(), paramValue);
+                    ctrlEl.toggleClass(settings.selectedClass, paramValue);
                     break;
             }
         };
@@ -316,7 +316,7 @@ window.WH = window.WH || {};
                 switch (index) {
                     case 0:
                         var isRunning = WH.TimeBase.togglePlayStop();
-                        $(e.currentTarget).toggleClass(WH.Conf.getActiveClass(), isRunning);
+                        $(e.currentTarget).toggleClass(settings.activeClass, isRunning);
                         break;
                 }
             });
@@ -357,6 +357,9 @@ window.WH = window.WH || {};
                 .fadeIn(0)
                 .fadeOut(300);
         }
+
+        // extend AbstractView
+        WH.AbstractView.call(this, settings);
 
         // initialise
         init();
