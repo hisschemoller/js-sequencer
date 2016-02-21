@@ -9,6 +9,15 @@ body {
     margin: 8px;
     text-align: center;
 }
+.table {
+    display: table;
+}
+.tr {
+    display: table-row;
+}
+.td {
+    display: table-cell;
+}
 .color1 {
     background-color: #fff !important;
 }
@@ -192,6 +201,7 @@ body {
 
 .transport {
     bottom: 8px;
+    height: 50px;
     left: 8px;
     position: fixed;
     right: 8px;
@@ -211,6 +221,28 @@ body {
     right: 0;
     top: 0;
 }
+    .overlay-ctrl__info {
+        padding: 20px 40px 0 40px;
+        width: 100%;
+    }
+    .overlay-ctrl__value {
+        font-size: 36px;
+    }
+    .overlay-ctrl__slider {
+        background-color: #666;
+        bottom: 20px;
+        left: 20px;
+        position: absolute;
+        right: 20px;
+        top: 100px;
+    }
+        .overlay-ctrl__slider-thumb {
+            background-color: #999;
+            bottom: 0;
+            left: 0;
+            position: absolute;
+            right: 0;
+        }
 #templates {
     display: none;
 }

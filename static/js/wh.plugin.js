@@ -72,3 +72,20 @@ WH.PlugIn.isEditableParam = function(paramKey) {
     }
     return false;
 };
+
+/**
+ * Get the values of a parameter, not the parameter itself.
+ * @param  {String} key Key of the parameter in the parameters array. 
+ * @return {Object} Object containing parameter values.
+ */
+WH.PlugIn.getParameter = function(key) {
+    if (WX.hasParam(this, key)) {
+        var param = this.params[key];
+        return {
+            name: param.name,
+            min: param.min,
+            max: param.max,
+            value: param.value
+        };
+    }
+};

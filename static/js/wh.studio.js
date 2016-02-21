@@ -119,10 +119,10 @@ window.WH = window.WH || {};
             // is it a generator?
             n = instruments.length;
             for (i; i < n; i++) {
-                // if (pluginId == instruments[i].getId()) {
-                //     plugin = instruments[i];
-                //     break;
-                // }
+                if (pluginId == instruments[i].getId()) {
+                    plugin = instruments[i];
+                    break;
+                }
             }
 
             // is it a channel?

@@ -16,9 +16,33 @@
         <ul class="ctrls racks"></ul>
         <ul class="ctrls transport"></ul>
         <div id="overlay-ctrl-generic">
-            <p>set generic control</p>
-            <p class="overlay-ctrl__name"></p>
-            <p class="overlay-ctrl__value"></p>
+            <div class="table overlay-ctrl__info">
+                <div class="tr">
+                    <div class="td">
+                        <span class="overlay-ctrl__label">Min</span>
+                    </div>
+                    <div class="td">
+                        <span class="overlay-ctrl__label overlay-ctrl__name"></span>
+                    </div>
+                    <div class="td">
+                        <span class="overlay-ctrl__label">Max</span>
+                    </div>
+                </div>
+                <div class="tr">
+                    <div class="td">
+                        <span class="overlay-ctrl__min"></span>
+                    </div>
+                    <div class="td">
+                        <span class="overlay-ctrl__value"></span>
+                    </div>
+                    <div class="td">
+                        <span class="overlay-ctrl__max"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay-ctrl__slider">
+                <div class="overlay-ctrl__slider-thumb"></div>
+            </div>
         </div>
         <div id="overlay-startup">
             <p>Click to start.</p>
@@ -109,7 +133,6 @@
     <script src="static/js/waax/plugins/fmk1.js"></script>
     <script src="static/js/waax/plugins/impulse.js"></script>
     <script src="static/js/waax/plugins/noise.js"></script>
-    <!-- script src="static/js/waax/plugins/simpleosc.js"></script -->
     <script src="static/js/waax/plugins/sp1.js"></script>
     <script src="static/js/waax/plugins/stereodelay.js"></script>
     <script src="static/js/waax/plugins/wxs1.js"></script>
@@ -127,7 +150,6 @@
     <script src="static/js/wh.util.js"></script>
     <script src="static/js/wh.view.abstract.js"></script>
     <script src="static/js/wh.view.controls.js"></script>
-    <script src="static/js/wh.view.slider.js"></script>
     <script src="static/js/wh.view.steps.js"></script>
     <script src="static/js/wh.view.js"></script>
 </body>

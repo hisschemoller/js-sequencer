@@ -134,10 +134,9 @@ window.WH = window.WH || {};
              * @param {Event} e Touch or mouse move event.
              */
             onGenericOverlayTouchMove = function(e) {
-                console.log(e.originalEvent.changedTouches);
                 var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
-                    y = isTouchDevice ? e.touches[0].clientY : e.clientY;
-                    normalValue = Math.max(0, 1 - Math.min(((e.clientY - slider.offset().top) / slider.height()), 1)),
+                    y = self.isTouchDevice ? e.originalEvent.changedTouches[0].clientY : e.clientY;
+                    normalValue = Math.max(0, 1 - Math.min(((y - slider.offset().top) / slider.height()), 1)),
                     value = e.data.param.min + ((e.data.param.max - e.data.param.min) * normalValue);
                 WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, value);
             };
