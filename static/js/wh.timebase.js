@@ -67,7 +67,7 @@ window.WH = window.WH || {};
 
                 // play the events with sound generating plugin instruments
                 WH.Studio.playEvents(this._playbackQueue);
-                WH.View.onStepEvents(this._playbackQueue);
+                WH.View.onSequencerEvents(this._playbackQueue);
             }
         }
     };

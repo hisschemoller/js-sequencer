@@ -19,7 +19,6 @@ window.WH = window.WH || {};
                 channelClass: '.channel',
                 channelSelectClass: '.channel__select',
                 channelControlsClass: '.channel__controls',
-                channelColorClasses: ['color1', 'color2', 'color3', 'color4'],
 
                 rackClass: '.rack',
                 rackGeneratorClass: '.rack__generator',
@@ -41,9 +40,6 @@ window.WH = window.WH || {};
              * @type {Object}
              */
             elements = {
-                steps: null,
-                stepsContainer: $('.steps'),
-
                 channels: null,
                 channelContainer: $('.channels'),
                 channelTemplate: $('#template-channel'),
@@ -76,14 +72,19 @@ window.WH = window.WH || {};
             controls = null,
 
             /**
+             * StepsView creates sequencer steps UI controls.
+             * @type {Object}
+             */
+            steps = null,
+
+            /**
              * Initialise the view, add DOM event handlers.
              */
             init = function() {
 
                 controls = WH.ControlsView();
 
-                // create the step elements
-                elements.steps = controls.addStepControls(elements.stepsContainer, WH.Conf.getStepCount());
+                steps = WH.StepsView();
 
                 // create the channel elements
                 var i = 0,
@@ -127,20 +128,20 @@ window.WH = window.WH || {};
                 controls.addTransportControls(elements.transportContainer, settings.transport);
 
                 self.setSelectedChannel(0);
-            },
+            };
 
             /**
              * Delay screen update to keep it synchronised with the audio.
              * @param  {Number} start Time to wait before update in milliseconds.
              * @param  {Array} activeSteps Steps that play in the current timespan. 
              */
-            delayUpdateActiveSteps = function(start, activeSteps) {
+            delayUpdateSequencerActivity = function(start, activeSteps) {
                 if (start > 0) {
                     setTimeout(function() {
-                        updateActiveSteps(activeSteps);
+                        updateSequencerActivity(activeSteps);
                     }, start);
                 } else {
-                    updateActiveSteps(activeSteps);
+                    updateSequencerActivity(activeSteps);
                 }
             },
 
@@ -149,7 +150,7 @@ window.WH = window.WH || {};
              * Also display flashing activity on the channel selectors.
              * @param  {Array} stepArray Steps that play in the current timespan. 
              */
-            updateActiveSteps = function(stepArray) {
+            updateSequencerActivity = function(stepArray) {
                 var i = 0,
                     n = stepArray.length,
                     step,
@@ -160,15 +161,12 @@ window.WH = window.WH || {};
                     
                     // update the steps
                     if (step.channel == channelIndex) {
-                        elements.steps.removeClass(settings.activeClass);
-                        stepEl = $(elements.steps[step.index]);
-                        stepEl.addClass(settings.activeClass);
-                        controls.animateHighlight(stepEl);
+                        steps.updateActiveStep(step.index);
                     }
 
                     // update the channels
                     if (step.velocity > 0) {
-                        controls.animateHighlight($(elements.channels[step.channel]).find(settings.channelSelectClass));
+                        self.animateHighlight($(elements.channels[step.channel]).find(settings.channelSelectClass));
                     }
                 }
             };
@@ -177,7 +175,7 @@ window.WH = window.WH || {};
          * Receive Step objects during playback to update the view with.
          * @param  {Array} playbackQueue Array of Step objects.
          */
-        this.onStepEvents = function(playbackQueue) {
+        this.onSequencerEvents = function(playbackQueue) {
             var i = 0,
                 n = playbackQueue.length,
                 step,
@@ -190,7 +188,7 @@ window.WH = window.WH || {};
                 start = Math.max(0, WX.now - step.absStart) * 1000;
 
                 if (start != oldStart && stepArray.length > 0) {
-                    delayUpdateActiveSteps(oldStart, stepArray);
+                    delayUpdateSequencerActivity(oldStart, stepArray);
                     stepArray = [];
                 }
 
@@ -198,7 +196,7 @@ window.WH = window.WH || {};
                 oldStart = start;
             }
 
-            delayUpdateActiveSteps(oldStart, stepArray);
+            delayUpdateSequencerActivity(oldStart, stepArray);
         };
 
         /**
@@ -254,7 +252,7 @@ window.WH = window.WH || {};
             elements.racks.removeClass(settings.selectedClass);
             elements.racks.get(channelIndex).className += ' ' + settings.selectedClass;
 
-            self.setSelectedSteps(channelIndex);
+            steps.setSelected(channelIndex);
         };
 
         /**
@@ -263,23 +261,7 @@ window.WH = window.WH || {};
          * @param {Number} index Channel / track index.
          */
         this.setSelectedSteps = function(index) {
-            var steps = WH.Project.getTrackSteps(index),
-                id,
-                channelColorClass = settings.channelColorClasses[index];
-
-            controls.clearColors(elements.steps, settings.channelColorClasses);
-
-            // set selected state
-            elements.steps.removeClass(settings.selectedClass);
-            for (var id in steps) {
-                var step = steps[id];
-                if (step.velocity) {
-                    var stepEl = $(elements.steps[step.index]);
-                    stepEl.addClass(settings.selectedClass);
-                }
-            }
-
-            controls.setColor($(elements.steps.filter('.' + settings.selectedClass)), channelColorClass);
+            steps.setSelected(index);
         };
 
         /**
@@ -306,8 +288,10 @@ window.WH = window.WH || {};
         this.setInstrument = function(instrument, index) {
             var rack = $(elements.racks[index]),
                 generatorRack = rack.find(settings.rackGeneratorClass),
+                pluginEl = generatorRack.find(settings.pluginClass),
                 controlsEl = generatorRack.find(settings.pluginControlsClass);
 
+            pluginEl.attr('data-' + settings.data.pluginId, instrument.getId());
             controlsEl.empty();
             controls.addControls(controlsEl, instrument);
             controls.setColor(controlsEl, settings.channelColorClasses[index]);

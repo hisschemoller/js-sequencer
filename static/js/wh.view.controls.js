@@ -14,21 +14,20 @@ window.WH = window.WH || {};
 
         // private variables
         var settings = {
-                ctrlClass: '.ctrl',
                 ctrlGenericClass: '.ctrl--generic',
                 ctrlBooleanClass: '.ctrl--boolean',
                 ctrlItemizedClass: '.ctrl--itemized',
-                ctrlBackgroundClass: '.ctrl__background',
-                ctrlHighlightClass: '.ctrl__hilight',
-                ctrlLabelClass: '.ctrl__label',
-                ctrlTextClass: '.ctrl__text',
-                ctrlNameClass: '.ctrl__name',
-                ctrlValueClass: '.ctrl__value',
+
+                overlayName: '.overlay-ctrl__name',
+                overlayValue: '.overlay-ctrl__value',
+                overlayMin: '.overlay-ctrl__min',
+                overlayMax: '.overlay-ctrl__max',
+                overlaySlider: '.overlay-ctrl__slider',
+                overlaySliderThumb: '.overlay-ctrl__slider-thumb',
 
                 ctrlChannelSelectClass: '.ctrl--channel-select',
                 tabClass: '.ctrl--tab',
                 transportClass: '.ctrl--transport',
-                stepClass: '.step',
 
                 data: {
                     paramKey:  'param_key',
@@ -55,36 +54,24 @@ window.WH = window.WH || {};
                     ctrlBoolean: $('#template-ctrl-boolean'),
                     ctrlItemized: $('#template-ctrl-itemized'),
                     transport: $('#template-ctrl-transport'),
-                    step: $('#template-step'),
+                    // step: $('#template-step'),
                     channelSelect: $('#template-channel-select'),
                     tab: $('#template-tab')
                 }
             },
 
             /**
-             * True if a touch screen is detected.
-             * @type {Boolean}
+             * Reference to this once function has closed.
+             * @type {Object}
              */
-            isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints,
-
-            /**
-             * Type of events to use, touch or mouse
-             * @type {String}
-             */
-            eventType = {
-                start: isTouchDevice ? 'touchstart' : 'mousedown',
-                end: isTouchDevice ? 'touchend' : 'mouseup',
-                click: isTouchDevice ? 'touchend' : 'click',
-                move: isTouchDevice ? 'touchmove' : 'mousemove',
-            },
+            self = this,
 
             /**
              * Initialise the view, add DOM event handlers.
              */
             init = function() {
-
                 // prevent scroll and iOS bounce effect
-                if (isTouchDevice) {
+                if (this.isTouchDevice) {
                     document.ontouchmove = function(e) {
                         e.preventDefault();
                     }
@@ -92,15 +79,44 @@ window.WH = window.WH || {};
             },
 
             /**
+             * Boolean control clicked on a plugin.
+             * @param {Event} e Touch end or mouse click event.
+             */
+            onBooleanControlClick = function(e) {
+                var controlEl = $(e.currentTarget),
+                    paramKey = controlEl.data(settings.data.paramKey),
+                    paramValue = !controlEl.hasClass(settings.selectedClass);
+
+                WH.Studio.setParameter(e.data.plugin.getId(), paramKey, paramValue);
+            },
+
+            /**
              * Generic control pressed on a plugin.
-             * @param {Event} e Touch or mouse start event.
+             * @param {Event} e Touchstart or mousedoen event.
              */
             onGenericControlTouchStart = function(e) {
-                // get parameter from studio
-                console.log('start ', $(e.currentTarget).data(settings.data.paramKey));
+                e.preventDefault();
+                // get parameter from plugin
+                var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
+                    thumb = elements.overlayCtrlGeneric.find(settings.overlaySliderThumb),
+                    paramKey = $(e.currentTarget).data(settings.data.paramKey),
+                    param = e.data.plugin.getParameter(paramKey),
+                    normalValue = (param.value - param.min) / (param.max - param.min),
+                    eventData = {
+                        pluginId: e.data.plugin.getId(),
+                        paramKey: paramKey,
+                        param: param
+                    };
+
                 elements.overlayCtrlGeneric.show();
-                elements.app.on(eventType.move, onGenericOverlayTouchMove);
-                elements.app.on(eventType.end, onGenericOverlayTouchEnd);
+                elements.overlayCtrlGeneric.find(settings.overlayName).text(param.name);
+                elements.overlayCtrlGeneric.find(settings.overlayValue).text(param.value.toFixed(2));
+                elements.overlayCtrlGeneric.find(settings.overlayMin).text(param.min.toFixed(1));
+                elements.overlayCtrlGeneric.find(settings.overlayMax).text(param.max.toFixed(1));
+                elements.app.on(self.eventType.move, eventData, onGenericOverlayTouchMove);
+                elements.app.on(self.eventType.end, eventData, onGenericOverlayTouchEnd);
+
+                thumb.height(slider.height() * normalValue);
             },
 
             /**
@@ -109,8 +125,8 @@ window.WH = window.WH || {};
              */
             onGenericOverlayTouchEnd = function(e) {
                 elements.overlayCtrlGeneric.hide();
-                elements.app.off(eventType.move, onGenericOverlayTouchMove);
-                elements.app.off(eventType.end, onGenericOverlayTouchEnd);
+                elements.app.off(self.eventType.move, onGenericOverlayTouchMove);
+                elements.app.off(self.eventType.end, onGenericOverlayTouchEnd);
             },
 
             /**
@@ -118,7 +134,12 @@ window.WH = window.WH || {};
              * @param {Event} e Touch or mouse move event.
              */
             onGenericOverlayTouchMove = function(e) {
-                console.log('move');
+                console.log(e.originalEvent.changedTouches);
+                var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
+                    y = isTouchDevice ? e.touches[0].clientY : e.clientY;
+                    normalValue = Math.max(0, 1 - Math.min(((e.clientY - slider.offset().top) / slider.height()), 1)),
+                    value = e.data.param.min + ((e.data.param.max - e.data.param.min) * normalValue);
+                WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, value);
             };
 
         /**
@@ -127,7 +148,6 @@ window.WH = window.WH || {};
          * @param {Object} plugin WH.PlugIn type audio plugin.
          */
         this.addControls = function(containerEl, plugin) {
-
             var paramKey,
                 param,
                 paramValue,
@@ -176,21 +196,14 @@ window.WH = window.WH || {};
                 containerEl.append(controlEl);
             }
 
-            controlEls = containerEl.find(settings.ctrlClass);
+            // data to send to the DOM event handlers
+            var eventData = {
+                plugin: plugin
+            };
 
-            // Boolean control click
-            containerEl.find(settings.ctrlBooleanClass).on(eventType.click, function(e) {
-                var controlEl = $(e.currentTarget),
-                    paramKey = controlEl.data(settings.data.paramKey),
-                    paramValue = !controlEl.hasClass(settings.selectedClass);
-
-                WH.Studio.setParameter(plugin.getId(), paramKey, paramValue);
-            });
-
-            // Generic control touchstart
-            containerEl.find(settings.ctrlGenericClass).on(eventType.start, onGenericControlTouchStart);
-
-            // Itemized control touchstart
+            // DOM event handlers
+            containerEl.find(settings.ctrlBooleanClass).on(this.eventType.click, eventData, onBooleanControlClick);
+            containerEl.find(settings.ctrlGenericClass).on(this.eventType.start, eventData, onGenericControlTouchStart);
         };
 
         /**
@@ -200,11 +213,15 @@ window.WH = window.WH || {};
          * @param  {Number, String or Boolean} paramValue The new value for the parameter.
          */
         this.updateControl = function(pluginEl, paramKey, paramValue) {
-            var ctrlEl = pluginEl.find(settings.ctrlClass + '[data-' + settings.data.paramKey + '="' + paramKey + '"]')
+            var ctrlEl = pluginEl.find(settings.ctrlClass + '[data-' + settings.data.paramKey + '="' + paramKey + '"]'),
                 ctrlType = ctrlEl.data(settings.data.paramType);
 
             switch (ctrlType) {
                 case settings.ctrlTypes.generic:
+                    // var normalValue = (param.value - param.min) / (param.max - param.min),
+                    ctrlEl.find(settings.ctrlValueClass).text(paramValue.toFixed(2));
+                    elements.overlayCtrlGeneric.find(settings.overlayValue).text(paramValue.toFixed(2));
+                    // elements.overlayCtrlGeneric.find(settings.overlaySliderThumb).height(slider.height() * normalValue);
                     break;
                 case settings.ctrlTypes.itemized:
                     break;
@@ -215,35 +232,9 @@ window.WH = window.WH || {};
         };
 
         /**
-         * Add controls for all steps in a pattern track.
-         * @param {Object} containerEl jQuery HTML element.
-         * @param {Number} amount      Number of steps to add.
-         * @return {Object} jQuery selector of step elements.                overlayCtrlGeneric: $('#overlay-ctrl-generic'),
-         */
-        this.addStepControls = function(containerEl, amount) {
-            var i = 0,
-                stepEl,
-                stepEls;
-
-            for (i; i < amount; i++) {
-                stepEl = elements.templates.step.children().first().clone();
-                stepEl.find(settings.ctrlTextClass).text(i + 1);
-                containerEl.append(stepEl);
-            }
-
-            stepEls = containerEl.find(settings.stepClass);
-            stepEls.on(eventType.click, function(e) {
-
-            });
-
-            return stepEls;
-        };
-
-        /**
          * Add the controls that selects a channel in the mixer.
-         * @param {Object} containerEl jQuery HTML element.
-         * @param {Number} color       Hex number for the colour of the channel.
-         * @param {String} label       Label to display on the channel.
+         * @param {Object} containerEls jQuery HTML element.
+         * @param {Array} colorClasses Array of CSS colour class names.
          */
         this.addChannelSelectControls = function(containerEls, colorClasses) {
             var i = 0,
@@ -260,7 +251,7 @@ window.WH = window.WH || {};
             }
 
             channelSelectEls = containerEls.find(settings.ctrlChannelSelectClass);
-            channelSelectEls.on(eventType.click, function(e) {
+            channelSelectEls.on(self.eventType.click, function(e) {
                 var index = channelSelectEls.index(e.currentTarget);
                 WH.View.setSelectedChannel(index);
             });
@@ -285,7 +276,7 @@ window.WH = window.WH || {};
             }
 
             tabEls = containerEl.find(settings.tabClass);
-            tabEls.on(eventType.click, function(e) {
+            tabEls.on(self.eventType.click, function(e) {
                 var index = tabEls.index(e.currentTarget);
                 WH.View.setSelectedTab(index);
             });
@@ -311,7 +302,7 @@ window.WH = window.WH || {};
             }
 
             ctrlEls = containerEl.find(settings.transportClass);
-            ctrlEls.on(eventType.click, function(e) {
+            ctrlEls.on(self.eventType.click, function(e) {
                 var index = ctrlEls.index(e.currentTarget);
                 switch (index) {
                     case 0:
@@ -321,42 +312,6 @@ window.WH = window.WH || {};
                 }
             });
         };
-
-        /**
-         * Set the color of a selection of controls.
-         * @param {Object} controls jQuery selection of elements.
-         * @param {String} colorClass Class to add that contains the color CSS.
-         */
-        this.setColor = function(controls, colorClass) {
-            controls.find(settings.ctrlBackgroundClass).addClass(colorClass);
-            controls.find(settings.ctrlHighlightClass).addClass(colorClass);
-        };
-
-        /**
-         * Clear the colors of a selection of controls.
-         * @param {Object} controls jQuery selection of elements.
-         * @param  {Array} colorClasses CSS classes to remove from the controls.
-         */
-        this.clearColors = function(controls, colorClasses) {
-            var i = 0,
-                n = colorClasses.length;
-            for (i; i < n; i++) {
-                controls.find(settings.ctrlBackgroundClass).removeClass(colorClasses[i]);
-                controls.find(settings.ctrlHighlightClass).removeClass(colorClasses[i]);
-            }
-        };
-
-        /**
-         * Play the light up animation of a control.
-         * @param {Object} controls jQuery selection of elements.
-         */
-        this.animateHighlight = function(controls) {
-            controls.find(settings.ctrlHighlightClass)
-                .show()
-                .stop()
-                .fadeIn(0)
-                .fadeOut(300);
-        }
 
         // extend AbstractView
         WH.AbstractView.call(this, settings);
