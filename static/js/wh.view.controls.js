@@ -14,9 +14,6 @@ window.WH = window.WH || {};
 
         // private variables
         var settings = {
-                activeClass: 'is-active',
-                selectedClass: 'is-selected',
-
                 ctrlClass: '.ctrl',
                 ctrlGenericClass: '.ctrl--generic',
                 ctrlBooleanClass: '.ctrl--boolean',
@@ -168,7 +165,7 @@ window.WH = window.WH || {};
                         controlEl = elements.templates.ctrlBoolean.children().first().clone();
                         controlEl.find(settings.ctrlTextClass).text(param.name);
                         if (paramValue) {
-                            controlEl.addClass(settings.selectedClass);
+                            controlEl.addClass(WH.Conf.getSelectedClass());
                         }
                         paramType = settings.ctrlTypes.boolean;
                         break;
@@ -212,7 +209,7 @@ window.WH = window.WH || {};
                 case settings.ctrlTypes.itemized:
                     break;
                 case settings.ctrlTypes.boolean:
-                    ctrlEl.toggleClass(settings.selectedClass, paramValue);
+                    ctrlEl.toggleClass(WH.Conf.getSelectedClass(), paramValue);
                     break;
             }
         };
@@ -319,7 +316,7 @@ window.WH = window.WH || {};
                 switch (index) {
                     case 0:
                         var isRunning = WH.TimeBase.togglePlayStop();
-                        $(e.currentTarget).toggleClass(settings.activeClass, isRunning);
+                        $(e.currentTarget).toggleClass(WH.Conf.getActiveClass(), isRunning);
                         break;
                 }
             });

@@ -14,7 +14,9 @@ window.WH = window.WH || {};
 
         var patternCount = 16,
             trackCount = 4,
-            stepCount = 16;
+            stepCount = 16,
+            activeClass = 'is-active',
+            selectedClass = 'is-selected';
 
         this.getPatternCount = function() {
             return patternCount;
@@ -26,6 +28,14 @@ window.WH = window.WH || {};
 
         this.getStepCount = function() {
             return stepCount;
+        };
+
+        this.getActiveClass = function() {
+            return activeClass;
+        };
+
+        this.getSelectedClass = function() {
+            return selectedClass;
         };
     }
     
