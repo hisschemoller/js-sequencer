@@ -74,13 +74,65 @@ WH.PlugIn.isEditableParam = function(paramKey) {
 };
 
 /**
+ * Set parameter value after first converting it based on its type.
+ * @param String paramKey Parameter array key.
+ * @param {Boolean|Number} paramValue New value for the parameter.
+ */
+WH.PlugIn.setParameter = function(paramKey, paramValue) {
+    if (WX.hasParam(this, paramKey)) {
+        var param = this.params[paramKey],
+            value;
+        switch (param.type) {
+            case 'Boolean':
+                value = paramValue;
+                break;
+            case 'Generic':
+                value = param.min + ((param.max - param.min) * paramValue);
+                break;
+            case 'Itemized':
+                value = param.model[paramValue].value;
+                break;
+        }
+
+        this.set(paramKey, value);
+    }
+}
+
+/**
+ * Return parameter value after first converting it based on its type.
+ * @param  {String} paramKey Key of the parameter in the parameters array. 
+ * @return {Boolean|Number} Parameter value converted to be used by the view.
+ */
+WH.PlugIn.getParameter = function(paramKey) {
+    if (WX.hasParam(this, paramKey)) {
+        var param = this.params[paramKey],
+            value;
+        switch (param.type) {
+            case 'Boolean':
+                value = param.value;
+                break;
+            case 'Generic':
+                value = (param.value - param.min) / (param.max - param.min);
+                break;
+            case 'Itemized':
+                value = param.model.map(function(item) {
+                    return item.value;
+                }).indexOf(param.value);
+                break;
+        }
+
+        return value;
+    }
+}
+
+/**
  * Get the values of a parameter, not the parameter itself.
- * @param  {String} key Key of the parameter in the parameters array. 
+ * @param  {String} paramKey Key of the parameter in the parameters array. 
  * @return {Object} Object containing parameter values.
  */
-WH.PlugIn.getParameter = function(key) {
-    if (WX.hasParam(this, key)) {
-        var param = this.params[key];
+WH.PlugIn.getParameterValues = function(paramKey) {
+    if (WX.hasParam(this, paramKey)) {
+        var param = this.params[paramKey];
         return {
             name: param.name,
             min: param.min,

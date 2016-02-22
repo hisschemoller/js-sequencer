@@ -107,9 +107,12 @@ window.WH = window.WH || {};
         /**
          * Set the value of a parameters of one of the plugins.
          * Typically after a user interacted with the UI.
-         * @param  {Number} pluginId Unique ID of the plugin.
-         * @param  {String} paramKey The parameter to change.
-         * @param  {Number, String or Boolean} paramValue The new value for the parameter.
+         * @param {Number} pluginId Unique ID of the plugin.
+         * @param {String} paramKey The parameter to change.
+         * @param {number|boolean} paramValue The new value for the parameter.
+         * paramValue for a Boolean parameter is a Boolean.,
+         * paramValue for a Generic parameter is a normalized value between 0 and 1,
+         * paramValue for an Itemized parameter is the index number of the selected item.
          */
         this.setParameter = function(pluginId, paramKey, paramValue) {
             var i = 0,
@@ -138,8 +141,8 @@ window.WH = window.WH || {};
             }
 
             if (plugin) {
-                plugin.set(paramKey, paramValue);
-                WH.View.updatePluginControl(pluginId, paramKey, plugin.get(paramKey));
+                plugin.setParameter(paramKey, paramValue);
+                WH.View.updatePluginControl(pluginId, paramKey, plugin.get(paramKey), plugin.getParameter(paramKey));
             }
         }
     }

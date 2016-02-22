@@ -301,11 +301,12 @@ window.WH = window.WH || {};
          * Update a control to reflect a changed plugin parameter.
          * @param  {Number} pluginId Unique ID of the plugin.
          * @param  {String} paramKey The parameter to change.
-         * @param  {Number, String or Boolean} paramValue The new value for the parameter.
+         * @param  {Number|String|Boolean} paramValue The new value for the parameter.
+         * @param {Number|Boolean} paramValueNormalized Value converted for use by view.
          */
-        this.updatePluginControl = function(pluginId, paramKey, paramValue) {
+        this.updatePluginControl = function(pluginId, paramKey, paramValue, paramValueNormalized) {
             var pluginEl = $('[data-' + settings.data.pluginId + '="' + pluginId + '"]');
-            controls.updateControl(pluginEl, paramKey, paramValue);
+            controls.updateControl(pluginEl, paramKey, paramValue, paramValueNormalized);
         };
 
         // extend AbstractView

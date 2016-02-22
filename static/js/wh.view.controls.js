@@ -100,7 +100,7 @@ window.WH = window.WH || {};
                 var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
                     thumb = elements.overlayCtrlGeneric.find(settings.overlaySliderThumb),
                     paramKey = $(e.currentTarget).data(settings.data.paramKey),
-                    param = e.data.plugin.getParameter(paramKey),
+                    param = e.data.plugin.getParameterValues(paramKey),
                     normalValue = (param.value - param.min) / (param.max - param.min),
                     eventData = {
                         pluginId: e.data.plugin.getId(),
@@ -136,9 +136,9 @@ window.WH = window.WH || {};
             onGenericOverlayTouchMove = function(e) {
                 var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
                     y = self.isTouchDevice ? e.originalEvent.changedTouches[0].clientY : e.clientY;
-                    normalValue = Math.max(0, 1 - Math.min(((y - slider.offset().top) / slider.height()), 1)),
-                    value = e.data.param.min + ((e.data.param.max - e.data.param.min) * normalValue);
-                WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, value);
+                    normalValue = Math.max(0, 1 - Math.min(((y - slider.offset().top) / slider.height()), 1));
+                    // value = e.data.param.min + ((e.data.param.max - e.data.param.min) * normalValue);
+                WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, normalValue);
             };
 
         /**
@@ -209,18 +209,19 @@ window.WH = window.WH || {};
          * Update a control to reflect a changed plugin parameter.
          * @param  {Number} pluginId Unique ID of the plugin.
          * @param  {String} paramKey The parameter to change.
-         * @param  {Number, String or Boolean} paramValue The new value for the parameter.
+         * @param  {Number|String|Boolean} paramValue The new value for the parameter.
+         * @param {Number|Boolean} paramValueNormalized Value converted for use by view.
          */
-        this.updateControl = function(pluginEl, paramKey, paramValue) {
+        this.updateControl = function(pluginEl, paramKey, paramValue, paramValueNormalized) {
             var ctrlEl = pluginEl.find(settings.ctrlClass + '[data-' + settings.data.paramKey + '="' + paramKey + '"]'),
                 ctrlType = ctrlEl.data(settings.data.paramType);
 
             switch (ctrlType) {
                 case settings.ctrlTypes.generic:
-                    // var normalValue = (param.value - param.min) / (param.max - param.min),
+                    var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider);
                     ctrlEl.find(settings.ctrlValueClass).text(paramValue.toFixed(2));
                     elements.overlayCtrlGeneric.find(settings.overlayValue).text(paramValue.toFixed(2));
-                    // elements.overlayCtrlGeneric.find(settings.overlaySliderThumb).height(slider.height() * normalValue);
+                    elements.overlayCtrlGeneric.find(settings.overlaySliderThumb).height(slider.height() * paramValueNormalized);
                     break;
                 case settings.ctrlTypes.itemized:
                     break;
