@@ -96,19 +96,26 @@ window.WH = window.WH || {};
              */
             onGenericControlTouchStart = function(e) {
                 e.preventDefault();
+
+                elements.overlayCtrlGeneric.show();
+
                 // get parameter from plugin
                 var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
                     thumb = elements.overlayCtrlGeneric.find(settings.overlaySliderThumb),
                     paramKey = $(e.currentTarget).data(settings.data.paramKey),
                     param = e.data.plugin.getParameterValues(paramKey),
                     normalValue = (param.value - param.min) / (param.max - param.min),
+                    userY = self.isTouchDevice ? e.originalEvent.changedTouches[0].clientY : e.clientY,
+                    normalUserY = Math.max(0, 1 - Math.min(((userY - slider.offset().top) / slider.height()), 1)),
                     eventData = {
                         pluginId: e.data.plugin.getId(),
                         paramKey: paramKey,
-                        param: param
+                        param: param,
+                        normalValue: normalValue,
+                        normalUserY: normalUserY,
+                        isEnabled: false
                     };
 
-                elements.overlayCtrlGeneric.show();
                 elements.overlayCtrlGeneric.find(settings.overlayName).text(param.name);
                 elements.overlayCtrlGeneric.find(settings.overlayValue).text(param.value.toFixed(2));
                 elements.overlayCtrlGeneric.find(settings.overlayMin).text(param.min.toFixed(1));
@@ -135,10 +142,18 @@ window.WH = window.WH || {};
              */
             onGenericOverlayTouchMove = function(e) {
                 var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
-                    y = self.isTouchDevice ? e.originalEvent.changedTouches[0].clientY : e.clientY;
-                    normalValue = Math.max(0, 1 - Math.min(((y - slider.offset().top) / slider.height()), 1));
-                    // value = e.data.param.min + ((e.data.param.max - e.data.param.min) * normalValue);
-                WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, normalValue);
+                    userY = self.isTouchDevice ? e.originalEvent.changedTouches[0].clientY : e.clientY,
+                    normalValue = Math.max(0, 1 - Math.min(((userY - slider.offset().top) / slider.height()), 1));
+
+                if (!e.data.isEnabled && 
+                    ((e.data.normalUserY >= e.data.normalValue) && (normalValue <= e.data.normalValue)) ||
+                    ((e.data.normalUserY <= e.data.normalValue) && (normalValue >= e.data.normalValue))) {
+                    e.data.isEnabled = true;
+                }
+
+                if (e.data.isEnabled) {
+                    WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, normalValue);
+                }
             };
 
         /**
