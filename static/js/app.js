@@ -66,7 +66,7 @@ $(function() {
 
 /**
  * Object.assign polyfill.
- * Used by Safari iOS
+ * Used by Safari iOS.
  * @see https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
  */
 if (typeof Object.assign != 'function') {

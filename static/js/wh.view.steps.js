@@ -99,8 +99,6 @@ window.WH = window.WH || {};
         // extend AbstractView
         WH.AbstractView.call(this, settings);
 
-        console.log(this);
-
         // initialise
         init();
     }
