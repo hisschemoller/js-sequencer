@@ -51,7 +51,7 @@ body {
         cursor: pointer;
         display: block;
         float: left;
-        height: 50px;
+        height: 40px;
         position: relative;
         text-align: center;
         width: 100%;
@@ -79,7 +79,7 @@ body {
         .ctrl__text {
             bottom: 0;
             color: #eee;
-            line-height: 50px;
+            line-height: 40px;
             left: 0;
             position: absolute;
             right: 0;
@@ -91,7 +91,7 @@ body {
             left: 0;
             position: absolute;
             right: 0;
-            top: 6px;
+            top: 3px;
         }
         .ctrl__value {
             color: #eee;
@@ -99,7 +99,7 @@ body {
             left: 0;
             position: absolute;
             right: 0;
-            top: 20px;
+            top: 15px;
         }
 .channels {}
     .channel {
@@ -201,7 +201,7 @@ body {
 
 .transport {
     bottom: 8px;
-    height: 50px;
+    height: 40px;
     left: 8px;
     position: fixed;
     right: 8px;
