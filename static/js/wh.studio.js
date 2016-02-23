@@ -82,8 +82,9 @@ window.WH = window.WH || {};
                 }
 
                 WH.View.setInstrument(instrument, i);
-
-                channels[i].set('pan', data[i].channel.pan);
+                
+                channels[i].setPreset(data[i].channel.preset);
+                WH.View.setPluginPreset(channels[i].getId(), channels[i].getPresetValues());
             }
         };
 

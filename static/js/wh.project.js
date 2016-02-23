@@ -85,10 +85,12 @@ window.WH = window.WH || {};
                             }
                         },
                         channel: {
-                            mute: false,
-                            solo: false,
-                            pan: 0.0,
-                            level: 1.0
+                            preset: {
+                                mute: false,
+                                solo: false,
+                                pan: 0.0,
+                                level: 1.0
+                            }
                         }
                     };
                     data.racks.push(rack);
@@ -140,10 +142,10 @@ window.WH = window.WH || {};
                     var oscType,
                         lfoRate = 1,
                         lfoDepth = 1,
-                        lfoType = WX.findValueByKey(WX.WAVEFORMS, 'Sine');
+                        lfoType = WX.findValueByKey(WX.WAVEFORMS, 'sine');
                     switch (j) {
                         case 0:
-                            oscType = WX.findValueByKey(WX.WAVEFORMS, 'Sine');
+                            oscType = WX.findValueByKey(WX.WAVEFORMS, 'sine');
                             lfoRate = 5;
                             lfoDepth = 100;
                             break;
@@ -152,12 +154,12 @@ window.WH = window.WH || {};
                             break;
                         case 2:
                             oscType = WX.findValueByKey(WX.WAVEFORMS, 'Square');
-                            lfoType = WX.findValueByKey(WX.WAVEFORMS, 'Square');
+                            lfoType = WX.findValueByKey(WX.WAVEFORMS, 'square');
                             lfoRate = 10;
                             lfoDepth = 500;
                             break;
                         case 3:
-                            oscType = WX.findValueByKey(WX.WAVEFORMS, 'Triangle');
+                            oscType = WX.findValueByKey(WX.WAVEFORMS, 'triangle');
                             break;
                     }
                     var rack = {
@@ -172,10 +174,12 @@ window.WH = window.WH || {};
                             }
                         },
                         channel: {
-                            mute: false,
-                            solo: false,
-                            pan: (j * 0.4) - 0.6,
-                            level: 1.0
+                            preset: {
+                                mute: false,
+                                solo: false,
+                                pan: (j * 0.4) - 0.6,
+                                level: 1.0
+                            }
                         }
                     };
                     data.racks.push(rack);

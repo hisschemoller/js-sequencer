@@ -309,6 +309,16 @@ window.WH = window.WH || {};
             controls.updateControl(pluginEl, paramKey, paramValue, paramValueNormalized);
         };
 
+        /**
+         * Apply a plugin preset to the plugin with the provided ID.
+         * @param {Number} pluginId Unique lugin ID.
+         * @param {Array} presetValues Plugin preset as array of objects with key value pairs.
+         */
+        this.setPluginPreset =  function(pluginId, presetValues) {
+            var pluginEl = $('[data-' + settings.data.pluginId + '="' + pluginId + '"]');
+            controls.setPreset(pluginEl, presetValues);
+        };
+
         // extend AbstractView
         WH.AbstractView.call(this, settings);
 

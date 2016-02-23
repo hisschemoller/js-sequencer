@@ -16,6 +16,13 @@
         // @see http://www.bennadel.com/blog/1566-using-super-constructors-is-critical-in-prototypal-inheritance-in-javascript.htm
         WH.PlugIn.call(this);
 
+        this.isAnySoloActive = false;
+
+        // plugin audio nodes
+        this._panner = WX.Panner();
+        this._soloMute = WX.Gain();
+        this._input.to(this._soloMute).to(this._panner).to(this._output);
+
         // callback to notify the other channels of a solo parameter change
         this.soloCallback;
 
@@ -23,12 +30,7 @@
 
         this.isSolo = false;
 
-        this.isAnySoloActive = false;
-
-        // plugin audio nodes
-        this._panner = WX.Panner();
-        this._soloMute = WX.Gain();
-        this._input.to(this._soloMute).to(this._panner).to(this._output);
+        this.level = this._soloMute.gain.value;
 
         // plugin parameters
         WX.defineParams(this, {
@@ -126,6 +128,11 @@
         this._panner.setPosition(value, 0, 0.5);
     };
 
+    Channel.prototype.$level = function(value, time, rampType) {
+        this.level = value;
+        this._soloMute.gain.value = this.level;
+    };
+
     /**
      * Set the callback function to notify the other channels of a solo parameter change.
      * @param {Function} callback The callback function.
@@ -150,22 +157,22 @@
 
         if (pluginId == this.getId()) {
             if (isSolo) {
-                this._soloMute.gain.value = 1.0;
+                this._soloMute.gain.value = this.level;
             } else {
                 if (isAnySoloActive) {
                     this._soloMute.gain.value = 0.0;
                 } else {
-                    this._soloMute.gain.value = 1.0;
+                    this._soloMute.gain.value = this.level;
                 }
             }
         } else {
             if (this.isSolo) {
-                this._soloMute.gain.value = 1.0;
+                this._soloMute.gain.value = this.level;
             } else {
                 if (isAnySoloActive) {
                     this._soloMute.gain.value = 0.0;
                 } else {
-                    this._soloMute.gain.value = 1.0;
+                    this._soloMute.gain.value = this.level;
                 }
             }
         }

@@ -247,6 +247,22 @@ window.WH = window.WH || {};
         };
 
         /**
+         * [setPreset description]
+         * @param {[type]} pluginEl     [description]
+         * @param {[type]} presetValues [description]
+         */
+        this.setPreset = function(pluginEl, presetValues) {
+            var paramKey,
+                paramValues,
+                ctrlEl;
+            
+            for (paramKey in presetValues) {
+                paramValues = presetValues[paramKey];
+                this.updateControl(pluginEl, paramKey, paramValues.value, paramValues.valueNormalized);
+            }
+        };
+
+        /**
          * Add the controls that selects a channel in the mixer.
          * @param {Object} containerEls jQuery HTML element.
          * @param {Array} colorClasses Array of CSS colour class names.

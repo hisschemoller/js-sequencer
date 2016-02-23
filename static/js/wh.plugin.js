@@ -137,7 +137,25 @@ WH.PlugIn.getParameterValues = function(paramKey) {
             name: param.name,
             min: param.min,
             max: param.max,
-            value: param.value
+            value: param.value,
+            type: param.type,
+            isEditable: this.isEditableParam(paramKey),
+            valueNormalized: this.getParameter(paramKey)
         };
     }
 };
+
+/**
+ * Get the values of all parameters in a preset, not the parameters themselves.
+ * @param  {String} paramKey Key of the parameter in the parameters array. 
+ * @return {Array} Array of parameter value objects.
+ */
+WH.PlugIn.getPresetValues = function() {
+    var preset = {};
+    for (var paramKey in this.params) {
+        if (WX.hasParam(this, paramKey)) {
+            preset[paramKey] = this.getParameterValues(paramKey);
+        }
+    }
+    return preset;
+}
