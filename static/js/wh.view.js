@@ -299,14 +299,13 @@ window.WH = window.WH || {};
 
         /**
          * Update a control to reflect a changed plugin parameter.
-         * @param  {Number} pluginId Unique ID of the plugin.
-         * @param  {String} paramKey The parameter to change.
-         * @param  {Number|String|Boolean} paramValue The new value for the parameter.
-         * @param {Number|Boolean} paramValueNormalized Value converted for use by view.
+         * @param {Number} pluginId Unique ID of the plugin.
+         * @param {String} paramKey The parameter to change.
+         * @param {Object} paramValues Object containing all the values of the parameter.
          */
-        this.updatePluginControl = function(pluginId, paramKey, paramValue, paramValueNormalized) {
+        this.updatePluginControl = function(pluginId, paramKey, paramValues) {
             var pluginEl = $('[data-' + settings.data.pluginId + '="' + pluginId + '"]');
-            controls.updateControl(pluginEl, paramKey, paramValue, paramValueNormalized);
+            controls.updateControl(pluginEl, paramKey, paramValues);
         };
 
         /**

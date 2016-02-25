@@ -35,7 +35,8 @@ body {
 .rack__processors,
 .plugin__header,
 .plugin__controls,
-.ctrls {
+.ctrls,
+.overlay-ctrl__items {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -212,7 +213,8 @@ body {
         display: none;
     }
 #overlay-startup,
-#overlay-ctrl-generic {
+#overlay-ctrl-generic,
+#overlay-ctrl-itemized {
     background-color: #333;
     bottom: 0;
     display: none;
@@ -242,6 +244,28 @@ body {
             left: 0;
             position: absolute;
             right: 0;
+        }
+    .overlay-ctrl__items {
+        border: 1px solid #999;
+        margin: 20px 30px;
+    }
+        .overlay-ctrl__item:not(:last-child) {
+            border-bottom: 1px solid #999;
+        }
+        .overlay-ctrl__item {
+            background-color: #666;
+            color: #fff;
+            padding: 15px 30px;
+            cursor: pointer;
+        }
+        .overlay-ctrl__item.is-selected {
+            background-color: #aaa;
+        }
+        .overlay-ctrl__item.is-active {
+            background-color: #888;
+        }
+        .overlay-ctrl__item.is-active.is-selected {
+            background-color: #bbb;
         }
 #templates {
     display: none;

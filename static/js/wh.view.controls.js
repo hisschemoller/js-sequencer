@@ -24,6 +24,8 @@ window.WH = window.WH || {};
                 overlayMax: '.overlay-ctrl__max',
                 overlaySlider: '.overlay-ctrl__slider',
                 overlaySliderThumb: '.overlay-ctrl__slider-thumb',
+                overlayList: '.overlay-ctrl__items',
+                overlayListItem: '.overlay-ctrl__item',
 
                 ctrlChannelSelectClass: '.ctrl--channel-select',
                 tabClass: '.ctrl--tab',
@@ -48,15 +50,16 @@ window.WH = window.WH || {};
             elements = {
                 app: $('#app'),
                 overlayCtrlGeneric: $('#overlay-ctrl-generic'),
+                overlayCtrlItemized: $('#overlay-ctrl-itemized'),
 
                 templates: {
                     ctrlGeneric: $('#template-ctrl-generic'),
                     ctrlBoolean: $('#template-ctrl-boolean'),
                     ctrlItemized: $('#template-ctrl-itemized'),
                     transport: $('#template-ctrl-transport'),
-                    // step: $('#template-step'),
                     channelSelect: $('#template-channel-select'),
-                    tab: $('#template-tab')
+                    tab: $('#template-tab'),
+                    overlayControlItem: $('#template-overlay-ctrl-item')
                 }
             },
 
@@ -92,7 +95,7 @@ window.WH = window.WH || {};
 
             /**
              * Generic control pressed on a plugin.
-             * @param {Event} e Touchstart or mousedoen event.
+             * @param {Event} e Touchstart or mousedown event.
              */
             onGenericControlTouchStart = function(e) {
                 e.preventDefault();
@@ -153,6 +156,91 @@ window.WH = window.WH || {};
 
                 if (e.data.isEnabled) {
                     WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, normalValue);
+                }
+            },
+
+            /**
+             * Itemized control pressed on a plugin.
+             * @param {Event} e Touchstart or mousedown event.
+             */
+            onItemizedControlTouchStart = function(e) {
+                e.preventDefault();
+                elements.overlayCtrlItemized.show();
+
+                var paramKey = $(e.currentTarget).data(settings.data.paramKey),
+                    param = e.data.plugin.getParameterValues(paramKey),
+                    listEl = elements.overlayCtrlItemized.find(settings.overlayList),
+                    i = 0,
+                    n = param.model.length,
+                    itemEl;
+
+                elements.overlayCtrlItemized.find(settings.overlayName).text(param.name);
+                listEl.empty();
+
+                for (i; i < n; i++) {
+                    itemEl = elements.templates.overlayControlItem.children().first().clone();
+                    itemEl.text(param.model[i].key);
+                    itemEl.appendTo(listEl);
+
+                    if (param.value == param.model[i].value) {
+                        itemEl.addClass(settings.selectedClass);
+                    }
+                }
+
+                var listOffset = listEl.offset(),
+                    eventData = {
+                        pluginId: e.data.plugin.getId(),
+                        paramKey: paramKey,
+                        model: param.model,
+                        originalIndex: param.valueNormalized,
+                        changedIndex: null,
+                        itemEls: elements.overlayCtrlItemized.find(settings.overlayListItem),
+                        listLeft: listOffset.left,
+                        listTop: listOffset.top,
+                        listRight: listOffset.left + listEl.width(),
+                        listBottom: listOffset.top + listEl.height(),
+                        itemHeight: listEl.height() / param.model.length
+                    };
+                
+                elements.app.on(self.eventType.move, eventData, onItemizedOverlayTouchMove);
+                elements.app.on(self.eventType.end, eventData, onItemizedOverlayTouchEnd);
+            },
+
+            /**
+             * Itemized control overlay touchend or mouseup.
+             * @param {Event} e Touch or mouse end event.
+             */
+            onItemizedOverlayTouchEnd = function(e) {
+                elements.overlayCtrlItemized.hide();
+                elements.app.off(self.eventType.move, onItemizedOverlayTouchMove);
+                elements.app.off(self.eventType.end, onItemizedOverlayTouchEnd);
+            },
+
+            /**
+             * Itemized control overlay touchend or mouseup.
+             * @param {Event} e Touch or mouse move event.
+             */
+            onItemizedOverlayTouchMove = function(e) {
+                var userX = self.isTouchDevice ? e.originalEvent.changedTouches[0].clientX : e.clientX,
+                    userY = self.isTouchDevice ? e.originalEvent.changedTouches[0].clientY : e.clientY,
+                    newIndex;
+
+                if (userX > e.data.listLeft && userX < e.data.listRight &&
+                    userY > e.data.listTop && userY < e.data.listBottom) {
+                    newIndex = Math.floor((userY - e.data.listTop) / e.data.itemHeight);
+                } else {
+                    newIndex = -1;
+                }
+
+                if (newIndex != e.data.changedIndex) {
+                    e.data.itemEls.removeClass(settings.activeClass);
+                    if (newIndex == -1) {
+                        newIndex = e.data.originalIndex;
+                    } else {
+                        e.data.itemEls[newIndex].className += ' ' + settings.activeClass;
+                    }
+                    e.data.changedIndex = newIndex;
+                    WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, newIndex);
                 }
             };
 
@@ -218,38 +306,39 @@ window.WH = window.WH || {};
             // DOM event handlers
             containerEl.find(settings.ctrlBooleanClass).on(this.eventType.click, eventData, onBooleanControlClick);
             containerEl.find(settings.ctrlGenericClass).on(this.eventType.start, eventData, onGenericControlTouchStart);
+            containerEl.find(settings.ctrlItemizedClass).on(this.eventType.start, eventData, onItemizedControlTouchStart);
         };
 
         /**
          * Update a control to reflect a changed plugin parameter.
-         * @param  {Number} pluginId Unique ID of the plugin.
-         * @param  {String} paramKey The parameter to change.
-         * @param  {Number|String|Boolean} paramValue The new value for the parameter.
-         * @param {Number|Boolean} paramValueNormalized Value converted for use by view.
+         * @param {Number} pluginId Unique ID of the plugin.
+         * @param {String} paramKey The parameter to change.
+         * @param {Object} paramValues Object containing all the values of the parameter.
          */
-        this.updateControl = function(pluginEl, paramKey, paramValue, paramValueNormalized) {
+        this.updateControl = function(pluginEl, paramKey, paramValues) {
             var ctrlEl = pluginEl.find(settings.ctrlClass + '[data-' + settings.data.paramKey + '="' + paramKey + '"]'),
                 ctrlType = ctrlEl.data(settings.data.paramType);
 
             switch (ctrlType) {
                 case settings.ctrlTypes.generic:
                     var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider);
-                    ctrlEl.find(settings.ctrlValueClass).text(paramValue.toFixed(2));
-                    elements.overlayCtrlGeneric.find(settings.overlayValue).text(paramValue.toFixed(2));
-                    elements.overlayCtrlGeneric.find(settings.overlaySliderThumb).height(slider.height() * paramValueNormalized);
+                    ctrlEl.find(settings.ctrlValueClass).text(paramValues.value.toFixed(2));
+                    elements.overlayCtrlGeneric.find(settings.overlayValue).text(paramValues.value.toFixed(2));
+                    elements.overlayCtrlGeneric.find(settings.overlaySliderThumb).height(slider.height() * paramValues.valueNormalized);
                     break;
                 case settings.ctrlTypes.itemized:
+                    ctrlEl.find(settings.ctrlValueClass).text(paramValues.model[paramValues.valueNormalized].key);
                     break;
                 case settings.ctrlTypes.boolean:
-                    ctrlEl.toggleClass(settings.selectedClass, paramValue);
+                    ctrlEl.toggleClass(settings.selectedClass, paramValues.value);
                     break;
             }
         };
 
         /**
-         * [setPreset description]
-         * @param {[type]} pluginEl     [description]
-         * @param {[type]} presetValues [description]
+         * Set a plugin preset. This sets all plugin parameters.
+         * @param {Object} pluginEl jQuery HTML element.
+         * @param {Array} presetValues Plugin preset as array of objects with key value pairs.
          */
         this.setPreset = function(pluginEl, presetValues) {
             var paramKey,
@@ -258,7 +347,9 @@ window.WH = window.WH || {};
             
             for (paramKey in presetValues) {
                 paramValues = presetValues[paramKey];
-                this.updateControl(pluginEl, paramKey, paramValues.value, paramValues.valueNormalized);
+                if (paramValues.isEditable) {
+                    this.updateControl(pluginEl, paramKey, paramValues);
+                }
             }
         };
 

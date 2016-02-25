@@ -139,6 +139,7 @@ WH.PlugIn.getParameterValues = function(paramKey) {
             max: param.max,
             value: param.value,
             type: param.type,
+            model: param.model,
             isEditable: this.isEditableParam(paramKey),
             valueNormalized: this.getParameter(paramKey)
         };

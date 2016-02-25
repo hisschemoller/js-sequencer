@@ -142,10 +142,10 @@ window.WH = window.WH || {};
                     var oscType,
                         lfoRate = 1,
                         lfoDepth = 1,
-                        lfoType = WX.findValueByKey(WX.WAVEFORMS, 'sine');
+                        lfoType = WX.findValueByKey(WX.WAVEFORMS, 'Sine');
                     switch (j) {
                         case 0:
-                            oscType = WX.findValueByKey(WX.WAVEFORMS, 'sine');
+                            oscType = WX.findValueByKey(WX.WAVEFORMS, 'Sine');
                             lfoRate = 5;
                             lfoDepth = 100;
                             break;
@@ -154,12 +154,12 @@ window.WH = window.WH || {};
                             break;
                         case 2:
                             oscType = WX.findValueByKey(WX.WAVEFORMS, 'Square');
-                            lfoType = WX.findValueByKey(WX.WAVEFORMS, 'square');
+                            lfoType = WX.findValueByKey(WX.WAVEFORMS, 'Square');
                             lfoRate = 10;
                             lfoDepth = 500;
                             break;
                         case 3:
-                            oscType = WX.findValueByKey(WX.WAVEFORMS, 'triangle');
+                            oscType = WX.findValueByKey(WX.WAVEFORMS, 'Triangle');
                             break;
                     }
                     var rack = {
