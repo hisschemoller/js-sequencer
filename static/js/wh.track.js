@@ -65,7 +65,7 @@ window.WH = window.WH || {};
             var secondEnd = 0;
             if (localEnd > lengthInTicks) {
                 var secondStart = 0;
-                secondEnd = localEnd - this.lengthInTicks;
+                secondEnd = localEnd - lengthInTicks;
             }
 
             // get the events
