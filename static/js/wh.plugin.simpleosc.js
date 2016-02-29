@@ -93,8 +93,6 @@
         this.addEditableParams([{
                 key: 'oscType'
             }, {
-                key: 'oscFreq'
-            }, {
                 key: 'lfoType'
             }, {
                 key: 'lfoRate'
