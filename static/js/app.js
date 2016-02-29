@@ -32,6 +32,9 @@ $(function() {
      * @see https://paulbakaus.com/tutorials/html5/web-audio-on-ios/
      */
     function unlockIOSAudio() {
+        // remove event listener
+        overlay.off('touchend', unlockIOSAudio);
+        
         // create an empty buffer
         var buffer = WX._ctx.createBuffer(1, 1, 22050);
         var source = WX._ctx.createBufferSource();
@@ -46,12 +49,12 @@ $(function() {
         }
 
         // setup a timeout to check that we are unlocked on the next event loop
-        setTimeout(function() {
-            if ((source.playbackState === source.PLAYING_STATE || source.playbackState === source.FINISHED_STATE)) {
-                overlay.off('touchend', unlockIOSAudio);
+        var interval = setInterval(function() {
+            if (WX.now > 0) {
+                clearInterval(interval);
                 startApp();
             }
-        }, 1000);
+        }, 100);
     }
     
     // show click overlay on iOS devices

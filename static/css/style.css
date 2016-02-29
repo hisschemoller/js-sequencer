@@ -222,7 +222,12 @@ body {
     position: absolute;
     right: 0;
     top: 0;
-}
+}  
+    .overlay-startup_header {
+        display: block;
+        font-size: 32px;
+        margin-top: 50px;
+    }
     .overlay-ctrl__info {
         padding: 20px 40px 0 40px;
         width: 100%;
