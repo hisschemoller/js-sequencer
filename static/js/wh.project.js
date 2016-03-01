@@ -164,7 +164,7 @@ window.WH = window.WH || {};
                     }
                     var rack = {
                         instrument: {
-                            name: 'simpleosc',
+                            name: 'wxs1',
                             preset: {
                                 oscType: oscType,
                                 oscFreq: WX.mtof(60),

@@ -74,6 +74,9 @@ window.WH = window.WH || {};
                     case 'simpleosc':
                         instrument = WX.SimpleOsc(data[i].instrument.preset);
                         break;
+                    case 'wxs1':
+                        instrument = WX.WXS1();
+                        break;
                 }
                 
                 if (instrument) {
