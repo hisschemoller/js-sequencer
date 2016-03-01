@@ -63,7 +63,7 @@
 
             osc1type: {
                 type: 'Itemized',
-                name: 'Waveform',
+                name: 'Osc 1',
                 default: 'square',
                 model: WX.WAVEFORMS
             },
@@ -79,7 +79,7 @@
 
             osc1gain: {
                 type: 'Generic',
-                name: 'Gain',
+                name: 'Osc1 Gain',
                 default: 0.5,
                 min: 0.0,
                 max: 1.0,
@@ -88,7 +88,7 @@
 
             osc2type: {
                 type: 'Itemized',
-                name: 'Waveform',
+                name: 'Osc 2',
                 default: 'square',
                 model: WX.WAVEFORMS
             },
@@ -149,7 +149,7 @@
 
             filterAttack: {
                 type: 'Generic',
-                name: 'FiltAtt',
+                name: 'Filt Att',
                 default: 0.02,
                 min: 0.0,
                 max: 5.0,
@@ -158,7 +158,7 @@
 
             filterDecay: {
                 type: 'Generic',
-                name: 'FiltDec',
+                name: 'Filt Dec',
                 default: 0.04,
                 min: 0.0,
                 max: 5.0,
@@ -167,7 +167,7 @@
 
             filterSustain: {
                 type: 'Generic',
-                name: 'FiltSus',
+                name: 'Filt Sus',
                 default: 0.25,
                 min: 0.0,
                 max: 1.0
@@ -175,7 +175,7 @@
 
             filterRelease: {
                 type: 'Generic',
-                name: 'FiltRel',
+                name: 'Filt Rel',
                 default: 0.2,
                 min: 0.0,
                 max: 10.0,
@@ -376,30 +376,58 @@
         this._lowpass.detune.set(0.0, [time, p.filterRelease.get()], 3);
     };
 
+    /**
+     * Start a note with pitch, velocity at time in seconds.
+     * @param  {Number} pitch    MIDI pitch
+     * @param  {Number} velocity MIDI velocity.
+     * @param  {Number} time     Time in seconds.
+     */
+    WXS1.prototype.noteOn = function (pitch, velocity, time) {  
+        time = (time || WX.now);
+        this._pitchTimeStamps[pitch] = time;
+        var pitch = this._getCurrentPitch();
+        // The first key will start envelopes.
+        if (Object.keys(this._pitchTimeStamps).length === 1) {
+            this._changePitch(pitch, time);
+            this._startEnvelope(time);
+        } else {
+            this._changePitch(pitch, time);
+        }
+    };
+
+    /**
+     * Stop a note at time in seconds.
+     * @param  {Number} pitch    MIDI pitch
+     * @param {Number} time Time in seconds.
+     */
+    WXS1.prototype.noteOff = function (pitch, time) {
+        time = (time || WX.now);
+        if (this._pitchTimeStamps.hasOwnProperty(pitch)) {
+            delete this._pitchTimeStamps[pitch];
+        }
+        var pitch = this._getCurrentPitch();
+        // There is no key pressed. Release envelope.
+        if (pitch === null) {
+            this._releaseEnvelope(time);
+        } else {
+            this._changePitch(pitch, time);
+        }
+    };
+
+    /**
+     * Route incoming event data from other WAAX input devices.
+     * @param  {String} action Action type: ['noteon', 'noteoff']
+     * @param  {Object} data   Event data.
+     * @param  {Object} data.pitch   MIDI Pitch
+     * @param  {Object} data.velocity   MIDI Velocity.
+     */
     WXS1.prototype.onData = function (action, data) {
         switch (action) {
             case 'noteon':
-                this._pitchTimeStamps[data.pitch] = data.time;
-                var pitch = this._getCurrentPitch();
-                // The first key will start envelopes.
-                if (Object.keys(this._pitchTimeStamps).length === 1) {
-                    this._changePitch(pitch, data.time);
-                    this._startEnvelope(data.time);
-                } else {
-                    this._changePitch(pitch, data.time);
-                }
+                this.noteOn(data.pitch, data.velocity, data.time);
                 break;
             case 'noteoff':
-                if (this._pitchTimeStamps.hasOwnProperty(data.pitch)) {
-                    delete this._pitchTimeStamps[data.pitch];
-                }
-                var pitch = this._getCurrentPitch();
-                // There is no key pressed. Release envelope.
-                if (pitch === null) {
-                    this._releaseEnvelope(data.time);
-                } else {
-                    this._changePitch(pitch, data.time);
-                }
+                this.noteOff(data.pitch, data.time);
                 break;
         }
     };

@@ -103,7 +103,7 @@ window.WH = window.WH || {};
                 if (step.velocity > 0) {
                     instrument = instruments[step.channel];
                     instrument.noteOn(step.pitch, step.velocity, step.absStart);
-                    instrument.noteOff(step.absEnd);
+                    instrument.noteOff(step.pitch, step.absEnd);
                 }
             }
         };

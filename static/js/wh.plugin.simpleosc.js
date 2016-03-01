@@ -155,9 +155,10 @@
 
     /**
      * Stop a note at time in seconds.
+     * @param {Number} pitch    MIDI pitch
      * @param {Number} time Time in seconds.
      */
-    SimpleOsc.prototype.noteOff = function (time) {
+    SimpleOsc.prototype.noteOff = function (pitch, time) {
         time = (time || WX.now);
         this._amp.gain.set(0.0, [time, 0.2], 3);
     },
@@ -172,10 +173,10 @@
     SimpleOsc.prototype.onData = function (action, data) {
         switch (action) {
             case 'noteon':
-                this.noteOn(data.pitch, data.velocity);
+                this.noteOn(data.pitch, data.velocity, data.time);
                 break;
             case 'noteoff':
-                this.noteOff();
+                this.noteOff(data.pitch, data.time);
                 break;
         }
     };
