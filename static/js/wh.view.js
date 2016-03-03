@@ -128,6 +128,7 @@ window.WH = window.WH || {};
                 controls.addTransportControls(elements.transportContainer, settings.transport);
 
                 self.setSelectedChannel(0);
+                self.setSelectedTab(0);
             };
 
             /**
@@ -210,11 +211,16 @@ window.WH = window.WH || {};
                 i = 0,
                 n = openTabs.length;
 
+
             for (i; i < n; i++) {
                 var tab = $(openTabs[i]),
                     tabIndex = elements.tabs.index(tab);
                 tab.removeClass(settings.selectedClass);
                 switch (tabIndex) {
+                    case 0:
+                        // close instrument
+                        elements.rackContainer.slideUp();
+                        break;
                     case 1:
                         // close mixer
                         elements.channels.find(settings.channelControlsClass).slideUp();
@@ -225,6 +231,10 @@ window.WH = window.WH || {};
             if (!isOpen) {
                 tabEl.addClass(settings.selectedClass);
                 switch (index) {
+                    case 0:
+                        // open instrument
+                        elements.rackContainer.slideDown();
+                        break;
                     case 1:
                         // open mixer
                         elements.channels.find(settings.channelControlsClass).slideDown();
