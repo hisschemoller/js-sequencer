@@ -11,11 +11,10 @@ window.WH = window.WH || {};
      * @constructor
      * @param {object} data Track setup data.
      * @param {Number} channel Channel (and instrument) on which this note is played.
-     * @param {Number} ppqn Parts Per Quarter Note, the smallest sequencer time unit.
      */
-    function Track(data, channel, ppqn) {
+    function Track(data, channel) {
         var steps = [],
-            lengthInTicks = 4 * ppqn,
+            lengthInTicks = 4 * WH.Conf.getPPQN(),
 
             /**
              * Initialise empty pattern.
@@ -115,8 +114,8 @@ window.WH = window.WH || {};
     /** 
      * Exports
      */
-    WH.Track = function (data, channel, ppqn) {
-        return new Track(data, channel, ppqn);
+    WH.Track = function (data, channel) {
+        return new Track(data, channel);
     };
 
 })(WH);

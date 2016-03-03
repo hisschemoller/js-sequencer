@@ -14,7 +14,9 @@ window.WH = window.WH || {};
 
         var patternCount = 16,
             trackCount = 4,
-            stepCount = 16;
+            patternDurationInBeats = 4,
+            stepsPerBeat = 4,
+            ppqn = 480;
 
         this.getPatternCount = function() {
             return patternCount;
@@ -24,8 +26,20 @@ window.WH = window.WH || {};
             return trackCount;
         };
 
+        this.getPatternDurationInBeats = function() {
+            return patternDurationInBeats;
+        };
+
+        this.getStepsPerBeat = function() {
+            return stepsPerBeat;
+        };
+
         this.getStepCount = function() {
-            return stepCount;
+            return patternDurationInBeats * stepsPerBeat;
+        };
+        
+        this.getPPQN = function() {
+            return ppqn;
         };
     }
     

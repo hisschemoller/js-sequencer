@@ -85,14 +85,6 @@ window.WH = window.WH || {};
         }
         return WH.TimeBase.isRunning();
     }
-
-    /**
-     * Get Pulses Per Quarter Note.
-     * @return {number} Pulses Per Quarter Note.
-     */
-    TimeBase.prototype.getPPQN = function() {
-        return _TICKS_PER_BEAT;
-    };
     
     /** 
      * Singleton

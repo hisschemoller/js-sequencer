@@ -252,7 +252,7 @@ window.WH = window.WH || {};
             elements.racks.removeClass(settings.selectedClass);
             elements.racks.get(channelIndex).className += ' ' + settings.selectedClass;
 
-            steps.setSelected(channelIndex);
+            this.setSelectedSteps();
         };
 
         /**
@@ -261,6 +261,7 @@ window.WH = window.WH || {};
          * @param {Number} index Channel / track index.
          */
         this.setSelectedSteps = function(index) {
+            index = isNaN(index) ? channelIndex : index;
             steps.setSelected(index);
         };
 

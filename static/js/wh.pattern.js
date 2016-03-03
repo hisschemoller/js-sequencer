@@ -10,20 +10,21 @@ window.WH = window.WH || {};
     /**
      * @constructor
      * @param {Object} data Pattern setup data.
-     * @param {Number} ppqn Parts Per Quarter Note, the smallest sequencer time unit.
      */
-    function Pattern(data, ppqn) {
+    function Pattern(data) {
 
         var trackCount = 0,
             tracks = [],
+            lengthInTicks,
 
             /**
              * Initialise pattern.
              */
-            init = function(data, ppqn) {
+            init = function(data) {
                 trackCount = data.tracks.length;
+                lengthInTicks = WH.Conf.getPPQN() * WH.Conf.getPatternDurationInBeats();
                 for (var i = 0; i < trackCount; i++) {
-                    tracks.push(WH.Track(data.tracks[i], i, ppqn));
+                    tracks.push(WH.Track(data.tracks[i], i));
                 }
             };
         
@@ -34,10 +35,15 @@ window.WH = window.WH || {};
          * @param {Number} end End of time range in ticks.
          * @param {Array} playbackQueue Events that happen within the time range.
          */
-        this.scanEvents = function (absoluteStart, start, end, playbackQueue) {
+        this.scanEvents = function (start, end, playbackQueue) {
+
+            // convert transport time to song time
+            var localStart = start % lengthInTicks;
+            var localEnd = localStart + (end - start);
+
             // scan for events
             for (var i = 0; i < tracks.length; i++) {
-                var events = tracks[i].scanEventsInTimeSpan(absoluteStart, start, end, playbackQueue);
+                var events = tracks[i].scanEventsInTimeSpan(start, localStart, localEnd, playbackQueue);
             }
         };
 
@@ -65,14 +71,14 @@ window.WH = window.WH || {};
             return trackData;
         };
 
-        init(data, ppqn);
+        init(data);
     }
 
     /** 
      * Exports
      */
-    WH.Pattern = function (data, ppqn) {
-        return new Pattern(data, ppqn);
+    WH.Pattern = function (data) {
+        return new Pattern(data);
     };
 
 })(WH);
