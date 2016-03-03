@@ -209,20 +209,37 @@ window.WH = window.WH || {};
         };
 
         /**
+         * Load project from localStorage.
+         */
+        this.loadFromStorage = function() {
+            var data = localStorage.getItem(settings.projectName);
+            if (data) {
+                data = JSON.parse(data);
+                WH.TimeBase.setBPM(data.bpm);
+                WH.Arrangement.setData(data.patterns);
+                WH.Studio.setData(data.racks);
+            }
+        };
+
+        /**
+         * Save project if autoSave is enabled.
+         */
+        this.autoSave = function() {
+            if (autoSaveEnabled) {
+                this.save();
+            }
+        }
+
+        /**
          * Collect all project data and save it in localStorage.
          */
         this.save = function() {
-            if (!autoSaveEnabled) {
-                return;
-            }
 
             var data = {
                 bpm: WH.TimeBase.getBPM(),
                 patterns: WH.Arrangement.getData(),
                 racks: WH.Studio.getData()
             }
-
-            // console.log('save: ', data);
 
             localStorage.setItem(settings.projectName, JSON.stringify(data));
         };

@@ -61,14 +61,16 @@ window.WH = window.WH || {};
          * @return {Array} Array of objects with all data per channel and rack.
          */
         this.getData = function() {
-            var trackData = [],
+            var patternData = {
+                    tracks: []
+                },
                 i = 0;
 
             for (i; i < trackCount; i++) {
-                trackData.push(tracks[i].getData());
+                patternData.tracks.push(tracks[i].getData());
             }
 
-            return trackData;
+            return patternData;
         };
 
         init(data);

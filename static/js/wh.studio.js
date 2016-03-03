@@ -81,7 +81,7 @@ window.WH = window.WH || {};
                 
                 for (j = 0; j < p; j++) {
                     if (generators[j] == rack.instrument.name) {
-                        instrument = WX[rack.instrument.name]();
+                        instrument = WX[rack.instrument.name](rack.instrument.preset);
                         break;
                     }
                 }

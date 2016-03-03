@@ -40,15 +40,15 @@ window.WH = window.WH || {};
          * @return {Array} Array of objects with all data per channel and rack.
          */
         this.getData = function() {
-            var data = [],
+            var patternData = [],
                 i = 0,
                 n = WH.Conf.getPatternCount();
 
             for (i; i < n; i++) {
-                data.push(patterns[i].getData());
+                patternData.push(patterns[i].getData());
             }
 
-            return data;
+            return patternData;
         };
 
         /**

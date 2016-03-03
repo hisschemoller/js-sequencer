@@ -98,14 +98,16 @@ window.WH = window.WH || {};
          * @return {Array} Array of objects with all data per channel and rack.
          */
         this.getData = function() {
-            var stepData = [],
+            var trackData = {
+                    steps: []
+                },
                 id;
 
             for (var id in steps) {
-               stepData.push(steps[id].getData());
+               trackData.steps.push(steps[id].getData());
             }
 
-            return stepData;
+            return trackData;
         };
 
         init(data, channel);
