@@ -28,7 +28,7 @@ window.WH = window.WH || {};
             var data = {
                 bpm: WH.TimeBase.getBPM(),
                 racks: WH.Studio.getData(),
-                patterns: WH.Project.getData()
+                patterns: WH.Arrangement.getData()
             }
 
             console.log('save: ', data);

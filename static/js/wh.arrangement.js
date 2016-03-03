@@ -1,5 +1,5 @@
 /**
- * Project holds all data of the current piece of music. 
+ * Arrangement holds all data of the current piece of music. 
  * In that way it's sort of a model for the app.
  * It can also provide the musical events that happen within a given timespan.
  * It will probably also keep state of song or pattern mode.
@@ -12,9 +12,9 @@ window.WH = window.WH || {};
 
     /**
      * @constructor
-     * @param {Object} data Project data.
+     * @param {Object} data Arrangement data.
      */
-    function Project(data) {
+    function Arrangement(data) {
 
         var beatsPerMinute = 0,
             secondsPerBeat = 0,
@@ -27,15 +27,15 @@ window.WH = window.WH || {};
 
 
             /**
-             * Set up a project from the provided data, or create a new empty project.
-             * @param {Object} data Project data object.
+             * Set up an arrangement from the provided data, or create a new empty arrangement.
+             * @param {Object} data Arrangement data object.
              */
             setData = function(data) {
                 
                 var ppqn = WH.TimeBase.getPPQN();
                 patternDurationInTicks = patternDurationInBeats * ppqn;
 
-                var data = data || this.getEmptyProject();
+                var data = data || this.getEmptyArrangement();
 
                 // set timing
                 setBPM(data.bpm);
@@ -49,16 +49,16 @@ window.WH = window.WH || {};
                 }
 
                 // set studio
-                WH.Studio.setProject(data.racks);
+                WH.Studio.setData(data.racks);
                 // update view
                 WH.View.setSelectedSteps(0);
             },
 
             /**
-             * Create data for a new empty project.
-             * @return {Object}  Empty project setup data.
+             * Create data for a new empty arrangement.
+             * @return {Object}  Empty arrangement setup data.
              */
-            getEmptyProject = function() {
+            getEmptyArrangement = function() {
 
                 var ppqn = WH.TimeBase.getPPQN(),
                     patternCount = WH.Conf.getPatternCount(),
@@ -122,10 +122,10 @@ window.WH = window.WH || {};
             },
 
             /**
-             * Create data for a project with randomized patterns and data.
-             * @return {Object}  Empty project setup data.
+             * Create data for an arrangement with randomized patterns and data.
+             * @return {Object}  Empty arrangement setup data.
              */
-            getRandomizedProject = function() {
+            getRandomizedArrangement = function() {
 
                 var ppqn = WH.TimeBase.getPPQN(),
                     patternCount = WH.Conf.getPatternCount(),
@@ -236,7 +236,7 @@ window.WH = window.WH || {};
 
             /**
              * Set BPM and update related variables.
-             * @param {Number} bpm Project tempo in Beats Per Minute.
+             * @param {Number} bpm Tempo in Beats Per Minute.
              * @return {Number} Factor by which the playback speed has changed.
              */
             setBPM = function(bpm) {
@@ -246,17 +246,17 @@ window.WH = window.WH || {};
             };
 
         /**
-         * Create a new empty project.
+         * Create a new empty arrangement.
          */
         this.createNew = function() {
             setData();
         };
 
         /**
-         * Create a new random generated project.
+         * Create a new random generated arrangement.
          */
         this.createRandom = function() {
-            setData(getRandomizedProject());
+            setData(getRandomizedArrangement());
         };
 
         /**
@@ -307,5 +307,5 @@ window.WH = window.WH || {};
     /** 
      * Singleton
      */
-    WH.Project = new Project();
+    WH.Arrangement = new Arrangement();
 })(WH);

@@ -37,7 +37,7 @@ window.WH = window.WH || {};
     }
 
     /**
-     * The WAAX Transport is extended to deal with a Project object.
+     * The WAAX Transport is extended to deal with an Arrangement object.
      * @type {Transport}
      */
     TimeBase.prototype = Transport.prototype;
@@ -50,8 +50,8 @@ window.WH = window.WH || {};
         if (this._needsScan) {
             this._needsScan = false;
 
-            // fill _playbackQueue with project arrangement events 
-            WH.Project.scanEvents(this.sec2tick(this._scanStart), this.sec2tick(this._scanEnd), this._playbackQueue);
+            // fill _playbackQueue with arrangement events 
+            WH.Arrangement.scanEvents(this.sec2tick(this._scanStart), this.sec2tick(this._scanEnd), this._playbackQueue);
 
             if (this._playbackQueue.length) {
                 // adjust event timing

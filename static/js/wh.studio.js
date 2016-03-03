@@ -64,7 +64,7 @@ window.WH = window.WH || {};
          * Add instuments and connect them to the output.
          * @param {Array} data Studio setup data.
          */
-        this.setProject = function(data) {
+        this.setData = function(data) {
             var rack,
                 instrument,
                 channel,
