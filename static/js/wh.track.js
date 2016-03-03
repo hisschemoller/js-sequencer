@@ -23,9 +23,11 @@ window.WH = window.WH || {};
              * @param {Number} channel Channel (and instrument) on which this note is played.
              */
             init = function(data, channel) {
-                var d, 
+                var i = 0,
+                    d, 
                     n = data.steps.length;
-                for(var i = 0; i < n; i++) {
+
+                for (i; i < n; i++) {
                     d = data.steps[i];
                     push( WH.Step(d.pitch, d.velocity, d.start, d.duration, channel, i) );
                 }
@@ -90,6 +92,21 @@ window.WH = window.WH || {};
          */
         this.getSteps = function() {
             return steps;
+        };
+
+        /**
+         * Get all settings that should be saved with a project.
+         * @return {Array} Array of objects with all data per channel and rack.
+         */
+        this.getData = function() {
+            var stepData = [],
+                id;
+
+            for (var id in steps) {
+               stepData.push(steps[id].getData());
+            }
+
+            return stepData;
         };
 
         init(data, channel);

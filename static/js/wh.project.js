@@ -75,7 +75,7 @@ window.WH = window.WH || {};
                 for (var j = 0; j < trackCount; j++) {
                     var rack = {
                         instrument: {
-                            name: 'simpleosc',
+                            name: 'SimpleOsc',
                             preset: {
                                 oscType: WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
                                 oscFreq: WX.mtof(60),
@@ -164,7 +164,7 @@ window.WH = window.WH || {};
                     }
                     var rack = {
                         instrument: {
-                            name: 'wxs1',
+                            name: 'WXS1',
                             preset: {
                                 oscType: oscType,
                                 oscFreq: WX.mtof(60),
@@ -257,6 +257,22 @@ window.WH = window.WH || {};
          */
         this.createRandom = function() {
             setData(getRandomizedProject());
+        };
+
+        /**
+         * Get all settings that should be saved with a project.
+         * @return {Array} Array of objects with all data per channel and rack.
+         */
+        this.getData = function() {
+            var data = [],
+                i = 0,
+                n = WH.Conf.getPatternCount();
+
+            for (i; i < n; i++) {
+                data.push(patterns[i].getData());
+            }
+
+            return data;
         };
 
         /**

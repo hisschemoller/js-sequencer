@@ -91,6 +91,7 @@ window.WH = window.WH || {};
                     paramValue = !controlEl.hasClass(settings.selectedClass);
 
                 WH.Studio.setParameter(e.data.plugin.getId(), paramKey, paramValue);
+                WH.File.save();
             },
 
             /**

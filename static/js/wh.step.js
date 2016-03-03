@@ -62,6 +62,20 @@ window.WH = window.WH || {};
         this.absEnd = absEnd;
     };
 
+    /**
+     * Get all settings that should be saved with a project.
+     * @return {Object} All Step properties to save.
+     */
+    Step.prototype.getData = function() {
+        return {
+            channel: this.channel,
+            pitch: this.pitch,
+            velocity: this.velocity,
+            start: this.start,
+            duration: this.duration
+        };
+    };
+
     /** 
      * Exports
      */

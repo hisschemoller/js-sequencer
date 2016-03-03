@@ -50,6 +50,21 @@ window.WH = window.WH || {};
             return tracks[index].getSteps();
         };
 
+        /**
+         * Get all settings that should be saved with a project.
+         * @return {Array} Array of objects with all data per channel and rack.
+         */
+        this.getData = function() {
+            var trackData = [],
+                i = 0;
+
+            for (i; i < trackCount; i++) {
+                trackData.push(tracks[i].getData());
+            }
+
+            return trackData;
+        };
+
         init(data, ppqn);
     }
 

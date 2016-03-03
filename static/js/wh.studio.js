@@ -62,33 +62,65 @@ window.WH = window.WH || {};
 
         /**
          * Add instuments and connect them to the output.
-         * @param {object} data Studio setup data.
+         * @param {Array} data Studio setup data.
          */
         this.setProject = function(data) {
-            var instrument,
-                i = 0;
+            var rack,
+                instrument,
+                channel,
+                i = 0,
+                n = data.length,
+                generators = WX.PlugIn.getRegistered('Generator'), 
+                j = 0;
+                p = generators.length;
 
-            for (i; i < data.length; i++) {
+            for (i; i < n; i++) {
 
-                switch (data[i].instrument.name) {
-                    case 'simpleosc':
-                        instrument = WX.SimpleOsc(data[i].instrument.preset);
+                rack = data[i];
+                channel = channels[i];
+                
+                for (j = 0; j < p; j++) {
+                    if (generators[j] == rack.instrument.name) {
+                        instrument = WX[rack.instrument.name]();
                         break;
-                    case 'wxs1':
-                        instrument = WX.WXS1();
-                        break;
+                    }
                 }
                 
                 if (instrument) {
-                    instrument.to(channels[i]);
+                    instrument.to(channel);
                     instruments.push(instrument);
+                    WH.View.setInstrument(instrument, i);
                 }
 
-                WH.View.setInstrument(instrument, i);
-                
-                channels[i].setPreset(data[i].channel.preset);
-                WH.View.setPluginPreset(channels[i].getId(), channels[i].getPresetValues());
+                channel.setPreset(rack.channel.preset);
+                WH.View.setPluginPreset(channel.getId(), channel.getPresetValues());
             }
+        };
+
+        /**
+         * get all settings that should be saved with a project
+         * @return {Array} Array of objects with all data per channel and rack.
+         */
+        this.getData = function() {
+            var racks = [],
+                i = 0,
+                n = channels.length,
+                rack;
+
+            for (i; i < n; i++) {
+                rack = {
+                    instrument: {
+                        name: instruments[i].info.name,
+                        preset: instruments[i].getPreset()
+                    },
+                    channel: {
+                        preset: channels[i].getPreset()
+                    }
+                };
+                racks.push(rack);
+            }
+
+            return racks;
         };
 
         /**
