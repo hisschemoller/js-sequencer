@@ -91,7 +91,7 @@ window.WH = window.WH || {};
                     paramValue = !controlEl.hasClass(settings.selectedClass);
 
                 WH.Studio.setParameter(e.data.plugin.getId(), paramKey, paramValue);
-                WH.File.save();
+                WH.File.autoSave();
             },
 
             /**
@@ -138,6 +138,7 @@ window.WH = window.WH || {};
                 elements.overlayCtrlGeneric.hide();
                 elements.app.off(self.eventType.move, onGenericOverlayTouchMove);
                 elements.app.off(self.eventType.end, onGenericOverlayTouchEnd);
+                WH.File.autoSave();
             },
 
             /**
@@ -215,6 +216,7 @@ window.WH = window.WH || {};
                 elements.overlayCtrlItemized.hide();
                 elements.app.off(self.eventType.move, onItemizedOverlayTouchMove);
                 elements.app.off(self.eventType.end, onItemizedOverlayTouchEnd);
+                WH.File.autoSave();
             },
 
             /**
