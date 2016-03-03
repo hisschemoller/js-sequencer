@@ -71,8 +71,9 @@ window.WH = window.WH || {};
                 i = 0,
                 n = data.length,
                 generators = WX.PlugIn.getRegistered('Generator'), 
-                j = 0;
-                p = generators.length;
+                j = 0,
+                p = generators.length,
+                param;
 
             for (i; i < n; i++) {
 
@@ -81,7 +82,12 @@ window.WH = window.WH || {};
                 
                 for (j = 0; j < p; j++) {
                     if (generators[j] == rack.instrument.name) {
-                        instrument = WX[rack.instrument.name](rack.instrument.preset);
+                        instrument = WX[rack.instrument.name]();
+
+                        // update plugin parameters if they exist.
+                        for (param in rack.instrument.preset) {
+                            instrument.set(param, rack.instrument.preset[param]);
+                        }
                         break;
                     }
                 }
