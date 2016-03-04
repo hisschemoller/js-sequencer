@@ -18,23 +18,17 @@ window.WH = window.WH || {};
      * @param {Number} index Index of this step within the track.
      */
     function Step(pitch, velocity, start, duration, channel, index) {
+        this.pitch = (pitch || 60);
+        this.velocity = velocity;
+        this.start = (start || 0);
+        this.duration = (duration || 120);
         this.channel = channel || 0;
         this.absStart = 0;
         this.absEnd = 0;
-        Note.apply(this, arguments);
-        // overwrite velocity because it can't be 0 in Note 
-        // but it must be possible here in Step
-        // because 0 means a silent step
-        this.velocity = velocity;
         this.index = index;
     }
 
-    /**
-     * Extend Note to add extra properties.
-     * @type {Note}
-     */
-    Step.prototype = Note.prototype;
-    Step.prototype.constructor = Step;
+    Step.prototype = {};
 
     /**
      * Create clone of this step with optional changed start time.

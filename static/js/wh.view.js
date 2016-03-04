@@ -211,7 +211,6 @@ window.WH = window.WH || {};
                 i = 0,
                 n = openTabs.length;
 
-
             for (i; i < n; i++) {
                 var tab = $(openTabs[i]),
                     tabIndex = elements.tabs.index(tab);

@@ -67,15 +67,16 @@ window.WH = window.WH || {};
          */
         this.setSelected = function(index) {
             var steps = WH.Arrangement.getTrackSteps(index),
-                id,
-                channelColorClass = settings.channelColorClasses[index];
+                channelColorClass = settings.channelColorClasses[index],
+                i = 0,
+                n = steps ? steps.length : 0;
 
             this.clearColors(elements.steps, settings.channelColorClasses);
 
             // set selected state
             elements.steps.removeClass(settings.selectedClass);
-            for (var id in steps) {
-                var step = steps[id];
+            for (i; i < n; i++) {
+                var step = steps[i];
                 if (step.velocity) {
                     var stepEl = $(elements.steps[step.index]);
                     stepEl.addClass(settings.selectedClass);

@@ -28,22 +28,8 @@ window.WH = window.WH || {};
 
                 for (i; i < n; i++) {
                     d = data.steps[i];
-                    push( WH.Step(d.pitch, d.velocity, d.start, d.duration, channel, i) );
+                    steps.push( WH.Step(d.pitch, d.velocity, d.start, d.duration, channel, i) );
                 }
-            },
-
-            /**
-             * Add an event to the pattern.
-             * @param {Step} Step object.
-             * @return {String} ID of the event.
-             */
-            push = function (step) {
-                var id = WH.getUid4();
-                while (steps.hasOwnProperty(id)) {
-                    id = WH.getUid4();
-                }
-                steps[id] = step;
-                return id;
             };
 
         /**
@@ -59,7 +45,9 @@ window.WH = window.WH || {};
 
             // convert pattern time to track time
             var localStart = start % lengthInTicks,
-                localEnd = localStart + (end - start);
+                localEnd = localStart + (end - start),
+                i = 0,
+                n = steps.length;
 
             // if the track restarts within the current time span, 
             // scan the bit at the start of the next loop as well
@@ -70,8 +58,8 @@ window.WH = window.WH || {};
             }
 
             // get the events
-            for (var id in steps) {
-                var step = steps[id];
+            for (i; i < n; i++) {
+                var step = steps[i];
                 if (step) {
                     if (localStart <= step.start && step.start <= localEnd) {
                         // add new step with time relative to time span
@@ -98,13 +86,14 @@ window.WH = window.WH || {};
          * @return {Array} Array of objects with all data per channel and rack.
          */
         this.getData = function() {
-            var trackData = {
+            var i = 0,
+                n = steps.length,
+                trackData = {
                     steps: []
-                },
-                id;
+                };
 
-            for (var id in steps) {
-               trackData.steps.push(steps[id].getData());
+            for (i; i < n; i++) {
+               trackData.steps.push(steps[i].getData());
             }
 
             return trackData;

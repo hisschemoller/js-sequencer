@@ -218,6 +218,8 @@ window.WH = window.WH || {};
                 WH.TimeBase.setBPM(data.bpm);
                 WH.Arrangement.setData(data.patterns);
                 WH.Studio.setData(data.racks);
+            } else {
+                console.error('No data in LocalStorage with name "' + settings.projectName + '"."');
             }
         };
 
