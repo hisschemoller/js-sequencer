@@ -73,7 +73,8 @@ window.WH = window.WH || {};
                 generators = WX.PlugIn.getRegistered('Generator'), 
                 j = 0,
                 p = generators.length,
-                param;
+                param,
+                soloedChannel;
 
             for (i; i < n; i++) {
 
@@ -99,7 +100,18 @@ window.WH = window.WH || {};
                 }
 
                 channel.setPreset(rack.channel.preset);
+
+                // if there's channels soloed, remember one of them
+                if (channel.get('solo')) {
+                    soloedChannel = channel;
+                }
+
                 WH.View.setPluginPreset(channel.getId(), channel.getPresetValues());
+            }
+
+            // if there's soloed channels set the solo after all presets are set
+            if (soloedChannel) {
+                onSoloChange(soloedChannel.getId(), true);
             }
         };
 
