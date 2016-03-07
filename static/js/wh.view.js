@@ -324,8 +324,15 @@ window.WH = window.WH || {};
          * @param {Array} presetValues Plugin preset as array of objects with key value pairs.
          */
         this.setPluginPreset =  function(pluginId, presetValues) {
-            var pluginEl = $('[data-' + settings.data.pluginId + '="' + pluginId + '"]');
-            controls.setPreset(pluginEl, presetValues);
+            var paramKey,
+                paramValues;
+            
+            for (paramKey in presetValues) {
+                paramValues = presetValues[paramKey];
+                if (paramValues.isEditable) {
+                    this.updatePluginControl(pluginId, paramKey, paramValues);
+                }
+            }
         };
 
         // extend AbstractView

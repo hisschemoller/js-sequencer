@@ -339,24 +339,6 @@ window.WH = window.WH || {};
         };
 
         /**
-         * Set a plugin preset. This sets all plugin parameters.
-         * @param {Object} pluginEl jQuery HTML element.
-         * @param {Array} presetValues Plugin preset as array of objects with key value pairs.
-         */
-        this.setPreset = function(pluginEl, presetValues) {
-            var paramKey,
-                paramValues,
-                ctrlEl;
-            
-            for (paramKey in presetValues) {
-                paramValues = presetValues[paramKey];
-                if (paramValues.isEditable) {
-                    this.updateControl(pluginEl, paramKey, paramValues);
-                }
-            }
-        };
-
-        /**
          * Add the controls that selects a channel in the mixer.
          * @param {Object} containerEls jQuery HTML element.
          * @param {Array} colorClasses Array of CSS colour class names.
