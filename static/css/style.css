@@ -181,6 +181,27 @@ body {
 }
     .rack__generator {}
         .plugin {}
+            .plugin__header {}
+                .plugin__header .ctrl__background {
+                    opacity: 0.2;
+                }
+                .plugin__name {
+                    cursor: default;
+                    width: 50%;
+                }
+                .plugin__page-prev {
+                    width: 12.5%;
+                }
+                .plugin__page-number {
+                    cursor: default;
+                    width: 12.5%;
+                }
+                .plugin__page-next {
+                    width: 12.5%;
+                }
+                .plugin__settings {
+                    width: 12.5%;
+                }
             .plugin__controls {}
                 .plugin__controls .ctrl {
                     width: 25%;

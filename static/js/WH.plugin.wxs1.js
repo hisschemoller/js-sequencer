@@ -262,7 +262,8 @@
     WXS1.prototype = Object.create(WH.PlugIn);
 
     WXS1.prototype.info = {
-        name: 'WXS1',
+        className: 'WXS1',
+        name: 'WXS1 Mono Synth',
         version: '0.0.3',
         api_version: '1.0.0-alpha',
         author: 'Hongchan Choi',

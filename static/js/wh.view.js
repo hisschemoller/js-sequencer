@@ -21,9 +21,11 @@ window.WH = window.WH || {};
                 channelControlsClass: '.channel__controls',
 
                 rackClass: '.rack',
-                rackGeneratorClass: '.rack__generator',
+                rackGeneratorContainerClass: '.rack__generator',
 
                 pluginClass: '.plugin',
+                pluginHeaderClass: '.plugin__header',
+                pluginNameClass: '.plugin__name-label',
                 pluginControlsClass: '.plugin__controls',
 
                 data: {
@@ -116,10 +118,6 @@ window.WH = window.WH || {};
                 }
 
                 elements.racks = elements.rackContainer.find(settings.rackClass);
-
-                // add an empty default generator plugin to each rack 
-                generatorPluginEl = elements.pluginTemplate.children().first().clone();
-                elements.racks.find(settings.rackGeneratorClass).append(generatorPluginEl);
 
                 // create tabs
                 elements.tabs = controls.addTabControls(elements.tabContainer, settings.tabs);
@@ -296,15 +294,21 @@ window.WH = window.WH || {};
          * @param {Number} index Rack index in which to set the instrument.
          */
         this.setInstrument = function(instrument, index) {
-            var rack = $(elements.racks[index]),
-                generatorRack = rack.find(settings.rackGeneratorClass),
-                pluginEl = generatorRack.find(settings.pluginClass),
-                controlsEl = generatorRack.find(settings.pluginControlsClass);
+            var rackEl = $(elements.racks[index]),
+                generatorContainerEl = rackEl.find(settings.rackGeneratorContainerClass),
+                pluginEl,
+                controlsEl;
 
+            pluginEl = elements.pluginTemplate.children().first().clone();
+            pluginEl.appendTo(generatorContainerEl);
             pluginEl.attr('data-' + settings.data.pluginId, instrument.getId());
+            pluginEl.find(settings.pluginNameClass).text(instrument.info.name);
+            this.setColor(pluginEl.find(settings.pluginHeaderClass), settings.channelColorClasses[index]);
+            
+            controlsEl = pluginEl.find(settings.pluginControlsClass);
             controlsEl.empty();
             controls.addControls(controlsEl, instrument);
-            controls.setColor(controlsEl, settings.channelColorClasses[index]);
+            this.setColor(controlsEl, settings.channelColorClasses[index]);
         };
 
         /**

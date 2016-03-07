@@ -126,9 +126,10 @@ window.WH = window.WH || {};
                 rack;
 
             for (i; i < n; i++) {
+
                 rack = {
                     instrument: {
-                        name: instruments[i].info.name,
+                        name: instruments[i].info.className,
                         preset: instruments[i].getPreset()
                     },
                     channel: {
