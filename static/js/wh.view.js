@@ -52,7 +52,12 @@ window.WH = window.WH || {};
 
                 transportContainer: $('.transport'),
                 pluginTemplate: $('#template-plugin'),
-                tabContainer: $('.tabs')
+                pluginHeaderTemplate: $('#template-plugin-header'),
+                tabContainer: $('.tabs'),
+
+                pluginTemplates: {
+                    WXS1: $('#template-plugin-wxs1')
+                }
             },
 
             /**
@@ -297,17 +302,21 @@ window.WH = window.WH || {};
             var rackEl = $(elements.racks[index]),
                 generatorContainerEl = rackEl.find(settings.rackGeneratorContainerClass),
                 pluginEl,
-                controlsEl;
+                headerEl,
+                controlsEl,
+                pluginTemplate = elements.pluginTemplates[instrument.info.className];
 
-            pluginEl = elements.pluginTemplate.children().first().clone();
+            pluginEl = pluginTemplate.children().first().clone();
             pluginEl.appendTo(generatorContainerEl);
             pluginEl.attr('data-' + settings.data.pluginId, instrument.getId());
-            pluginEl.find(settings.pluginNameClass).text(instrument.info.name);
+
+            headerEl = elements.pluginHeaderTemplate.children().first().clone();
+            headerEl.prependTo(pluginEl);
+            headerEl.find(settings.pluginNameClass).text(instrument.info.name);
             this.setColor(pluginEl.find(settings.pluginHeaderClass), settings.channelColorClasses[index]);
             
             controlsEl = pluginEl.find(settings.pluginControlsClass);
-            controlsEl.empty();
-            controls.addControls(controlsEl, instrument);
+            controls.addPluginControls(controlsEl, instrument);
             this.setColor(controlsEl, settings.channelColorClasses[index]);
         };
 

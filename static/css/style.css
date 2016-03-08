@@ -34,6 +34,7 @@ body {
 .rack__generator,
 .rack__processors,
 .plugin__header,
+.plugin__pages,
 .plugin__controls,
 .ctrls,
 .overlay-ctrl__items {
@@ -202,10 +203,23 @@ body {
                 .plugin__settings {
                     width: 12.5%;
                 }
-            .plugin__controls {}
-                .plugin__controls .ctrl {
-                    width: 25%;
+            .plugin__pages {
+                height: 160px;
+                overflow: hidden;
+                width: 100%;
+            }
+                .plugin__page {
+                    width: 100%;
                 }
+                    .plugin__controls {}
+                        .plugin__controls .plugin__control {
+                            background-color: #555;
+                            display: block;
+                            float: left;
+                            height: 40px;
+                            width: 25%;
+                        }
+                            .plugin__controls .ctrl {}
 .tabs {}
     .ctrl--tab {
         width: 25%;

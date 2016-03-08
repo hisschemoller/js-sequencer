@@ -313,6 +313,67 @@ window.WH = window.WH || {};
         };
 
         /**
+         * Add controls to a plugin by parameter key set as CSS class in HTML.
+         * This way the setup of the UI is controlled through HTML.
+         * @param {Object} containerEl jQuery HTML element. 
+         * @param {Object} plugin WH.PlugIn type audio plugin.
+         */
+        this.addPluginControls = function(containerEls, plugin) {
+            var paramKey,
+                paramValue,
+                param,
+                controlContainer;
+
+            for (paramKey in plugin.params) {
+                controlContainer = containerEls.find('.' + paramKey);
+                
+                if (controlContainer.length) {
+                    param = plugin.params[paramKey];
+                    paramValue = param.value;
+
+                    switch (param.type) {
+                        case 'Generic':
+                            paramValue = paramValue.toFixed(1);
+                            controlEl = elements.templates.ctrlGeneric.children().first().clone();
+                            controlEl.find(settings.ctrlNameClass).text(param.name);
+                            controlEl.find(settings.ctrlValueClass).text(paramValue);
+                            paramType = settings.ctrlTypes.generic;
+                            break;
+                        case 'Itemized':
+                            paramValue = WX.findKeyByValue(param.getModel(), paramValue);
+                            controlEl = elements.templates.ctrlItemized.children().first().clone();
+                            controlEl.find(settings.ctrlNameClass).text(param.name);
+                            controlEl.find(settings.ctrlValueClass).text(paramValue);
+                            paramType = settings.ctrlTypes.itemized;
+                            break;
+                        case 'Boolean':
+                            controlEl = elements.templates.ctrlBoolean.children().first().clone();
+                            controlEl.find(settings.ctrlTextClass).text(param.name);
+                            if (paramValue) {
+                                controlEl.addClass(settings.selectedClass);
+                            }
+                            paramType = settings.ctrlTypes.boolean;
+                            break;
+                    }
+                    
+                    controlEl.attr('data-' + settings.data.paramKey, paramKey);
+                    controlEl.attr('data-' + settings.data.paramType, paramType);
+                    controlContainer.append(controlEl);
+                }
+            }
+
+            // data to send to the DOM event handlers
+            var eventData = {
+                plugin: plugin
+            };
+
+            // DOM event handlers
+            containerEls.find(settings.ctrlBooleanClass).on(this.eventType.click, eventData, onBooleanControlClick);
+            containerEls.find(settings.ctrlGenericClass).on(this.eventType.start, eventData, onGenericControlTouchStart);
+            containerEls.find(settings.ctrlItemizedClass).on(this.eventType.start, eventData, onItemizedControlTouchStart);
+        };
+
+        /**
          * Update a control to reflect a changed plugin parameter.
          * @param {Number} pluginId Unique ID of the plugin.
          * @param {String} paramKey The parameter to change.
