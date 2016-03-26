@@ -12,6 +12,7 @@
 <body>
     <div id="app">
         <ul class="ctrls tabs"></ul>
+        <ul class="ctrls channel-selects"></ul>
         <ul class="ctrls channels"></ul>
         <ul class="ctrls steps"></ul>
         <ul class="ctrls racks"></ul>
@@ -99,31 +100,30 @@
             </li>
         </div>
         <div id="template-plugin-header">
-            <ul class="plugin__header">
-                <li class="plugin__name ctrl">
-                    <div class="ctrl__layer ctrl__background"></div>
-                    <span class="plugin__name-label ctrl__text"></span>
-                </li>
-                <li class="plugin__page-prev ctrl">
-                    <div class="ctrl__layer ctrl__background"></div>
-                    <span class="plugin__prev-label ctrl__text"></span>
-                </li>
-                <li class="plugin__page-number ctrl">
-                    <div class="ctrl__layer ctrl__background"></div>
-                    <span class="plugin__page-label ctrl__text"></span>
-                </li>
-                <li class="plugin__page-next ctrl">
-                    <div class="ctrl__layer ctrl__background"></div>
-                    <span class="plugin__next-label ctrl__text"></span>
-                </li>
-                <li class="plugin__settings ctrl">
-                    <div class="ctrl__layer ctrl__background"></div>
-                    <span class="plugin__settings-label ctrl__text"></span>
-                </li>
-            </ul>
+            <li class="plugin__name ctrl">
+                <div class="ctrl__layer ctrl__background"></div>
+                <span class="plugin__name-label ctrl__text"></span>
+            </li>
+            <li class="plugin__page-prev ctrl">
+                <div class="ctrl__layer ctrl__background"></div>
+                <span class="ctrl__text"></span>
+            </li>
+            <li class="plugin__page-number ctrl">
+                <div class="ctrl__layer ctrl__background"></div>
+                <span class="ctrl__text"></span>
+            </li>
+            <li class="plugin__page-next ctrl">
+                <div class="ctrl__layer ctrl__background"></div>
+                <span class="ctrl__text"></span>
+            </li>
+            <li class="plugin__settings ctrl">
+                <div class="ctrl__layer ctrl__background"></div>
+                <span class="ctrl__text"></span>
+            </li>
         </div>
         <div id="template-plugin-wxs1">
             <li class="plugin">
+                <div class="plugin__header"></div>
                 <ul class="plugin__pages">
                     <li class="plugin__page">
                          <div class="plugin__controls">
@@ -176,8 +176,12 @@
         </div>
         <div id="template-channel">
             <li class="channel">
-                <ul class="ctrls channel__select"></ul>
-                <ul class="ctrls channel__controls"></ul>
+                <ul class="ctrls channel__controls">
+                    <div class="plugin__control mute"></div>
+                    <div class="plugin__control solo"></div>
+                    <div class="plugin__control pan"></div>
+                    <div class="plugin__control level"></div>
+                </ul>
             </li>
         </div>
         <div id="template-channel-select">
@@ -228,6 +232,7 @@
     <script src="static/js/wh.util.js"></script>
     <script src="static/js/wh.view.abstract.js"></script>
     <script src="static/js/wh.view.controls.js"></script>
+    <script src="static/js/wh.view.plugin.js"></script>
     <script src="static/js/wh.view.steps.js"></script>
     <script src="static/js/wh.view.js"></script>
 </body>

@@ -184,7 +184,7 @@
 
             ampAttack: {
                 type: 'Generic',
-                name: 'Att',
+                name: 'Amp Att',
                 default: 0.02,
                 min: 0.0,
                 max: 5.0,
@@ -193,7 +193,7 @@
 
             ampDecay: {
                 type: 'Generic',
-                name: 'Dec',
+                name: 'Amp Dec',
                 default: 0.04,
                 min: 0.0,
                 max: 5.0,
@@ -202,7 +202,7 @@
 
             ampSustain: {
                 type: 'Generic',
-                name: 'Sus',
+                name: 'Amp Sus',
                 default: 0.25,
                 min: 0.0,
                 max: 1.0
@@ -210,13 +210,13 @@
 
             ampRelease: {
                 type: 'Generic',
-                name: 'Rel',
+                name: 'Amp Rel',
                 default: 0.2,
                 min: 0.0,
                 max: 10.0,
                 unit: 'Seconds'
             }
-        });  
+        });
 
         WX.PlugIn.initPreset(this, preset);
 
@@ -289,7 +289,7 @@
         ampAttack: 0.01,
         ampDecay: 0.44,
         ampSustain: 0.2,
-        ampRelease: 0.06,
+        ampRelease: 2.1,
         output: 0.8
     };
 
@@ -326,7 +326,7 @@
     };
 
     /**
-     * Returns a key index with the most recent pitch in the map. If all keys 
+     * Returns a key index with the most recent pitch in the map. If all keys
      * are off, returns null.
      */
     WXS1.prototype._getCurrentPitch = function () {
@@ -354,27 +354,48 @@
         var p = this.params,
             aAtt = p.ampAttack.get(),
             aDec = p.ampDecay.get(),
+            aSus = p.ampSustain.get(),
             fAmt = p.filterMod.get() * 1200,
             fAtt = p.filterAttack.get(),
             fDec = p.filterDecay.get(),
             fSus = p.filterSustain.get();
+
+        this._amp.gain.cancel(time);
+        this._amp.gain.set(0.0, time);
+        this._amp.gain.set(1.00, time + aAtt, 2);
+        this._amp.gain.set(aSus, time + aAtt + aDec, 2);
+        return;
+
+
         // attack
         this._amp.gain.set(1.0, [time, aAtt], 3);
-        this._lowpass.detune.set(fAmt, [time, fAtt], 3);
+        // this._lowpass.detune.set(fAmt, [time, fAtt], 3);
         // decay
-        this._amp.gain.set(fSus, [time + aAtt, aDec], 3);
-        this._lowpass.detune.set(fAmt * fSus, [time + fAtt, fDec], 3);
+        this._amp.gain.set(aSus, [time + aAtt, aDec], 3);
+        // this._lowpass.detune.set(fAmt * fSus, [time + fAtt, fDec], 3);
+        // console.log('_startEnvelope: ', time, time + aAtt , time + aDec);
     };
 
     WXS1.prototype._releaseEnvelope = function (time) {
         time = (time || WX.now);
+        var p = this.params,
+            aRel = p.ampRelease.get();
+
+        this._amp.gain.cancel(time);
+        this._amp.gain.set(0.0, time + aRel, 2);
+        // console.log(time + aRel - time);
+        return;
+
+        // this._amp.gain.set(0.0, time);
+
         var p = this.params;
         // cancel pre-programmed envelope data points
         this._amp.gain.cancel(time);
-        this._lowpass.detune.cancel(time);
+        // this._lowpass.detune.cancel(time);
         // release
         this._amp.gain.set(0.0, [time, p.ampRelease.get()], 3);
-        this._lowpass.detune.set(0.0, [time, p.filterRelease.get()], 3);
+        // this._lowpass.detune.set(0.0, [time, p.filterRelease.get()], 3);
+        // console.log('_releaseEnvelope: ', time, time + p.ampRelease.get());
     };
 
     /**
@@ -383,7 +404,7 @@
      * @param  {Number} velocity MIDI velocity.
      * @param  {Number} time     Time in seconds.
      */
-    WXS1.prototype.noteOn = function (pitch, velocity, time) {  
+    WXS1.prototype.noteOn = function (pitch, velocity, time) {
         time = (time || WX.now);
         this._pitchTimeStamps[pitch] = time;
         var pitch = this._getCurrentPitch();
@@ -412,24 +433,6 @@
             this._releaseEnvelope(time);
         } else {
             this._changePitch(pitch, time);
-        }
-    };
-
-    /**
-     * Route incoming event data from other WAAX input devices.
-     * @param  {String} action Action type: ['noteon', 'noteoff']
-     * @param  {Object} data   Event data.
-     * @param  {Object} data.pitch   MIDI Pitch
-     * @param  {Object} data.velocity   MIDI Velocity.
-     */
-    WXS1.prototype.onData = function (action, data) {
-        switch (action) {
-            case 'noteon':
-                this.noteOn(data.pitch, data.velocity, data.time);
-                break;
-            case 'noteoff':
-                this.noteOff(data.pitch, data.time);
-                break;
         }
     };
 

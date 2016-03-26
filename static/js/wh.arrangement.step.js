@@ -26,6 +26,9 @@ window.WH = window.WH || {};
         this.absStart = 0;
         this.absEnd = 0;
         this.index = index;
+        if (this.channel != 1) {
+            this.velocity = 0;
+        }
     }
 
     Step.prototype = {};
