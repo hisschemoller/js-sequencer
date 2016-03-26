@@ -103,7 +103,9 @@ body {
             right: 0;
             top: 15px;
         }
-.channels {}
+.channels {
+    display: none;
+}
     .channel {
         float: left;
         width: 25%;
@@ -112,11 +114,13 @@ body {
         background-color: #888;
     }
         .channel__select {}
-        .ctrl--channel-select {}
+        .ctrl--channel-select {
+            width: 25%;
+        }
                 .ctrl--channel-select > .ctrl__background {
                     opacity: 0.2;
                 }
-                .channel.is-selected .ctrl--channel-select > .ctrl__background {
+                .ctrl--channel-select.is-selected > .ctrl__background {
                     opacity: 0.4;
                 }
                 .ctrl--channel-select > .ctrl__hilight {
@@ -127,11 +131,10 @@ body {
                 .ctrl--channel-select > .ctrl__name {
                     color: #ccc;
                 }
-                .channel.is-selected .ctrl--channel-select .ctrl__name  {
+                .ctrl--channel-select.is-selected .ctrl__name  {
                     color: #fff;
                 }
         .channel__controls {
-            display: none;
             width: 100%;
         }
             .channel__controls .ctrl__background {
@@ -150,8 +153,8 @@ body {
             .channel__controls .ctrl.is-selected .ctrl__text {
                 color: #fff;
             }
-            .channel__controls .ctrl:nth-child(1), 
-            .channel__controls .ctrl:nth-child(2) {
+            .channel__controls .plugin__control:nth-child(1),
+            .channel__controls .plugin__control:nth-child(2) {
                 width: 50%;
             }
 .steps {}
@@ -181,45 +184,54 @@ body {
     display: block;
 }
     .rack__generator {}
-        .plugin {}
-            .plugin__header {}
-                .plugin__header .ctrl__background {
-                    opacity: 0.2;
-                }
-                .plugin__name {
-                    cursor: default;
-                    width: 50%;
-                }
-                .plugin__page-prev {
-                    width: 12.5%;
-                }
-                .plugin__page-number {
-                    cursor: default;
-                    width: 12.5%;
-                }
-                .plugin__page-next {
-                    width: 12.5%;
-                }
-                .plugin__settings {
-                    width: 12.5%;
-                }
-            .plugin__pages {
-                height: 160px;
-                overflow: hidden;
-                width: 100%;
-            }
-                .plugin__page {
+        .rack__generator .plugin__control {
+            width: 25%;
+        }
+
+.plugin {}
+    .plugin__header {}
+        .plugin__header .ctrl__background {
+            opacity: 0.2;
+        }
+        .plugin__name {
+            cursor: default;
+            width: 50%;
+        }
+        .plugin__page-prev {
+            width: 12.5%;
+        }
+        .plugin__page-number {
+            cursor: default;
+            width: 12.5%;
+        }
+        .plugin__page-next {
+            width: 12.5%;
+        }
+        .plugin__settings {
+            width: 12.5%;
+        }
+    .plugin__pages {
+        height: 160px;
+        overflow: hidden;
+        width: 100%;
+    }
+        .plugin__page {
+            width: 100%;
+        }
+            .plugin__controls {}
+                .plugin__control {
+                    background-color: #555;
+                    display: block;
+                    float: left;
+                    height: 40px;
                     width: 100%;
                 }
-                    .plugin__controls {}
-                        .plugin__controls .plugin__control {
-                            background-color: #555;
-                            display: block;
-                            float: left;
-                            height: 40px;
-                            width: 25%;
-                        }
-                            .plugin__controls .ctrl {}
+                .plugin__control.empty {
+                    border: 1px solid #333;
+                }
+                    .plugin__control .ctrl {
+                        float: none;
+                    }
 .tabs {}
     .ctrl--tab {
         width: 25%;
@@ -257,7 +269,7 @@ body {
     position: absolute;
     right: 0;
     top: 0;
-}  
+}
     .overlay-startup_header {
         display: block;
         font-size: 32px;

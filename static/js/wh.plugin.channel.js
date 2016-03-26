@@ -80,7 +80,8 @@
     Channel.prototype = Object.create(WH.PlugIn);
 
     Channel.prototype.info = {
-        name: 'Channel',
+        className: 'Channel',
+        name: 'Mixer Channel',
         api_version: '1.0.0-alpha',
         plugin_version: '1.0.0',
         author: 'Wouter Hisschemöller',

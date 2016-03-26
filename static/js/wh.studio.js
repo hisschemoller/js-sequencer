@@ -2,7 +2,7 @@
  *  Studio contains the sound generating instruments.
  *  One instrument for each channel.
  *  Studio receives Step objects that trigger the instruments.
- * 
+ *
  * @namespace WH
  */
 window.WH = window.WH || {};
@@ -29,7 +29,7 @@ window.WH = window.WH || {};
             /**
              * Solo parameter was changed on one of the channel plugins.
              * @param {Number} pluginId ID of the channel plugin that changed its solo parameter.
-             * @param {Boolean} isSolo Value of the channel's solo parameter.    
+             * @param {Boolean} isSolo Value of the channel's solo parameter.
              */
             onSoloChange = function(pluginId, isSolo) {
 
@@ -58,6 +58,8 @@ window.WH = window.WH || {};
                 channels.push(channel);
                 WH.View.setChannel(channel, i);
             }
+
+            WH.View.setSelectedChannel(channels[0].getId());
         };
 
         /**
@@ -70,7 +72,7 @@ window.WH = window.WH || {};
                 channel,
                 i = 0,
                 n = data.length,
-                generators = WX.PlugIn.getRegistered('Generator'), 
+                generators = WX.PlugIn.getRegistered('Generator'),
                 j = 0,
                 p = generators.length,
                 param,
@@ -80,7 +82,7 @@ window.WH = window.WH || {};
 
                 rack = data[i];
                 channel = channels[i];
-                
+
                 for (j = 0; j < p; j++) {
                     if (generators[j] == rack.instrument.name) {
                         instrument = WX[rack.instrument.name]();
@@ -92,7 +94,7 @@ window.WH = window.WH || {};
                         break;
                     }
                 }
-                
+
                 if (instrument) {
                     instrument.to(channel);
                     instruments.push(instrument);
@@ -201,10 +203,10 @@ window.WH = window.WH || {};
             }
         }
     }
-    
+
     Studio.prototype = {};
-    
-    /** 
+
+    /**
      * Singleton
      */
     WH.Studio = new Studio();

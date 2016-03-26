@@ -1,6 +1,6 @@
 /**
  * ControlsView.
- * 
+ *
  * @namespace WH
  */
 window.WH = window.WH || {};
@@ -14,6 +14,9 @@ window.WH = window.WH || {};
                 selectedClass: 'is-selected',
                 channelColorClasses: ['color1', 'color2', 'color3', 'color4'],
                 ctrlClass: '.ctrl',
+                ctrlGenericClass: '.ctrl--generic',
+                ctrlBooleanClass: '.ctrl--boolean',
+                ctrlItemizedClass: '.ctrl--itemized',
                 ctrlBackgroundClass: '.ctrl__background',
                 ctrlHighlightClass: '.ctrl__hilight',
                 ctrlLabelClass: '.ctrl__label',
@@ -21,7 +24,7 @@ window.WH = window.WH || {};
                 ctrlNameClass: '.ctrl__name',
                 ctrlValueClass: '.ctrl__value'
             };
-        
+
         settings = Object.assign(settings, defaults);
 
         /**
