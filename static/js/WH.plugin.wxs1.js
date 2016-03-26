@@ -286,10 +286,10 @@
         filterDecay: 0.07,
         filterSustain: 0.5,
         filterRelease: 0.03,
-        ampAttack: 0.01,
-        ampDecay: 0.44,
+        ampAttack: 0.2,
+        ampDecay: 0.2,
         ampSustain: 0.2,
-        ampRelease: 2.1,
+        ampRelease: 0.2,
         output: 0.8
     };
 
@@ -360,42 +360,25 @@
             fDec = p.filterDecay.get(),
             fSus = p.filterSustain.get();
 
-        this._amp.gain.cancel(time);
         this._amp.gain.set(0.0, time);
-        this._amp.gain.set(1.00, time + aAtt, 2);
-        this._amp.gain.set(aSus, time + aAtt + aDec, 2);
-        return;
+        this._amp.gain.set(1.00, [time, aAtt], 3);
+        this._amp.gain.set(aSus, [time + aAtt, fDec], 3);
 
-
-        // attack
-        this._amp.gain.set(1.0, [time, aAtt], 3);
-        // this._lowpass.detune.set(fAmt, [time, fAtt], 3);
-        // decay
-        this._amp.gain.set(aSus, [time + aAtt, aDec], 3);
-        // this._lowpass.detune.set(fAmt * fSus, [time + fAtt, fDec], 3);
-        // console.log('_startEnvelope: ', time, time + aAtt , time + aDec);
+        this._lowpass.detune.set(fAmt, [time, fAtt], 3);
+        this._lowpass.detune.set(fAmt * fSus, [time + fAtt, fDec], 3);
     };
 
     WXS1.prototype._releaseEnvelope = function (time) {
         time = (time || WX.now);
         var p = this.params,
-            aRel = p.ampRelease.get();
+            aRel = p.ampRelease.get(),
+            fRel = p.filterRelease.get();
 
         this._amp.gain.cancel(time);
-        this._amp.gain.set(0.0, time + aRel, 2);
-        // console.log(time + aRel - time);
-        return;
+        this._amp.gain.set(0.0, [time, aRel], 3);
 
-        // this._amp.gain.set(0.0, time);
-
-        var p = this.params;
-        // cancel pre-programmed envelope data points
-        this._amp.gain.cancel(time);
-        // this._lowpass.detune.cancel(time);
-        // release
-        this._amp.gain.set(0.0, [time, p.ampRelease.get()], 3);
-        // this._lowpass.detune.set(0.0, [time, p.filterRelease.get()], 3);
-        // console.log('_releaseEnvelope: ', time, time + p.ampRelease.get());
+        this._lowpass.detune.cancel(time);
+        this._lowpass.detune.set(0.0, [time, fRel], 3);
     };
 
     /**
