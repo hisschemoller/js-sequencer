@@ -151,7 +151,7 @@
                 type: 'Generic',
                 name: 'Filt Att',
                 default: 0.02,
-                min: 0.0,
+                min: 0.000001,
                 max: 5.0,
                 unit: 'Seconds'
             },
@@ -160,7 +160,7 @@
                 type: 'Generic',
                 name: 'Filt Dec',
                 default: 0.04,
-                min: 0.0,
+                min: 0.000001,
                 max: 5.0,
                 unit: 'Seconds'
             },
@@ -177,7 +177,7 @@
                 type: 'Generic',
                 name: 'Filt Rel',
                 default: 0.2,
-                min: 0.0,
+                min: 0.000001,
                 max: 10.0,
                 unit: 'Seconds'
             },
@@ -186,7 +186,7 @@
                 type: 'Generic',
                 name: 'Amp Att',
                 default: 0.02,
-                min: 0.0,
+                min: 0.000001,
                 max: 5.0,
                 unit: 'Seconds'
             },
@@ -195,7 +195,7 @@
                 type: 'Generic',
                 name: 'Amp Dec',
                 default: 0.04,
-                min: 0.0,
+                min: 0.000001,
                 max: 5.0,
                 unit: 'Seconds'
             },
@@ -212,7 +212,7 @@
                 type: 'Generic',
                 name: 'Amp Rel',
                 default: 0.2,
-                min: 0.0,
+                min: 0.000001,
                 max: 10.0,
                 unit: 'Seconds'
             }
@@ -360,10 +360,11 @@
             fDec = p.filterDecay.get(),
             fSus = p.filterSustain.get();
 
-        this._amp.gain.set(0.0, time);
+        this._amp.gain.cancel(time);
         this._amp.gain.set(1.00, [time, aAtt], 3);
         this._amp.gain.set(aSus, [time + aAtt, fDec], 3);
 
+        this._lowpass.detune.cancel(time);
         this._lowpass.detune.set(fAmt, [time, fAtt], 3);
         this._lowpass.detune.set(fAmt * fSus, [time + fAtt, fDec], 3);
     };
