@@ -280,7 +280,7 @@ window.WH = window.WH || {};
          * @param {String} paramKey The parameter to change.
          * @param {Object} paramValues Object containing all the values of the parameter.
          */
-        this.updatePluginControl = function(pluginId, paramKey, paramValues)
+        this.updatePluginControl = function(pluginId, paramKey, paramValues) {
             pluginViews[pluginId].updateControl(paramKey, paramValues);
         };
 

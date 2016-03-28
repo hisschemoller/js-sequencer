@@ -1,7 +1,7 @@
 /**
  * A Step contains data for a single sound to be player.
  * It extends Note.
- * 
+ *
  * @namespace WH
  */
 window.WH = window.WH || {};
@@ -26,9 +26,6 @@ window.WH = window.WH || {};
         this.absStart = 0;
         this.absEnd = 0;
         this.index = index;
-        if (this.channel != 1) {
-            this.velocity = 0;
-        }
     }
 
     Step.prototype = {};
@@ -73,7 +70,7 @@ window.WH = window.WH || {};
         };
     };
 
-    /** 
+    /**
      * Exports
      */
     WH.Step = function (pitch, velocity, start, duration, channel, index) {
