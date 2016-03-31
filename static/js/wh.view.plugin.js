@@ -18,7 +18,7 @@ window.WH = window.WH || {};
                 pluginHeaderClass: '.plugin__header',
                 pluginNameClass: '.plugin__name-label',
                 pluginControlsClass: '.plugin__controls',
-                pluginPage: '.plugin__page',
+                pluginPageClass: '.plugin__page',
                 pluginPagePrevClass: '.plugin__page-prev',
                 pluginPageNextClass: '.plugin__page-next',
                 pluginPageNumberClass: '.plugin__page-number',
@@ -104,9 +104,72 @@ window.WH = window.WH || {};
                     return;
                 }
 
+                // add the header to the plugin
                 var headerEl = elements.pluginHeaderTemplate.children().clone();
-                headerEl.prependTo(pluginEl);
+                headerEl.appendTo(headerContainer);
                 headerEl.find(settings.pluginNameClass).text(plugin.info.name);
+
+                // add pagination if there's mupltiple control pages
+                var pageEls = pluginEl.find(settings.pluginPageClass),
+                    prevEl = pluginEl.find(settings.pluginPagePrevClass),
+                    nextEl = pluginEl.find(settings.pluginPageNextClass);
+                if (pageEls.length > 1) {
+                    prevEl.on(self.eventType.click, {dir:-1}, onPagingClick);
+                    nextEl.on(self.eventType.click, {dir: 1}, onPagingClick);
+                } else {
+                    prevEl.addClass(settings.disabledClass);
+                    nextEl.addClass(settings.disabledClass);
+                }
+
+                changePage(0, 0);
+            },
+
+            /**
+             * Click on the previous or next page buttons.
+             * @param {Event} Click or touch event.
+             */
+            onPagingClick = function(e) {
+                changePage(e.data.dir);
+            },
+
+            /**
+             * Change to another page of contols.
+             * @param {Number} relativeChange New page index relative to the current.
+             * @param {Number} relativeChange
+             */
+            changePage = function(relativeChange, absoluteChange) {
+                var pageEls = pluginEl.find(settings.pluginPageClass),
+                    prevEl = pluginEl.find(settings.pluginPagePrevClass),
+                    nextEl = pluginEl.find(settings.pluginPageNextClass),
+                    numberEl = pluginEl.find(settings.pluginPageNumberClass),
+                    currentPageEl = pageEls.filter('.' + settings.selectedClass),
+                    currentIndex = pageEls.index(currentPageEl),
+                    newIndex,
+                    lastIndex = pageEls.length - 1;
+
+                // get the new page index
+                if (!isNaN(relativeChange) && relativeChange != 0) {
+                    newIndex = currentIndex + relativeChange;
+                } else {
+                    if (!isNaN(absoluteChange)) {
+                        newIndex = absoluteChange;
+                    }
+                }
+
+                // integers and clamp to existing page indexes
+                newIndex = Math.floor(newIndex);
+                newIndex = Math.max(0, Math.min(newIndex, lastIndex));
+
+                // disable or enable page buttons
+                prevEl.toggleClass(settings.disabledClass, newIndex == 0);
+                nextEl.toggleClass(settings.disabledClass, newIndex == lastIndex);
+
+                // set paging info text
+                numberEl.find(settings.ctrlTextClass).text((newIndex + 1) + '/' + pageEls.length);
+
+                // update selected page
+                pageEls.removeClass(settings.selectedClass);
+                $(pageEls[newIndex]).addClass(settings.selectedClass);
             },
 
             /**

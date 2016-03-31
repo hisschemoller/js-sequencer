@@ -12,6 +12,7 @@ window.WH = window.WH || {};
         var defaults = {
                 activeClass: 'is-active',
                 selectedClass: 'is-selected',
+                disabledClass: 'is-disabled',
                 channelColorClasses: ['color1', 'color2', 'color3', 'color4'],
                 ctrlClass: '.ctrl',
                 ctrlGenericClass: '.ctrl--generic',

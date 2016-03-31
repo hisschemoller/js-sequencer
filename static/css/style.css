@@ -207,16 +207,28 @@ body {
         .plugin__page-next {
             width: 12.5%;
         }
+        .plugin__page-prev.is-disabled,
+        .plugin__page-next.is-disabled {
+            cursor: default;
+        }
         .plugin__settings {
             width: 12.5%;
         }
+            .plugin__page-prev.is-disabled .ctrl__text,
+            .plugin__page-next.is-disabled .ctrl__text {
+                opacity: 0.5;
+            }
     .plugin__pages {
         height: 160px;
         overflow: hidden;
         width: 100%;
     }
         .plugin__page {
+            display: none;
             width: 100%;
+        }
+        .plugin__page.is-selected {
+            display: block;
         }
             .plugin__controls {}
                 .plugin__control {
