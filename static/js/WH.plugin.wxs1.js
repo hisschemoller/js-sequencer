@@ -360,7 +360,7 @@
             fDec = p.filterDecay.get(),
             fSus = p.filterSustain.get();
 
-        this._amp.gain.cancel(time);
+        // this._amp.gain.cancel(time);
         this._amp.gain.set(1.00, [time, aAtt], 3);
         this._amp.gain.set(aSus, [time + aAtt, fDec], 3);
 

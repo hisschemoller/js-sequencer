@@ -1,6 +1,6 @@
 /**
- * ControlsView.
- * 
+ * StepsView.
+ *
  * @namespace WH
  */
 window.WH = window.WH || {};
@@ -104,7 +104,7 @@ window.WH = window.WH || {};
         init();
     }
 
-    /** 
+    /**
      * Exports
      */
     WH.StepsView = function() {
