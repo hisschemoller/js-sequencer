@@ -1,9 +1,9 @@
 /**
- * Arrangement holds all data of the current piece of music. 
+ * Arrangement holds all data of the current piece of music.
  * In that way it's sort of a model for the app.
  * It can also provide the musical events that happen within a given timespan.
  * It will probably also keep state of song or pattern mode.
- * 
+ *
  * @namespace WH
  */
 window.WH = window.WH || {};
@@ -18,7 +18,14 @@ window.WH = window.WH || {};
 
         var isSongMode = false,
             patterns = [],
-            patternIndex = 0;
+            patternIndex = 0,
+
+            /**
+             * Clear all patterns.
+             */
+            clearData = function() {
+                patterns.length = 0;
+            };
 
         /**
          * Create an arrangement from a data object.
@@ -27,6 +34,8 @@ window.WH = window.WH || {};
         this.setData = function(data) {
             var i = 0,
                 patternCount = WH.Conf.getPatternCount();
+
+            clearData();
 
             for (i; i < patternCount; i++) {
                 patterns.push(WH.Pattern(data[i]));
@@ -74,8 +83,8 @@ window.WH = window.WH || {};
             return null;
         };
     }
-    
-    /** 
+
+    /**
      * Singleton
      */
     WH.Arrangement = new Arrangement();

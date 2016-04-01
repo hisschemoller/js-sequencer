@@ -22,7 +22,7 @@ window.WH = window.WH || {};
 
                 tabs: ['Sound', 'Mixer', 'Song', ''],
 
-                transport: ['Play']
+                transport: ['Play', '', 'New', 'Random']
             },
 
             /**
@@ -273,6 +273,16 @@ window.WH = window.WH || {};
 
             pluginViews[instrument.getId()] = WH.PluginView(instrument, containerEl, index);
         };
+
+        /**
+         * Remove the instrument from the rack and delete it
+         * @param {Object} instrument WX.PlugIn Generator object.
+         * @param {Number} index Rack index from which to remove the instrument.
+         */
+        this.clearInstrument = function(instrument, index) {
+            pluginViews[instrument.getId()].destroy();
+            delete pluginViews[instrument.getId()];
+        }
 
         /**
          * Update a control to reflect a changed plugin parameter.

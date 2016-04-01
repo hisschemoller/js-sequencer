@@ -396,6 +396,15 @@ window.WH = window.WH || {};
                 }
             };
 
+        this.destroy = function() {
+            pluginEl.find(settings.pluginPagePrevClass).off(self.eventType.click);
+            pluginEl.find(settings.pluginPageNextClass).off(self.eventType.click);
+            pluginEl.find(settings.ctrlBooleanClass).off(self.eventType.click);
+            pluginEl.find(settings.ctrlGenericClass).off(self.eventType.start);
+            pluginEl.find(settings.ctrlItemizedClass).off(self.eventType.start);
+            pluginEl.remove();
+        };
+
         /**
          * Update a control to reflect a changed plugin parameter.
          * @param {Number} pluginId Unique ID of the plugin.

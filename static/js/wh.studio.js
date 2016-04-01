@@ -24,7 +24,7 @@ window.WH = window.WH || {};
              * Plugin instruments used by the current project.
              * @type {Array}
              */
-            instruments = [],
+            instruments,
 
             /**
              * Solo parameter was changed on one of the channel plugins.
@@ -51,7 +51,13 @@ window.WH = window.WH || {};
          * Initialisation.
          */
         this.setup = function() {
-            for (var i = 0; i < WH.Conf.getTrackCount(); i++) {
+            var i = 0,
+                n = WH.Conf.getTrackCount(),
+                channel;
+
+            instruments = new Array(n);
+
+            for (i; i < n; i++) {
                 var channel = WX.Channel();
                 channel.setSoloCallback(onSoloChange);
                 channel.to(WX.Master);
@@ -80,6 +86,13 @@ window.WH = window.WH || {};
 
             for (i; i < n; i++) {
 
+                // remove the old instrument, if it exists
+                if (instruments[i]) {
+                    WH.View.clearInstrument(instruments[i], i);
+                    instruments[i].cut();
+                    instruments[i] = null;
+                }
+
                 rack = data[i];
                 channel = channels[i];
 
@@ -95,9 +108,10 @@ window.WH = window.WH || {};
                     }
                 }
 
+                // add the instrument
                 if (instrument) {
                     instrument.to(channel);
-                    instruments.push(instrument);
+                    instruments[i] = instrument;
                     WH.View.setInstrument(instrument, i);
                 }
 

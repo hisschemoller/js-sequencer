@@ -92,7 +92,7 @@ window.WH = window.WH || {};
                 stepCount = WH.Conf.getStepCount(),
                 stepDuration = Math.floor( WH.Conf.getPPQN() / WH.Conf.getStepsPerBeat() ),
                 data = {
-                    bpm: 100,
+                    bpm: 100 + Math.floor(Math.random() * 20),
                     racks: [],
                     patterns: []
                 },

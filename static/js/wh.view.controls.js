@@ -125,8 +125,19 @@ window.WH = window.WH || {};
                 var index = ctrlEls.index(e.currentTarget);
                 switch (index) {
                     case 0:
+                        // play
                         var isRunning = WH.TimeBase.togglePlayStop();
                         $(e.currentTarget).toggleClass(settings.activeClass, isRunning);
+                        break;
+                    case 2:
+                        // new
+                        WH.TimeBase.pause();
+                        WH.File.createNew();
+                        break;
+                    case 3:
+                        // random
+                        WH.TimeBase.pause();
+                        WH.File.createNew(true);
                         break;
                 }
             });

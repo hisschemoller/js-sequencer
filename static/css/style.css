@@ -266,7 +266,9 @@ body {
     position: fixed;
     right: 8px;
 }
-    .ctrl--transport {}
+    .ctrl--transport {
+        width: 25%;
+    }
     .ctrl:not(.is-active) .ctrl__toggle-active,
     .ctrl.is-active .ctrl__toggle-inactive {
         display: none;
