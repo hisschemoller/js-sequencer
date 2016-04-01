@@ -22,8 +22,7 @@ $(function() {
         // remove WX.Transport because extended with WH.TimeBase
         WX.Transport = null;
         WH.Studio.setup();
-        WH.File.createNew(true);
-        // WH.File.loadFromStorage();
+        WH.File.loadFromStorage();
     }
 
     /**
@@ -34,7 +33,7 @@ $(function() {
     function unlockIOSAudio() {
         // remove event listener
         overlay.off('touchend', unlockIOSAudio);
-        
+
         // create an empty buffer
         var buffer = WX._ctx.createBuffer(1, 1, 22050);
         var source = WX._ctx.createBufferSource();
@@ -56,7 +55,7 @@ $(function() {
             }
         }, 100);
     }
-    
+
     // show click overlay on iOS devices
     if(/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
         overlay.on('touchend', unlockIOSAudio).show();
