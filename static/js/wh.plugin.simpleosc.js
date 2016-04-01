@@ -105,6 +105,7 @@
 
     SimpleOsc.prototype.info = {
         name: 'SimpleOsc',
+        className: 'SimpleOsc',
         version: '0.0.2',
         api_version: '1.0.0-alpha',
         author: 'Hongchan Choi',
