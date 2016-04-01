@@ -46,6 +46,7 @@ window.WH = window.WH || {};
 
         /**
          * Load project from localStorage.
+         * @return {Boolean} True if a project was found in localstorage.
          */
         this.loadFromStorage = function() {
             var data = localStorage.getItem(settings.projectName);
@@ -56,7 +57,9 @@ window.WH = window.WH || {};
                 WH.Studio.setData(data.racks);
             } else {
                 console.error('No data in LocalStorage with name "' + settings.projectName + '"."');
+                return false;
             }
+            return true;
         };
 
         /**

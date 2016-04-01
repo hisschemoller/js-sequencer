@@ -22,7 +22,9 @@ $(function() {
         // remove WX.Transport because extended with WH.TimeBase
         WX.Transport = null;
         WH.Studio.setup();
-        WH.File.loadFromStorage();
+        if (!WH.File.loadFromStorage()) {
+            WH.File.createNew();
+        }
     }
 
     /**
