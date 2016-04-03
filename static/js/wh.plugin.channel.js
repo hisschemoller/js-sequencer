@@ -105,12 +105,12 @@
         } else {
             if (this.isAnySoloActive) {
                 if (this.isSolo) {
-                    this._soloMute.gain.value = 1.0;
+                    this._soloMute.gain.value = this.level;
                 } else {
                     this._soloMute.gain.value = 0.0;
                 }
             } else {
-                this._soloMute.gain.value = 1.0;
+                this._soloMute.gain.value = this.level;
             }
         }
     };
