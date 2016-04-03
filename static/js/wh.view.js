@@ -191,11 +191,11 @@ window.WH = window.WH || {};
                 switch (tabIndex) {
                     case 0:
                         // close instrument
-                        elements.rackContainer.slideUp(100);
+                        elements.rackContainer.hide();
                         break;
                     case 1:
                         // close mixer
-                        $(elements.channelContainer).slideUp(100);
+                        $(elements.channelContainer).hide();
                         break;
                 }
             }
@@ -205,11 +205,11 @@ window.WH = window.WH || {};
                 switch (index) {
                     case 0:
                         // open instrument
-                        elements.rackContainer.slideDown(100);
+                        elements.rackContainer.show();
                         break;
                     case 1:
                         // open mixer
-                        $(elements.channelContainer).slideDown(100);
+                        $(elements.channelContainer).show();
                         break;
                 }
             }
