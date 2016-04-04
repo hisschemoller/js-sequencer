@@ -184,47 +184,30 @@ window.WH = window.WH || {};
          * @param {Number} index Index of the tab to select.
          */
         this.setSelectedTab = function(index) {
-            var tabEl = $(elements.tabs[index]);
-                isOpen = tabEl.hasClass(settings.selectedClass),
-                openTabs = elements.tabs.filter('.' + settings.selectedClass),
-                i = 0,
-                n = openTabs.length;
-
-            for (i; i < n; i++) {
-                var tab = $(openTabs[i]),
-                    tabIndex = elements.tabs.index(tab);
-                tab.removeClass(settings.selectedClass);
-
-                switch (tabIndex) {
-                    case 0:
-                        // close instrument
-                        elements.rackContainer.hide();
-                        break;
-                    case 1:
-                        // close mixer
-                        $(elements.channelContainer).hide();
-                        break;
-                    case 2:
-                        // close patterns
-                        patterns.setVisible(false);
-                        break;
-                }
-            }
-
+            var tabEl = $(elements.tabs[index]),
+                isOpen = tabEl.hasClass(settings.selectedClass);
+                
+            elements.tabs.removeClass(settings.selectedClass);
             if (!isOpen) {
                 tabEl.addClass(settings.selectedClass);
                 switch (index) {
                     case 0:
                         // open instrument
+                        elements.channelContainer.hide();
+                        patterns.setVisible(false);
                         elements.rackContainer.show();
                         break;
                     case 1:
                         // open mixer
-                        $(elements.channelContainer).show();
+                        elements.rackContainer.hide();
+                        patterns.setVisible(false);
+                        elements.channelContainer.show();
                         break;
                     case 2:
-                        // close patterns
+                        // open patterns
+                        elements.channelContainer.hide();
                         patterns.setVisible(true);
+                        elements.rackContainer.hide();
                         break;
                 }
             }
@@ -278,7 +261,7 @@ window.WH = window.WH || {};
          */
         this.setChannel = function(channel, index) {
             var pluginView,
-                containerEl = $(elements.channelContainer);
+                containerEl = elements.channelContainer;
 
             pluginViews[channel.getId()] = WH.PluginView(channel, containerEl, index);
         };
