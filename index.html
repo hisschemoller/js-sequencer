@@ -15,6 +15,7 @@
         <ul class="ctrls channel-selects"></ul>
         <ul class="ctrls channels"></ul>
         <ul class="ctrls steps"></ul>
+        <ul class="ctrls patterns"></ul>
         <ul class="ctrls racks"></ul>
         <ul class="ctrls transport"></ul>
         <div id="overlay-ctrl-generic">
@@ -67,6 +68,13 @@
                 <span class="ctrl__label ctrl__text"></span>
             </li>
         </div>
+            <div id="template-pattern">
+                <li class="ctrl pattern">
+                    <div class="ctrl__layer ctrl__background"></div>
+                    <div class="ctrl__layer ctrl__hilight"></div>
+                    <span class="ctrl__label ctrl__text"></span>
+                </li>
+            </div>
         <div id="template-ctrl-generic">
             <li class="ctrl ctrl--generic">
                 <div class="ctrl__layer ctrl__background"></div>
@@ -248,6 +256,7 @@
     <script src="static/js/wh.util.js"></script>
     <script src="static/js/wh.view.abstract.js"></script>
     <script src="static/js/wh.view.controls.js"></script>
+    <script src="static/js/wh.view.pattern.js"></script>
     <script src="static/js/wh.view.plugin.js"></script>
     <script src="static/js/wh.view.steps.js"></script>
     <script src="static/js/wh.view.js"></script>

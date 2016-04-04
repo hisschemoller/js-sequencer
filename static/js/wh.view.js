@@ -20,8 +20,7 @@ window.WH = window.WH || {};
                 rackClass: '.rack',
                 rackGeneratorContainerClass: '.rack__generator',
 
-                tabs: ['Sound', 'Mixer', 'Song', ''],
-
+                tabs: ['Sound', 'Mixer', 'Pattern', 'Song'],
                 transport: ['Play', '', 'New', 'Random']
             },
 
@@ -71,6 +70,12 @@ window.WH = window.WH || {};
              */
              pluginViews = {},
 
+             /**
+              * PatternView pattern selection controls.
+              * @type {Object}
+              */
+             patterns = null,
+
             /**
              * Initialise the view, add DOM event handlers.
              */
@@ -82,6 +87,8 @@ window.WH = window.WH || {};
                 controls = WH.ControlsView();
 
                 steps = WH.StepsView();
+
+                patterns = WH.PatternView();
 
                 // create the channel select buttons
                 elements.channelSelects = controls.addChannelSelectControls(elements.channelSelectsContainer);
@@ -197,6 +204,10 @@ window.WH = window.WH || {};
                         // close mixer
                         $(elements.channelContainer).hide();
                         break;
+                    case 2:
+                        // close patterns
+                        patterns.setVisible(false);
+                        break;
                 }
             }
 
@@ -210,6 +221,10 @@ window.WH = window.WH || {};
                     case 1:
                         // open mixer
                         $(elements.channelContainer).show();
+                        break;
+                    case 2:
+                        // close patterns
+                        patterns.setVisible(true);
                         break;
                 }
             }
@@ -245,6 +260,14 @@ window.WH = window.WH || {};
         this.setSelectedSteps = function(index) {
             index = isNaN(index) ? channelIndex : index;
             steps.setSelected(index);
+        };
+
+        /**
+         * Set the selected pattern element.
+         * @param {Number} index Index of the element to set as selected.
+         */
+        this.setSelectedPattern = function(index) {
+            patterns.setSelected(index);
         };
 
         /**

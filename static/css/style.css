@@ -177,12 +177,22 @@ body {
         .step.is-selected  .ctrl__name {
             color: #fff;
         }
+.patterns {
+    display: none;
+}
+    .pattern {
+        width: 12.5%;
+    }
+    .pattern.is-selected .ctrl__background {
+        background-color: #fff;
+        opacity: 0.2;
+    }
 .rack {
     display: none;
 }
-.rack.is-selected {
-    display: block;
-}
+    .rack.is-selected {
+        display: block;
+    }
     .rack__generator {}
         .rack__generator .plugin__control {
             width: 25%;

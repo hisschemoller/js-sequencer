@@ -41,6 +41,7 @@ window.WH = window.WH || {};
                 patterns.push(WH.Pattern(data[i]));
             }
 
+            WH.View.setSelectedPattern(0);
             WH.View.setSelectedSteps();
         };
 
@@ -81,6 +82,16 @@ window.WH = window.WH || {};
                 return patterns[patternIndex].getTrackSteps(index);
             }
             return null;
+        };
+
+        /**
+         * Set the selected pattern.
+         * @param {Number} index Index of the element to set as selected.
+         */
+        this.setSelectedPattern = function(index) {
+            patternIndex = Math.max(0, Math.min(index, WH.Conf.getPatternCount()));
+            WH.View.setSelectedPattern(patternIndex);
+            WH.View.setSelectedSteps();
         };
     }
 
