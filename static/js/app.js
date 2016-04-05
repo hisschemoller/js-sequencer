@@ -25,6 +25,13 @@ $(function() {
         if (!WH.File.loadFromStorage()) {
             WH.File.createNew();
         }
+
+        WH.DialogView({
+            primaryLabel: 'Yes',
+            primaryCallback: function() {
+                console.log('done');
+            }
+        });
     }
 
     /**

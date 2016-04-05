@@ -32,8 +32,8 @@ window.WH = window.WH || {};
          * True if a touch screen is detected.
          * @type {Boolean}
          */
-        this.isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints,
-
+        this.isTouchDevice = 'ontouchstart' in document.documentElement;
+        
         /**
          * Type of events to use, touch or mouse
          * @type {String}

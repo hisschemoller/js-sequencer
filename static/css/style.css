@@ -9,6 +9,23 @@ body {
     margin: 8px;
     text-align: center;
 }
+button {
+    background-color: #666;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    display: inline-block;
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 1.5rem;
+    padding: 8px 20px
+}
+button:hover {
+    background-color: #888;
+    color: #fff;
+}
+button:focus {
+    outline: 0;
+}
 .table {
     display: table;
 }
@@ -283,9 +300,7 @@ body {
     .ctrl.is-active .ctrl__toggle-inactive {
         display: none;
     }
-#overlay-startup,
-#overlay-ctrl-generic,
-#overlay-ctrl-itemized {
+.overlay {
     background-color: #333;
     bottom: 0;
     display: none;
@@ -294,11 +309,13 @@ body {
     right: 0;
     top: 0;
 }
+#overlay-startup {}
     .overlay-startup_header {
         display: block;
         font-size: 32px;
         margin-top: 50px;
     }
+#overlay-ctrl-generic {}
     .overlay-ctrl__info {
         padding: 20px 40px 0 40px;
         width: 100%;
@@ -321,6 +338,7 @@ body {
             position: absolute;
             right: 0;
         }
+#overlay-ctrl-itemized {}
     .overlay-ctrl__items {
         border: 1px solid #999;
         margin: 20px 30px;
@@ -338,6 +356,22 @@ body {
             background-color: #aaa;
         }
         .overlay-ctrl__item.is-active {
+            background-color: #888;
+        }
+#overlay-dialog {
+    padding: 10px 30px;
+}
+    .dialog__header {
+        font-size: 2rem;
+    }
+    .dialog__controls {
+        font-size: 0;
+        text-align: center;
+    }
+        .dialog__button {
+            margin: 10px 2px 10px 2px;
+        }
+        .dialog__button:hover {
             background-color: #888;
         }
 #templates {
