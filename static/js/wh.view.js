@@ -186,7 +186,7 @@ window.WH = window.WH || {};
         this.setSelectedTab = function(index) {
             var tabEl = $(elements.tabs[index]),
                 isOpen = tabEl.hasClass(settings.selectedClass);
-                
+
             elements.tabs.removeClass(settings.selectedClass);
             if (!isOpen) {
                 tabEl.addClass(settings.selectedClass);
@@ -323,6 +323,14 @@ window.WH = window.WH || {};
         this.updateSongMode = function(isSongMode) {
             // TODO: the song button will move somewhere better
             $(elements.transportContainer.find(settings.ctrlClass)[1]).toggleClass(settings.selectedClass, isSongMode);
+        };
+
+        /**
+         * Playback started or stopped.
+         */
+        this.updateTransportState = function(isRunning) {
+            // TODO: this must be done better
+            $(elements.transportContainer.find(settings.ctrlClass)[0]).toggleClass(settings.selectedClass, isRunning);
         };
 
         // extend AbstractView

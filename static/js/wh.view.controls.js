@@ -126,8 +126,7 @@ window.WH = window.WH || {};
                 switch (index) {
                     case 0:
                         // play
-                        var isRunning = WH.TimeBase.togglePlayStop();
-                        $(e.currentTarget).toggleClass(settings.activeClass, isRunning);
+                        WH.TimeBase.togglePlayStop();
                         break;
                     case 1:
                         // song

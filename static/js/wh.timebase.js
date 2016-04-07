@@ -34,6 +34,26 @@ window.WH = window.WH || {};
      */
     function TimeBase(bpm) {
         Transport.apply(this, arguments);
+
+        /**
+         * Overridden start function.
+         * Note that this function is not added to the prototype so
+         * WX.Transport's start function can still be called.
+         */
+        this.start = function() {
+            Transport.prototype.start.call(this);
+            WH.View.updateTransportState(WH.TimeBase.isRunning());
+        }
+
+        /**
+         * Overridden pause function.
+         * Note that this function is not added to the prototype so
+         * WX.Transport's pause function can still be called.
+         */
+        this.pause = function() {
+            Transport.prototype.pause.call(this);
+            WH.View.updateTransportState(WH.TimeBase.isRunning());
+        }
     }
 
     /**
@@ -73,8 +93,7 @@ window.WH = window.WH || {};
     };
 
     /**
-     * Toggle between stop and play
-     * @return {Boolean} True if transport is running.
+     * Toggle between stop and play.
      */
     TimeBase.prototype.togglePlayStop = function() {
         if (WH.TimeBase.isRunning()) {
@@ -83,10 +102,9 @@ window.WH = window.WH || {};
         } else {
             WH.TimeBase.start();
         }
-        return WH.TimeBase.isRunning();
     }
-    
-    /** 
+
+    /**
      * Singleton
      */
     WH.TimeBase = new TimeBase(120);
