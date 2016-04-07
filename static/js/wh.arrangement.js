@@ -16,9 +16,11 @@ window.WH = window.WH || {};
      */
     function Arrangement(data) {
 
-        var isSongMode = false,
-            patterns = [],
+        var patterns = [],
             patternIndex = 0,
+            isSongMode = false,
+            song = [],
+            songIndex = 0;
 
             /**
              * Clear all patterns.
