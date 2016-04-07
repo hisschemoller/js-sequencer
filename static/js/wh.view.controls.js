@@ -132,12 +132,24 @@ window.WH = window.WH || {};
                     case 2:
                         // new
                         WH.TimeBase.pause();
-                        WH.File.createNew();
+                        WH.DialogView({
+                            headerText: 'New Project',
+                            bodyText: 'Are you sure? If you create a new project, the current project will be lost.',
+                            primaryCallback: function() {
+                                WH.File.createNew();
+                            }
+                        });
                         break;
                     case 3:
                         // random
                         WH.TimeBase.pause();
-                        WH.File.createNew(true);
+                        WH.DialogView({
+                            headerText: 'Random Project',
+                            bodyText: 'Are you sure? If you create a new random project, the current project will be lost.',
+                            primaryCallback: function() {
+                                WH.File.createNew(true);
+                            }
+                        });
                         break;
                 }
             });
