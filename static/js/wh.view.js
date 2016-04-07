@@ -68,13 +68,13 @@ window.WH = window.WH || {};
              * Instruments, channels, all together by ID.
              * @type {Object}
              */
-             pluginViews = {},
+            pluginViews = {},
 
-             /**
-              * PatternView pattern selection controls.
-              * @type {Object}
-              */
-             patterns = null,
+            /**
+             * PatternView pattern selection controls.
+             * @type {Object}
+             */
+            patterns = null,
 
             /**
              * Initialise the view, add DOM event handlers.
@@ -108,7 +108,7 @@ window.WH = window.WH || {};
                 controls.addTransportControls(elements.transportContainer, settings.transport);
 
                 self.setSelectedTab(0);
-            };
+            },
 
             /**
              * Delay screen update to keep it synchronised with the audio.
@@ -150,6 +150,13 @@ window.WH = window.WH || {};
                     }
                 }
             };
+
+        /**
+         * Initialization.
+         */
+        this.setup = function() {
+            init();
+        };
 
         /**
          * Receive Step objects during playback to update the view with.
@@ -335,9 +342,6 @@ window.WH = window.WH || {};
 
         // extend AbstractView
         WH.AbstractView.call(this, settings);
-
-        // initialise
-        init();
     }
 
     /**

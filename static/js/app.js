@@ -21,6 +21,7 @@ $(function() {
         overlay.remove();
         // remove WX.Transport because extended with WH.TimeBase
         WX.Transport = null;
+        WH.View.setup();
         WH.Studio.setup();
         if (!WH.File.loadFromStorage()) {
             WH.File.createNew();

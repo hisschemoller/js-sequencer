@@ -27,6 +27,7 @@ window.WH = window.WH || {};
              */
             clearData = function() {
                 patterns.length = 0;
+                song.length = 0;
             };
 
         /**
@@ -35,12 +36,19 @@ window.WH = window.WH || {};
          */
         this.setData = function(data) {
             var i = 0,
-                patternCount = WH.Conf.getPatternCount();
+                patternCount = WH.Conf.getPatternCount(),
+                songLength = data.song.length;
 
             clearData();
 
+            // create the patterns
             for (i; i < patternCount; i++) {
-                patterns.push(WH.Pattern(data[i]));
+                patterns.push(WH.Pattern(data.patterns[i]));
+            }
+
+            // create the song
+            for (i = 0; i < songLength; i++) {
+                song.push(WH.SongPart(data.song[i]));
             }
 
             WH.View.setSelectedPattern(0);
@@ -52,15 +60,25 @@ window.WH = window.WH || {};
          * @return {Array} Array of objects with all data per channel and rack.
          */
         this.getData = function() {
-            var patternData = [],
+            var data = {
+                    patterns: [],
+                    song: []
+                },
                 i = 0,
-                n = WH.Conf.getPatternCount();
+                patternCount = WH.Conf.getPatternCount(),
+                songLength = song.length;
 
-            for (i; i < n; i++) {
-                patternData.push(patterns[i].getData());
+            // get pattern data
+            for (i; i < patternCount; i++) {
+                data.patterns.push(patterns[i].getData());
             }
 
-            return patternData;
+            // get song data
+            for (i; i < songLength; i++) {
+                data.song.push(song[i].getData());
+            }
+
+            return data;
         };
 
         /**

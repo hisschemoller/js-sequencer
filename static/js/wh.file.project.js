@@ -29,7 +29,10 @@ window.WH = window.WH || {};
                 data = {
                     bpm: 120,
                     racks: [],
-                    patterns: []
+                    arrangement: {
+                        patterns: [],
+                        song: {}
+                    }
                 };
 
             for (var j = 0; j < trackCount; j++) {
@@ -60,7 +63,7 @@ window.WH = window.WH || {};
                 var pattern = {
                     tracks: []
                 };
-                data.patterns.push(pattern);
+                data.arrangement.patterns.push(pattern);
                 for (var j = 0; j < trackCount; j++) {
                     var track = {
                         steps: []
@@ -94,7 +97,10 @@ window.WH = window.WH || {};
                 data = {
                     bpm: 100 + Math.floor(Math.random() * 20),
                     racks: [],
-                    patterns: []
+                    arrangement: {
+                        patterns: [],
+                        song: []
+                    }
                 },
                 pentatonicMinScale = [0, 3, 5, 6, 7, 10];
 
@@ -151,7 +157,7 @@ window.WH = window.WH || {};
                 var pattern = {
                     tracks: []
                 };
-                data.patterns.push(pattern);
+                data.arrangement.patterns.push(pattern);
                 for (var j = 0; j < trackCount; j++) {
                     var track = {
                         steps: []
@@ -164,21 +170,21 @@ window.WH = window.WH || {};
                         switch (j) {
                             case 0:
                                 pitch = 48 + (Math.floor(Math.random() * 3) * 12) + pentatonicMinScale[Math.floor(Math.random() * pentatonicMinScale.length)];
-                                velocity = (Math.random() > 0.70 ? 120 : 0);
+                                velocity = (Math.random() > 0.85 ? 120 : 0);
                                 duration = stepDuration / 2;
                                 break;
                             case 1:
                                 pitch = 24 + pentatonicMinScale[Math.floor(Math.random() * pentatonicMinScale.length)];
-                                velocity = (Math.random() > 0.8 ? 50 : 0);
+                                velocity = (Math.random() > 0.95 ? 50 : 0);
                                 break;
                             case 2:
                                 pitch = 48 + pentatonicMinScale[Math.floor(Math.random() * pentatonicMinScale.length)];
-                                velocity = (Math.random() > 0.8 ? 20 : 0);
+                                velocity = (Math.random() > 0.9 ? 20 : 0);
                                 duration = stepDuration;
                                 break;
                             case 3:
                                 pitch = 60 + pentatonicMinScale[Math.floor(Math.random() * pentatonicMinScale.length)];
-                                velocity = (Math.random() > 0.7 ? 120 : 0);
+                                velocity = (Math.random() > 0.85 ? 120 : 0);
                                 duration = Math.floor( stepDuration / 8 );
                                 break;
                         }
@@ -193,6 +199,16 @@ window.WH = window.WH || {};
                     }
                 }
             }
+
+            data.arrangement.song.push({
+                patternIndex: 0,
+                repeats: 4
+            });
+            data.arrangement.song.push({
+                patternIndex: 1,
+                repeats: 4
+            });
+
             return data;
         };
     }
