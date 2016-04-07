@@ -194,8 +194,8 @@ window.WH = window.WH || {};
             var tabEl = $(elements.tabs[index]),
                 isOpen = tabEl.hasClass(settings.selectedClass);
 
-            elements.tabs.removeClass(settings.selectedClass);
             if (!isOpen) {
+                elements.tabs.removeClass(settings.selectedClass);
                 tabEl.addClass(settings.selectedClass);
                 switch (index) {
                     case 0:
