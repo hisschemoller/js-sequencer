@@ -73,6 +73,14 @@ window.WH = window.WH || {};
         };
 
         /**
+         * Enter or leave song mode.
+         */
+        this.toggleSongMode = function() {
+            isSongMode = !isSongMode;
+            WH.View.updateSongMode(isSongMode);
+        };
+
+        /**
          * Get steps of the track at index on the current pattern.
          * @param  {Number} index Track index.
          * @return {Array} Array of Step objects.

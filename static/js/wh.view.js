@@ -21,7 +21,7 @@ window.WH = window.WH || {};
                 rackGeneratorContainerClass: '.rack__generator',
 
                 tabs: ['Sound', 'Mixer', 'Pattern', 'Song'],
-                transport: ['Play', '', 'New', 'Random']
+                transport: ['Play', 'Song', 'New', 'Random']
             },
 
             /**
@@ -315,6 +315,14 @@ window.WH = window.WH || {};
                     this.updatePluginControl(pluginId, paramKey, paramValues);
                 }
             }
+        };
+
+        /**
+         * Song mode entered or left.
+         */
+        this.updateSongMode = function(isSongMode) {
+            // TODO: the song button will move somewhere better
+            $(elements.transportContainer.find(settings.ctrlClass)[1]).toggleClass(settings.selectedClass, isSongMode);
         };
 
         // extend AbstractView

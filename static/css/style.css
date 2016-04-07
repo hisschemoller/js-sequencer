@@ -296,10 +296,18 @@ button:focus {
     .ctrl--transport {
         width: 25%;
     }
-    .ctrl:not(.is-active) .ctrl__toggle-active,
+    .ctrl--transport .ctrl__hilight {
+        background-color: #999;
+        display: none;
+        opacity: 0.6
+    }
+    .ctrl--transport.is-selected .ctrl__hilight {
+        display: block;
+    }
+    /*.ctrl:not(.is-active) .ctrl__toggle-active,
     .ctrl.is-active .ctrl__toggle-inactive {
         display: none;
-    }
+    }*/
 .overlay {
     background-color: #333;
     bottom: 0;
