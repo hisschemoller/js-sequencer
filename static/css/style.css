@@ -344,7 +344,7 @@ button:focus {
     }
     .overlay-ctrl__slider {
         background-color: #666;
-        bottom: 20px;
+        bottom: 60px;
         left: 20px;
         position: absolute;
         right: 20px;
