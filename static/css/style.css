@@ -6,8 +6,16 @@ body {
     color: #ccc;
     font-family: 'PT Sans Narrow', sans-serif;
     font-size: 16px;
-    margin: 8px;
+    margin: 0;
     text-align: center;
+}
+main {
+    margin: auto;
+    height: 100vh;
+    max-width: 640px;
+    min-width: 320px;
+    padding: 8px;
+    position: relative;
 }
 button {
     background-color: #666;
@@ -46,6 +54,9 @@ button:focus {
 }
 .color4 {
     background-color: #f00 !important;
+}
+.application {
+
 }
 .racks,
 .rack__generator,
@@ -290,7 +301,7 @@ button:focus {
     bottom: 8px;
     height: 40px;
     left: 8px;
-    position: fixed;
+    position: absolute;
     right: 8px;
 }
     .ctrl--transport {
