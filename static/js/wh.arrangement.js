@@ -20,7 +20,10 @@ window.WH = window.WH || {};
             patternIndex = 0,
             isSongMode = false,
             song = [],
-            songIndex = 0;
+            songPartIndex = 0,
+            songPartEnd = 0,
+            songPartNextIndex = 0,
+            songPartNextStart = 0,
 
             /**
              * Clear all patterns.
@@ -28,6 +31,16 @@ window.WH = window.WH || {};
             clearData = function() {
                 patterns.length = 0;
                 song.length = 0;
+            },
+
+            /**
+             * Change to another pattern.
+             * @param {Number} index Index of pattern in patterns array.
+             */
+            changePattern = function(index) {
+                patternIndex = index;
+                WH.View.setSelectedPattern(index);
+                WH.View.setSelectedSteps();
             };
 
         /**
@@ -37,7 +50,10 @@ window.WH = window.WH || {};
         this.setData = function(data) {
             var i = 0,
                 patternCount = WH.Conf.getPatternCount(),
-                songLength = data.song.length;
+                songLength = data.song.length,
+                songPartData,
+                songPartDuration = 0,
+                songPartEnd = 0;
 
             clearData();
 
@@ -48,11 +64,14 @@ window.WH = window.WH || {};
 
             // create the song
             for (i = 0; i < songLength; i++) {
-                song.push(WH.SongPart(data.song[i]));
+                songPartData = data.song[i];
+                songPartData.absoluteStart = songPartEnd;
+                songPartEnd += patterns[songPartData.patternIndex].getDuration() * songPartData.repeats;
+                songPartData.absoluteEnd = songPartEnd;
+                song.push(WH.SongPart(songPartData));
             }
 
-            WH.View.setSelectedPattern(0);
-            WH.View.setSelectedSteps();
+            changePattern(0);
         };
 
         /**
@@ -74,7 +93,7 @@ window.WH = window.WH || {};
             }
 
             // get song data
-            for (i; i < songLength; i++) {
+            for (i = 0; i < songLength; i++) {
                 data.song.push(song[i].getData());
             }
 
@@ -88,16 +107,85 @@ window.WH = window.WH || {};
          * @param {Array} playbackQueue Events that happen within the time range.
          */
         this.scanEvents = function (start, end, playbackQueue) {
-            // scan current pattern for events
-            var events = patterns[patternIndex].scanEvents(start, end, playbackQueue);
+
+            if (isSongMode) {
+
+                // check if there's a current song part
+                if (songPartIndex >= 0 && songPartIndex < song.length) {
+                    // check if the current part ends during this time range
+                    if ((songPartEnd < end) && (start <= songPartEnd)) {
+                        // the current part ends during this time range
+                        // scan the current part's pattern until the part's end
+                        patterns[patternIndex].scanEvents(start, songPartEnd, playbackQueue);
+                        // check if there's a next song part
+                        if (songPartNextIndex >= song.length) {
+                            // the song ends here
+                            WH.TimeBase.pause();
+                            WH.TimeBase.rewind();
+                        } else {
+                            // there's a next song part to play, do nothing
+                        }
+                    } else {
+                        // the current part doesn't end during this time range
+                        // just play on
+                        patterns[patternIndex].scanEvents(start, end, playbackQueue);
+                    }
+                } else {
+                    // there's no current song part, do nothing
+                }
+
+                // check if there's a next song part
+                if (songPartNextIndex < song.length) {
+                    // check if a new part starts during this time range
+                    if ((start <= songPartNextStart) && (songPartNextStart < end)) {
+                        // a new song part starts during this time span
+                        // update the song state
+                        songPartIndex = songPartNextIndex;
+                        songPartEnd = song[songPartIndex].getEnd();
+                        songPartNextIndex++;
+                        if (songPartNextIndex < song.length) {
+                            songPartNextStart = song[songPartNextIndex].getStart();
+                        } else {
+                            songPartNextStart = null;
+                        }
+                        changePattern(song[songPartIndex].getPatternIndex());
+                        // scan the first bit of the new song part
+                        patterns[patternIndex].scanEvents(songPartNextStart, end, playbackQueue);
+                    } else {
+                        // no new song part starts during this time span, do nothing
+                    }
+                } else {
+                    // there's no next song part, do nothing
+                }
+            } else {
+                // pattern mode
+                // scan current pattern for events
+                patterns[patternIndex].scanEvents(start, end, playbackQueue);
+            }
         };
 
         /**
          * Enter or leave song mode.
          */
         this.toggleSongMode = function() {
+
+            if (!song.length) {
+                return;
+            }
+
             isSongMode = !isSongMode;
             WH.View.updateSongMode(isSongMode);
+
+            if (isSongMode) {
+                WH.TimeBase.pause();
+                WH.TimeBase.rewind();
+                songPartIndex = 0;
+                songPartEnd = song[songPartIndex].getEnd();
+                songPartNextIndex = 0;
+                songPartNextStart = song[songPartNextIndex].getStart();
+            } else {
+
+            }
         };
 
         /**

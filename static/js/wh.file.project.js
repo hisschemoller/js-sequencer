@@ -200,14 +200,12 @@ window.WH = window.WH || {};
                 }
             }
 
-            data.arrangement.song.push({
-                patternIndex: 0,
-                repeats: 4
-            });
-            data.arrangement.song.push({
-                patternIndex: 1,
-                repeats: 4
-            });
+            for (var i = 0; i < 4; i++) {
+                data.arrangement.song.push({
+                    patternIndex: i,
+                    repeats: 1
+                });
+            }
 
             return data;
         };

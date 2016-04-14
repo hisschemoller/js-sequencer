@@ -1,6 +1,6 @@
 /**
  * Pattern contains a track for each channel.
- * 
+ *
  * @namespace WH
  */
 window.WH = window.WH || {};
@@ -27,7 +27,7 @@ window.WH = window.WH || {};
                     tracks.push(WH.Track(data.tracks[i], i));
                 }
             };
-        
+
         /**
          * Scan events within time range.
          * @param {Number} absoluteStart Absolute start tick in Transport playback time.
@@ -57,6 +57,14 @@ window.WH = window.WH || {};
         };
 
         /**
+         * Get the duration of this pattern.
+         * @return {Number}  Duration of this pattern in ticks.
+         */
+        this.getDuration = function() {
+            return lengthInTicks;
+        };
+
+        /**
          * Get all settings that should be saved with a project.
          * @return {Array} Array of objects with all data per channel and rack.
          */
@@ -76,7 +84,7 @@ window.WH = window.WH || {};
         init(data);
     }
 
-    /** 
+    /**
      * Exports
      */
     WH.Pattern = function (data) {

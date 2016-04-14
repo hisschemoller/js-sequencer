@@ -14,8 +14,11 @@ window.WH = window.WH || {};
      * @param {Number} data.repeats Number of times the pattern is repeated.
      */
     function SongPart(data) {
+
         var patternIndex = data.patternIndex,
-            repeats = data.repeats;
+            repeats = data.repeats,
+            absoluteStart = data.absoluteStart,
+            absoluteEnd = data.absoluteEnd; // end tick of this part relative to song start
 
         /**
          * Get all settings that should be saved with a project.
@@ -26,6 +29,30 @@ window.WH = window.WH || {};
                 patternIndex: patternIndex,
                 repeats: repeats
             };
+        };
+
+        /**
+         * Return the index of the pattern that this part plays. d
+         * @return {Number}
+         */
+        this.getPatternIndex = function() {
+            return patternIndex;
+        };
+
+        /**
+         * Return the start tick of this part relative to song start
+         * @return {Number}
+         */
+        this.getStart = function() {
+            return absoluteStart;
+        };
+
+        /**
+         * Return the end tick of this part relative to song start
+         * @return {Number}
+         */
+        this.getEnd = function() {
+            return absoluteEnd;
         };
     };
 
