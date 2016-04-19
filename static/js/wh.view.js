@@ -293,8 +293,11 @@ window.WH = window.WH || {};
          * @param {Number} index Rack index from which to remove the instrument.
          */
         this.clearInstrument = function(instrument, index) {
-            pluginViews[instrument.getId()].destroy();
-            delete pluginViews[instrument.getId()];
+            var pluginID = instrument.getId();
+            if (pluginID) {
+                pluginViews[pluginID].destroy();
+                delete pluginViews[pluginID];
+            }
         }
 
         /**

@@ -170,6 +170,11 @@ window.WH = window.WH || {};
         this.toggleSongMode = function() {
 
             if (!song.length) {
+                WH.DialogView({
+                    type: 'alert',
+                    headerText: 'No song',
+                    bodyText: 'There\'s no song yet to play. Please first create a song.'
+                });
                 return;
             }
 

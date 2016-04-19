@@ -77,7 +77,7 @@ window.WH = window.WH || {};
                 instrument,
                 channel,
                 i = 0,
-                n = data.length,
+                n = WH.Conf.getTrackCount(),
                 generators = WX.PlugIn.getRegistered('Generator'),
                 j = 0,
                 p = generators.length,
@@ -115,7 +115,7 @@ window.WH = window.WH || {};
                     WH.View.setInstrument(instrument, i);
                 }
 
-                channel.setPreset(rack.channel.preset);
+                channel.setPreset(Object.assign({}, channel.defaultPreset, rack.channel.preset));
 
                 // if there's channels soloed, remember one of them
                 if (channel.get('solo')) {
