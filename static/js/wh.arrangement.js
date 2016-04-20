@@ -120,6 +120,7 @@ window.WH = window.WH || {};
                         // check if there's a next song part
                         if (songPartNextIndex >= song.length) {
                             // the song ends here
+                            this.toggleSongMode();
                             WH.TimeBase.pause();
                             WH.TimeBase.rewind();
                         } else {
@@ -150,7 +151,7 @@ window.WH = window.WH || {};
                         }
                         changePattern(song[songPartIndex].getPatternIndex());
                         // scan the first bit of the new song part
-                        patterns[patternIndex].scanEvents(songPartNextStart, end, playbackQueue);
+                        patterns[patternIndex].scanEvents(song[songPartIndex].getStart(), end, playbackQueue);
                     } else {
                         // no new song part starts during this time span, do nothing
                     }
