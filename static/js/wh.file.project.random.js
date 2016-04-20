@@ -138,7 +138,7 @@ window.WH = window.WH || {};
                 for (var i = 0; i < trackCount; i++) {
                     var rack = {
                         instrument: {
-                            name,
+                            name: null,
                             preset: {}
                         },
                         channel: {
