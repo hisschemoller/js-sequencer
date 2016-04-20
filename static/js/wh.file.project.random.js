@@ -189,11 +189,21 @@ window.WH = window.WH || {};
                         step.velocity = (Math.random() > 0.85 ? 120 : 0);
                     }
                 }
+            },
+
+            createSong = function() {
+                for (var i = 0; i < 2; i++) {
+                    data.arrangement.song.push({
+                        patternIndex: i,
+                        repeats: 1
+                    });
+                }
             };
 
         init();
         createRack0();
         createPatterns0();
+        createSong();
 
         return data;
     }
