@@ -61,6 +61,14 @@ window.WH = window.WH || {};
             };
 
         /**
+         * Show or hide the patterns section.
+         * @param {Boolean} isVisible True to show the patterns section.
+         */
+        this.setVisible = function(isVisible) {
+            elements.stepsContainer.toggle(isVisible == true);
+        };
+
+        /**
          * Update the pattern to show selected steps.
          * Typically after switching patterns or tracks.
          * @param {Number} index Channel / track index.

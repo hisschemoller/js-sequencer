@@ -61,7 +61,7 @@ window.WH = window.WH || {};
              * StepsView creates sequencer steps UI controls.
              * @type {Object}
              */
-            steps = null,
+            stepsView = null,
 
             /**
              * WH.PluginView plugin view objects.
@@ -86,7 +86,7 @@ window.WH = window.WH || {};
 
                 controls = WH.ControlsView();
 
-                steps = WH.StepsView();
+                stepsView = WH.StepsView();
 
                 patterns = WH.PatternView();
 
@@ -141,7 +141,7 @@ window.WH = window.WH || {};
 
                     // update the steps
                     if (step.channel == channelIndex) {
-                        steps.updateActiveStep(step.index);
+                        stepsView.updateActiveStep(step.index);
                     }
 
                     // update the channels
@@ -200,21 +200,31 @@ window.WH = window.WH || {};
                 switch (index) {
                     case 0:
                         // open instrument
+                        stepsView.setVisible(true);
                         elements.channelContainer.hide();
-                        patterns.setVisible(false);
                         elements.rackContainer.show();
+                        patterns.setVisible(false);
                         break;
                     case 1:
                         // open mixer
+                        stepsView.setVisible(true);
+                        elements.channelContainer.show();
                         elements.rackContainer.hide();
                         patterns.setVisible(false);
-                        elements.channelContainer.show();
                         break;
                     case 2:
                         // open patterns
+                        stepsView.setVisible(true);
                         elements.channelContainer.hide();
-                        patterns.setVisible(true);
                         elements.rackContainer.hide();
+                        patterns.setVisible(true);
+                        break;
+                    case 3:
+                        // open song
+                        stepsView.setVisible(false);
+                        elements.channelContainer.hide();
+                        elements.rackContainer.hide();
+                        patterns.setVisible(false);
                         break;
                 }
             }
@@ -249,7 +259,7 @@ window.WH = window.WH || {};
          */
         this.setSelectedSteps = function(index) {
             index = isNaN(index) ? channelIndex : index;
-            steps.setSelected(index);
+            stepsView.setSelected(index);
         };
 
         /**
