@@ -10,10 +10,15 @@ window.WH = window.WH || {};
 
     function createPluginManager() {
         var that,
+            pluginIdCounter = 0,
             createPlugin = function(pluginId) {
                 try {
                     if (WH.plugins && WH.plugins[pluginId]) {
-                        return WH.plugins[pluginId].create();
+                        var plugin = WH.plugins[pluginId].create({
+                            id: pluginIdCounter
+                        });
+                        pluginIdCounter += 1;
+                        return plugin;
                     } else {
                         throw {
                             name: 'Plugin Error',

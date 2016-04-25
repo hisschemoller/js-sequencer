@@ -6,26 +6,12 @@
 
 window.WH = window.WH || {};
 
-(function (WH) {
-
-    function createPlugins(specs) {
-
-        var that;
-
-        that = {};
-
-        return that;
-    }
-
-    WH.plugins = createPlugins();
-
-})(WH);
-
 (function (WH, WX) {
 
-    function createPlugin(options, my) {
+    function createPlugin(specs, my) {
 
         var that,
+            id = specs.id,
             to = function(target) {
 
             },
@@ -36,7 +22,7 @@ window.WH = window.WH || {};
 
             },
             getParam = function (param) {
-                return
+                return;
             },
             setPreset = function (preset) {
 
@@ -45,7 +31,7 @@ window.WH = window.WH || {};
                 return null;
             },
             getId = function() {
-                
+                return id;
             };
 
         my = my || {};
@@ -57,10 +43,11 @@ window.WH = window.WH || {};
         that.getParam = getParam;
         that.setPreset = setPreset;
         that.getPreset = getPreset;
+        that.getId = getId;
         return that;
     }
 
-    function createGeneratorPlugin(options, my) {
+    function createGeneratorPlugin(specs, my) {
 
         var that,
             output = WX.Gain(),
@@ -70,7 +57,7 @@ window.WH = window.WH || {};
 
         output.to(outlet);
 
-        that = createPlugin(options);
+        that = createPlugin(specs);
         return that;
     }
 
@@ -82,7 +69,7 @@ window.WH = window.WH || {};
 
 (function (WH, WX) {
 
-    function createPlugin() {
+    function createPlugin(specs) {
 
         var that,
             soloCallback,
@@ -95,7 +82,7 @@ window.WH = window.WH || {};
                 soloCallback = callback;
             };
 
-        that = WH.createGeneratorPlugin();
+        that = WH.createGeneratorPlugin(specs);
         that.setSoloCallback = setSoloCallback;
         return that;
     }
