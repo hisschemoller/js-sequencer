@@ -58,7 +58,8 @@ window.WH = window.WH || {};
             instruments = new Array(n);
 
             for (i; i < n; i++) {
-                var channel = WX.Channel();
+                // var channel = WX.Channel();
+                var channel = WH.pluginManager.createPlugin('channel');
                 channel.setSoloCallback(onSoloChange);
                 channel.to(WX.Master);
                 channels.push(channel);

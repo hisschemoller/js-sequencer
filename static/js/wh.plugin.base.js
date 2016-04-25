@@ -8,11 +8,12 @@ window.WH = window.WH || {};
 
 (function (WH) {
 
-    function createPlugins(options) {
+    function createPlugins(specs) {
 
         var that;
 
         that = {};
+
         return that;
     }
 
@@ -42,6 +43,9 @@ window.WH = window.WH || {};
             },
             getPreset = function () {
                 return null;
+            },
+            getId = function() {
+                
             };
 
         my = my || {};
@@ -78,10 +82,28 @@ window.WH = window.WH || {};
 
 (function (WH, WX) {
 
-    function createSynth() {
+    function createPlugin() {
 
+        var that,
+            soloCallback,
+
+            /**
+             * Set the callback function to notify the other channels of a solo parameter change.
+             * @param {Function} callback The callback function.
+             */
+            setSoloCallback = function(callback) {
+                soloCallback = callback;
+            };
+
+        that = WH.createGeneratorPlugin();
+        that.setSoloCallback = setSoloCallback;
+        return that;
     }
 
-    WH.createSynth = createSynth;
+    WH.plugins = WH.plugins || {};
+    WH.plugins['channel'] = {
+        create: createPlugin,
+        type: 'processor'
+    };
 
 })(WH, WX);
