@@ -12,6 +12,8 @@ window.WH = window.WH || {};
 
         var that,
             id = specs.id,
+            name = specs.name,
+            title = specs.title,
             to = function(target) {
 
             },
@@ -32,6 +34,9 @@ window.WH = window.WH || {};
             },
             getId = function() {
                 return id;
+            },
+            getName = function() {
+                return name;
             };
 
         my = my || {};
@@ -44,6 +49,7 @@ window.WH = window.WH || {};
         that.setPreset = setPreset;
         that.getPreset = getPreset;
         that.getId = getId;
+        that.getName = getName;
         return that;
     }
 
@@ -81,6 +87,9 @@ window.WH = window.WH || {};
             setSoloCallback = function(callback) {
                 soloCallback = callback;
             };
+        
+        specs.name = 'channel'
+        specs.title = 'Mixer Channel';
 
         that = WH.createGeneratorPlugin(specs);
         that.setSoloCallback = setSoloCallback;

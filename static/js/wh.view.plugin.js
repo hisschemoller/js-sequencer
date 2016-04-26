@@ -64,9 +64,9 @@ window.WH = window.WH || {};
                 },
 
                 pluginTemplates: {
-                    Channel: $('#template-channel'),
-                    WXS1: $('#template-plugin-wxs1'),
-                    SimpleOsc: $('#template-plugin-simpleosc')
+                    channel: $('#template-channel'),
+                    wxs1: $('#template-plugin-wxs1'),
+                    simpleosc: $('#template-plugin-simpleosc')
                 }
             },
 
@@ -86,7 +86,7 @@ window.WH = window.WH || {};
              * Initialise the view, add DOM event handlers.
              */
             init = function() {
-                var pluginTemplate = elements.pluginTemplates[plugin.info.className];
+                var pluginTemplate = elements.pluginTemplates[plugin.getName()];
                 pluginEl = pluginTemplate.children().first().clone();
                 pluginEl.appendTo(containerEl);
                 pluginEl.attr('data-' + settings.data.pluginId, plugin.getId());
