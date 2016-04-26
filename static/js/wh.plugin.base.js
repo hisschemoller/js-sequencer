@@ -84,6 +84,27 @@ window.WH = window.WH || {};
 
     WH.createGeneratorPlugin = createGeneratorPlugin;
 
+    function createProcessorPlugin(specs, my) {
+
+        var that,
+            input = WX.Gain(),
+            inlet = WX.Gain(),
+            output = WX.Gain(),
+            outlet = WX.Gain();
+
+        my = my || {};
+        my.inlet = inlet;
+        my.outlet = outlet;
+        
+        inlet.to(input);
+        output.to(outlet);
+
+        that = createPlugin(specs, my);
+        return that;
+    }
+
+    WH.createProcessorPlugin = createProcessorPlugin;
+
 })(WH, WX);
 
 
