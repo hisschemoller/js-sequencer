@@ -96,10 +96,7 @@ window.WH = window.WH || {};
 
                 // add the instrument
                 if (instrument) {
-                    // update plugin parameters if they exist.
-                    for (param in rack.instrument.preset) {
-                        instrument.setParam(param, rack.instrument.preset[param]);
-                    }
+                    instrument.setPreset(rack.instrument.preset);
                     instrument.to(channel);
                     instruments[i] = instrument;
                     WH.View.setInstrument(instrument, i);
@@ -112,7 +109,7 @@ window.WH = window.WH || {};
                     soloedChannel = channel;
                 }
 
-                WH.View.setPluginPreset(channel.getId(), channel.getPresetValues());
+                WH.View.setPluginPreset(channel.getId(), channel.getPreset());
             }
 
             // if there's soloed channels set the solo after all presets are set

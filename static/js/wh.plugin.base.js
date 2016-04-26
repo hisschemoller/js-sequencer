@@ -14,12 +14,13 @@ window.WH = window.WH || {};
             id = specs.id,
             name = specs.name,
             title = specs.title,
+            preset = specs.defaultPreset;
             to = function(target) {
                 if (target.getInlet && target.getInlet()) {
                     my.outlet.to(target.getInlet());
                     return target;
                 } else {
-                    try {
+                    try {   
                         my.outlet.to(target);
                         return target;
                     } catch (error) {
@@ -30,19 +31,25 @@ window.WH = window.WH || {};
             cut = function() {
                 console.log('cut');
             },
-            setParam = function (param, arg) {
-                console.log('setParam: ', paramKey, arg);
+            setParam = function (paramKey, paramValue) {
+                if (preset.hasOwnProperty(paramKey)) {
+                    preset[paramKey] = paramValue;
+                }
             },
             getParam = function (paramKey) {
                 console.log('getParam: ', paramKey);
                 return;
             },
-            setPreset = function (preset) {
-                console.log('setPreset');
+            setPreset = function (newPreset) {
+                var paramKey;
+                for (paramKey in newPreset) {
+                    if (preset.hasOwnProperty(paramKey)) {
+                        setParam(paramKey, newPreset[paramKey]);
+                    }
+                }
             },
             getPreset = function () {
-                console.log('getPreset');
-                return null;
+                return preset;
             },
             getId = function() {
                 return id;
@@ -55,7 +62,7 @@ window.WH = window.WH || {};
             };
 
         my = my || {};
-
+        
         that = {};
         that.to = to;
         that.cut = cut;
@@ -76,6 +83,7 @@ window.WH = window.WH || {};
             outlet = WX.Gain();
 
         my = my || {};
+        my.output = output;
         my.outlet = outlet;
 
         output.to(outlet);
@@ -96,6 +104,7 @@ window.WH = window.WH || {};
 
         my = my || {};
         my.inlet = inlet;
+        my.output = output;
         my.outlet = outlet;
         
         inlet.to(input);
@@ -130,6 +139,12 @@ window.WH = window.WH || {};
         
         specs.name = 'channel'
         specs.title = 'Mixer Channel';
+        specs.defaultPreset = {
+            mute: false,
+            solo: false,
+            pan: 0.0,
+            level: 1.0
+        };
 
         that = WH.createProcessorPlugin(specs, my);
         that.setSoloCallback = setSoloCallback;
@@ -161,6 +176,9 @@ window.WH = window.WH || {};
         
         specs.name = 'wxs1'
         specs.title = 'WXS1 Mono Synth';
+        specs.defaultPreset = {
+            oscType: 'square'
+        };
         
         that = WH.createGeneratorPlugin(specs, my);
         init();
