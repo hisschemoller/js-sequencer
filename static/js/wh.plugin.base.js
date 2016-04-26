@@ -15,7 +15,17 @@ window.WH = window.WH || {};
             name = specs.name,
             title = specs.title,
             to = function(target) {
-
+                if (target.getInlet && target.getInlet()) {
+                    my.outlet.to(target.getInlet());
+                    return target;
+                } else {
+                    try {
+                      my.outlet.to(target);
+                      return target;
+                    } catch (error) {
+                        console.error('Connection failed. Invalid patching.');
+                    }
+                }
             },
             cut = function() {
 
@@ -37,7 +47,11 @@ window.WH = window.WH || {};
             },
             getName = function() {
                 return name;
-            };
+            },
+            getInlet = function() {
+                return my.inlet;
+            },
+            getInlet;
 
         my = my || {};
 
@@ -60,10 +74,11 @@ window.WH = window.WH || {};
             outlet = WX.Gain();
 
         my = my || {};
+        my.outlet = outlet;
 
         output.to(outlet);
 
-        that = createPlugin(specs);
+        that = createPlugin(specs, my);
         return that;
     }
 
