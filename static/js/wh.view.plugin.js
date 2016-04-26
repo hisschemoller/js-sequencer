@@ -108,7 +108,7 @@ window.WH = window.WH || {};
                 // add the header to the plugin
                 var headerEl = elements.pluginHeaderTemplate.children().clone();
                 headerEl.appendTo(headerContainer);
-                headerEl.find(settings.pluginNameClass).text(plugin.info.name);
+                headerEl.find(settings.pluginNameClass).text(plugin.getName());
 
                 // add pagination if there's mupltiple control pages
                 var pageEls = pluginEl.find(settings.pluginPageClass),

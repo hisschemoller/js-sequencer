@@ -28,18 +28,20 @@ window.WH = window.WH || {};
                 }
             },
             cut = function() {
-
+                console.log('cut');
             },
             setParam = function (param, arg) {
-
+                console.log('setParam: ', paramKey, arg);
             },
-            getParam = function (param) {
+            getParam = function (paramKey) {
+                console.log('getParam: ', paramKey);
                 return;
             },
             setPreset = function (preset) {
-
+                console.log('setPreset');
             },
             getPreset = function () {
+                console.log('getPreset');
                 return null;
             },
             getId = function() {
@@ -111,7 +113,7 @@ window.WH = window.WH || {};
 
 (function (WH, WX) {
 
-    function createPlugin(specs) {
+    function createPlugin(specs, my) {
 
         var that,
             soloCallback,
@@ -123,11 +125,13 @@ window.WH = window.WH || {};
             setSoloCallback = function(callback) {
                 soloCallback = callback;
             };
+
+        my = my || {};
         
         specs.name = 'channel'
         specs.title = 'Mixer Channel';
 
-        that = WH.createProcessorPlugin(specs);
+        that = WH.createProcessorPlugin(specs, my);
         that.setSoloCallback = setSoloCallback;
         return that;
     }
@@ -144,14 +148,22 @@ window.WH = window.WH || {};
 
 (function (WH, WX) {
 
-    function createPlugin(specs) {
+    function createPlugin(specs, my) {
 
-        var that;
+        var that,
+            osc,
+            init = function() {
+                osc = WX.OSC();
+                osc.to(my.output);
+            };
+
+        my = my || {};
         
-        specs.name = 'WXS1'
+        specs.name = 'wxs1'
         specs.title = 'WXS1 Mono Synth';
-
-        that = WH.createGeneratorPlugin(specs);
+        
+        that = WH.createGeneratorPlugin(specs, my);
+        init();
         return that;
     }
 

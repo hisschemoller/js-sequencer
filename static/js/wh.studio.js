@@ -108,7 +108,7 @@ window.WH = window.WH || {};
                 channel.setPreset(Object.assign({}, channel.defaultPreset, rack.channel.preset));
 
                 // if there's channels soloed, remember one of them
-                if (channel.get('solo')) {
+                if (channel.getParam('solo')) {
                     soloedChannel = channel;
                 }
 
