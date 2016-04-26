@@ -60,7 +60,7 @@ window.WH = window.WH || {};
             for (i; i < n; i++) {
                 var channel = WH.pluginManager.createPlugin('channel');
                 channel.setSoloCallback(onSoloChange);
-                channel.to(WX.Master);
+                channel.to(WX._ctx.destination);
                 channels.push(channel);
                 WH.View.setChannel(channel, i);
             }
@@ -77,14 +77,11 @@ window.WH = window.WH || {};
                 instrument,
                 channel,
                 i = 0,
-                n = WH.Conf.getTrackCount(),
-                generators = WX.PlugIn.getRegistered('Generator'),
-                j = 0,
-                p = generators.length,
+                trackCount = WH.Conf.getTrackCount(),
                 param,
                 soloedChannel;
 
-            for (i; i < n; i++) {
+            for (i; i < trackCount; i++) {
 
                 // remove the old instrument, if it exists
                 if (instruments[i]) {
@@ -95,21 +92,14 @@ window.WH = window.WH || {};
 
                 rack = data[i];
                 channel = channels[i];
-
-                for (j = 0; j < p; j++) {
-                    if (generators[j] == rack.instrument.name) {
-                        instrument = WX[rack.instrument.name]();
-
-                        // update plugin parameters if they exist.
-                        for (param in rack.instrument.preset) {
-                            instrument.set(param, rack.instrument.preset[param]);
-                        }
-                        break;
-                    }
-                }
+                instrument = WH.pluginManager.createPlugin(rack.instrument.name);
 
                 // add the instrument
                 if (instrument) {
+                    // update plugin parameters if they exist.
+                    for (param in rack.instrument.preset) {
+                        instrument.setParam(param, rack.instrument.preset[param]);
+                    }
                     instrument.to(channel);
                     instruments[i] = instrument;
                     WH.View.setInstrument(instrument, i);

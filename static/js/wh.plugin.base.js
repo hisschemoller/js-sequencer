@@ -20,8 +20,8 @@ window.WH = window.WH || {};
                     return target;
                 } else {
                     try {
-                      my.outlet.to(target);
-                      return target;
+                        my.outlet.to(target);
+                        return target;
                     } catch (error) {
                         console.error('Connection failed. Invalid patching.');
                     }
@@ -50,8 +50,7 @@ window.WH = window.WH || {};
             },
             getInlet = function() {
                 return my.inlet;
-            },
-            getInlet;
+            };
 
         my = my || {};
 
@@ -64,6 +63,7 @@ window.WH = window.WH || {};
         that.getPreset = getPreset;
         that.getId = getId;
         that.getName = getName;
+        that.getInlet = getInlet;
         return that;
     }
 
@@ -127,7 +127,7 @@ window.WH = window.WH || {};
         specs.name = 'channel'
         specs.title = 'Mixer Channel';
 
-        that = WH.createGeneratorPlugin(specs);
+        that = WH.createProcessorPlugin(specs);
         that.setSoloCallback = setSoloCallback;
         return that;
     }

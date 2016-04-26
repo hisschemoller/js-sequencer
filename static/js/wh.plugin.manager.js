@@ -11,10 +11,10 @@ window.WH = window.WH || {};
     function createPluginManager() {
         var that,
             pluginIdCounter = 0,
-            createPlugin = function(pluginId) {
+            createPlugin = function(pluginName) {
                 try {
-                    if (WH.plugins && WH.plugins[pluginId]) {
-                        var plugin = WH.plugins[pluginId].create({
+                    if (WH.plugins && WH.plugins[pluginName]) {
+                        var plugin = WH.plugins[pluginName].create({
                             id: pluginIdCounter
                         });
                         pluginIdCounter += 1;
@@ -22,7 +22,7 @@ window.WH = window.WH || {};
                     } else {
                         throw {
                             name: 'Plugin Error',
-                            message: 'No plugin found with id: ' + pluginId
+                            message: 'No plugin found with name: ' + pluginName
                         };
                     }
                 } catch (error) {
