@@ -139,3 +139,26 @@ window.WH = window.WH || {};
     };
 
 })(WH, WX);
+
+
+
+(function (WH, WX) {
+
+    function createPlugin(specs) {
+
+        var that;
+        
+        specs.name = 'WXS1'
+        specs.title = 'WXS1 Mono Synth';
+
+        that = WH.createGeneratorPlugin(specs);
+        return that;
+    }
+
+    WH.plugins = WH.plugins || {};
+    WH.plugins['WXS1'] = {
+        create: createPlugin,
+        type: 'generator'
+    };
+
+})(WH, WX);
