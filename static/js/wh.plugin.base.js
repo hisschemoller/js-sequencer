@@ -145,6 +145,32 @@ window.WH = window.WH || {};
             pan: 0.0,
             level: 1.0
         };
+        specs.params = {
+            mute: {
+                type: 'Boolean',
+                name: 'M',
+                default: false
+            },
+            solo: {
+                type: 'Boolean',
+                name: 'S',
+                default: false
+            },
+            pan: {
+                type: 'Generic',
+                name: 'Pan',
+                default: 0.0,
+                min: -1.0,
+                max: 1.0
+            },
+            level: {
+                type: 'Generic',
+                name: 'Level',
+                default: 1.0,
+                min: 0.0,
+                max: 1.0
+            }
+        };
 
         that = WH.createProcessorPlugin(specs, my);
         that.setSoloCallback = setSoloCallback;

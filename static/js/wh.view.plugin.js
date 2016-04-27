@@ -181,7 +181,7 @@ window.WH = window.WH || {};
                     paramValue,
                     param,
                     controlContainer;
-
+console.log(plugin);
                 for (paramKey in plugin.params) {
                     controlContainer = pluginEl.find('.' + paramKey);
 
