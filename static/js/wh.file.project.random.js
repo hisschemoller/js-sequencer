@@ -177,6 +177,8 @@ window.WH = window.WH || {};
                 var channel = 0,
                     rack = data.racks[channel];
                 rack.instrument.name = 'WXS1';
+                rack.instrument.preset.osc1octave = 0;
+                rack.instrument.preset.osc2detune = 3;
                 rack.channel.preset.pan = -0.1;
             },
 
@@ -186,7 +188,69 @@ window.WH = window.WH || {};
                     track = data.arrangement.patterns[i].tracks[channel];
                     for(j = 0; j < stepCount; j++) {
                         step = track.steps[j];
-                        step.velocity = (Math.random() > 0.85 ? 120 : 0);
+                        step.velocity = (Math.random() > 0.85) ? 120 : 0;
+                        step.pitch = 48 + pentatonicMinScale[j % pentatonicMinScale.length];
+                        step.duration = stepDuration;
+                    }
+                }
+            },
+
+            createRack1 = function() {
+                var channel = 1,
+                    rack = data.racks[channel];
+                rack.instrument.name = 'WXS1';
+                rack.instrument.preset.osc1octave = 0;
+                rack.instrument.preset.osc2detune = 3;
+                rack.channel.preset.pan = 0.5;
+            },
+
+            createPatterns1 = function() {
+                var channel = 1, channel0 = 0, track, track0, step, step0, i, j, stepIndex, pichShift;
+                for (i = 0; i < patternCount; i++) {
+                    track = data.arrangement.patterns[i].tracks[channel];
+                    track0 = data.arrangement.patterns[i].tracks[channel0];
+                    for(j = 0; j < stepCount; j++) {
+                        step = track.steps[j];
+                        stepIndex = (Math.random() > 0.65) ? (stepCount + j - 1) % stepCount : j;
+                        step0 = track0.steps[stepIndex];
+                        pichShift = (Math.random() > 0.5) ? 7 : 3;
+                        step.velocity = step0.velocity;
+                        step.pitch = step0.pitch + 6;
+                        step.duration = stepDuration;
+                    }
+                }
+            },
+
+            createRack2 = function() {
+                var channel = 2,
+                    rack = data.racks[channel];
+                rack.instrument.name = 'WXS1';
+                rack.instrument.preset.osc1type = 'sawtooth';
+                rack.instrument.preset.osc2type = 'sawtooth';
+                rack.instrument.preset.osc1octave = -2;
+                rack.instrument.preset.osc2detune = -12;
+                rack.instrument.preset.ampAttack = 0.01;
+                rack.instrument.preset.ampRelease = 0.01;
+                rack.instrument.preset.cutoff = 110;
+                rack.instrument.preset.filterMod = 2;
+                rack.channel.preset.pan = 0.1;
+            },
+
+            createPatterns2 = function() {
+                var channel = 2, channel0 = 0, channel1 = 1, track, track0, track1, step, step0, i, j, stepIndex, pichShift, velocity;
+                for (i = 0; i < patternCount; i++) {
+                    track = data.arrangement.patterns[i].tracks[channel];
+                    track0 = data.arrangement.patterns[i].tracks[channel0];
+                    track1 = data.arrangement.patterns[i].tracks[channel1];
+                    for(j = 0; j < stepCount; j++) {
+                        step = track.steps[j];
+                        // stepIndex = (Math.random() > 0.65) ? (stepCount + j - 1) % stepCount : j;
+                        step0 = track0.steps[j];
+                        step1 = track1.steps[j];
+                        velocity = (Math.random() > 0.65) ? 120 : 0;
+                        step.velocity = (step0.velocity || step1.velocity) ? 0 : velocity;
+                        pichShift = (Math.random() > 0.5) ? 7 : -2;
+                        step.pitch = 60 + pichShift;
                     }
                 }
             },
@@ -203,6 +267,10 @@ window.WH = window.WH || {};
         init();
         createRack0();
         createPatterns0();
+        createRack1();
+        createPatterns1();
+        createRack2();
+        createPatterns2();
         createSong();
 
         return data;
