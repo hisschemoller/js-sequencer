@@ -14,7 +14,8 @@ window.WH = window.WH || {};
             id = specs.id,
             name = specs.name,
             title = specs.title,
-            preset = specs.defaultPreset;
+            preset = specs.defaultPreset,
+            params = {},
             to = function(target) {
                 if (target.getInlet && target.getInlet()) {
                     my.outlet.to(target.getInlet());
@@ -30,6 +31,12 @@ window.WH = window.WH || {};
             },
             cut = function() {
                 console.log('cut');
+            },
+            defineParams = function(paramOptions) {
+                var key;
+                for (key in paramOptions) {
+                    params[key] = WH.createParameter(paramOptions[key]);
+                }
             },
             setParam = function (paramKey, paramValue) {
                 if (preset.hasOwnProperty(paramKey)) {
@@ -62,6 +69,7 @@ window.WH = window.WH || {};
             };
 
         my = my || {};
+        my.defineParams = defineParams;
         
         that = {};
         that.to = to;
@@ -145,7 +153,11 @@ window.WH = window.WH || {};
             pan: 0.0,
             level: 1.0
         };
-        specs.params = {
+
+        that = WH.createProcessorPlugin(specs, my);
+        that.setSoloCallback = setSoloCallback;
+        
+        my.defineParams({
             mute: {
                 type: 'Boolean',
                 name: 'M',
@@ -170,10 +182,8 @@ window.WH = window.WH || {};
                 min: 0.0,
                 max: 1.0
             }
-        };
-
-        that = WH.createProcessorPlugin(specs, my);
-        that.setSoloCallback = setSoloCallback;
+        }); 
+        
         return that;
     }
 
@@ -192,11 +202,7 @@ window.WH = window.WH || {};
     function createPlugin(specs, my) {
 
         var that,
-            osc,
-            init = function() {
-                osc = WX.OSC();
-                osc.to(my.output);
-            };
+            osc;
 
         my = my || {};
         
@@ -207,7 +213,19 @@ window.WH = window.WH || {};
         };
         
         that = WH.createGeneratorPlugin(specs, my);
-        init();
+        
+        osc = WX.OSC();
+        osc.to(my.output);
+        
+        my.defineParams({
+            osc1type: {
+                type: 'Itemized',
+                name: 'Osc 1',
+                default: 'square',
+                model: WX.WAVEFORMS
+            }
+        });
+        
         return that;
     }
 
