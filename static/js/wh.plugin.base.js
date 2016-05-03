@@ -44,8 +44,12 @@ window.WH = window.WH || {};
                 }
             },
             getParam = function (paramKey) {
-                console.log('getParam: ', paramKey);
-                return;
+                console.log('getParam: ', paramKey, params[paramKey]);
+                if (params.hasOwnProperty(paramKey)) {
+                    return params[paramKey].get();
+                } else {
+                    console.error('Unknown parameter ', paramKey, ' on plugin ', name, '.');
+                }                
             },
             setPreset = function (newPreset) {
                 var paramKey;
@@ -159,24 +163,24 @@ window.WH = window.WH || {};
         
         my.defineParams({
             mute: {
-                type: 'Boolean',
+                type: 'boolean',
                 name: 'M',
                 default: false
             },
             solo: {
-                type: 'Boolean',
+                type: 'boolean',
                 name: 'S',
                 default: false
             },
             pan: {
-                type: 'Generic',
+                type: 'generic',
                 name: 'Pan',
                 default: 0.0,
                 min: -1.0,
                 max: 1.0
             },
             level: {
-                type: 'Generic',
+                type: 'generic',
                 name: 'Level',
                 default: 1.0,
                 min: 0.0,
@@ -219,7 +223,7 @@ window.WH = window.WH || {};
         
         my.defineParams({
             osc1type: {
-                type: 'Itemized',
+                type: 'itemized',
                 name: 'Osc 1',
                 default: 'square',
                 model: WX.WAVEFORMS
