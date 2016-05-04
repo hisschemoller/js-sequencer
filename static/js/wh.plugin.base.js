@@ -35,6 +35,8 @@ window.WH = window.WH || {};
             defineParams = function(paramOptions) {
                 var key;
                 for (key in paramOptions) {
+                    paramOptions[key].target = my;
+                    paramOptions[key].id = key;
                     params[key] = WH.createParameter(paramOptions[key]);
                 }
             },
@@ -73,6 +75,7 @@ window.WH = window.WH || {};
             };
 
         my = my || {};
+        my.id = id;
         my.defineParams = defineParams;
         
         that = {};
@@ -115,6 +118,7 @@ window.WH = window.WH || {};
             outlet = WX.Gain();
 
         my = my || {};
+        my.input = input;
         my.inlet = inlet;
         my.output = output;
         my.outlet = outlet;
@@ -137,7 +141,13 @@ window.WH = window.WH || {};
     function createPlugin(specs, my) {
 
         var that,
+            isMute = false,
+            isSolo = false,
+            isAnySoloActive = false,
+            level,
             soloCallback,
+            panner,
+            soloMute,
 
             /**
              * Set the callback function to notify the other channels of a solo parameter change.
@@ -186,7 +196,48 @@ window.WH = window.WH || {};
                 min: 0.0,
                 max: 1.0
             }
-        }); 
+        });
+        
+        my.$mute = function(value, time, rampType) {
+            isMute = value;
+
+            if (value) {
+                this.soloMute.gain.value = 0.0;
+            } else {
+                if (isAnySoloActive) {
+                    if (isSolo) {
+                        soloMute.gain.value = level;
+                    } else {
+                        soloMute.gain.value = 0.0;
+                    }
+                } else {
+                    soloMute.gain.value = level;
+                }
+            }
+        };
+
+        my.$solo = function(value, time, rampType) {
+            isSolo = value;
+            
+            // callback to notify the other channels of the change
+            if (soloCallback) {
+                soloCallback(my.id, isSolo);
+            }
+        };
+        
+        my.$pan = function(value, time, rampType) {
+            panner.setPosition(value, 0, 0.5);
+        };
+
+        my.$level = function(value, time, rampType) {
+            level = value;
+            soloMute.gain.value = level;
+        };
+        
+        panner = WX.Panner();
+        soloMute = WX.Gain();
+        my.input.to(soloMute).to(panner).to(my.output);
+        level = soloMute.gain.value;
         
         return that;
     }
@@ -218,9 +269,6 @@ window.WH = window.WH || {};
         
         that = WH.createGeneratorPlugin(specs, my);
         
-        osc = WX.OSC();
-        osc.to(my.output);
-        
         my.defineParams({
             osc1type: {
                 type: 'itemized',
@@ -229,6 +277,13 @@ window.WH = window.WH || {};
                 model: WX.WAVEFORMS
             }
         });
+        
+        my.$osc1type = function(value, time, rampType) {
+            osc.type = value;
+        };
+        
+        osc = WX.OSC();
+        osc.to(my.output);
         
         return that;
     }
@@ -240,3 +295,14 @@ window.WH = window.WH || {};
     };
 
 })(WH, WX);
+
+
+// 1. define local variables and functions
+// 2. define my if it doesn't exist
+// 3. add data to specs
+// 4. create that
+// 5. add methods to that
+// 6. define plugin parameters
+// 7. define parameter callback functions
+// 8. set up plugin structure
+// 9. return that

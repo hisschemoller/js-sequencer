@@ -13,6 +13,7 @@ window.WH = window.WH || {};
         var that,
             value,
             name = specs.name || 'Parameter',
+            callback = specs.target['$' + specs.id],
             checkNumeric = function(value, defaultValue) {
                 var checkedValue;
                 if (value === undefined) {
