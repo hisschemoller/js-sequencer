@@ -11,9 +11,37 @@ window.WH = window.WH || {};
     function createParameter(specs, my) {
         
         var that,
-            value,
+            type = specs.type,
             name = specs.name || 'Parameter',
             callback = specs.target['$' + specs.id],
+            get = function() {
+                return my.value;
+            },
+            getType = function() {
+                return type;
+            },
+            getName = function() {
+                return name;
+            };
+        
+        my = my || {};
+        my.value;
+        my.defaultValue;
+        
+        that = {};
+        
+        that.get = get;
+        that.getType = getType;
+        that.getName = getName;
+        return that;
+    }
+
+    function createGenericParameter(specs, my) {
+        
+        var that,
+            min,
+            max,
+            unit = specs.unit || '',
             checkNumeric = function(value, defaultValue) {
                 var checkedValue;
                 if (value === undefined) {
@@ -24,48 +52,43 @@ window.WH = window.WH || {};
                     checkedValue = value;
                 }
                 return checkedValue;
-            },
-            get = function() {
-                return value;
-            }
-        
-        my = my || {};
-        my.value = value;
-        my.checkNumeric = checkNumeric;
-        
-        that = {};
-        that.get = get;
-        
-        return that;
-    }
-
-    function createGenericParameter(specs, my) {
-        
-        var that,
-            defaultValue,
-            min,
-            max,
-            unit = specs.unit || '';
+            };
         
         my = my || {};
         
         that = createParameter(specs, my);
         
-        my.value = defaultValue = my.checkNumeric(specs.default || 0.0);
-        min = my.checkNumeric(specs.min || 0.0);
-        max = my.checkNumeric(specs.max || 1.0);
+        my.value = my.defaultValue = checkNumeric(specs.default || 0.0);
+        min = checkNumeric(specs.min || 0.0);
+        max = checkNumeric(specs.max || 1.0);
         
         return that;
     }
 
     function createItemizedParameter(specs, my) {
         
-        var that;
-        
+        var that,
+            model = specs.model,
+            getModel = function() {
+                return model;
+            },
+            getLabel = function() {
+                var i = model.length;
+                while (--i > 0) {
+                    if (model[i].value === my.value) {
+                        return model[i].label;
+                    }
+                }
+            };
+            
         my = my || {};
         
         that = createParameter(specs, my);
         
+        my.value = my.defaultValue = specs.default ||  model[0].value;
+        
+        that.getModel = getModel;
+        that.getLabel = getLabel;
         return that;
     }
 
@@ -76,6 +99,8 @@ window.WH = window.WH || {};
         my = my || {};
         
         that = createParameter(specs, my);
+        
+        my.value = my.defaultValue = specs.default;
         
         return that;
     }

@@ -108,7 +108,7 @@ window.WH = window.WH || {};
                 // add the header to the plugin
                 var headerEl = elements.pluginHeaderTemplate.children().clone();
                 headerEl.appendTo(headerContainer);
-                headerEl.find(settings.pluginNameClass).text(plugin.getName());
+                headerEl.find(settings.pluginNameClass).text(plugin.getTitle());
 
                 // add pagination if there's mupltiple control pages
                 var pageEls = pluginEl.find(settings.pluginPageClass),
@@ -180,38 +180,40 @@ window.WH = window.WH || {};
                 var paramKey,
                     paramValue,
                     param,
-                    controlContainer;
+                    controlContainer
+                    pluginParams = plugin.getParams();
                     
-                for (paramKey in plugin.params) {
+                for (paramKey in pluginParams) {
                     controlContainer = pluginEl.find('.' + paramKey);
 
                     if (controlContainer.length) {
-                        param = plugin.params[paramKey];
-                        paramValue = param.value;
+                        param = pluginParams[paramKey];
+                        paramValue = param.get();
 
-                        switch (param.type) {
-                            case 'Generic':
+                        switch (param.getType()) {
+                            case 'generic':
                                 paramValue = paramValue.toFixed(1);
                                 controlEl = elements.templates.ctrlGeneric.children().first().clone();
-                                controlEl.find(settings.ctrlNameClass).text(param.name);
+                                controlEl.find(settings.ctrlNameClass).text(param.getName());
                                 controlEl.find(settings.ctrlValueClass).text(paramValue);
                                 paramType = settings.ctrlTypes.generic;
                                 break;
-                            case 'Itemized':
-                                paramValue = WX.findKeyByValue(param.getModel(), paramValue);
+                            case 'itemized':
                                 controlEl = elements.templates.ctrlItemized.children().first().clone();
-                                controlEl.find(settings.ctrlNameClass).text(param.name);
-                                controlEl.find(settings.ctrlValueClass).text(paramValue);
+                                controlEl.find(settings.ctrlNameClass).text(param.getName());
+                                controlEl.find(settings.ctrlValueClass).text(param.getLabel());
                                 paramType = settings.ctrlTypes.itemized;
                                 break;
-                            case 'Boolean':
+                            case 'boolean':
                                 controlEl = elements.templates.ctrlBoolean.children().first().clone();
-                                controlEl.find(settings.ctrlTextClass).text(param.name);
+                                controlEl.find(settings.ctrlTextClass).text(param.getName());
                                 if (paramValue) {
                                     controlEl.addClass(settings.selectedClass);
                                 }
                                 paramType = settings.ctrlTypes.boolean;
                                 break;
+                            default:
+                                console.error('Parameter type ', param.type, ' is not supported.');
                         }
 
                         controlEl.attr('data-' + settings.data.paramKey, paramKey);

@@ -64,11 +64,17 @@ window.WH = window.WH || {};
             getPreset = function () {
                 return preset;
             },
+            getParams = function() {
+                return params;
+            }
             getId = function() {
                 return id;
             },
             getName = function() {
                 return name;
+            },
+            getTitle = function() {
+                return title;
             },
             getInlet = function() {
                 return my.inlet;
@@ -85,8 +91,11 @@ window.WH = window.WH || {};
         that.getParam = getParam;
         that.setPreset = setPreset;
         that.getPreset = getPreset;
+        that.getPreset = getPreset;
+        that.getParams = getParams;
         that.getId = getId;
         that.getName = getName;
+        that.getTitle = getTitle;
         that.getInlet = getInlet;
         return that;
     }
@@ -274,7 +283,7 @@ window.WH = window.WH || {};
                 type: 'itemized',
                 name: 'Osc 1',
                 default: 'square',
-                model: WX.WAVEFORMS
+                model: WH.Conf.getModel('waveforms')
             }
         });
         
