@@ -12,9 +12,6 @@ window.WH = window.WH || {};
 
         var that,
             id = specs.id,
-            name = specs.name,
-            title = specs.title,
-            preset = specs.defaultPreset,
             params = {},
             to = function(target) {
                 if (target.getInlet && target.getInlet()) {
@@ -47,7 +44,7 @@ window.WH = window.WH || {};
                 if (params.hasOwnProperty(paramKey)) {
                     return params[paramKey];
                 } else {
-                    console.error('Unknown parameter ', paramKey, ' on plugin ', name, '.');
+                    console.error('Unknown parameter ', paramKey, ' on plugin ', my.name, '.');
                 }  
             },
             setParamValue = function (paramKey, paramValue) {
@@ -59,7 +56,7 @@ window.WH = window.WH || {};
                 if (params.hasOwnProperty(paramKey)) {
                     return params[paramKey].getValue();
                 } else {
-                    console.error('Unknown parameter ', paramKey, ' on plugin ', name, '.');
+                    console.error('Unknown parameter ', paramKey, ' on plugin ', my.name, '.');
                 }                
             },
             setPreset = function (newPreset) {
@@ -77,10 +74,10 @@ window.WH = window.WH || {};
                 return id;
             },
             getName = function() {
-                return name;
+                return my.name;
             },
             getTitle = function() {
-                return title;
+                return my.title;
             },
             getInlet = function() {
                 return my.inlet;
@@ -173,6 +170,14 @@ window.WH = window.WH || {};
             };
 
         my = my || {};
+        my.name = 'channel'
+        my.title = 'Mixer Channel';
+        my.defaultPreset = {
+            mute: false,
+            solo: false,
+            pan: 0.0,
+            level: 1.0
+        };
         my.$mute = function(value, time, rampType) {
             isMute = value;
 
@@ -207,15 +212,6 @@ window.WH = window.WH || {};
         my.$level = function(value, time, rampType) {
             level = value;
             soloMute.gain.value = level;
-        };
-        
-        specs.name = 'channel'
-        specs.title = 'Mixer Channel';
-        specs.defaultPreset = {
-            mute: false,
-            solo: false,
-            pan: 0.0,
-            level: 1.0
         };
 
         that = WH.createProcessorPlugin(specs, my);
@@ -274,14 +270,13 @@ window.WH = window.WH || {};
             osc;
 
         my = my || {};
+        my.name = 'wxs1'
+        my.title = 'WXS1 Mono Synth';
+        my.defaultPreset = {
+            oscType: 'square'
+        };
         my.$osc1type = function(value, time, rampType) {
             osc.type = value;
-        };
-        
-        specs.name = 'wxs1'
-        specs.title = 'WXS1 Mono Synth';
-        specs.defaultPreset = {
-            oscType: 'square'
         };
         
         that = WH.createGeneratorPlugin(specs, my);
