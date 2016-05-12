@@ -40,15 +40,24 @@ window.WH = window.WH || {};
                     params[key] = WH.createParameter(paramOptions[key]);
                 }
             },
-            setParam = function (paramKey, paramValue) {
-                if (preset.hasOwnProperty(paramKey)) {
-                    preset[paramKey] = paramValue;
+            getParams = function() {
+                return params;
+            }
+            getParam = function(paramKey) {
+                if (params.hasOwnProperty(paramKey)) {
+                    return params[paramKey];
+                } else {
+                    console.error('Unknown parameter ', paramKey, ' on plugin ', name, '.');
+                }  
+            },
+            setParamValue = function (paramKey, paramValue) {
+                if (params.hasOwnProperty(paramKey)) {
+                    params[paramKey].setValue(paramValue);
                 }
             },
-            getParam = function (paramKey) {
-                console.log('getParam: ', paramKey, params[paramKey]);
+            getParamValue = function(paramKey) {
                 if (params.hasOwnProperty(paramKey)) {
-                    return params[paramKey].get();
+                    return params[paramKey].getValue();
                 } else {
                     console.error('Unknown parameter ', paramKey, ' on plugin ', name, '.');
                 }                
@@ -57,16 +66,13 @@ window.WH = window.WH || {};
                 var paramKey;
                 for (paramKey in newPreset) {
                     if (preset.hasOwnProperty(paramKey)) {
-                        setParam(paramKey, newPreset[paramKey]);
+                        setParamValue(paramKey, newPreset[paramKey]);
                     }
                 }
             },
             getPreset = function () {
                 return preset;
             },
-            getParams = function() {
-                return params;
-            }
             getId = function() {
                 return id;
             },
@@ -87,12 +93,12 @@ window.WH = window.WH || {};
         that = {};
         that.to = to;
         that.cut = cut;
-        that.setParam = setParam;
+        that.getParams = getParams;
         that.getParam = getParam;
+        that.setParamValue = setParamValue;
+        that.getParamValue = getParamValue;
         that.setPreset = setPreset;
         that.getPreset = getPreset;
-        that.getPreset = getPreset;
-        that.getParams = getParams;
         that.getId = getId;
         that.getName = getName;
         that.getTitle = getTitle;

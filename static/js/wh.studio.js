@@ -105,7 +105,7 @@ window.WH = window.WH || {};
                 channel.setPreset(Object.assign({}, channel.defaultPreset, rack.channel.preset));
 
                 // if there's channels soloed, remember one of them
-                if (channel.getParam('solo')) {
+                if (channel.getParamValue('solo')) {
                     soloedChannel = channel;
                 }
 
@@ -132,7 +132,7 @@ window.WH = window.WH || {};
 
                 rack = {
                     instrument: {
-                        name: instruments[i].info.className,
+                        name: instruments[i].getName(),
                         preset: instruments[i].getPreset()
                     },
                     channel: {
@@ -199,8 +199,8 @@ window.WH = window.WH || {};
             }
 
             if (plugin) {
-                plugin.setParameter(paramKey, paramValue);
-                WH.View.updatePluginControl(pluginId, paramKey, plugin.getParameterValues(paramKey));
+                plugin.setParamValue(paramKey, paramValue);
+                WH.View.updatePluginControl(pluginId, paramKey, plugin.getParam(paramKey));
             }
         }
     }

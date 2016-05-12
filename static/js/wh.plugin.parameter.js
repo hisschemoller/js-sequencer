@@ -14,7 +14,7 @@ window.WH = window.WH || {};
             type = specs.type,
             name = specs.name || 'Parameter',
             callback = specs.target['$' + specs.id],
-            get = function() {
+            getValue = function() {
                 return my.value;
             },
             getType = function() {
@@ -30,7 +30,7 @@ window.WH = window.WH || {};
         
         that = {};
         
-        that.get = get;
+        that.getValue = getValue;
         that.getType = getType;
         that.getName = getName;
         return that;
@@ -69,25 +69,40 @@ window.WH = window.WH || {};
         
         var that,
             model = specs.model,
+            index,
+            setValue = function(value) {
+                my.value = value;
+                setIndexByValue(my.value);
+            },
+            setIndexByValue = function(value) {
+                var i, n = model.length;
+                for (i = 0; i < n; i++) {
+                    if (model[i].value === value) {
+                        index = i;
+                        break;
+                    }
+                }
+            },
             getModel = function() {
                 return model;
             },
+            getIndex = function() {
+                return index;
+            },
             getLabel = function() {
-                var i = model.length;
-                while (--i > 0) {
-                    if (model[i].value === my.value) {
-                        return model[i].label;
-                    }
-                }
+                return model[index].label;
             };
             
         my = my || {};
         
         that = createParameter(specs, my);
         
-        my.value = my.defaultValue = specs.default ||  model[0].value;
+        setValue(specs.default ||  model[0].value);
+        my.defaultValue = my.value;
         
+        that.setValue = setValue;
         that.getModel = getModel;
+        that.getIndex = getIndex;
         that.getLabel = getLabel;
         return that;
     }

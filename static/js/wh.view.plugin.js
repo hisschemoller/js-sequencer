@@ -188,7 +188,7 @@ window.WH = window.WH || {};
 
                     if (controlContainer.length) {
                         param = pluginParams[paramKey];
-                        paramValue = param.get();
+                        paramValue = param.getValue();
 
                         switch (param.getType()) {
                             case 'generic':
@@ -319,24 +319,25 @@ window.WH = window.WH || {};
              */
             onItemizedControlTouchStart = function(e) {
                 e.preventDefault();
-                elements.overlayCtrlItemized.show();
-
+                
                 var paramKey = $(e.currentTarget).data(settings.data.paramKey),
-                    param = e.data.plugin.getParameterValues(paramKey),
+                    param = e.data.plugin.getParam(paramKey),
+                    model = param.getModel(),
                     listEl = elements.overlayCtrlItemized.find(settings.overlayList),
                     i = 0,
-                    n = param.model.length,
+                    n = model.length,
                     itemEl;
-
+                    
+                elements.overlayCtrlItemized.show();
                 elements.overlayCtrlItemized.find(settings.overlayName).text(param.name);
                 listEl.empty();
 
                 for (i; i < n; i++) {
                     itemEl = elements.templates.overlayControlItem.children().first().clone();
-                    itemEl.text(param.model[i].key);
+                    itemEl.text(model[i].label);
                     itemEl.appendTo(listEl);
 
-                    if (param.value == param.model[i].value) {
+                    if (param.value == model[i].value) {
                         itemEl.addClass(settings.selectedClass);
                     }
                 }
@@ -345,15 +346,15 @@ window.WH = window.WH || {};
                     eventData = {
                         pluginId: e.data.plugin.getId(),
                         paramKey: paramKey,
-                        model: param.model,
-                        originalIndex: param.valueNormalized,
+                        model: model,
+                        originalIndex: param.getIndex(),
                         changedIndex: null,
                         itemEls: elements.overlayCtrlItemized.find(settings.overlayListItem),
                         listLeft: listOffset.left,
                         listTop: listOffset.top,
                         listRight: listOffset.left + listEl.width(),
                         listBottom: listOffset.top + listEl.height(),
-                        itemHeight: listEl.height() / param.model.length
+                        itemHeight: listEl.height() / model.length
                     };
 
                 elements.app.on(self.eventType.move, eventData, onItemizedOverlayTouchMove);
@@ -412,24 +413,24 @@ window.WH = window.WH || {};
          * Update a control to reflect a changed plugin parameter.
          * @param {Number} pluginId Unique ID of the plugin.
          * @param {String} paramKey The parameter to change.
-         * @param {Object} paramValues Object containing all the values of the parameter.
+         * @param {Object} param Parameter object.
          */
-        this.updateControl = function(paramKey, paramValues) {
+        this.updateControl = function(paramKey, param) {
             var ctrlEl = pluginEl.find(settings.ctrlClass + '[data-' + settings.data.paramKey + '="' + paramKey + '"]'),
                 ctrlType = ctrlEl.data(settings.data.paramType);
 
             switch (ctrlType) {
                 case settings.ctrlTypes.generic:
                     var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider);
-                    ctrlEl.find(settings.ctrlValueClass).text(paramValues.value.toFixed(2));
-                    elements.overlayCtrlGeneric.find(settings.overlayValue).text(paramValues.value.toFixed(2));
+                    ctrlEl.find(settings.ctrlValueClass).text(param.getValue().toFixed(2));
+                    elements.overlayCtrlGeneric.find(settings.overlayValue).text(param.getValue().toFixed(2));
                     elements.overlayCtrlGeneric.find(settings.overlaySliderThumb).height(slider.height() * paramValues.valueNormalized);
                     break;
                 case settings.ctrlTypes.itemized:
-                    ctrlEl.find(settings.ctrlValueClass).text(paramValues.model[paramValues.valueNormalized].key);
+                    ctrlEl.find(settings.ctrlValueClass).text(param.getLabel());
                     break;
                 case settings.ctrlTypes.boolean:
-                    ctrlEl.toggleClass(settings.selectedClass, paramValues.value);
+                    ctrlEl.toggleClass(settings.selectedClass, param.getValue());
                     break;
             }
         };
