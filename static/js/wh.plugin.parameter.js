@@ -23,10 +23,11 @@ window.WH = window.WH || {};
             getName = function() {
                 return name;
             };
-        
+            
         my = my || {};
         my.value;
         my.defaultValue;
+        my.callback = callback;
         
         that = {};
         
@@ -74,9 +75,10 @@ window.WH = window.WH || {};
         var that,
             model = specs.model,
             index,
-            setValue = function(value) {
+            setValue = function(value, time, rampType) {
                 index = value;
                 my.value = model[index].value;
+                my.callback(my.value, time, rampType);
             },
             setIndexByValue = function(value) {
                 var i, n = model.length;
@@ -116,6 +118,7 @@ window.WH = window.WH || {};
         var that,
             setValue = function(value) {
                 my.value = !!value;
+                my.callback(my.value, time, rampType);
             };
         
         my = my || {};

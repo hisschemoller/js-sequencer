@@ -173,6 +173,41 @@ window.WH = window.WH || {};
             };
 
         my = my || {};
+        my.$mute = function(value, time, rampType) {
+            isMute = value;
+
+            if (value) {
+                this.soloMute.gain.value = 0.0;
+            } else {
+                if (isAnySoloActive) {
+                    if (isSolo) {
+                        soloMute.gain.value = level;
+                    } else {
+                        soloMute.gain.value = 0.0;
+                    }
+                } else {
+                    soloMute.gain.value = level;
+                }
+            }
+        };
+
+        my.$solo = function(value, time, rampType) {
+            isSolo = value;
+            
+            // callback to notify the other channels of the change
+            if (soloCallback) {
+                soloCallback(my.id, isSolo);
+            }
+        };
+        
+        my.$pan = function(value, time, rampType) {
+            panner.setPosition(value, 0, 0.5);
+        };
+
+        my.$level = function(value, time, rampType) {
+            level = value;
+            soloMute.gain.value = level;
+        };
         
         specs.name = 'channel'
         specs.title = 'Mixer Channel';
@@ -213,42 +248,6 @@ window.WH = window.WH || {};
             }
         });
         
-        my.$mute = function(value, time, rampType) {
-            isMute = value;
-
-            if (value) {
-                this.soloMute.gain.value = 0.0;
-            } else {
-                if (isAnySoloActive) {
-                    if (isSolo) {
-                        soloMute.gain.value = level;
-                    } else {
-                        soloMute.gain.value = 0.0;
-                    }
-                } else {
-                    soloMute.gain.value = level;
-                }
-            }
-        };
-
-        my.$solo = function(value, time, rampType) {
-            isSolo = value;
-            
-            // callback to notify the other channels of the change
-            if (soloCallback) {
-                soloCallback(my.id, isSolo);
-            }
-        };
-        
-        my.$pan = function(value, time, rampType) {
-            panner.setPosition(value, 0, 0.5);
-        };
-
-        my.$level = function(value, time, rampType) {
-            level = value;
-            soloMute.gain.value = level;
-        };
-        
         panner = WX.Panner();
         soloMute = WX.Gain();
         my.input.to(soloMute).to(panner).to(my.output);
@@ -275,6 +274,9 @@ window.WH = window.WH || {};
             osc;
 
         my = my || {};
+        my.$osc1type = function(value, time, rampType) {
+            osc.type = value;
+        };
         
         specs.name = 'wxs1'
         specs.title = 'WXS1 Mono Synth';
@@ -293,10 +295,6 @@ window.WH = window.WH || {};
             }
         });
         
-        my.$osc1type = function(value, time, rampType) {
-            osc.type = value;
-        };
-        
         osc = WX.OSC();
         osc.to(my.output);
         
@@ -314,6 +312,7 @@ window.WH = window.WH || {};
 
 // 1. define local variables and functions
 // 2. define my if it doesn't exist
+// 2. add data to my
 // 3. add data to specs
 // 4. create that
 // 5. add methods to that
