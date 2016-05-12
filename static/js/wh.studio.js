@@ -90,19 +90,19 @@ window.WH = window.WH || {};
                     instruments[i] = null;
                 }
 
-                rack = data[i];
+                rackData = data[i];
                 channel = channels[i];
-                instrument = WH.pluginManager.createPlugin(rack.instrument.name);
+                instrument = WH.pluginManager.createPlugin(rackData.instrument.name);
 
                 // add the instrument
                 if (instrument) {
-                    instrument.setPreset(rack.instrument.preset);
+                    instrument.setPreset(rackData.instrument.preset);
                     instrument.to(channel);
                     instruments[i] = instrument;
                     WH.View.setInstrument(instrument, i);
                 }
 
-                channel.setPreset(Object.assign({}, channel.defaultPreset, rack.channel.preset));
+                channel.setPreset(Object.assign({}, channel.defaultPreset, rackData.channel.preset));
 
                 // if there's channels soloed, remember one of them
                 if (channel.getParamValue('solo')) {

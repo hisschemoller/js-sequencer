@@ -304,7 +304,7 @@ window.WH = window.WH || {};
     }
 
     WH.plugins = WH.plugins || {};
-    WH.plugins['WXS1'] = {
+    WH.plugins['wxs1'] = {
         create: createPlugin,
         type: 'generator'
     };

@@ -42,6 +42,9 @@ window.WH = window.WH || {};
             min,
             max,
             unit = specs.unit || '',
+            setValue = function(value) {
+                my.value = Math.max(min, Math.min(value, max));
+            },
             checkNumeric = function(value, defaultValue) {
                 var checkedValue;
                 if (value === undefined) {
@@ -62,6 +65,7 @@ window.WH = window.WH || {};
         min = checkNumeric(specs.min || 0.0);
         max = checkNumeric(specs.max || 1.0);
         
+        that.setValue = setValue;
         return that;
     }
 
@@ -71,8 +75,8 @@ window.WH = window.WH || {};
             model = specs.model,
             index,
             setValue = function(value) {
-                my.value = value;
-                setIndexByValue(my.value);
+                index = value;
+                my.value = model[index].value;
             },
             setIndexByValue = function(value) {
                 var i, n = model.length;
@@ -97,7 +101,7 @@ window.WH = window.WH || {};
         
         that = createParameter(specs, my);
         
-        setValue(specs.default ||  model[0].value);
+        setIndexByValue(specs.default ||  model[0].value);
         my.defaultValue = my.value;
         
         that.setValue = setValue;
@@ -109,7 +113,10 @@ window.WH = window.WH || {};
 
     function createBooleanParameter(specs, my) {
         
-        var that;
+        var that,
+            setValue = function(value) {
+                my.value = !!value;
+            };
         
         my = my || {};
         
@@ -117,6 +124,7 @@ window.WH = window.WH || {};
         
         my.value = my.defaultValue = specs.default;
         
+        that.setValue = setValue;
         return that;
     }
     
