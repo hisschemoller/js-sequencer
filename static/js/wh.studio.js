@@ -129,15 +129,9 @@ window.WH = window.WH || {};
                 rack;
 
             for (i; i < n; i++) {
-
                 rack = {
-                    instrument: {
-                        name: instruments[i].getName(),
-                        preset: instruments[i].getPreset()
-                    },
-                    channel: {
-                        preset: channels[i].getPreset()
-                    }
+                    instrument: instruments[i].getData(),
+                    channel: channels[i].getData()
                 };
                 racks.push(rack);
             }

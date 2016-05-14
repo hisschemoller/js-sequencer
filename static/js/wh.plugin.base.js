@@ -83,6 +83,19 @@ window.WH = window.WH || {};
             },
             getInlet = function() {
                 return my.inlet;
+            },
+            getData = function() {
+                var data = {
+                        name: getName(),
+                        preset: {}
+                    }, 
+                    paramKey;
+                for (paramKey in params) {
+                    if (params.hasOwnProperty(paramKey)) {
+                        data.preset[paramKey] = params[paramKey].getValue();
+                    }
+                }
+                return data;
             };
 
         my = my || {};
@@ -102,6 +115,7 @@ window.WH = window.WH || {};
         that.getName = getName;
         that.getTitle = getTitle;
         that.getInlet = getInlet;
+        that.getData = getData;
         return that;
     }
 
