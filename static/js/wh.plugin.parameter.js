@@ -116,7 +116,7 @@ window.WH = window.WH || {};
     function createBooleanParameter(specs, my) {
         
         var that,
-            setValue = function(value) {
+            setValue = function(value, time, rampType) {
                 my.value = !!value;
                 my.callback(my.value, time, rampType);
             };
