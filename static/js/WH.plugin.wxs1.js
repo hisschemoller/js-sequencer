@@ -285,11 +285,11 @@
         filterAttack: 0.01,
         filterDecay: 0.07,
         filterSustain: 0.5,
-        filterRelease: 0.03,
-        ampAttack: 0.2,
+        filterRelease: 0.01,
+        ampAttack: 0.01,
         ampDecay: 0.2,
-        ampSustain: 0.2,
-        ampRelease: 0.2,
+        ampSustain: 1.0,
+        ampRelease: 0.01,
         output: 0.8
     };
 
