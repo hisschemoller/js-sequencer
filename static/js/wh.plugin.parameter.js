@@ -76,8 +76,8 @@ window.WH = window.WH || {};
             model = specs.model,
             index,
             setValue = function(value, time, rampType) {
-                index = value;
-                my.value = model[index].value;
+                my.value = value;
+                setIndexByValue(value);
                 my.callback(my.value, time, rampType);
             },
             setIndexByValue = function(value) {

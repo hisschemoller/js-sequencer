@@ -396,7 +396,7 @@ window.WH = window.WH || {};
                         e.data.itemEls[newIndex].className += ' ' + settings.activeClass;
                     }
                     e.data.changedIndex = newIndex;
-                    WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, newIndex);
+                    WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, e.data.model[newIndex].value);
                 }
             };
 
