@@ -183,6 +183,37 @@ window.WH = window.WH || {};
              */
             setSoloCallback = function(callback) {
                 soloCallback = callback;
+            }, 
+            onExternalSolo = function(pluginId, isSolo, _isAnySoloActive) {
+
+                isAnySoloActive = _isAnySoloActive;
+                
+                if (isMute) {
+                    soloMute.gain.value = 0.0;
+                    return;
+                }
+
+                if (pluginId == getId()) {
+                    if (isSolo) {
+                        soloMute.gain.value = level;
+                    } else {
+                        if (isAnySoloActive) {
+                            soloMute.gain.value = 0.0;
+                        } else {
+                            soloMute.gain.value = level;
+                        }
+                    }
+                } else {
+                    if (isSolo) {
+                        soloMute.gain.value = level;
+                    } else {
+                        if (isAnySoloActive) {
+                            soloMute.gain.value = 0.0;
+                        } else {
+                            soloMute.gain.value = level;
+                        }
+                    }
+                }
             };
 
         my = my || {};
@@ -198,7 +229,7 @@ window.WH = window.WH || {};
             isMute = value;
 
             if (value) {
-                this.soloMute.gain.value = 0.0;
+                soloMute.gain.value = 0.0;
             } else {
                 if (isAnySoloActive) {
                     if (isSolo) {
@@ -231,7 +262,6 @@ window.WH = window.WH || {};
         };
 
         that = WH.createProcessorPlugin(specs, my);
-        that.setSoloCallback = setSoloCallback;
         
         my.defineParams({
             mute: {
@@ -265,6 +295,8 @@ window.WH = window.WH || {};
         my.input.to(soloMute).to(panner).to(my.output);
         level = soloMute.gain.value;
         
+        that.setSoloCallback = setSoloCallback;
+        that.onExternalSolo = onExternalSolo;
         return that;
     }
 

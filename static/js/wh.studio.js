@@ -39,7 +39,7 @@ window.WH = window.WH || {};
 
                 // test if any of the channels is soloed
                 for (i; i < n; i++) {
-                    isAnySoloActive = isAnySoloActive || channels[i].get('solo');
+                    isAnySoloActive = isAnySoloActive || channels[i].getParamValue('solo');
                 }
 
                 for (i = 0; i < n; i++) {
