@@ -13,6 +13,7 @@ window.WH = window.WH || {};
         var that,
             id = specs.id,
             params = {},
+            preset = {},
             to = function(target) {
                 if (target.getInlet && target.getInlet()) {
                     my.outlet.to(target.getInlet());
@@ -62,7 +63,8 @@ window.WH = window.WH || {};
             setPreset = function (newPreset) {
                 var paramKey;
                 for (paramKey in newPreset) {
-                    if (preset.hasOwnProperty(paramKey)) {
+                    if (newPreset.hasOwnProperty(paramKey)) {
+                        preset[paramKey] = newPreset[paramKey];
                         setParamValue(paramKey, newPreset[paramKey]);
                     }
                 }
