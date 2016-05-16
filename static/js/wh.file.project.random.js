@@ -190,7 +190,7 @@ window.WH = window.WH || {};
                 rack.instrument.preset.reso = 1.0;
                 rack.instrument.preset.filterMod = 2.6;
                 rack.instrument.preset.filterSustain = 1.0;
-                rack.instrument.preset.output = 0.75;
+                rack.instrument.preset.output = 0.5;
                 rack.channel.preset.pan = -0.1;
             },
 
@@ -199,11 +199,20 @@ window.WH = window.WH || {};
                 for (i = 0; i < patternCount; i++) {
                     track = data.arrangement.patterns[i].tracks[channel];
                     for(j = 0; j < stepCount; j++) {
-                        if (j == 0) {
-                            step = track.steps[j];
-                            step.velocity = (Math.random() > 0.85) ? 120 : 100;
-                            step.pitch = 48 + pentatonicMinScale[j % pentatonicMinScale.length];
-                            step.duration = stepDuration * stepCount;
+                        if (i == 0) {
+                            if (j == 0) {
+                                step = track.steps[j];
+                                step.velocity = (Math.random() > 0.85) ? 120 : 100;
+                                step.pitch = 48 + pentatonicMinScale[j % pentatonicMinScale.length];
+                                step.duration = stepDuration * stepCount;
+                            }
+                        } else {
+                                if (j == 0) {
+                                    step = track.steps[j];
+                                    step.velocity = (Math.random() > 0.85) ? 120 : 100;
+                                    step.pitch = 36 + (Math.random() * 24);
+                                    step.duration = stepDuration * stepCount;
+                                }
                         }
                     }
                 }
@@ -229,6 +238,7 @@ window.WH = window.WH || {};
                     filterAttack: 0.01,
                     filterSustain: 1,
                     filterRelease: 0.01,
+                    output: 1.0,
                     
                 };
                 rack.channel.preset.pan = 0.5;
@@ -255,19 +265,23 @@ window.WH = window.WH || {};
                 var channel = 2,
                     rack = data.racks[channel];
                 rack.instrument.name = 'WXS1';
-                rack.instrument.preset.osc1type = 'sawtooth';
-                rack.instrument.preset.osc2type = 'sawtooth';
-                rack.instrument.preset.osc1octave = -2;
-                rack.instrument.preset.osc2detune = -12;
-                rack.instrument.preset.ampAttack = 0.01;
-                rack.instrument.preset.ampDecay = 0.01;
-                rack.instrument.preset.ampRelease = 0.01;
-                rack.instrument.preset.cutoff = 74.4;
-                rack.instrument.preset.filterMod = 2;
-                rack.instrument.preset.filterAttack = 0.01;
-                rack.instrument.preset.filterDecay = 0.01;
-                rack.instrument.preset.filterRelease = 0.01;
-                rack.instrument.preset.output = 0.24;
+                rack.instrument.preset = {
+                    osc1type: 'sawtooth',
+                    osc2type: 'sawtooth',
+                    osc1octave: -2,
+                    osc2detune: -12,
+                    osc1gain: 0.73,
+                    osc2gain: 0.75,
+                    ampAttack: 0.01,
+                    ampDecay: 0.01,
+                    ampRelease: 0.01,
+                    cutoff: 74.4,
+                    filterMod: 2,
+                    filterAttack: 0.01,
+                    filterDecay: 0.01,
+                    filterRelease: 0.01,
+                    output: 0.5
+                };
                 rack.channel.preset.pan = 0.1;
             },
 
@@ -292,8 +306,79 @@ window.WH = window.WH || {};
                 }
             },
 
+            createRack3 = function() {
+                var channel = 3,
+                    rack = data.racks[channel];
+                rack.instrument.name = 'WXS1';
+                rack.instrument.preset = {
+                    osc1type: 'square',
+                    osc2type: 'sawtooth',
+                    osc1octave: -0.18,
+                    osc2detune: -2.06,
+                    osc1gain: 0.33,
+                    osc2gain: 0.8,
+                    ampAttack: 0.01,
+                    ampSustain: 1,
+                    ampRelease: 0.02,
+                    cutoff: 247.0,
+                    reso: 13.2,
+                    filterMod: 3.72,
+                    filterAttack: 0.01,
+                    filterSustain: 1,
+                    filterRelease: 0.01,
+                    output: 0.53,
+                    
+                };
+                rack.channel.preset.pan = 0.5;
+            },
+
+            createPatterns3 = function() {
+                var channel = 3, track, step, i, j;
+                for (i = 0; i < patternCount; i++) {
+                    track = data.arrangement.patterns[i].tracks[channel];
+                    for(j = 0; j < stepCount; j++) {
+                        // if (j == 0) {
+                            step = track.steps[j];
+                            step.velocity = (j % 2 == 0) ? 110 : 10;
+                            switch (j) {
+                                case 0:
+                                case 1:
+                                // case 2:
+                                    step.pitch = 48 + pentatonicMinScale[0];
+                                    step.duration = stepDuration / 3;
+                                    break;
+                                // case 6:
+                                //     step.pitch = 48 + pentatonicMinScale[2];
+                                //     step.duration = stepDuration / 3;
+                                //     break;
+                                case 7:
+                                    step.pitch = 48 - 12 + pentatonicMinScale[pentatonicMinScale.length - 1];
+                                    step.duration = stepDuration / 3;
+                                    break;
+                                case 8:
+                                    step.pitch = 48 + pentatonicMinScale[0];
+                                    step.duration = stepDuration / 3;
+                                    break;
+                                case 11:
+                                    step.pitch = 48 + pentatonicMinScale[0];
+                                    step.duration = stepDuration / 3;
+                                    break;
+                                // case 14:
+                                //     step.pitch = 48 - 12 + pentatonicMinScale[pentatonicMinScale.length - 1];
+                                //     step.duration = stepDuration / 3;
+                                //     break;
+                                case 15:
+                                    step.pitch = 48 - 12 + pentatonicMinScale[pentatonicMinScale.length - 1];
+                                    step.duration = stepDuration / 3;
+                                    break;
+                            }
+                        // }
+                    }
+                }
+            },
+
             createSong = function() {
-                for (var i = 0; i < 2; i++) {
+                for (var i = 0; i < 4; i++) {
                     data.arrangement.song.push({
                         patternIndex: i,
                         repeats: 1
@@ -308,6 +393,8 @@ window.WH = window.WH || {};
         createPatterns1();
         createRack2();
         createPatterns2();
+        createRack3();
+        createPatterns3();
         createSong();
 
         return data;

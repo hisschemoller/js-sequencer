@@ -349,7 +349,7 @@
         this._osc2.frequency.set(freq, time, 1);
     };
 
-    WXS1.prototype._startEnvelope = function (time) {
+    WXS1.prototype._startEnvelope = function (time, velocity) {
         time = (time || WX.now);
         var p = this.params,
             aAtt = p.ampAttack.get(),
@@ -358,11 +358,12 @@
             fAmt = p.filterMod.get() * 1200,
             fAtt = p.filterAttack.get(),
             fDec = p.filterDecay.get(),
-            fSus = p.filterSustain.get();
+            fSus = p.filterSustain.get(),
+            gain = velocity / 127;
 
         // this._amp.gain.cancel(time);
-        this._amp.gain.set(1.00, [time, aAtt], 3);
-        this._amp.gain.set(aSus, [time + aAtt, fDec], 3);
+        this._amp.gain.set(gain, [time, aAtt], 3);
+        this._amp.gain.set(aSus * gain, [time + aAtt, fDec], 3);
 
         this._lowpass.detune.cancel(time);
         this._lowpass.detune.set(fAmt, [time, fAtt], 3);
@@ -395,7 +396,7 @@
         // The first key will start envelopes.
         if (Object.keys(this._pitchTimeStamps).length === 1) {
             this._changePitch(pitch, time);
-            this._startEnvelope(time);
+            this._startEnvelope(time, velocity);
         } else {
             this._changePitch(pitch, time);
         }
