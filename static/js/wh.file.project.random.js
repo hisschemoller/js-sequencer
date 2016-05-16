@@ -280,7 +280,7 @@ window.WH = window.WH || {};
                     filterAttack: 0.01,
                     filterDecay: 0.01,
                     filterRelease: 0.01,
-                    output: 0.5
+                    output: 0.26
                 };
                 rack.channel.preset.pan = 0.1;
             },
@@ -320,32 +320,33 @@ window.WH = window.WH || {};
                     ampAttack: 0.01,
                     ampSustain: 1,
                     ampRelease: 0.02,
-                    cutoff: 247.0,
+                    cutoff: 1440.0,
                     reso: 13.2,
-                    filterMod: 3.72,
-                    filterAttack: 0.01,
+                    filterMod: 0.3,
+                    filterAttack: 0.06,
                     filterSustain: 1,
                     filterRelease: 0.01,
-                    output: 0.53,
+                    output: 0.93,
                     
                 };
                 rack.channel.preset.pan = 0.5;
             },
 
             createPatterns3 = function() {
-                var channel = 3, track, step, i, j;
+                var channel = 3, track, step, i, j, velocity;
                 for (i = 0; i < patternCount; i++) {
                     track = data.arrangement.patterns[i].tracks[channel];
                     for(j = 0; j < stepCount; j++) {
                         // if (j == 0) {
                             step = track.steps[j];
-                            step.velocity = (j % 2 == 0) ? 110 : 10;
+                            velocity = (j % 2 == 0) ? 110 : 40;
                             switch (j) {
                                 case 0:
                                 case 1:
                                 // case 2:
                                     step.pitch = 48 + pentatonicMinScale[0];
                                     step.duration = stepDuration / 3;
+                                    step.velocity = velocity;
                                     break;
                                 // case 6:
                                 //     step.pitch = 48 + pentatonicMinScale[2];
@@ -354,14 +355,17 @@ window.WH = window.WH || {};
                                 case 7:
                                     step.pitch = 48 - 12 + pentatonicMinScale[pentatonicMinScale.length - 1];
                                     step.duration = stepDuration / 3;
+                                    step.velocity = velocity;
                                     break;
                                 case 8:
                                     step.pitch = 48 + pentatonicMinScale[0];
                                     step.duration = stepDuration / 3;
+                                    step.velocity = velocity;
                                     break;
                                 case 11:
                                     step.pitch = 48 + pentatonicMinScale[0];
                                     step.duration = stepDuration / 3;
+                                    step.velocity = velocity;
                                     break;
                                 // case 14:
                                 //     step.pitch = 48 - 12 + pentatonicMinScale[pentatonicMinScale.length - 1];
@@ -370,6 +374,9 @@ window.WH = window.WH || {};
                                 case 15:
                                     step.pitch = 48 - 12 + pentatonicMinScale[pentatonicMinScale.length - 1];
                                     step.duration = stepDuration / 3;
+                                    step.velocity = velocity;
+                                    break;
+                                default: 
                                     break;
                             }
                         // }
@@ -378,11 +385,13 @@ window.WH = window.WH || {};
             },
 
             createSong = function() {
-                for (var i = 0; i < 4; i++) {
-                    data.arrangement.song.push({
-                        patternIndex: i,
-                        repeats: 1
-                    });
+                for (var j = 0; j < 2; j++) {
+                    for (var i = 0; i < 4; i++) {
+                        data.arrangement.song.push({
+                            patternIndex: i,
+                            repeats: 2
+                        });
+                    }
                 }
             };
 
