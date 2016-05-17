@@ -313,9 +313,9 @@ window.WH = window.WH || {};
                 rack.instrument.preset = {
                     osc1type: 'square',
                     osc2type: 'sawtooth',
-                    osc1octave: -0.18,
+                    osc1octave: -0.6,
                     osc2detune: -2.06,
-                    osc1gain: 0.33,
+                    osc1gain: 0.8,
                     osc2gain: 0.8,
                     ampAttack: 0.01,
                     ampSustain: 1,
