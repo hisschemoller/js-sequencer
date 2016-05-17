@@ -259,23 +259,27 @@ window.WH = window.WH || {};
                 var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
                     thumb = elements.overlayCtrlGeneric.find(settings.overlaySliderThumb),
                     paramKey = $(e.currentTarget).data(settings.data.paramKey),
-                    param = e.data.plugin.getParameterValues(paramKey),
-                    normalValue = (param.value - param.min) / (param.max - param.min),
+                    param = e.data.plugin.getParam(paramKey),
+                    value = param.getValue(),
+                    min = param.getMin(),
+                    max = param.getMax(),
+                    normalValue = (value - min) / (max - min),
                     userY = self.isTouchDevice ? e.originalEvent.changedTouches[0].clientY : e.clientY,
                     normalUserY = Math.max(0, 1 - Math.min(((userY - slider.offset().top) / slider.height()), 1)),
                     eventData = {
                         pluginId: e.data.plugin.getId(),
                         paramKey: paramKey,
-                        param: param,
+                        min: min,
+                        max: max,
                         normalValue: normalValue,
                         normalUserY: normalUserY,
                         isEnabled: false
                     };
 
-                elements.overlayCtrlGeneric.find(settings.overlayName).text(param.name);
-                elements.overlayCtrlGeneric.find(settings.overlayValue).text(param.value.toFixed(2));
-                elements.overlayCtrlGeneric.find(settings.overlayMin).text(param.min.toFixed(1));
-                elements.overlayCtrlGeneric.find(settings.overlayMax).text(param.max.toFixed(1));
+                elements.overlayCtrlGeneric.find(settings.overlayName).text(param.getName());
+                elements.overlayCtrlGeneric.find(settings.overlayValue).text(value.toFixed(2));
+                elements.overlayCtrlGeneric.find(settings.overlayMin).text(min.toFixed(1));
+                elements.overlayCtrlGeneric.find(settings.overlayMax).text(max.toFixed(1));
                 elements.app.on(self.eventType.move, eventData, onGenericOverlayTouchMove);
                 elements.app.on(self.eventType.end, eventData, onGenericOverlayTouchEnd);
 
@@ -300,7 +304,8 @@ window.WH = window.WH || {};
             onGenericOverlayTouchMove = function(e) {
                 var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
                     userY = self.isTouchDevice ? e.originalEvent.changedTouches[0].clientY : e.clientY,
-                    normalValue = Math.max(0, 1 - Math.min(((userY - slider.offset().top) / slider.height()), 1));
+                    normalValue = Math.max(0, 1 - Math.min(((userY - slider.offset().top) / slider.height()), 1)),
+                    value = e.data.min + ((e.data.max - e.data.min) * normalValue);
 
                 if (!e.data.isEnabled &&
                     ((e.data.normalUserY >= e.data.normalValue) && (normalValue <= e.data.normalValue)) ||
@@ -309,7 +314,7 @@ window.WH = window.WH || {};
                 }
 
                 if (e.data.isEnabled) {
-                    WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, normalValue);
+                    WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, value);
                 }
             },
 
@@ -421,10 +426,11 @@ window.WH = window.WH || {};
 
             switch (ctrlType) {
                 case settings.ctrlTypes.generic:
-                    var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider);
+                    var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
+                        normalValue = (param.getValue() - param.getMin()) / (param.getMax() - param.getMin());
                     ctrlEl.find(settings.ctrlValueClass).text(param.getValue().toFixed(2));
                     elements.overlayCtrlGeneric.find(settings.overlayValue).text(param.getValue().toFixed(2));
-                    elements.overlayCtrlGeneric.find(settings.overlaySliderThumb).height(slider.height() * paramValues.valueNormalized);
+                    elements.overlayCtrlGeneric.find(settings.overlaySliderThumb).height(slider.height() * normalValue);
                     break;
                 case settings.ctrlTypes.itemized:
                     ctrlEl.find(settings.ctrlValueClass).text(param.getLabel());

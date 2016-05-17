@@ -43,9 +43,6 @@ window.WH = window.WH || {};
             min,
             max,
             unit = specs.unit || '',
-            setValue = function(value) {
-                my.value = Math.max(min, Math.min(value, max));
-            },
             checkNumeric = function(value, defaultValue) {
                 var checkedValue;
                 if (value === undefined) {
@@ -56,6 +53,15 @@ window.WH = window.WH || {};
                     checkedValue = value;
                 }
                 return checkedValue;
+            },
+            setValue = function(value) {
+                my.value = Math.max(min, Math.min(value, max));
+            },
+            getMin = function() {
+                return min;
+            },
+            getMax = function() {
+                return max;
             };
         
         my = my || {};
@@ -67,6 +73,8 @@ window.WH = window.WH || {};
         max = checkNumeric(specs.max || 1.0);
         
         that.setValue = setValue;
+        that.getMin = getMin;
+        that.getMax = getMax;
         return that;
     }
 
