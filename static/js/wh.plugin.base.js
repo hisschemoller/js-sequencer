@@ -317,6 +317,8 @@ window.WH = window.WH || {};
         var that,
             osc,
             amp,
+            lfoOsc,
+            lfoGain,
             noteOn = function(pitch, velocity, time) {
                 time = (time || WX.now);
                 amp.gain.set(velocity / 127, [time, 0.02], 3);
@@ -331,10 +333,22 @@ window.WH = window.WH || {};
         my.name = 'simpleosc'
         my.title = 'Simple Osc';
         my.defaultPreset = {
-            osctype: 'square'
+            osctype: 'square',
+            lfotype: 'sine',
+            lforate: 1.0,
+            lfodepth: 1.0
         };
         my.$osctype = function(value, time, rampType) {
             osc.type = value;
+        };
+        my.$lfotype = function (value, time, rampType) {
+            lfoOsc.type = value;
+        };
+        my.$lfoRate = function (value, time, rampType) {
+            lfoOsc.frequency.set(value, time, rampType);
+        };
+        my.$lfoDepth = function (value, time, rampType) {
+            lfoGain.gain.set(value, time, rampType);
         };
         
         that = WH.createGeneratorPlugin(specs, my);
@@ -345,13 +359,39 @@ window.WH = window.WH || {};
                 name: 'Osc Type',
                 default: 'square',
                 model: WH.Conf.getModel('waveforms')
+            },
+            lfotype: {
+                type: 'itemized',
+                name: 'LFO Type',
+                default: 'sine',
+                model: WH.Conf.getModel('waveforms')
+            },
+            lforate: {
+                type: 'generic',
+                name: 'LFO Rate',
+                default: 1.0,
+                min: 0.0,
+                max: 20.0,
+                unit: 'Hertz'
+            },
+            lfodepth: {
+                type: 'generic',
+                name: 'LFO Depth',
+                default: 1.0,
+                min: 0.0,
+                max: 500.0,
+                unit: 'LinearGain'
             }
         });
         
+        lfoOsc = WX.OSC();
+        lfoGain = WX.Gain();
         osc = WX.OSC();
         amp = WX.Gain();
         osc.to(amp).to(my.output);
+        lfoOsc.to(lfoGain).to(osc.detune);
         osc.start(0);
+        lfoOsc.start(0);
         amp.gain.value = 0;
         
         that.noteOn = noteOn;
