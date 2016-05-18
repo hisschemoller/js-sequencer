@@ -48,7 +48,7 @@ window.WH = window.WH || {};
                     }
                     var rack = {
                         instrument: {
-                            name: 'WXS1',
+                            name: 'simpleosc',
                             preset: {
                                 ampAttack: 0.1,
                                 ampDecay: 0.1,
@@ -176,7 +176,7 @@ window.WH = window.WH || {};
             createRack0 = function() {
                 var channel = 0,
                     rack = data.racks[channel];
-                rack.instrument.name = 'WXS1';
+                rack.instrument.name = 'simpleosc';
                 rack.channel.preset.pan = -0.1;
             },
 

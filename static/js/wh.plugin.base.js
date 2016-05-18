@@ -28,7 +28,7 @@ window.WH = window.WH || {};
                 }
             },
             cut = function() {
-                console.log('cut');
+                my.outlet.cut();
             },
             defineParams = function(paramOptions) {
                 var key;
@@ -315,37 +315,52 @@ window.WH = window.WH || {};
     function createPlugin(specs, my) {
 
         var that,
-            osc;
+            osc,
+            amp,
+            noteOn = function(pitch, velocity, time) {
+                time = (time || WX.now);
+                amp.gain.set(velocity / 127, [time, 0.02], 3);
+                osc.frequency.set(WX.mtof(pitch), time, 0);
+            },
+            noteOff = function(pitch, time) {
+                time = (time || WX.now);
+                amp.gain.set(0, time);
+            };
 
         my = my || {};
-        my.name = 'wxs1'
-        my.title = 'WXS1 Mono Synth';
+        my.name = 'simpleosc'
+        my.title = 'Simple Osc';
         my.defaultPreset = {
-            oscType: 'square'
+            osctype: 'square'
         };
-        my.$osc1type = function(value, time, rampType) {
+        my.$osctype = function(value, time, rampType) {
             osc.type = value;
         };
         
         that = WH.createGeneratorPlugin(specs, my);
         
         my.defineParams({
-            osc1type: {
+            osctype: {
                 type: 'itemized',
-                name: 'Osc 1',
+                name: 'Osc Type',
                 default: 'square',
                 model: WH.Conf.getModel('waveforms')
             }
         });
         
         osc = WX.OSC();
-        osc.to(my.output);
+        amp = WX.Gain();
+        osc.to(amp).to(my.output);
+        osc.start(0);
+        amp.gain.value = 0;
         
+        that.noteOn = noteOn;
+        that.noteOff = noteOff;
         return that;
     }
 
     WH.plugins = WH.plugins || {};
-    WH.plugins['wxs1'] = {
+    WH.plugins['simpleosc'] = {
         create: createPlugin,
         type: 'generator'
     };

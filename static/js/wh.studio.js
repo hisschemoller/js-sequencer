@@ -73,6 +73,7 @@ window.WH = window.WH || {};
          * @param {Array} data Studio setup data.
          */
         this.setData = function(data) {
+            
             var rack,
                 instrument,
                 channel,
@@ -92,14 +93,16 @@ window.WH = window.WH || {};
 
                 rackData = data[i];
                 channel = channels[i];
-                instrument = WH.pluginManager.createPlugin(rackData.instrument.name);
-
+                
                 // add the instrument
-                if (instrument) {
-                    instrument.setPreset(rackData.instrument.preset);
-                    instrument.to(channel);
-                    instruments[i] = instrument;
-                    WH.View.setInstrument(instrument, i);
+                if (rackData.instrument && rackData.instrument.name) {
+                    instrument = WH.pluginManager.createPlugin(rackData.instrument.name);
+                    if (instrument) {
+                        instrument.setPreset(rackData.instrument.preset);
+                        instrument.to(channel);
+                        instruments[i] = instrument;
+                        WH.View.setInstrument(instrument, i);
+                    }
                 }
 
                 channel.setPreset(Object.assign({}, channel.defaultPreset, rackData.channel.preset));
@@ -130,7 +133,7 @@ window.WH = window.WH || {};
 
             for (i; i < n; i++) {
                 rack = {
-                    instrument: instruments[i].getData(),
+                    instrument: instruments[i] ? instruments[i].getData() : null,
                     channel: channels[i].getData()
                 };
                 racks.push(rack);

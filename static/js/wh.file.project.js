@@ -38,7 +38,7 @@ window.WH = window.WH || {};
             for (var j = 0; j < trackCount; j++) {
                 var rack = {
                     instrument: {
-                        name: 'SimpleOsc',
+                        name: 'simpleosc',
                         preset: {
                             oscType: WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
                             oscFreq: WX.mtof(60),
