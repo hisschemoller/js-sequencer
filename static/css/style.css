@@ -65,6 +65,8 @@ button:focus {
 .plugin__pages,
 .plugin__controls,
 .ctrls,
+.song__header,
+.song__list,
 .overlay-ctrl__items {
     list-style: none;
     margin: 0;
@@ -85,6 +87,9 @@ button:focus {
         position: relative;
         text-align: center;
         width: 100%;
+    }
+    .ctrl--12 {
+        width: 12.5%;
     }
     .ctrl--25 {
         width: 25%;

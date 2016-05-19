@@ -75,6 +75,11 @@ window.WH = window.WH || {};
              * @type {Object}
              */
             patterns = null,
+            
+            /**
+             * Song view object.
+             */
+            song,
 
             /**
              * Initialise the view, add DOM event handlers.
@@ -89,6 +94,8 @@ window.WH = window.WH || {};
                 stepsView = WH.StepsView();
 
                 patterns = WH.PatternView();
+                
+                song = WH.createSongView();
 
                 // create the channel select buttons
                 elements.channelSelects = controls.addChannelSelectControls(elements.channelSelectsContainer);
@@ -201,30 +208,38 @@ window.WH = window.WH || {};
                     case 0:
                         // open instrument
                         stepsView.setVisible(true);
+                        elements.channelSelects.show();
                         elements.channelContainer.hide();
                         elements.rackContainer.show();
                         patterns.setVisible(false);
+                        song.setVisible(false);
                         break;
                     case 1:
                         // open mixer
                         stepsView.setVisible(true);
+                        elements.channelSelects.show();
                         elements.channelContainer.show();
                         elements.rackContainer.hide();
                         patterns.setVisible(false);
+                        song.setVisible(false);
                         break;
                     case 2:
                         // open patterns
                         stepsView.setVisible(true);
+                        elements.channelSelects.show();
                         elements.channelContainer.hide();
                         elements.rackContainer.hide();
                         patterns.setVisible(true);
+                        song.setVisible(false);
                         break;
                     case 3:
                         // open song
                         stepsView.setVisible(false);
+                        elements.channelSelects.hide();
                         elements.channelContainer.hide();
                         elements.rackContainer.hide();
                         patterns.setVisible(false);
+                        song.setVisible(true);
                         break;
                 }
             }

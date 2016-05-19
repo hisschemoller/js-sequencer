@@ -20,6 +20,23 @@
             <ul class="ctrls patterns"></ul>
             <ul class="ctrls racks"></ul>
             <ul class="ctrls transport"></ul>
+            <div class="song">
+                <ul class="song__header">
+                    <li class="ctrl ctrl--12 song__header-order">
+                        <div class="ctrl__layer ctrl__background"></div>
+                        <span class="plugin__name-label ctrl__text">Nr</span>
+                    </li>
+                    <li class="ctrl ctrl--12 song__header-pattern">
+                        <div class="ctrl__layer ctrl__background"></div>
+                        <span class="plugin__name-label ctrl__text">Ptrn</span>
+                    </li>
+                    <li class="ctrl ctrl--12 song__header-repeats">
+                        <div class="ctrl__layer ctrl__background"></div>
+                        <span class="plugin__name-label ctrl__text">Rpts</span>
+                    </li>
+                </ul>
+                <ul class="song__list"></ul>
+            </div>
             <div id="overlay-ctrl-generic" class="overlay">
                 <div class="table overlay-ctrl__info">
                     <div class="tr">
@@ -270,6 +287,7 @@
     <script src="static/js/wh.view.dialog.js"></script>
     <script src="static/js/wh.view.pattern.js"></script>
     <script src="static/js/wh.view.plugin.js"></script>
+    <script src="static/js/wh.view.song.js"></script>
     <script src="static/js/wh.view.steps.js"></script>
 </body>
 </html>
