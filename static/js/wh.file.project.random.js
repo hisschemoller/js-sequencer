@@ -254,9 +254,24 @@ window.WH = window.WH || {};
                         // stepIndex = (Math.random() > 0.65) ? (stepCount + j - 1) % stepCount : j;
                         // step0 = track0.steps[stepIndex];
                         // pichShift = (Math.random() > 0.5) ? 7 : 3;
-                        step.velocity = (j % 4 === 0) ? 100 : 0;
+                        if (i > 3 && i < 8) {
+                            step.velocity = (j % 4 === 0) ? 100 : 30;
+                        } else if (i > 7 && i < 12) {
+                            step.velocity = (j % 2 === 0) ? 100 : 0;
+                        } else {
+                            step.velocity = (j % 4 === 0) ? 100 : 0;
+                        }
+                        if (Math.random() < 0.1) {
+                            step.velocity = 110;
+                        }
                         step.pitch = 60;
+                        if (Math.random() < 0.1) {
+                            step.pitch = 20 + Math.floor(Math.random() * 80);
+                        }
                         step.duration = stepDuration;
+                        if (Math.random() < 0.05) {
+                            step.duration = stepDuration * 4;
+                        }
                     }
                 }
             },
@@ -392,7 +407,7 @@ window.WH = window.WH || {};
                 for (var j = 0; j < 2; j++) {
                     for (var i = 0; i < 4; i++) {
                         data.arrangement.song.push({
-                            patternIndex: i,
+                            patternIndex: i + 8,
                             repeats: 2
                         });
                     }
