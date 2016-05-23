@@ -167,10 +167,10 @@ window.WH = window.WH || {};
                 instrument;
             for (var i = 0; i < playbackQueue.length; i++) {
                 step = playbackQueue[i];
-                if (step.velocity > 0) {
-                    instrument = instruments[step.channel];
-                    instrument.noteOn(step.pitch, step.velocity, step.absStart);
-                    instrument.noteOff(step.pitch, step.absEnd);
+                if (step.getVelocity() > 0) {
+                    instrument = instruments[step.getChannel()];
+                    instrument.noteOn(step.getPitch(), step.getVelocity(), step.getAbsStart());
+                    instrument.noteOff(step.getPitch(), step.getAbsEnd());
                 }
             }
         };

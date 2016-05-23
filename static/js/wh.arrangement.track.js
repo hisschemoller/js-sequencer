@@ -28,7 +28,14 @@ window.WH = window.WH || {};
 
                 for (i; i < n; i++) {
                     d = data.steps[i];
-                    steps.push( WH.Step(d.pitch, d.velocity, d.start, d.duration, channel, i) );
+                    steps.push( WH.createStep({
+                        pitch: d.pitch, 
+                        velocity: d.velocity, 
+                        start: d.start, 
+                        duration: d.duration, 
+                        channel: channel, 
+                        index: i
+                    }));
                 }
             };
 
@@ -47,7 +54,9 @@ window.WH = window.WH || {};
             var localStart = start % lengthInTicks,
                 localEnd = localStart + (end - start),
                 i = 0,
-                n = steps.length;
+                n = steps.length,
+                step,
+                stepStart;
 
             // if the track restarts within the current time span, 
             // scan the bit at the start of the next loop as well
@@ -59,15 +68,16 @@ window.WH = window.WH || {};
 
             // get the events
             for (i; i < n; i++) {
-                var step = steps[i];
+                step = steps[i];
                 if (step) {
-                    if (localStart <= step.start && step.start <= localEnd) {
+                    stepStart = step.getStart();
+                    if (localStart <= stepStart && stepStart <= localEnd) {
                         // add new step with time relative to time span
-                        playbackQueue.push(step.cloneWithChangedStart(absoluteStart + (step.start - localStart)));
+                        playbackQueue.push(step.cloneWithChangedStart(absoluteStart + (stepStart - localStart)));
                     }
-                    if (secondEnd && secondStart <= step.start && step.start <= secondEnd) {
+                    if (secondEnd && secondStart <= stepStart && stepStart <= secondEnd) {
                         // add new event with time relative to time span
-                        playbackQueue.push(step.cloneWithChangedStart(absoluteStart + (step.start - secondStart)));
+                        playbackQueue.push(step.cloneWithChangedStart(absoluteStart + (stepStart - secondStart)));
                     }
                 }
             }

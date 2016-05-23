@@ -7,73 +7,122 @@
 window.WH = window.WH || {};
 
 (function (WH) {
-
+    
     /**
-     * @constructor
-     * @param {Number} pitch MIDI pitch.
-     * @param {Number} velocity MIDI velocity.
-     * @param {Number} start Start time in tick.
-     * @param {Number} duration Note durtion in tick.
-     * @param {Number} channel Channel (and instrument) on which this note is played.
-     * @param {Number} index Index of this step within the track.
+     * @description Create a step sequencer step object.
+     * @param {Number} specs.pitch MIDI pitch.
+     * @param {Number} specs.velocity MIDI velocity.
+     * @param {Number} specs.start Start time in tick.
+     * @param {Number} specs.duration Note durtion in tick.
+     * @param {Number} specs.channel Channel (and instrument) on which this note is played.
+     * @param {Number} specs.index Index of this step within the track.
      */
-    function Step(pitch, velocity, start, duration, channel, index) {
-        this.pitch = (pitch || 60);
-        this.velocity = velocity;
-        this.start = (start || 0);
-        this.duration = (duration || 120);
-        this.channel = channel || 0;
-        this.absStart = 0;
-        this.absEnd = 0;
-        this.index = index;
+    function createStep(specs) {
+        var that,
+            pitch = specs.pitch || 60,
+            velocity = specs.velocity || 0,
+            start = specs.start || 0,
+            duration = specs.duration || 1,
+            channel = specs.channel || 0,
+            absStart = 0,
+            absEnd = 0,
+            index = specs.index,
+            
+            /**
+             * Create clone of this step with optional changed start time.
+             * @param {Number} startTime Start time in tick.
+             * @return {Step} Clone of this Step.
+             */
+            cloneWithChangedStart = function(startTime) {
+                startTime = startTime || start;
+                return WH.createStep({
+                    pitch: pitch, 
+                    velocity: velocity, 
+                    start: startTime, 
+                    duration: duration, 
+                    channel: channel, 
+                    index: index
+                });
+            },
+            
+            getPitch = function() {
+                return pitch;
+            },
+            
+            getVelocity = function() {
+                return velocity;
+            },
+            
+            getStart = function() {
+                return start;
+            },
+            
+            getDuration = function() {
+                return duration;
+            },
+            
+            getChannel = function() {
+                return channel;
+            },
+            
+            getIndex = function() {
+                return index;
+            },
+
+            /**
+             * Set absolute play start time in seconds since audio stream started.
+             * @param {number} newAbsStart Start time in seconds.
+             */
+            setAbsStart = function(newAbsStart) {
+                absStart = newAbsStart;
+            },
+            
+            getAbsStart = function() {
+                return absStart;
+            },
+
+            /**
+             * Set absolute play end time in seconds since audio stream started.
+             * @param {number} newAbsEnd End time in seconds.
+             */
+            setAbsEnd = function(newAbsEnd) {
+                absEnd = newAbsEnd;
+            },
+            
+            getAbsEnd = function() {
+                return absEnd;
+            },
+
+            /**
+             * Get all settings that should be saved with a project.
+             * @return {Object} All Step properties to save.
+             */
+            getData = function() {
+                return {
+                    channel: channel,
+                    pitch: pitch,
+                    velocity: velocity,
+                    start: start,
+                    duration: duration
+                };
+            };
+        
+        var that = {};
+        
+        that.cloneWithChangedStart = cloneWithChangedStart;
+        that.getPitch = getPitch;
+        that.getVelocity = getVelocity;
+        that.getStart = getStart;
+        that.getDuration = getDuration;
+        that.getChannel = getChannel;
+        that.getIndex = getIndex;
+        that.setAbsStart = setAbsStart;
+        that.getAbsStart = getAbsStart;
+        that.setAbsEnd = setAbsEnd;
+        that.getAbsEnd = getAbsEnd;
+        that.getData = getData;
+        return that;
     }
-
-    Step.prototype = {};
-
-    /**
-     * Create clone of this step with optional changed start time.
-     * @param {Number} start Start time in tick.
-     * @return {Step} Clone of this Step.
-     */
-    Step.prototype.cloneWithChangedStart = function(start) {
-        start = start || this.start;
-        return WH.Step(this.pitch, this.velocity, start, this.duration, this.channel, this.index);
-    };
-
-    /**
-     * Set absolute play start time in seconds since audio stream started.
-     * @param {number} absStart Start time in seconds.
-     */
-    Step.prototype.setAbsStart = function(absStart) {
-        this.absStart = absStart;
-    };
-
-    /**
-     * Set absolute play end time in seconds since audio stream started.
-     * @param {number} absEnd End time in seconds.
-     */
-    Step.prototype.setAbsEnd = function(absEnd) {
-        this.absEnd = absEnd;
-    };
-
-    /**
-     * Get all settings that should be saved with a project.
-     * @return {Object} All Step properties to save.
-     */
-    Step.prototype.getData = function() {
-        return {
-            channel: this.channel,
-            pitch: this.pitch,
-            velocity: this.velocity,
-            start: this.start,
-            duration: this.duration
-        };
-    };
-
-    /**
-     * Exports
-     */
-    WH.Step = function (pitch, velocity, start, duration, channel, index) {
-        return new Step(pitch, velocity, start, duration, channel, index);
-    };
+    
+    WH.createStep = createStep;
 })(WH);

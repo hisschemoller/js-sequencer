@@ -147,13 +147,13 @@ window.WH = window.WH || {};
                     step = stepArray[i];
 
                     // update the steps
-                    if (step.channel == channelIndex) {
-                        stepsView.updateActiveStep(step.index);
+                    if (step.getChannel() == channelIndex) {
+                        stepsView.updateActiveStep(step.getIndex());
                     }
 
                     // update the channels
-                    if (step.velocity > 0) {
-                        self.animateHighlight($(elements.channelSelects.get(step.channel)));
+                    if (step.getVelocity() > 0) {
+                        self.animateHighlight($(elements.channelSelects.get(step.getChannel())));
                     }
                 }
             };
@@ -179,7 +179,7 @@ window.WH = window.WH || {};
 
             for (i; i < n; i++) {
                 step = playbackQueue[i];
-                start = Math.max(0, WX.now - step.absStart) * 1000;
+                start = Math.max(0, WX.now - step.getAbsStart()) * 1000;
 
                 if (start != oldStart && stepArray.length > 0) {
                     delayUpdateSequencerActivity(oldStart, stepArray);

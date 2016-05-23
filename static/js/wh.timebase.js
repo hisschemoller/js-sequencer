@@ -80,9 +80,9 @@ window.WH = window.WH || {};
                     i = 0;
                 for (i; i < this._playbackQueue.length; i++) {
                     step = this._playbackQueue[i];
-                    start = this._absOrigin + this.tick2sec(step.start);
+                    start = this._absOrigin + this.tick2sec(step.getStart());
                     step.setAbsStart( start );
-                    step.setAbsEnd( start + this.tick2sec(step.duration) );
+                    step.setAbsEnd( start + this.tick2sec(step.getDuration()) );
                 }
 
                 // play the events with sound generating plugin instruments

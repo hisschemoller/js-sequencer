@@ -85,8 +85,8 @@ window.WH = window.WH || {};
             elements.steps.removeClass(settings.selectedClass);
             for (i; i < n; i++) {
                 var step = steps[i];
-                if (step.velocity) {
-                    var stepEl = $(elements.steps[step.index]);
+                if (step.getVelocity()) {
+                    var stepEl = $(elements.steps[step.getIndex()]);
                     stepEl.addClass(settings.selectedClass);
                 }
             }
