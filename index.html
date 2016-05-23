@@ -21,21 +21,24 @@
             <ul class="ctrls racks"></ul>
             <ul class="ctrls transport"></ul>
             <div class="song">
-                <ul class="song__header">
-                    <li class="ctrl ctrl--12 song__header-order">
+                <ul class="ctrls song__header">
+                    <li class="tile tile--12 song__header-order">
                         <div class="ctrl__layer ctrl__background"></div>
                         <span class="plugin__name-label ctrl__text">Nr</span>
                     </li>
-                    <li class="ctrl ctrl--12 song__header-pattern">
+                    <li class="tile tile--12 song__header-pattern">
                         <div class="ctrl__layer ctrl__background"></div>
                         <span class="plugin__name-label ctrl__text">Ptrn</span>
                     </li>
-                    <li class="ctrl ctrl--12 song__header-repeats">
+                    <li class="tile tile--12 song__header-repeats">
                         <div class="ctrl__layer ctrl__background"></div>
-                        <span class="plugin__name-label ctrl__text">Rpts</span>
+                        <span class="plugin__name-label ctrl__text">Loop</span>
                     </li>
                 </ul>
-                <ul class="song__list"></ul>
+                <div class="song__list-container">
+                    <ul class="song__list">
+                    </ul>
+                </div>
             </div>
             <div id="overlay-ctrl-generic" class="overlay">
                 <div class="table overlay-ctrl__info">
@@ -125,6 +128,22 @@
             <li class="rack">
                 <ul class="rack__generator"></ul>
                 <ul class="rack__processors"></ul>
+            </li>
+        </div>
+        <div id="template-song-part">
+            <li class="song-part clearfix">
+                <div class="tile tile--12 song-part__order">
+                    <div class="ctrl__layer ctrl__background"></div>
+                    <span class="ctrl__text"></span>
+                </div>
+                <div class="tile tile--12 song-part__pattern">
+                    <div class="ctrl__layer ctrl__background"></div>
+                    <span class="ctrl__text"></span>
+                </div>
+                <div class="tile tile--12 song-part__repeats">
+                    <div class="ctrl__layer ctrl__background"></div>
+                    <span class="ctrl__text"></span>
+                </div>
             </li>
         </div>
         <div id="template-plugin">

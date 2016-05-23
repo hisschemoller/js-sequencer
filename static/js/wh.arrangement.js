@@ -63,12 +63,15 @@ window.WH = window.WH || {};
             }
 
             // create the song
-            for (i = 0; i < songLength; i++) {
-                songPartData = data.song[i];
-                songPartData.absoluteStart = songPartEnd;
-                songPartEnd += patterns[songPartData.patternIndex].getDuration() * songPartData.repeats;
-                songPartData.absoluteEnd = songPartEnd;
-                song.push(WH.SongPart(songPartData));
+            if (songLength) {
+                for (i = 0; i < songLength; i++) {
+                    songPartData = data.song[i];
+                    songPartData.absoluteStart = songPartEnd;
+                    songPartEnd += patterns[songPartData.patternIndex].getDuration() * songPartData.repeats;
+                    songPartData.absoluteEnd = songPartEnd;
+                    song.push(WH.SongPart(songPartData));
+                }
+                WH.View.setSong(song);
             }
 
             changePattern(0);

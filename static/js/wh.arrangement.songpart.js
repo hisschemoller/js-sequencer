@@ -32,11 +32,19 @@ window.WH = window.WH || {};
         };
 
         /**
-         * Return the index of the pattern that this part plays. d
+         * Return the index of the pattern that this part plays.
          * @return {Number}
          */
         this.getPatternIndex = function() {
             return patternIndex;
+        };
+
+        /**
+         * Return the number of times that this part repeats.
+         * @return {Number}
+         */
+        this.getRepeats = function() {
+            return repeats;
         };
 
         /**

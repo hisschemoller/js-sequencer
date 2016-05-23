@@ -12,9 +12,10 @@ body {
 main {
     margin: auto;
     height: 100vh;
+    max-height: 640px;
+    min-height: 320px;
     max-width: 640px;
     min-width: 320px;
-    padding: 8px;
     position: relative;
 }
 button {
@@ -33,6 +34,13 @@ button:hover {
 }
 button:focus {
     outline: 0;
+}
+.application {
+    bottom: 8px;
+    left: 8px;
+    position: absolute;
+    right: 8px;
+    top: 8px;
 }
 .table {
     display: table;
@@ -56,7 +64,6 @@ button:focus {
     background-color: #f00 !important;
 }
 .application {
-
 }
 .racks,
 .rack__generator,
@@ -65,31 +72,34 @@ button:focus {
 .plugin__pages,
 .plugin__controls,
 .ctrls,
-.song__header,
 .song__list,
 .overlay-ctrl__items {
     list-style: none;
     margin: 0;
     padding: 0;
 }
+.tile,
+.ctrl {
+    background-color: #666;
+    border: 1px solid #333;
+    display: block;
+    float: left;
+    height: 40px;
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+    .tile--12 {
+        width: 12.5%;
+    }
+.clearfix,
 .ctrls:after {
     clear: both;
     content: '';
     display: table;
 }
     .ctrl {
-        background-color: #666;
-        border: 1px solid #333;
         cursor: pointer;
-        display: block;
-        float: left;
-        height: 40px;
-        position: relative;
-        text-align: center;
-        width: 100%;
-    }
-    .ctrl--12 {
-        width: 12.5%;
     }
     .ctrl--25 {
         width: 25%;
@@ -220,6 +230,18 @@ button:focus {
         background-color: #fff;
         opacity: 0.2;
     }
+.song {}
+    .song__list-container {
+        bottom: 40px;
+        left: 0;
+        overflow: auto;
+        position: absolute;
+        right: 0;
+        top: 80px;
+    }
+    .song-part {
+        width: 100%;
+    }
 .rack {
     display: none;
 }
@@ -303,11 +325,11 @@ button:focus {
         }
 
 .transport {
-    bottom: 8px;
+    bottom: 0;
     height: 40px;
-    left: 8px;
+    left: 0;
     position: absolute;
-    right: 8px;
+    right: 0;
 }
     .ctrl--transport {
         width: 25%;

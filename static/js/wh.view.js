@@ -351,6 +351,13 @@ window.WH = window.WH || {};
                 }
             }
         };
+        
+        /**
+         * Show a new song in the song view.
+         */
+        this.setSong = function(songData) {
+            song.setSong(songData);
+        };
 
         /**
          * Song mode entered or left.
