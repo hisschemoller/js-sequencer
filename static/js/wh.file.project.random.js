@@ -16,7 +16,7 @@ window.WH = window.WH || {};
             stepDuration = Math.floor( WH.Conf.getPPQN() / WH.Conf.getStepsPerBeat() ),
             pentatonicMinScale = [0, 3, 5, 6, 7, 10],
             data = {
-                bpm: 100 + Math.floor(Math.random() * 20),
+                bpm: 115 + Math.floor(Math.random() * 5),
                 racks: [],
                 arrangement: {
                     patterns: [],
@@ -200,19 +200,19 @@ window.WH = window.WH || {};
                     track = data.arrangement.patterns[i].tracks[channel];
                     for(j = 0; j < stepCount; j++) {
                         if (i == 0) {
-                            if (j == 0) {
+                            if (j == 2) {
                                 step = track.steps[j];
                                 step.velocity = (Math.random() > 0.85) ? 120 : 100;
                                 step.pitch = 48 + pentatonicMinScale[j % pentatonicMinScale.length];
                                 step.duration = stepDuration * stepCount;
                             }
                         } else {
-                                if (j == 0) {
-                                    step = track.steps[j];
-                                    step.velocity = (Math.random() > 0.85) ? 120 : 100;
-                                    step.pitch = 36 + (Math.random() * 24);
-                                    step.duration = stepDuration * stepCount;
-                                }
+                            if (j == 2) {
+                                step = track.steps[j];
+                                step.velocity = (Math.random() > 0.85) ? 120 : 100;
+                                step.pitch = 36 + (Math.random() * 24);
+                                step.duration = stepDuration * stepCount;
+                            }
                         }
                     }
                 }
@@ -275,7 +275,7 @@ window.WH = window.WH || {};
                     ampAttack: 0.01,
                     ampDecay: 0.01,
                     ampRelease: 0.01,
-                    cutoff: 74.4,
+                    cutoff: 81,
                     filterMod: 2,
                     filterAttack: 0.01,
                     filterDecay: 0.01,
@@ -343,10 +343,14 @@ window.WH = window.WH || {};
                             switch (j) {
                                 case 0:
                                 case 1:
+                                case 2:
                                 // case 2:
                                     step.pitch = 48 + pentatonicMinScale[0];
                                     step.duration = stepDuration / 3;
                                     step.velocity = velocity;
+                                    if (j === 2) {
+                                        step.velocity = 20;
+                                    }
                                     break;
                                 // case 6:
                                 //     step.pitch = 48 + pentatonicMinScale[2];
@@ -362,20 +366,20 @@ window.WH = window.WH || {};
                                     step.duration = stepDuration / 3;
                                     step.velocity = velocity;
                                     break;
-                                case 11:
+                                case 10:
                                     step.pitch = 48 + pentatonicMinScale[0];
                                     step.duration = stepDuration / 3;
-                                    step.velocity = velocity;
+                                    step.velocity = 30;
                                     break;
                                 // case 14:
                                 //     step.pitch = 48 - 12 + pentatonicMinScale[pentatonicMinScale.length - 1];
                                 //     step.duration = stepDuration / 3;
                                 //     break;
-                                case 15:
-                                    step.pitch = 48 - 12 + pentatonicMinScale[pentatonicMinScale.length - 1];
-                                    step.duration = stepDuration / 3;
-                                    step.velocity = velocity;
-                                    break;
+                                // case 15:
+                                //     step.pitch = 48 - 12 + pentatonicMinScale[pentatonicMinScale.length - 1];
+                                //     step.duration = stepDuration / 3;
+                                //     step.velocity = velocity;
+                                //     break;
                                 default: 
                                     break;
                             }
