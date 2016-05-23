@@ -155,6 +155,8 @@ window.WH = window.WH || {};
                         changePattern(song[songPartIndex].getPatternIndex());
                         // scan the first bit of the new song part
                         patterns[patternIndex].scanEvents(song[songPartIndex].getStart(), end, playbackQueue);
+                        // update the view
+                        WH.View.setActiveSongPart(songPartIndex);
                     } else {
                         // no new song part starts during this time span, do nothing
                     }

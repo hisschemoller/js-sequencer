@@ -242,6 +242,13 @@ button:focus {
     .song-part {
         width: 100%;
     }
+        .song-part.is-active .ctrl__background {
+            background-color: #fff;
+            opacity: 0.3;
+        }
+        .song-part.is-active .ctrl__text {
+            color: #fff;
+        }
 .rack {
     display: none;
 }

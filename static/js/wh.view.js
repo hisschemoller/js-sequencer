@@ -358,6 +358,14 @@ window.WH = window.WH || {};
         this.setSong = function(songData) {
             song.setSong(songData);
         };
+        
+        /**
+         * Show a new song in the song view.
+         * @param {Number} songPartIndex Song part index within the song.
+         */
+        this.setActiveSongPart = function(songPartIndex) {
+            song.setActivePart(songPartIndex);
+        };
 
         /**
          * Song mode entered or left.
@@ -365,6 +373,9 @@ window.WH = window.WH || {};
         this.updateSongMode = function(isSongMode) {
             // TODO: the song button will move somewhere better
             $(elements.transportContainer.find(settings.ctrlClass)[1]).toggleClass(settings.selectedClass, isSongMode);
+            if (!isSongMode) {
+                song.setActivePart(null);
+            }
         };
 
         /**
