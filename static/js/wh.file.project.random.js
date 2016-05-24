@@ -90,19 +90,41 @@ window.WH = window.WH || {};
                 for (i = 0; i < patternCount; i++) {
                     track = data.arrangement.patterns[i].tracks[channel];
                     for(j = 0; j < stepCount; j++) {
-                        if (i == 0) {
-                            if (j == 2) {
+                        if (i > 11 && i < 16) {
+                            if (j % 3 == 0) {
                                 step = track.steps[j];
-                                step.velocity = (Math.random() > 0.85) ? 120 : 100;
-                                step.pitch = 48 + pentatonicMinScale[j % pentatonicMinScale.length];
-                                step.duration = stepDuration * stepCount;
+                                step.velocity = (Math.random() > 0.85) ? 127 : 120;
+                                step.pitch = 48 + pentatonicMinScale[j % pentatonicMinScale.length] - i;
+                                step.duration = stepDuration * 2;
                             }
-                        } else {
-                            if (j == 2) {
+                        } else if (i > 3 && i < 8) {
+                            if (j % 8 == 2) {
                                 step = track.steps[j];
-                                step.velocity = (Math.random() > 0.85) ? 120 : 100;
-                                step.pitch = 36 + (Math.random() * 24);
-                                step.duration = stepDuration * stepCount;
+                                step.velocity = (Math.random() > 0.85) ? 127 : 120;
+                                step.pitch = 48 + pentatonicMinScale[i % pentatonicMinScale.length];
+                                step.duration = stepDuration * 7.95;
+                            }
+                            // if (Math.random() > 0.9) {
+                            //     step = track.steps[j];
+                            //     step.velocity = (Math.random() > 0.85) ? 127 : 120;
+                            //     step.pitch = 48 + pentatonicMinScale[j % pentatonicMinScale.length] - i;
+                            //     step.duration = stepDuration * 2;
+                            // }
+                        } else {
+                            if (i == 0) {
+                                if (j == 2) {
+                                    step = track.steps[j];
+                                    step.velocity = (Math.random() > 0.85) ? 120 : 100;
+                                    step.pitch = 48 + pentatonicMinScale[j % pentatonicMinScale.length];
+                                    step.duration = stepDuration * stepCount;
+                                }
+                            } else {
+                                if (j == 2) {
+                                    step = track.steps[j];
+                                    step.velocity = (Math.random() > 0.85) ? 120 : 100;
+                                    step.pitch = 36 + (Math.random() * 24);
+                                    step.duration = stepDuration * stepCount;
+                                }
                             }
                         }
                     }
@@ -149,6 +171,8 @@ window.WH = window.WH || {};
                             step.velocity = (j % 4 === 0) ? 100 : 30;
                         } else if (i > 7 && i < 12) {
                             step.velocity = (j % 2 === 0) ? 100 : 0;
+                        } else if (i > 11 && i < 16) {
+                            step.velocity = (j % 8 !== 5 && j % 8 !== 7) ? 100 : 0;
                         } else {
                             step.velocity = (j % 4 === 0) ? 100 : 0;
                         }
@@ -200,7 +224,7 @@ window.WH = window.WH || {};
                     for(j = 0; j < stepCount; j++) {
                         step = track.steps[j];
                         step.pitch = 60;
-                        step.velocity = 100;
+                        step.velocity = 100; 
                         // stepIndex = (Math.random() > 0.65) ? (stepCount + j - 1) % stepCount : j;
                         // step0 = track0.steps[j];
                         // step1 = track1.steps[j];
@@ -290,6 +314,9 @@ window.WH = window.WH || {};
                                     break;
                             }
                         // }
+                        if (i > 7 && i < 12) {
+                            step.pitch += 2;
+                        }
                     }
                 }
             },
@@ -298,7 +325,7 @@ window.WH = window.WH || {};
                 for (var j = 0; j < 2; j++) {
                     for (var i = 0; i < 4; i++) {
                         data.arrangement.song.push({
-                            patternIndex: i + 8,
+                            patternIndex: i + 4,
                             repeats: 2
                         });
                     }
