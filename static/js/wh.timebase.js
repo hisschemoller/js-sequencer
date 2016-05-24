@@ -71,7 +71,7 @@ window.WH = window.WH || {};
             this._needsScan = false;
 
             // fill _playbackQueue with arrangement events 
-            WH.Arrangement.scanEvents(this.sec2tick(this._scanStart), this.sec2tick(this._scanEnd), this._playbackQueue);
+            WH.arrangement.scanEvents(this.sec2tick(this._scanStart), this.sec2tick(this._scanEnd), this._playbackQueue);
 
             if (this._playbackQueue.length) {
                 // adjust event timing

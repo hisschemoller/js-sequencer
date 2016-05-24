@@ -64,7 +64,7 @@ window.WH = window.WH || {};
                 patternEls.on(self.eventType.click, function(e) {
                     var index = patternEls.index(e.currentTarget);
                     if (!isNaN(index)) {
-                        WH.Arrangement.setSelectedPattern(index);
+                        WH.arrangement.setSelectedPattern(index);
                     }
                 });
             };

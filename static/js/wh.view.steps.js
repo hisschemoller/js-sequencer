@@ -74,7 +74,7 @@ window.WH = window.WH || {};
          * @param {Number} index Channel / track index.
          */
         this.setSelected = function(index) {
-            var steps = WH.Arrangement.getTrackSteps(index),
+            var steps = WH.arrangement.getTrackSteps(index),
                 channelColorClass = settings.channelColorClasses[index],
                 i = 0,
                 n = steps ? steps.length : 0;

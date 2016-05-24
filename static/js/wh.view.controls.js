@@ -130,7 +130,7 @@ window.WH = window.WH || {};
                         break;
                     case 1:
                         // song
-                        WH.Arrangement.toggleSongMode();
+                        WH.arrangement.toggleSongMode();
                         break;
                     case 2:
                         // new
