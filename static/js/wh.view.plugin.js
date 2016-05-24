@@ -240,7 +240,7 @@ window.WH = window.WH || {};
                     paramKey = controlEl.data(settings.data.paramKey),
                     paramValue = !controlEl.hasClass(settings.selectedClass);
 
-                WH.Studio.setParameter(e.data.plugin.getId(), paramKey, paramValue);
+                WH.studio.setParameter(e.data.plugin.getId(), paramKey, paramValue);
                 WH.file.autoSave();
             },
 
@@ -307,7 +307,7 @@ window.WH = window.WH || {};
                 }
 
                 if (e.data.isEnabled) {
-                    WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, normalValue);
+                    WH.studio.setParameter(e.data.pluginId, e.data.paramKey, normalValue);
                 }
             },
 
@@ -393,7 +393,7 @@ window.WH = window.WH || {};
                         e.data.itemEls[newIndex].className += ' ' + settings.activeClass;
                     }
                     e.data.changedIndex = newIndex;
-                    WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, newIndex);
+                    WH.studio.setParameter(e.data.pluginId, e.data.paramKey, newIndex);
                 }
             };
 

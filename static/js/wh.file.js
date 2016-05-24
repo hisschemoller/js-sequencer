@@ -39,7 +39,7 @@ window.WH = window.WH || {};
                 var data = isRandom ? WH.createRandomizedProject() : WH.createProject();
                 WH.TimeBase.setBPM(data.bpm);
                 WH.arrangement.setData(data.arrangement);
-                WH.Studio.setData(data.racks);
+                WH.studio.setData(data.racks);
             },
 
             /**
@@ -52,7 +52,7 @@ window.WH = window.WH || {};
                     data = JSON.parse(data);
                     WH.TimeBase.setBPM(data.bpm);
                     WH.arrangement.setData(data.arrangement);
-                    WH.Studio.setData(data.racks);
+                    WH.studio.setData(data.racks);
                 } else {
                     console.error('No data in LocalStorage with name "' + settings.projectName + '"."');
                     return false;
@@ -77,7 +77,7 @@ window.WH = window.WH || {};
                 var data = {
                     bpm: WH.TimeBase.getBPM(),
                     arrangement: WH.arrangement.getData(),
-                    racks: WH.Studio.getData()
+                    racks: WH.studio.getData()
                 }
 
                 localStorage.setItem(settings.projectName, JSON.stringify(data));
