@@ -139,7 +139,7 @@ window.WH = window.WH || {};
                             headerText: 'New Project',
                             bodyText: 'Are you sure? If you create a new project, the current project will be lost.',
                             primaryCallback: function() {
-                                WH.File.createNew();
+                                WH.file.createNew();
                             }
                         });
                         break;
@@ -150,7 +150,7 @@ window.WH = window.WH || {};
                             headerText: 'Random Project',
                             bodyText: 'Are you sure? If you create a new random project, the current project will be lost.',
                             primaryCallback: function() {
-                                WH.File.createNew(true);
+                                WH.file.createNew(true);
                             }
                         });
                         break;

@@ -12,9 +12,10 @@ window.WH = window.WH || {};
     /**
      * @constructor
      */
-    function File() {
+    function createFile() {
 
-        var settings = {
+        var that,
+            settings = {
                 projectName: 'project'
             },
 
@@ -28,66 +29,73 @@ window.WH = window.WH || {};
              * Autosave file if true.
              * @type {Object}
              */
-            project = null;
+            project = null,
 
-        /**
-         * Create a new arrangement.
-         * @param {Boolean} isRandom If true create a randomized project.
-         */
-        this.createNew = function(isRandom) {
-            if (!project) {
-                project = WH.Project();
-            }
-            var data = isRandom ? project.getRandomized() : project.getEmpty();
-            WH.TimeBase.setBPM(data.bpm);
-            WH.arrangement.setData(data.arrangement);
-            WH.Studio.setData(data.racks);
-        };
-
-        /**
-         * Load project from localStorage.
-         * @return {Boolean} True if a project was found in localstorage.
-         */
-        this.loadFromStorage = function() {
-            var data = localStorage.getItem(settings.projectName);
-            if (data) {
-                data = JSON.parse(data);
+            /**
+             * Create a new arrangement.
+             * @param {Boolean} isRandom If true create a randomized project.
+             */
+            createNew = function(isRandom) {
+                if (!project) {
+                    project = WH.Project();
+                }
+                var data = isRandom ? project.getRandomized() : project.getEmpty();
                 WH.TimeBase.setBPM(data.bpm);
                 WH.arrangement.setData(data.arrangement);
                 WH.Studio.setData(data.racks);
-            } else {
-                console.error('No data in LocalStorage with name "' + settings.projectName + '"."');
-                return false;
-            }
-            return true;
-        };
+            },
 
-        /**
-         * Save project if autoSave is enabled.
-         */
-        this.autoSave = function() {
-            if (autoSaveEnabled) {
-                this.save();
-            }
-        }
+            /**
+             * Load project from localStorage.
+             * @return {Boolean} True if a project was found in localstorage.
+             */
+            loadFromStorage = function() {
+                var data = localStorage.getItem(settings.projectName);
+                if (data) {
+                    data = JSON.parse(data);
+                    WH.TimeBase.setBPM(data.bpm);
+                    WH.arrangement.setData(data.arrangement);
+                    WH.Studio.setData(data.racks);
+                } else {
+                    console.error('No data in LocalStorage with name "' + settings.projectName + '"."');
+                    return false;
+                }
+                return true;
+            },
 
-        /**
-         * Collect all project data and save it in localStorage.
-         */
-        this.save = function() {
+            /**
+             * Save project if autoSave is enabled.
+             */
+            autoSave = function() {
+                if (autoSaveEnabled) {
+                    save();
+                }
+            },
 
-            var data = {
-                bpm: WH.TimeBase.getBPM(),
-                arrangement: WH.arrangement.getData(),
-                racks: WH.Studio.getData()
-            }
+            /**
+             * Collect all project data and save it in localStorage.
+             */
+            save = function() {
 
-            localStorage.setItem(settings.projectName, JSON.stringify(data));
-        };
+                var data = {
+                    bpm: WH.TimeBase.getBPM(),
+                    arrangement: WH.arrangement.getData(),
+                    racks: WH.Studio.getData()
+                }
+
+                localStorage.setItem(settings.projectName, JSON.stringify(data));
+            };
+        
+        that = {};
+        that.createNew = createNew;
+        that.loadFromStorage = loadFromStorage;
+        that.autoSave = autoSave;
+        that.save = save;
+        return that;
     }
 
     /**
      * Singleton
      */
-    WH.File = new File();
+    WH.file = createFile();
 })(WH);

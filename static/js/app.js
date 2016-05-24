@@ -23,8 +23,8 @@ $(function() {
         WX.Transport = null;
         WH.View.setup();
         WH.Studio.setup();
-        if (!WH.File.loadFromStorage()) {
-            WH.File.createNew();
+        if (!WH.file.loadFromStorage()) {
+            WH.file.createNew();
         }
     }
 
