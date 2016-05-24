@@ -10,10 +10,10 @@ window.WH = window.WH || {};
     function getRandomizedProject() {
 
         // private variables
-        var patternCount = WH.Conf.getPatternCount(),
-            trackCount = WH.Conf.getTrackCount(),
-            stepCount = WH.Conf.getStepCount(),
-            stepDuration = Math.floor( WH.Conf.getPPQN() / WH.Conf.getStepsPerBeat() ),
+        var patternCount = WH.conf.getPatternCount(),
+            trackCount = WH.conf.getTrackCount(),
+            stepCount = WH.conf.getStepCount(),
+            stepDuration = Math.floor( WH.conf.getPPQN() / WH.conf.getStepsPerBeat() ),
             pentatonicMinScale = [0, 3, 5, 6, 7, 10],
             data = {
                 bpm: 115 + Math.floor(Math.random() * 5),

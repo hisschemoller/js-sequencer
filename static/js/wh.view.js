@@ -86,7 +86,7 @@ window.WH = window.WH || {};
              */
             init = function() {
                 var i = 0,
-                    n = WH.Conf.getTrackCount(),
+                    n = WH.conf.getTrackCount(),
                     rackEl;
 
                 controls = WH.ControlsView();

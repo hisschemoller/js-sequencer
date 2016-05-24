@@ -22,10 +22,10 @@ window.WH = window.WH || {};
          */
         this.getEmpty = function() {
 
-            var patternCount = WH.Conf.getPatternCount(),
-                trackCount = WH.Conf.getTrackCount(),
-                stepCount = WH.Conf.getStepCount(),
-                stepDuration = Math.floor( WH.Conf.getPPQN() / WH.Conf.getStepsPerBeat() ),
+            var patternCount = WH.conf.getPatternCount(),
+                trackCount = WH.conf.getTrackCount(),
+                stepCount = WH.conf.getStepCount(),
+                stepDuration = Math.floor( WH.conf.getPPQN() / WH.conf.getStepsPerBeat() ),
                 data = {
                     bpm: 120,
                     racks: [],

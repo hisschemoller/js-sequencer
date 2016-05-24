@@ -50,7 +50,7 @@ window.WH = window.WH || {};
                     stepEl,
                     stepEls;
 
-                for (i; i < WH.Conf.getStepCount(); i++) {
+                for (i; i < WH.conf.getStepCount(); i++) {
                     stepEl = elements.templates.step.children().first().clone();
                     stepEl.find(settings.ctrlTextClass).text(i + 1);
                     elements.stepsContainer.append(stepEl);

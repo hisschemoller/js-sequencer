@@ -48,7 +48,7 @@ window.WH = window.WH || {};
              */
             setData = function(data) {
                 var i = 0,
-                    patternCount = WH.Conf.getPatternCount(),
+                    patternCount = WH.conf.getPatternCount(),
                     songLength = data.song.length,
                     songPartData,
                     songPartDuration = 0,
@@ -88,7 +88,7 @@ window.WH = window.WH || {};
                         song: []
                     },
                     i = 0,
-                    patternCount = WH.Conf.getPatternCount(),
+                    patternCount = WH.conf.getPatternCount(),
                     songLength = song.length;
 
                 // get pattern data
@@ -217,7 +217,7 @@ window.WH = window.WH || {};
              * @param {Number} index Index of the element to set as selected.
              */
             setSelectedPattern = function(index) {
-                patternIndex = Math.max(0, Math.min(index, WH.Conf.getPatternCount()));
+                patternIndex = Math.max(0, Math.min(index, WH.conf.getPatternCount()));
                 WH.View.setSelectedPattern(patternIndex);
                 WH.View.setSelectedSteps();
             };

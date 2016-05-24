@@ -52,7 +52,7 @@ window.WH = window.WH || {};
          */
         this.setup = function() {
             var i = 0,
-                n = WH.Conf.getTrackCount(),
+                n = WH.conf.getTrackCount(),
                 channel;
 
             instruments = new Array(n);
@@ -77,7 +77,7 @@ window.WH = window.WH || {};
                 instrument,
                 channel,
                 i = 0,
-                n = WH.Conf.getTrackCount(),
+                n = WH.conf.getTrackCount(),
                 generators = WX.PlugIn.getRegistered('Generator'),
                 j = 0,
                 p = generators.length,

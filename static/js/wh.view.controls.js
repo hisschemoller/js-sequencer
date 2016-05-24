@@ -55,7 +55,7 @@ window.WH = window.WH || {};
          */
         this.addChannelSelectControls = function(containerEl) {
             var i = 0,
-                n = WH.Conf.getTrackCount(),
+                n = WH.conf.getTrackCount(),
                 channelSelectEl,
                 channelSelectEls;
 

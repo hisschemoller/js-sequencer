@@ -54,7 +54,7 @@ window.WH = window.WH || {};
                 var i = 0,
                     patternEl;
 
-                for (i; i < WH.Conf.getPatternCount(); i++) {
+                for (i; i < WH.conf.getPatternCount(); i++) {
                     patternEl = elements.templates.pattern.children().first().clone();
                     patternEl.find(settings.ctrlTextClass).text(String.fromCharCode(i + 65).toLowerCase());
                     elements.container.append(patternEl);
