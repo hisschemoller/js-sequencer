@@ -70,7 +70,7 @@ window.WH = window.WH || {};
                         songPartData.absoluteStart = songPartEnd;
                         songPartEnd += patterns[songPartData.patternIndex].getDuration() * songPartData.repeats;
                         songPartData.absoluteEnd = songPartEnd;
-                        song.push(WH.SongPart(songPartData));
+                        song.push(WH.createSongPart(songPartData));
                     }
                     WH.View.setSong(song);
                 }

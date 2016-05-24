@@ -8,67 +8,74 @@ window.WH = window.WH || {};
 (function (WH) {
 
     /**
-     * @constructor
-     * @param {Object} data
-     * @param {Number} data.patternIndex Index of the pattern to play.
-     * @param {Number} data.repeats Number of times the pattern is repeated.
+     * @description Create song part object.
+     * @param {Object} specs
+     * @param {Number} specs.patternIndex Index of the pattern to play.
+     * @param {Number} specs.repeats Number of times the pattern is repeated.
      */
-    function SongPart(data) {
+    function createSongPart(specs) {
 
-        var patternIndex = data.patternIndex,
-            repeats = data.repeats,
-            absoluteStart = data.absoluteStart,
-            absoluteEnd = data.absoluteEnd; // end tick of this part relative to song start
+        var that,
+            patternIndex = specs.patternIndex,
+            repeats = specs.repeats,
+            absoluteStart = specs.absoluteStart,
+            absoluteEnd = specs.absoluteEnd, // end tick of this part relative to song start
 
-        /**
-         * Get all settings that should be saved with a project.
-         * @return {Object} Object with all songPart data to save.
-         */
-        this.getData = function() {
-            return {
-                patternIndex: patternIndex,
-                repeats: repeats
+            /**
+             * Get all settings that should be saved with a project.
+             * @return {Object} Object with all songPart data to save.
+             */
+            getData = function() {
+                return {
+                    patternIndex: patternIndex,
+                    repeats: repeats
+                };
+            },
+
+            /**
+             * Return the index of the pattern that this part plays.
+             * @return {Number}
+             */
+            getPatternIndex = function() {
+                return patternIndex;
+            },
+
+            /**
+             * Return the number of times that this part repeats.
+             * @return {Number}
+             */
+            getRepeats = function() {
+                return repeats;
+            },
+
+            /**
+             * Return the start tick of this part relative to song start
+             * @return {Number}
+             */
+            getStart = function() {
+                return absoluteStart;
+            },
+
+            /**
+             * Return the end tick of this part relative to song start
+             * @return {Number}
+             */
+            getEnd = function() {
+                return absoluteEnd;
             };
-        };
-
-        /**
-         * Return the index of the pattern that this part plays.
-         * @return {Number}
-         */
-        this.getPatternIndex = function() {
-            return patternIndex;
-        };
-
-        /**
-         * Return the number of times that this part repeats.
-         * @return {Number}
-         */
-        this.getRepeats = function() {
-            return repeats;
-        };
-
-        /**
-         * Return the start tick of this part relative to song start
-         * @return {Number}
-         */
-        this.getStart = function() {
-            return absoluteStart;
-        };
-
-        /**
-         * Return the end tick of this part relative to song start
-         * @return {Number}
-         */
-        this.getEnd = function() {
-            return absoluteEnd;
-        };
+            
+            that = {};
+            that.getData = getData;
+            that.getPatternIndex = getPatternIndex;
+            that.getRepeats = getRepeats;
+            that.getStart = getStart;
+            that.getEnd = getEnd;
+            return that;
     };
 
     /**
      * Exports
      */
-    WH.SongPart = function (data) {
-        return new SongPart(data);
-    };
+    WH.createSongPart = createSongPart;
 
 })(WH);
