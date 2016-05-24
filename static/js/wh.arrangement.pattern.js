@@ -24,7 +24,10 @@ window.WH = window.WH || {};
                 trackCount = data.tracks.length;
                 lengthInTicks = WH.Conf.getPPQN() * WH.Conf.getPatternDurationInBeats();
                 for (var i = 0; i < trackCount; i++) {
-                    tracks.push(WH.Track(data.tracks[i], i));
+                    tracks.push(WH.createTrack({
+                        data: data.tracks[i], 
+                        channel: i
+                    }));
                 }
             };
 
