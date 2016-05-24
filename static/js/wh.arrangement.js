@@ -59,7 +59,9 @@ window.WH = window.WH || {};
 
             // create the patterns
             for (i; i < patternCount; i++) {
-                patterns.push(WH.Pattern(data.patterns[i]));
+                patterns.push(WH.createPattern({
+                    data: data.patterns[i]
+                }));
             }
 
             // create the song
