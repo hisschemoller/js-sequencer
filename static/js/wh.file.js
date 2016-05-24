@@ -36,10 +36,7 @@ window.WH = window.WH || {};
              * @param {Boolean} isRandom If true create a randomized project.
              */
             createNew = function(isRandom) {
-                if (!project) {
-                    project = WH.Project();
-                }
-                var data = isRandom ? project.getRandomized() : project.getEmpty();
+                var data = isRandom ? WH.createRandomizedProject() : WH.createProject();
                 WH.TimeBase.setBPM(data.bpm);
                 WH.arrangement.setData(data.arrangement);
                 WH.Studio.setData(data.racks);

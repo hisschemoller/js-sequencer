@@ -7,7 +7,7 @@ window.WH = window.WH || {};
 
 (function (WH) {
 
-    function getRandomizedProject() {
+    function createRandomizedProject() {
 
         // private variables
         var patternCount = WH.conf.getPatternCount(),
@@ -322,6 +322,6 @@ window.WH = window.WH || {};
     /**
      * Exports
      */
-    WH.getRandomizedProject = getRandomizedProject;
+    WH.createRandomizedProject = createRandomizedProject;
     
 })(WH);
