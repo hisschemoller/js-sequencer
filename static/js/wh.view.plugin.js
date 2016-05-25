@@ -66,7 +66,8 @@ window.WH = window.WH || {};
                 pluginTemplates: {
                     Channel: $('#template-channel'),
                     WXS1: $('#template-plugin-wxs1'),
-                    SimpleOsc: $('#template-plugin-simpleosc')
+                    SimpleOsc: $('#template-plugin-simpleosc'),
+                    SimpleOsc2: $('#template-plugin-simpleosc2')
                 }
             },
 

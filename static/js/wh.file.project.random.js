@@ -67,7 +67,7 @@ window.WH = window.WH || {};
             createRack0 = function() {
                 var channel = 0,
                     rack = data.racks[channel];
-                rack.instrument.name = 'WXS1';
+                rack.instrument.name = 'SimpleOsc2';
                 rack.instrument.preset = {
                     osc1type: 'sawtooth',
                     osc2type: 'square',
