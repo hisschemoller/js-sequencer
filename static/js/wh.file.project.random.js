@@ -69,20 +69,24 @@ window.WH = window.WH || {};
                     rack = data.racks[channel];
                 rack.instrument.name = 'SimpleOsc2';
                 rack.instrument.preset = {
-                    osc1type: 'sawtooth',
-                    osc2type: 'square',
-                    osc1gain: 0.8,
-                    osc2gain: 0.8
+                    osc1Type: 'sine',
+                    osc2Type: 'sine',
+                    osc2Detune: 18.73,
+                    lfoRate: 0.1,
+                    lfoDepth: 57.36
                 }
-                rack.instrument.preset.osc1octave = 4.34;
-                rack.instrument.preset.osc2detune = 45.1;
-                rack.instrument.preset.ampSustain = 1.0;
-                rack.instrument.preset.cutoff = 47.21;
-                rack.instrument.preset.reso = 1.0;
-                rack.instrument.preset.filterMod = 2.6;
-                rack.instrument.preset.filterSustain = 1.0;
-                rack.instrument.preset.output = 0.5;
-                rack.channel.preset.pan = -0.1;
+                rack.channel.preset = {
+                    level: 0.1
+                }
+                // rack.instrument.preset.osc1octave = 4.34;
+                // rack.instrument.preset.osc2detune = 45.1;
+                // rack.instrument.preset.ampSustain = 1.0;
+                // rack.instrument.preset.cutoff = 47.21;
+                // rack.instrument.preset.reso = 1.0;
+                // rack.instrument.preset.filterMod = 2.6;
+                // rack.instrument.preset.filterSustain = 1.0;
+                // rack.instrument.preset.output = 0.5;
+                // rack.channel.preset.pan = -0.1;
             },
 
             createPatterns0 = function() {
@@ -93,23 +97,24 @@ window.WH = window.WH || {};
                         if (i > 11 && i < 16) {
                             if (j % 3 == 0) {
                                 step = track.steps[j];
-                                step.velocity = (Math.random() > 0.85) ? 127 : 120;
+                                step.velocity = (Math.random() > 0.85) ? 80 : 60;
                                 step.pitch = 48 + pentatonicMinScale[j % pentatonicMinScale.length] - i;
                                 step.duration = stepDuration * 2;
                             }
                         } else if (i > 3 && i < 8) {
-                            if (j % 8 == 2) {
+                            if (j % 3 == 1) {
                                 step = track.steps[j];
                                 step.velocity = (Math.random() > 0.85) ? 127 : 120;
-                                step.pitch = 48 + pentatonicMinScale[i % pentatonicMinScale.length];
-                                step.duration = stepDuration * 7.95;
+                                step.pitch = 48 + pentatonicMinScale[0];
+                                step.duration = stepDuration / 2;
                             }
-                            // if (Math.random() > 0.9) {
-                            //     step = track.steps[j];
-                            //     step.velocity = (Math.random() > 0.85) ? 127 : 120;
-                            //     step.pitch = 48 + pentatonicMinScale[j % pentatonicMinScale.length] - i;
-                            //     step.duration = stepDuration * 2;
-                            // }
+                        } else if (i > 7 && i < 12) {
+                                if (j % 5 == 1) {
+                                    step = track.steps[j];
+                                    step.velocity = (Math.random() > 0.85) ? 127 : 120;
+                                    step.pitch = 48 + pentatonicMinScale[0];
+                                    step.duration = stepDuration;
+                                }
                         } else {
                             if (i == 0) {
                                 if (j == 2) {
@@ -222,16 +227,17 @@ window.WH = window.WH || {};
                     track0 = data.arrangement.patterns[i].tracks[channel0];
                     track1 = data.arrangement.patterns[i].tracks[channel1];
                     for(j = 0; j < stepCount; j++) {
-                        step = track.steps[j];
-                        step.pitch = 60;
-                        step.velocity = 100; 
-                        // stepIndex = (Math.random() > 0.65) ? (stepCount + j - 1) % stepCount : j;
-                        // step0 = track0.steps[j];
-                        // step1 = track1.steps[j];
-                        // velocity = (Math.random() > 0.65) ? 120 : 0;
-                        // step.velocity = (step0.velocity || step1.velocity) ? 0 : velocity;
-                        // pichShift = (Math.random() > 0.5) ? 7 : -2;
-                        // step.pitch = 60 + pichShift;
+                        if (i > 7 && i < 12) {
+                            step = track.steps[j];
+                            step.pitch = (j % 3 == 1) ? 84 : 60;
+                            step.pitch = (j % 3 == 2) ? 36 : 60;
+                            // step.duration = (j % 5 == 0) ? stepDuration * 2 : stepDuration;
+                            step.velocity = 100;
+                        } else {
+                            step = track.steps[j];
+                            step.pitch = 60;
+                            step.velocity = 100;
+                        }
                     }
                 }
             },
