@@ -76,16 +76,8 @@ window.WH = window.WH || {};
                     lfoDepth: 57.36
                 }
                 rack.channel.preset = {
-                    level: 0.1
+                    level: 0.2
                 }
-                // rack.instrument.preset.osc1octave = 4.34;
-                // rack.instrument.preset.osc2detune = 45.1;
-                // rack.instrument.preset.ampSustain = 1.0;
-                // rack.instrument.preset.cutoff = 47.21;
-                // rack.instrument.preset.reso = 1.0;
-                // rack.instrument.preset.filterMod = 2.6;
-                // rack.instrument.preset.filterSustain = 1.0;
-                // rack.instrument.preset.output = 0.5;
                 // rack.channel.preset.pan = -0.1;
             },
 
@@ -97,8 +89,8 @@ window.WH = window.WH || {};
                         if (i > 11 && i < 16) {
                             if (j % 3 == 0) {
                                 step = track.steps[j];
-                                step.velocity = (Math.random() > 0.85) ? 80 : 60;
-                                step.pitch = 48 + pentatonicMinScale[j % pentatonicMinScale.length] - i;
+                                step.velocity = (Math.random() > 0.85) ? 120 : 100;
+                                step.pitch = 60 + pentatonicMinScale[j % pentatonicMinScale.length] - i;
                                 step.duration = stepDuration * 2;
                             }
                         } else if (i > 3 && i < 8) {
@@ -119,14 +111,14 @@ window.WH = window.WH || {};
                             if (i == 0) {
                                 if (j == 2) {
                                     step = track.steps[j];
-                                    step.velocity = (Math.random() > 0.85) ? 120 : 100;
+                                    step.velocity = (Math.random() > 0.85) ? 70 : 50;
                                     step.pitch = 48 + pentatonicMinScale[j % pentatonicMinScale.length];
                                     step.duration = stepDuration * stepCount;
                                 }
                             } else {
                                 if (j == 2) {
                                     step = track.steps[j];
-                                    step.velocity = (Math.random() > 0.85) ? 120 : 100;
+                                    step.velocity = (Math.random() > 0.85) ? 70 : 50;
                                     step.pitch = 36 + (Math.random() * 24);
                                     step.duration = stepDuration * stepCount;
                                 }
@@ -177,7 +169,7 @@ window.WH = window.WH || {};
                         } else if (i > 7 && i < 12) {
                             step.velocity = (j % 2 === 0) ? 100 : 0;
                         } else if (i > 11 && i < 16) {
-                            step.velocity = (j % 8 !== 5 && j % 8 !== 7) ? 100 : 0;
+                            step.velocity = (j % 4 == 0) ? 100 : 0;
                         } else {
                             step.velocity = (j % 4 === 0) ? 100 : 0;
                         }
@@ -185,11 +177,11 @@ window.WH = window.WH || {};
                             step.velocity = 110;
                         }
                         step.pitch = 60;
-                        if (Math.random() < 0.1) {
+                        if (Math.random() < 0.15) {
                             step.pitch = 20 + Math.floor(Math.random() * 80);
                         }
                         step.duration = stepDuration;
-                        if (Math.random() < 0.05) {
+                        if (Math.random() < 0.07) {
                             step.duration = stepDuration * 4;
                         }
                     }
@@ -215,7 +207,7 @@ window.WH = window.WH || {};
                     filterAttack: 0.01,
                     filterDecay: 0.01,
                     filterRelease: 0.01,
-                    output: 0.26
+                    output: 0.3
                 };
                 rack.channel.preset.pan = 0.1;
             },
@@ -227,7 +219,7 @@ window.WH = window.WH || {};
                     track0 = data.arrangement.patterns[i].tracks[channel0];
                     track1 = data.arrangement.patterns[i].tracks[channel1];
                     for(j = 0; j < stepCount; j++) {
-                        if (i > 7 && i < 12) {
+                        if (i > 3 && i < 12) {
                             step = track.steps[j];
                             step.pitch = (j % 3 == 1) ? 84 : 60;
                             step.pitch = (j % 3 == 2) ? 36 : 60;
@@ -251,8 +243,8 @@ window.WH = window.WH || {};
                     osc2type: 'sawtooth',
                     osc1octave: -0.6,
                     osc2detune: -2.06,
-                    osc1gain: 0.8,
-                    osc2gain: 0.8,
+                    osc1gain: 0.6,
+                    osc2gain: 0.6,
                     ampAttack: 0.01,
                     ampSustain: 1,
                     ampRelease: 0.02,
@@ -262,7 +254,7 @@ window.WH = window.WH || {};
                     filterAttack: 0.06,
                     filterSustain: 1,
                     filterRelease: 0.01,
-                    output: 0.93,
+                    output: 0.8,
                     
                 };
                 rack.channel.preset.pan = 0.5;
@@ -280,7 +272,6 @@ window.WH = window.WH || {};
                                 case 0:
                                 case 1:
                                 case 2:
-                                // case 2:
                                     step.pitch = 48 + pentatonicMinScale[0];
                                     step.duration = stepDuration / 3;
                                     step.velocity = velocity;
@@ -320,8 +311,38 @@ window.WH = window.WH || {};
                                     break;
                             }
                         // }
-                        if (i > 7 && i < 12) {
-                            step.pitch += 2;
+                        if (i > 3 && i < 8) {
+                            // if (j % 5 == 0) {
+                            //     var origStep = track.steps[0];
+                            //     step.pitch = origStep.pitch;
+                            //     step.duration = origStep.duration;
+                            //     step.velocity = origStep.velocity;
+                            // } else {
+                            if (j == 1 || j == 2) {
+                                step.velocity = 0;
+                            }
+                        } else if (i > 7 && i < 12) {
+                            var origStep = track.steps[0];
+                            if (j == 0) {
+                                step.pitch = origStep.pitch;
+                                step.duration = origStep.duration;
+                                step.velocity = 100; // origStep.velocity;
+                            } else if (j == 1) {
+                                step.pitch = origStep.pitch - 5;
+                                step.duration = origStep.duration;
+                                step.velocity = 30; // origStep.velocity;
+                            } else {
+                                step.velocity = 0;
+                            }
+                        } else if (i > 11 && i < 16) {
+                            var origStep = track.steps[j % 8];
+                            if (j % 8 < 3) {
+                                step.pitch = origStep.pitch;
+                                step.duration = origStep.duration;
+                                step.velocity = origStep.velocity;
+                            } else {
+                                step.velocity = 0;
+                            }
                         }
                     }
                 }
