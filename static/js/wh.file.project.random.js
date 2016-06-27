@@ -87,10 +87,10 @@ window.WH = window.WH || {};
                     track = data.arrangement.patterns[i].tracks[channel];
                     for(j = 0; j < stepCount; j++) {
                         if (i > 11 && i < 16) {
-                            if (j % 3 == 0) {
+                            if (j == 2) {
                                 step = track.steps[j];
                                 step.velocity = (Math.random() > 0.85) ? 120 : 100;
-                                step.pitch = 60 + pentatonicMinScale[j % pentatonicMinScale.length] - i;
+                                step.pitch = (i > 13 ? 48 : 36) + pentatonicMinScale[j % pentatonicMinScale.length];
                                 step.duration = stepDuration * 2;
                             }
                         } else if (i > 3 && i < 8) {
@@ -349,11 +349,98 @@ window.WH = window.WH || {};
             },
 
             createSong = function() {
-                for (var j = 0; j < 2; j++) {
-                    for (var i = 0; i < 4; i++) {
+                var i, j;
+                // 16
+                for (i = 0; i < 2; i++) {
+                    data.arrangement.song.push({
+                        patternIndex: 0,
+                        repeats: 5
+                    });
+                    data.arrangement.song.push({
+                        patternIndex: 1,
+                        repeats: 1
+                    });
+                    data.arrangement.song.push({
+                        patternIndex: 2,
+                        repeats: 1
+                    });
+                    data.arrangement.song.push({
+                        patternIndex: 3,
+                        repeats: 1
+                    });
+                }
+                // 16
+                for (i = 0; i < 2; i++) {
+                    for (j = 0; j < 4; j++) {
                         data.arrangement.song.push({
-                            patternIndex: i + 4,
+                            patternIndex: j + 8,
                             repeats: 2
+                        });
+                    }
+                }
+                // 16
+                for (i = 0; i < 2; i++) {
+                    for (j = 0; j < 4; j++) {
+                        data.arrangement.song.push({
+                            patternIndex: j + 4,
+                            repeats: 2
+                        });
+                    }
+                }
+                // 8
+                for (i = 0; i < 4; i++) {
+                    for (j = 0; j < 2; j++) {
+                        data.arrangement.song.push({
+                            patternIndex: j + 12,
+                            repeats: 1
+                        });
+                    }
+                }
+                // 8
+                for (i = 0; i < 4; i++) {
+                    for (j = 0; j < 2; j++) {
+                        data.arrangement.song.push({
+                            patternIndex: j + 14,
+                            repeats: 1
+                        });
+                    }
+                }
+                // 32
+                for (i = 0; i < 4; i++) {
+                    data.arrangement.song.push({
+                        patternIndex: i,
+                        repeats: 8
+                    });
+                    for (j = 0; j < 2; j++) {
+                        for (k = 0; k < 4; k++) {
+                            data.arrangement.song.push({
+                                patternIndex: k + 8,
+                                repeats: 1
+                            });
+                        }
+                    }
+                }
+                // 32
+                // for (i = 0; i < 4; i++) {
+                //     data.arrangement.song.push({
+                //         patternIndex: i + 4,
+                //         repeats: 4
+                //     });
+                //     for (j = 0; j < 2; j++) {
+                //         for (k = 0; k < 2; k++) {
+                //             data.arrangement.song.push({
+                //                 patternIndex: k + 14,
+                //                 repeats: 1
+                //             });
+                //         }
+                //     }
+                // }
+                // 8
+                for (i = 0; i < 4; i++) {
+                    for (j = 0; j < 2; j++) {
+                        data.arrangement.song.push({
+                            patternIndex: j + 12,
+                            repeats: 1
                         });
                     }
                 }
