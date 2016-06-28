@@ -78,7 +78,7 @@ window.WH = window.WH || {};
                 rack.channel.preset = {
                     level: 0.2
                 }
-                // rack.channel.preset.pan = -0.1;
+                rack.channel.preset.pan = -0.1;
             },
 
             createPatterns0 = function() {
@@ -209,7 +209,7 @@ window.WH = window.WH || {};
                     filterRelease: 0.01,
                     output: 0.3
                 };
-                rack.channel.preset.pan = 0.1;
+                rack.channel.preset.pan = 0.3;
             },
 
             createPatterns2 = function() {
@@ -350,7 +350,7 @@ window.WH = window.WH || {};
 
             createSong = function() {
                 var i, j;
-                // 16
+                // 16 x A
                 for (i = 0; i < 2; i++) {
                     data.arrangement.song.push({
                         patternIndex: 0,
@@ -369,7 +369,7 @@ window.WH = window.WH || {};
                         repeats: 1
                     });
                 }
-                // 16
+                // 16 x C
                 for (i = 0; i < 2; i++) {
                     for (j = 0; j < 4; j++) {
                         data.arrangement.song.push({
@@ -378,7 +378,7 @@ window.WH = window.WH || {};
                         });
                     }
                 }
-                // 16
+                // 16 x B
                 for (i = 0; i < 2; i++) {
                     for (j = 0; j < 4; j++) {
                         data.arrangement.song.push({
@@ -387,7 +387,7 @@ window.WH = window.WH || {};
                         });
                     }
                 }
-                // 8
+                // 8 x D1
                 for (i = 0; i < 4; i++) {
                     for (j = 0; j < 2; j++) {
                         data.arrangement.song.push({
@@ -396,7 +396,7 @@ window.WH = window.WH || {};
                         });
                     }
                 }
-                // 8
+                // 8 x D2
                 for (i = 0; i < 4; i++) {
                     for (j = 0; j < 2; j++) {
                         data.arrangement.song.push({
@@ -405,19 +405,20 @@ window.WH = window.WH || {};
                         });
                     }
                 }
-                // 32
+                // 16 x A
                 for (i = 0; i < 4; i++) {
                     data.arrangement.song.push({
                         patternIndex: i,
-                        repeats: 8
+                        repeats: 4
                     });
-                    for (j = 0; j < 2; j++) {
-                        for (k = 0; k < 4; k++) {
-                            data.arrangement.song.push({
-                                patternIndex: k + 8,
-                                repeats: 1
-                            });
-                        }
+                }
+                // 16 x B
+                for (i = 0; i < 4; i++) {
+                    for (j = 0; j < 4; j++) {
+                        data.arrangement.song.push({
+                            patternIndex: j + 8,
+                            repeats: 1
+                        });
                     }
                 }
                 // 32
@@ -435,7 +436,7 @@ window.WH = window.WH || {};
                 //         }
                 //     }
                 // }
-                // 8
+                // 8 x D1
                 for (i = 0; i < 4; i++) {
                     for (j = 0; j < 2; j++) {
                         data.arrangement.song.push({
