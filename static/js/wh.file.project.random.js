@@ -76,9 +76,9 @@ window.WH = window.WH || {};
                     lfoDepth: 57.36
                 }
                 rack.channel.preset = {
-                    level: 0.2
+                    level: 0.15,
+                    pan: -0.1
                 }
-                rack.channel.preset.pan = -0.1;
             },
 
             createPatterns0 = function() {
@@ -151,7 +151,10 @@ window.WH = window.WH || {};
                     output: 1.0,
                     
                 };
-                rack.channel.preset.pan = 0.5;
+                rack.channel.preset = {
+                    level: 1.0,
+                    pan: -0.5
+                }
             },
 
             createPatterns1 = function() {
@@ -209,7 +212,10 @@ window.WH = window.WH || {};
                     filterRelease: 0.01,
                     output: 0.3
                 };
-                rack.channel.preset.pan = 0.3;
+                rack.channel.preset = {
+                    level: 0.5,
+                    pan: 0.3
+                }
             },
 
             createPatterns2 = function() {
@@ -257,7 +263,10 @@ window.WH = window.WH || {};
                     output: 0.8,
                     
                 };
-                rack.channel.preset.pan = 0.5;
+                rack.channel.preset = {
+                    level: 0.65,
+                    pan: 0.5
+                }
             },
 
             createPatterns3 = function() {
