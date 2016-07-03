@@ -26,24 +26,25 @@ window.WH = window.WH || {};
                 }
             };
 
-        for (var j = 0; j < trackCount; j++) {
-            var rack = {
-                instrument: {
-                    name: 'SimpleOsc',
-                    preset: {
-                        oscType: WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
-                        oscFreq: WX.mtof(60),
-                        lfoType: WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
-                        lfoRate: 1.0,
-                        lfoDepth: 1.0
-                    }
-                },
-                channel: {
-                    preset: {
-                        mute: false,
-                        solo: false,
-                        pan: 0.0,
-                        level: 1.0
+            for (var j = 0; j < trackCount; j++) {
+                var rack = {
+                    instrument: {
+                        name: 'simpleosc',
+                        preset: {
+                            oscType: WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
+                            oscFreq: WX.mtof(60),
+                            lfoType: WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
+                            lfoRate: 1.0,
+                            lfoDepth: 1.0
+                        }
+                    },
+                    channel: {
+                        preset: {
+                            mute: false,
+                            solo: false,
+                            pan: 0.0,
+                            level: 1.0
+                        }
                     }
                 }
             };

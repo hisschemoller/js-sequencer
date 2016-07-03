@@ -26,6 +26,13 @@ $(function() {
         if (!WH.file.loadFromStorage()) {
             WH.file.createNew();
         }
+
+        // console.log('All properties in namespace WH:');
+        // for (var prop in WH) {
+        //     if (WH.hasOwnProperty(prop)) {
+        //         console.log('- ', prop, ' - ', typeof prop);
+        //     }
+        // }
     }
 
     /**

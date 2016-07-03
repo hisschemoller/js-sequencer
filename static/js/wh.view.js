@@ -329,10 +329,10 @@ window.WH = window.WH || {};
          * Update a control to reflect a changed plugin parameter.
          * @param {Number} pluginId Unique ID of the plugin.
          * @param {String} paramKey The parameter to change.
-         * @param {Object} paramValues Object containing all the values of the parameter.
+         * @param {Object} param Parameter object.
          */
-        this.updatePluginControl = function(pluginId, paramKey, paramValues) {
-            pluginViews[pluginId].updateControl(paramKey, paramValues);
+        this.updatePluginControl = function(pluginId, paramKey, param) {
+            pluginViews[pluginId].updateControl(paramKey, param);
         };
 
         /**

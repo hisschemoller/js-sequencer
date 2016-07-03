@@ -10,44 +10,57 @@ window.WH = window.WH || {};
     /**
      * @constructor
      */
-    function createConf() {
+    function Conf() {
 
-        var that = {},
-            patternCount = 16,
+        var patternCount = 16,
             trackCount = 4,
             patternDurationInBeats = 4,
             stepsPerBeat = 4,
-            ppqn = 480;
+            ppqn = 480,
+            models = {
+                waveforms: [
+                    {label: 'Sine', value: 'sine'},
+                    {label: 'Square', value: 'square'},
+                    {label: 'Saw', value: 'sawtooth'},
+                    {label: 'Triangle', value: 'triangle'}
+                ]
+            };
 
-        that.getPatternCount = function() {
+        this.getPatternCount = function() {
             return patternCount;
         };
 
-        that.getTrackCount = function() {
+        this.getTrackCount = function() {
             return trackCount;
         };
 
-        that.getPatternDurationInBeats = function() {
+        this.getPatternDurationInBeats = function() {
             return patternDurationInBeats;
         };
 
-        that.getStepsPerBeat = function() {
+        this.getStepsPerBeat = function() {
             return stepsPerBeat;
         };
 
-        that.getStepCount = function() {
+        this.getStepCount = function() {
             return patternDurationInBeats * stepsPerBeat;
         };
         
-        that.getPPQN = function() {
+        this.getPPQN = function() {
             return ppqn;
         };
         
-        return that;
+        this.getModel = function(modelKey) {
+            if (models.hasOwnProperty(modelKey)) {
+                return models[modelKey];
+            } else {
+                console.error('Model ', modelKey, ' doesn\'t exist.');
+            }
+        };
     }
     
     /** 
      * Singleton
      */
-    WH.conf = createConf();
+    WH.Conf = new Conf();
 })(WH);
