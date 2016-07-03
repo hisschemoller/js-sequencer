@@ -344,10 +344,10 @@ window.WH = window.WH || {};
         my.$lfotype = function (value, time, rampType) {
             lfoOsc.type = value;
         };
-        my.$lfoRate = function (value, time, rampType) {
+        my.$lforate = function (value, time, rampType) {
             lfoOsc.frequency.set(value, time, rampType);
         };
-        my.$lfoDepth = function (value, time, rampType) {
+        my.$lfodepth = function (value, time, rampType) {
             lfoGain.gain.set(value, time, rampType);
         };
         
@@ -358,13 +358,13 @@ window.WH = window.WH || {};
                 type: 'itemized',
                 name: 'Osc Type',
                 default: 'square',
-                model: WH.Conf.getModel('waveforms')
+                model: WH.conf.getModel('waveforms')
             },
             lfotype: {
                 type: 'itemized',
                 name: 'LFO Type',
                 default: 'sine',
-                model: WH.Conf.getModel('waveforms')
+                model: WH.conf.getModel('waveforms')
             },
             lforate: {
                 type: 'generic',

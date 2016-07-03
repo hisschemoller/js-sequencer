@@ -10,9 +10,10 @@ window.WH = window.WH || {};
     /**
      * @constructor
      */
-    function Conf() {
+    function createConf() {
 
-        var patternCount = 16,
+        var that = {},
+            patternCount = 16,
             trackCount = 4,
             patternDurationInBeats = 4,
             stepsPerBeat = 4,
@@ -26,41 +27,43 @@ window.WH = window.WH || {};
                 ]
             };
 
-        this.getPatternCount = function() {
+        that.getPatternCount = function() {
             return patternCount;
         };
 
-        this.getTrackCount = function() {
+        that.getTrackCount = function() {
             return trackCount;
         };
 
-        this.getPatternDurationInBeats = function() {
+        that.getPatternDurationInBeats = function() {
             return patternDurationInBeats;
         };
 
-        this.getStepsPerBeat = function() {
+        that.getStepsPerBeat = function() {
             return stepsPerBeat;
         };
 
-        this.getStepCount = function() {
+        that.getStepCount = function() {
             return patternDurationInBeats * stepsPerBeat;
         };
         
-        this.getPPQN = function() {
+        that.getPPQN = function() {
             return ppqn;
         };
         
-        this.getModel = function(modelKey) {
+        that.getModel = function(modelKey) {
             if (models.hasOwnProperty(modelKey)) {
                 return models[modelKey];
             } else {
                 console.error('Model ', modelKey, ' doesn\'t exist.');
             }
         };
+        
+        return that;
     }
     
     /** 
      * Singleton
      */
-    WH.Conf = new Conf();
+    WH.conf = createConf();
 })(WH);

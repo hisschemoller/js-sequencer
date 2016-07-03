@@ -180,9 +180,9 @@ window.WH = window.WH || {};
                 var paramKey,
                     paramValue,
                     param,
-                    controlContainer
+                    controlContainer,
                     pluginParams = plugin.getParams();
-                    
+
                 for (paramKey in pluginParams) {
                     controlContainer = pluginEl.find('.' + paramKey);
 
@@ -264,6 +264,7 @@ window.WH = window.WH || {};
                     min = param.getMin(),
                     max = param.getMax(),
                     normalValue = (value - min) / (max - min),
+
                     userY = self.isTouchDevice ? e.originalEvent.changedTouches[0].clientY : e.clientY,
                     normalUserY = Math.max(0, 1 - Math.min(((userY - slider.offset().top) / slider.height()), 1)),
                     eventData = {
@@ -312,9 +313,9 @@ window.WH = window.WH || {};
                     ((e.data.normalUserY <= e.data.normalValue) && (normalValue >= e.data.normalValue))) {
                     e.data.isEnabled = true;
                 }
-
+                
                 if (e.data.isEnabled) {
-                    WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, value);
+                    WH.studio.setParameter(e.data.pluginId, e.data.paramKey, value);
                 }
             },
 
@@ -324,7 +325,7 @@ window.WH = window.WH || {};
              */
             onItemizedControlTouchStart = function(e) {
                 e.preventDefault();
-                
+
                 var paramKey = $(e.currentTarget).data(settings.data.paramKey),
                     param = e.data.plugin.getParam(paramKey),
                     model = param.getModel(),
@@ -332,7 +333,7 @@ window.WH = window.WH || {};
                     i = 0,
                     n = model.length,
                     itemEl;
-                    
+                
                 elements.overlayCtrlItemized.show();
                 elements.overlayCtrlItemized.find(settings.overlayName).text(param.name);
                 listEl.empty();
@@ -401,7 +402,7 @@ window.WH = window.WH || {};
                         e.data.itemEls[newIndex].className += ' ' + settings.activeClass;
                     }
                     e.data.changedIndex = newIndex;
-                    WH.Studio.setParameter(e.data.pluginId, e.data.paramKey, e.data.model[newIndex].value);
+                    WH.studio.setParameter(e.data.pluginId, e.data.paramKey, e.data.model[newIndex].value);
                 }
             };
 
@@ -420,7 +421,7 @@ window.WH = window.WH || {};
          * @param {String} paramKey The parameter to change.
          * @param {Object} param Parameter object.
          */
-        this.updateControl = function(paramKey, param) {
+         this.updateControl = function(paramKey, param) {
             var ctrlEl = pluginEl.find(settings.ctrlClass + '[data-' + settings.data.paramKey + '="' + paramKey + '"]'),
                 ctrlType = ctrlEl.data(settings.data.paramType);
 

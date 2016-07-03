@@ -54,8 +54,10 @@ window.WH = window.WH || {};
                 }
                 return checkedValue;
             },
-            setValue = function(value) {
+            setValue = function(value, time, rampType) {
+                time = time || 0;
                 my.value = Math.max(min, Math.min(value, max));
+                my.callback(my.value, time, rampType);
             },
             getMin = function() {
                 return min;
