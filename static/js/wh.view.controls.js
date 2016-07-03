@@ -126,7 +126,7 @@ window.WH = window.WH || {};
                 switch (index) {
                     case 0:
                         // play
-                        WH.TimeBase.togglePlayStop();
+                        WH.transport.toggleStartStop();
                         break;
                     case 1:
                         // song
@@ -134,7 +134,7 @@ window.WH = window.WH || {};
                         break;
                     case 2:
                         // new
-                        WH.TimeBase.pause();
+                        WH.transport.pause();
                         WH.DialogView({
                             headerText: 'New Project',
                             bodyText: 'Are you sure? If you create a new project, the current project will be lost.',
@@ -145,7 +145,7 @@ window.WH = window.WH || {};
                         break;
                     case 3:
                         // random
-                        WH.TimeBase.pause();
+                        WH.transport.pause();
                         WH.DialogView({
                             headerText: 'Random Project',
                             bodyText: 'Are you sure? If you create a new random project, the current project will be lost.',

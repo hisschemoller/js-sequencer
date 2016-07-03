@@ -12,7 +12,7 @@ window.WH = window.WH || {};
         var that,
             pluginIdCounter = 0,
             createPlugin = function(pluginName) {
-                try {
+                // try {
                     if (WH.plugins && WH.plugins[pluginName]) {
                         var plugin = WH.plugins[pluginName].create({
                             id: pluginIdCounter
@@ -25,13 +25,13 @@ window.WH = window.WH || {};
                             message: 'No plugin found with name: ' + pluginName
                         };
                     }
-                } catch (error) {
-                    WH.DialogView({
-                        type: 'alert',
-                        headerText: error.name,
-                        bodyText: error.message
-                    });
-                }
+                // } catch (error) {
+                //     WH.DialogView({
+                //         type: 'alert',
+                //         headerText: error.name,
+                //         bodyText: error.message
+                //     });
+                // }
             };
 
         that = {};

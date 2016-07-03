@@ -56,7 +56,7 @@ window.WH = window.WH || {};
              * @param  {Number} tick Tick (atomic musical time unit)
              * @return {Number} Time in seconds.
              */
-            tick2sec: function (tick) {
+            tick2sec = function (tick) {
                 return tick * tickInSeconds;
             }
 
@@ -65,7 +65,7 @@ window.WH = window.WH || {};
              * @param  {Number} sec Time in seconds.
              * @return {Number} Time in ticks.
              */
-            sec2tick: function (sec) {
+            sec2tick = function (sec) {
                 return sec / tickInSeconds;
             },
             
@@ -130,7 +130,7 @@ window.WH = window.WH || {};
             /**
              * Reset the scan range based on current playhead position.
              */
-            resetScanRange: function () {
+            resetScanRange = function () {
                 scanStart = now;
                 scanEnd =  scanStart + lookAhead;
                 needsScan = true;
@@ -174,6 +174,7 @@ window.WH = window.WH || {};
                 resetScanRange();
                 // Transport is running.
                 isRunning = true;
+                WH.View.updateTransportState(isRunning);
             },
 
             /**
@@ -182,6 +183,19 @@ window.WH = window.WH || {};
             pause = function () {
                 isRunning = false;
                 flushPlaybackQueue();
+                WH.View.updateTransportState(isRunning);
+            },
+
+            /**
+             * Toggle between stop and play.
+             */
+            toggleStartStop = function() {
+                if (isRunning) {
+                    pause();
+                    rewind();
+                } else {
+                    start();
+                }
             },
 
             /**
@@ -259,7 +273,7 @@ window.WH = window.WH || {};
             setBPM = function (newBpm) {
                 // calculates change factor
                 bpm = (newBpm || 120);
-                var factor = lastBPM / bpm;
+                var factor = lastBpm / bpm;
                 lastBpm = bpm;
                 // recalcualte beat in seconds, tick in seconds
                 var beatInSeconds = 60.0 / bpm;
@@ -277,7 +291,7 @@ window.WH = window.WH || {};
              * Returns current BPM.
              * @return {Number}
              */
-            getBPM: function () {
+            getBPM = function () {
                 return bpm;
             };
         
@@ -286,6 +300,11 @@ window.WH = window.WH || {};
         setBPM(bpm);
         run();
         
+        that.pause = pause;
+        that.rewind = rewind;
+        that.toggleStartStop = toggleStartStop;
+        that.setBPM = setBPM;
+        that.getBPM = getBPM;
         return that;
     }
     

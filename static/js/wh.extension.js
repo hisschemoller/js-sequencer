@@ -60,7 +60,7 @@ AudioParam.prototype.cancel = AudioParam.prototype.cancelScheduledValues;
  * @see  http://www.w3.org/TR/webaudio/#methodsandparams-AudioParam-section
  */
 AudioParam.prototype.set = function (value, time, rampType) {
-    var now = WX.now;
+    var now = WH.core.getNow();
     switch (rampType) {
         case 0:
         case undefined:

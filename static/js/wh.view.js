@@ -179,7 +179,7 @@ window.WH = window.WH || {};
 
             for (i; i < n; i++) {
                 step = playbackQueue[i];
-                start = Math.max(0, WX.now - step.getAbsStart()) * 1000;
+                start = Math.max(0, WH.core.getNow() - step.getAbsStart()) * 1000;
 
                 if (start != oldStart && stepArray.length > 0) {
                     delayUpdateSequencerActivity(oldStart, stepArray);
@@ -288,7 +288,7 @@ window.WH = window.WH || {};
         /**
          * Fill a mixer channel with mixer channel controls.
          * This happens once because the mixer is created only once.
-         * @param {Object} channel WX.PlugIn Processor object.
+         * @param {Object} channel Plugin Processor object.
          * @param {Number} index Channel index in which to create the channel controls.
          */
         this.setChannel = function(channel, index) {
@@ -301,7 +301,7 @@ window.WH = window.WH || {};
         /**
          * Set the instrument controls,
          * typically after project initialisation or channel switch.
-         * @param {Object} instrument WX.PlugIn Generator object.
+         * @param {Object} instrument Plugin Generator object.
          * @param {Number} index Rack index in which to set the instrument.
          */
         this.setInstrument = function(instrument, index) {
@@ -314,7 +314,7 @@ window.WH = window.WH || {};
 
         /**
          * Remove the instrument from the rack and delete it
-         * @param {Object} instrument WX.PlugIn Generator object.
+         * @param {Object} instrument Plugin Generator object.
          * @param {Number} index Rack index from which to remove the instrument.
          */
         this.clearInstrument = function(instrument, index) {

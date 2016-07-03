@@ -40,12 +40,33 @@ window.WH = window.WH || {};
              */
             getSampleRate = function() {
                 return ctx.sampleRate;
+            }, 
+            
+            getGain = function() {
+                return ctx.createGain();
+            }, 
+            
+            getOsc = function() {
+                return ctx.createOscillator();
+            }, 
+            
+            getPanner = function() {
+                return ctx.createPanner();
+            },
+            
+            getMasterOut = function() {
+                return ctx.destination;
             };
         
         that = {};
         
         createAudioContext();
         
+        that.getNow = getNow;
+        that.getGain = getGain;
+        that.getOsc = getOsc;
+        that.getPanner = getPanner;
+        that.getMasterOut = getMasterOut;
         return that;
     }
 
@@ -54,4 +75,4 @@ window.WH = window.WH || {};
      */
     WH.core = createCore();
     
-}(WH);
+})(WH);

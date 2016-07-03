@@ -6,7 +6,7 @@
 
 window.WH = window.WH || {};
 
-(function (WH, WX) {
+(function (WH) {
 
     function createPlugin(specs, my) {
 
@@ -122,8 +122,8 @@ window.WH = window.WH || {};
     function createGeneratorPlugin(specs, my) {
 
         var that,
-            output = WX.Gain(),
-            outlet = WX.Gain();
+            output = WH.core.getGain(),
+            outlet = WH.core.getGain();
 
         my = my || {};
         my.output = output;
@@ -140,10 +140,10 @@ window.WH = window.WH || {};
     function createProcessorPlugin(specs, my) {
 
         var that,
-            input = WX.Gain(),
-            inlet = WX.Gain(),
-            output = WX.Gain(),
-            outlet = WX.Gain();
+            input = WH.core.getGain(),
+            inlet = WH.core.getGain(),
+            output = WH.core.getGain(),
+            outlet = WH.core.getGain();
 
         my = my || {};
         my.input = input;
@@ -160,11 +160,11 @@ window.WH = window.WH || {};
 
     WH.createProcessorPlugin = createProcessorPlugin;
 
-})(WH, WX);
+})(WH);
 
 
 
-(function (WH, WX) {
+(function (WH) {
 
     function createPlugin(specs, my) {
 
@@ -290,8 +290,8 @@ window.WH = window.WH || {};
             }
         });
         
-        panner = WX.Panner();
-        soloMute = WX.Gain();
+        panner = WH.core.getPanner();
+        soloMute = WH.core.getGain();
         my.input.to(soloMute).to(panner).to(my.output);
         level = soloMute.gain.value;
         
@@ -306,11 +306,11 @@ window.WH = window.WH || {};
         type: 'processor'
     };
 
-})(WH, WX);
+})(WH);
 
 
 
-(function (WH, WX) {
+(function (WH) {
 
     function createPlugin(specs, my) {
 
@@ -320,12 +320,12 @@ window.WH = window.WH || {};
             lfoOsc,
             lfoGain,
             noteOn = function(pitch, velocity, time) {
-                time = (time || WX.now);
+                time = (time || WH.core.getNow());
                 amp.gain.set(velocity / 127, [time, 0.02], 3);
-                osc.frequency.set(WX.mtof(pitch), time, 0);
+                osc.frequency.set(WH.mtof(pitch), time, 0);
             },
             noteOff = function(pitch, time) {
-                time = (time || WX.now);
+                time = (time || WH.core.getNow());
                 amp.gain.set(0, time);
             };
 
@@ -384,10 +384,10 @@ window.WH = window.WH || {};
             }
         });
         
-        lfoOsc = WX.OSC();
-        lfoGain = WX.Gain();
-        osc = WX.OSC();
-        amp = WX.Gain();
+        lfoOsc = WH.core.getOsc();
+        lfoGain = WH.core.getGain();
+        osc = WH.core.getOsc();
+        amp = WH.core.getGain();
         osc.to(amp).to(my.output);
         lfoOsc.to(lfoGain).to(osc.detune);
         osc.start(0);
@@ -405,7 +405,7 @@ window.WH = window.WH || {};
         type: 'generator'
     };
 
-})(WH, WX);
+})(WH);
 
 
 // 1. define local variables and functions

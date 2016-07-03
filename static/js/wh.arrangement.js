@@ -125,8 +125,8 @@ window.WH = window.WH || {};
                             if (songPartNextIndex >= song.length) {
                                 // the song ends here
                                 toggleSongMode();
-                                WH.TimeBase.pause();
-                                WH.TimeBase.rewind();
+                                WH.transport.pause();
+                                WH.transport.rewind();
                             } else {
                                 // there's a next song part to play, do nothing
                             }
@@ -189,8 +189,8 @@ window.WH = window.WH || {};
                 WH.View.updateSongMode(isSongMode);
 
                 if (isSongMode) {
-                    WH.TimeBase.pause();
-                    WH.TimeBase.rewind();
+                    WH.transport.pause();
+                    WH.transport.rewind();
                     songPartIndex = 0;
                     songPartEnd = song[songPartIndex].getEnd();
                     songPartNextIndex = 0;

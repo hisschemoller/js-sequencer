@@ -7,7 +7,7 @@
  */
 window.WH = window.WH || {};
 
-(function (WH, WX) {
+(function (WH) {
 
     /**
      * @constructor
@@ -62,7 +62,7 @@ window.WH = window.WH || {};
                 for (i; i < n; i++) {
                     var channel = WH.pluginManager.createPlugin('channel');
                     channel.setSoloCallback(onSoloChange);
-                    channel.to(WX._ctx.destination);
+                    channel.to(WH.core.getMasterOut());
                     channels.push(channel);
                     WH.View.setChannel(channel, i);
                 }
@@ -178,7 +178,7 @@ window.WH = window.WH || {};
                 // is it a generator?
                 n = instruments.length;
                 for (i; i < n; i++) {
-                    if (pluginId == instruments[i].getId()) {
+                    if (instruments[i] && pluginId == instruments[i].getId()) {
                         plugin = instruments[i];
                         break;
                     }
@@ -216,4 +216,4 @@ window.WH = window.WH || {};
      * Singleton
      */
     WH.studio = createStudio();
-})(WH, WX);
+})(WH);

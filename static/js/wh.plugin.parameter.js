@@ -6,7 +6,7 @@
 
 window.WH = window.WH || {};
 
-(function (WH, WX) {
+(function (WH) {
 
     function createParameter(specs, my) {
         
@@ -152,4 +152,4 @@ window.WH = window.WH || {};
         }
     };
 
-})(WH, WX);
+})(WH);

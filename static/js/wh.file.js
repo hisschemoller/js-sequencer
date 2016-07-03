@@ -37,7 +37,7 @@ window.WH = window.WH || {};
              */
             createNew = function(isRandom) {
                 var data = isRandom ? WH.createRandomizedProject() : WH.createProject();
-                WH.TimeBase.setBPM(data.bpm);
+                WH.transport.setBPM(data.bpm);
                 WH.arrangement.setData(data.arrangement);
                 WH.studio.setData(data.racks);
             },
@@ -50,7 +50,7 @@ window.WH = window.WH || {};
                 var data = localStorage.getItem(settings.projectName);
                 if (data) {
                     data = JSON.parse(data);
-                    WH.TimeBase.setBPM(data.bpm);
+                    WH.transport.setBPM(data.bpm);
                     WH.arrangement.setData(data.arrangement);
                     WH.studio.setData(data.racks);
                 } else {
@@ -75,7 +75,7 @@ window.WH = window.WH || {};
             save = function() {
 
                 var data = {
-                    bpm: WH.TimeBase.getBPM(),
+                    bpm: WH.transport.getBPM(),
                     arrangement: WH.arrangement.getData(),
                     racks: WH.studio.getData()
                 }

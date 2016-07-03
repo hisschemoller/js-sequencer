@@ -31,9 +31,9 @@ window.WH = window.WH || {};
                 instrument: {
                     name: 'simpleosc',
                     preset: {
-                        oscType: WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
-                        oscFreq: WX.mtof(60),
-                        lfoType: WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
+                        oscType: 'sine',
+                        oscFreq: 440,
+                        lfoType: 'sine',
                         lfoRate: 1.0,
                         lfoDepth: 1.0
                     }
