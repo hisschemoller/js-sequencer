@@ -14,8 +14,9 @@ window.WH = window.WH || {};
      */
     function createTrack(specs) {
         var that,
+            conf = specs.conf,
             steps = [],
-            lengthInTicks = 4 * WH.conf.getPPQN(),
+            lengthInTicks = 4 * conf.getPPQN(),
 
             /**
              * Find events to be played within a time span

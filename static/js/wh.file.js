@@ -12,9 +12,12 @@ window.WH = window.WH || {};
     /**
      * @constructor
      */
-    function createFile() {
+    function createFile(specs) {
 
-        var that,
+        var that = specs.that,
+            arrangement = specs.arrangement,
+            studio = specs.studio,
+            transport = specs.transport,
             settings = {
                 projectName: 'project'
             },
@@ -37,9 +40,9 @@ window.WH = window.WH || {};
              */
             createNew = function(isRandom) {
                 var data = isRandom ? WH.createRandomizedProject() : WH.createProject();
-                WH.transport.setBPM(data.bpm);
-                WH.arrangement.setData(data.arrangement);
-                WH.studio.setData(data.racks);
+                transport.setBPM(data.bpm);
+                arrangement.setData(data.arrangement);
+                studio.setData(data.racks);
             },
 
             /**
@@ -50,9 +53,9 @@ window.WH = window.WH || {};
                 var data = localStorage.getItem(settings.projectName);
                 if (data) {
                     data = JSON.parse(data);
-                    WH.transport.setBPM(data.bpm);
-                    WH.arrangement.setData(data.arrangement);
-                    WH.studio.setData(data.racks);
+                    transport.setBPM(data.bpm);
+                    arrangement.setData(data.arrangement);
+                    studio.setData(data.racks);
                 } else {
                     console.error('No data in LocalStorage with name "' + settings.projectName + '"."');
                     return false;
@@ -75,15 +78,14 @@ window.WH = window.WH || {};
             save = function() {
 
                 var data = {
-                    bpm: WH.transport.getBPM(),
-                    arrangement: WH.arrangement.getData(),
-                    racks: WH.studio.getData()
+                    bpm: transport.getBPM(),
+                    arrangement: arrangement.getData(),
+                    racks: studio.getData()
                 }
 
                 localStorage.setItem(settings.projectName, JSON.stringify(data));
             };
         
-        that = {};
         that.createNew = createNew;
         that.loadFromStorage = loadFromStorage;
         that.autoSave = autoSave;
@@ -91,8 +93,6 @@ window.WH = window.WH || {};
         return that;
     }
 
-    /**
-     * Singleton
-     */
-    WH.file = createFile();
+    WH.createFile = createFile;
+    
 })(WH);

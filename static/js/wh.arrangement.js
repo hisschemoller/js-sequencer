@@ -13,8 +13,11 @@ window.WH = window.WH || {};
     /**
      * @description Create arrangement object.
      */
-    function createArrangement() {
-        var that,
+    function createArrangement(specs) {
+        var that = specs.that,
+            conf = specs.conf,
+            transport = specs.transport,
+            view = specs.view,
             patterns = [],
             patternIndex = 0,
             isSongMode = false,
@@ -38,8 +41,8 @@ window.WH = window.WH || {};
              */
             changePattern = function(index) {
                 patternIndex = index;
-                WH.View.setSelectedPattern(index);
-                WH.View.setSelectedSteps();
+                view.setSelectedPattern(index);
+                view.setSelectedSteps();
             },
 
             /**
@@ -48,7 +51,7 @@ window.WH = window.WH || {};
              */
             setData = function(data) {
                 var i = 0,
-                    patternCount = WH.conf.getPatternCount(),
+                    patternCount = conf.getPatternCount(),
                     songLength = data.song.length,
                     songPartData,
                     songPartDuration = 0,
@@ -59,7 +62,8 @@ window.WH = window.WH || {};
                 // create the patterns
                 for (i; i < patternCount; i++) {
                     patterns.push(WH.createPattern({
-                        data: data.patterns[i]
+                        data: data.patterns[i],
+                        conf: conf
                     }));
                 }
 
@@ -72,7 +76,7 @@ window.WH = window.WH || {};
                         songPartData.absoluteEnd = songPartEnd;
                         song.push(WH.createSongPart(songPartData));
                     }
-                    WH.View.setSong(song);
+                    view.setSong(song);
                 }
 
                 changePattern(0);
@@ -88,7 +92,7 @@ window.WH = window.WH || {};
                         song: []
                     },
                     i = 0,
-                    patternCount = WH.conf.getPatternCount(),
+                    patternCount = conf.getPatternCount(),
                     songLength = song.length;
 
                 // get pattern data
@@ -125,8 +129,8 @@ window.WH = window.WH || {};
                             if (songPartNextIndex >= song.length) {
                                 // the song ends here
                                 toggleSongMode();
-                                WH.transport.pause();
-                                WH.transport.rewind();
+                                transport.pause();
+                                transport.rewind();
                             } else {
                                 // there's a next song part to play, do nothing
                             }
@@ -157,7 +161,7 @@ window.WH = window.WH || {};
                             // scan the first bit of the new song part
                             patterns[patternIndex].scanEvents(song[songPartIndex].getStart(), end, playbackQueue);
                             // update the view
-                            WH.View.setActiveSongPart(songPartIndex);
+                            view.setActiveSongPart(songPartIndex);
                         } else {
                             // no new song part starts during this time span, do nothing
                         }
@@ -177,7 +181,7 @@ window.WH = window.WH || {};
             toggleSongMode = function() {
 
                 if (!song.length) {
-                    WH.DialogView({
+                    WH.createDialogView({
                         type: 'alert',
                         headerText: 'No song',
                         bodyText: 'There\'s no song yet to play. Please first create a song.'
@@ -186,11 +190,11 @@ window.WH = window.WH || {};
                 }
 
                 isSongMode = !isSongMode;
-                WH.View.updateSongMode(isSongMode);
+                view.updateSongMode(isSongMode);
 
                 if (isSongMode) {
-                    WH.transport.pause();
-                    WH.transport.rewind();
+                    transport.pause();
+                    transport.rewind();
                     songPartIndex = 0;
                     songPartEnd = song[songPartIndex].getEnd();
                     songPartNextIndex = 0;
@@ -217,12 +221,11 @@ window.WH = window.WH || {};
              * @param {Number} index Index of the element to set as selected.
              */
             setSelectedPattern = function(index) {
-                patternIndex = Math.max(0, Math.min(index, WH.conf.getPatternCount()));
-                WH.View.setSelectedPattern(patternIndex);
-                WH.View.setSelectedSteps();
+                patternIndex = Math.max(0, Math.min(index, conf.getPatternCount()));
+                view.setSelectedPattern(patternIndex);
+                view.setSelectedSteps();
             };
         
-        that = {};
         that.setData = setData;
         that.getData = getData;
         that.scanEvents = scanEvents;
@@ -232,6 +235,6 @@ window.WH = window.WH || {};
         return that;
     }
     
-    WH.arrangement = createArrangement();
+    WH.createArrangement = createArrangement;
 
 })(WH);

@@ -3,8 +3,8 @@ window.WH = window.WH || {};
 
 (function (WH) {
     
-    function createCore() {
-        var that,
+    function createCore(specs) {
+        var that = specs.that,
             ctx,
             
             /**
@@ -172,8 +172,6 @@ window.WH = window.WH || {};
                 return ctx.createChannelMerger.apply(ctx, arguments);
             };
         
-        that = {};
-        
         createAudioContext();
         
         that.getNow = getNow;
@@ -198,6 +196,6 @@ window.WH = window.WH || {};
     /**
      * Singleton
      */
-    WH.core = createCore();
+    WH.createCore = createCore;
     
 })(WH);

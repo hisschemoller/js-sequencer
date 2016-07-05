@@ -8,14 +8,18 @@ window.WH = window.WH || {};
 
 (function (WH) {
 
-    function createPluginManager() {
-        var that,
+    function createPluginManager(specs) {
+        var that = specs.that,
+            conf = specs.conf,
+            core = specs.core
             pluginIdCounter = 0,
             createPlugin = function(pluginName) {
                 // try {
                     if (WH.plugins && WH.plugins[pluginName]) {
                         var plugin = WH.plugins[pluginName].create({
-                            id: pluginIdCounter
+                            id: pluginIdCounter,
+                            conf: conf,
+                            core: core
                         });
                         pluginIdCounter += 1;
                         return plugin;
@@ -33,13 +37,11 @@ window.WH = window.WH || {};
                 //     });
                 // }
             };
-
-        that = {};
+            
         that.createPlugin = createPlugin;
         return that;
     }
 
-    // singleton
-    WH.pluginManager = createPluginManager();
+    WH.createPluginManager = createPluginManager;
 
 })(WH);

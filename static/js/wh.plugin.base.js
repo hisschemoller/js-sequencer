@@ -99,6 +99,8 @@ window.WH = window.WH || {};
             };
 
         my = my || {};
+        my.conf = specs.conf;
+        my.core = specs.core;
         my.id = id;
         my.defineParams = defineParams;
         
@@ -122,8 +124,8 @@ window.WH = window.WH || {};
     function createGeneratorPlugin(specs, my) {
 
         var that,
-            output = WH.core.createGain(),
-            outlet = WH.core.createGain();
+            output = specs.core.createGain(),
+            outlet = specs.core.createGain();
 
         my = my || {};
         my.output = output;
@@ -140,10 +142,10 @@ window.WH = window.WH || {};
     function createProcessorPlugin(specs, my) {
 
         var that,
-            input = WH.core.createGain(),
-            inlet = WH.core.createGain(),
-            output = WH.core.createGain(),
-            outlet = WH.core.createGain();
+            input = specs.core.createGain(),
+            inlet = specs.core.createGain(),
+            output = specs.core.createGain(),
+            outlet = specs.core.createGain();
 
         my = my || {};
         my.input = input;
@@ -290,8 +292,8 @@ window.WH = window.WH || {};
             }
         });
         
-        panner = WH.core.createPanner();
-        soloMute = WH.core.createGain();
+        panner = my.core.createPanner();
+        soloMute = my.core.createGain();
         my.input.to(soloMute).to(panner).to(my.output);
         level = soloMute.gain.value;
         
@@ -320,12 +322,12 @@ window.WH = window.WH || {};
             lfoOsc,
             lfoGain,
             noteOn = function(pitch, velocity, time) {
-                time = (time || WH.core.getNow());
+                time = (time || my.core.getNow());
                 amp.gain.set(velocity / 127, [time, 0.02], 3);
                 osc.frequency.set(WH.mtof(pitch), time, 0);
             },
             noteOff = function(pitch, time) {
-                time = (time || WH.core.getNow());
+                time = (time || my.core.getNow());
                 amp.gain.set(0, time);
             };
 
@@ -358,13 +360,13 @@ window.WH = window.WH || {};
                 type: 'itemized',
                 name: 'Osc Type',
                 default: 'square',
-                model: WH.conf.getModel('waveforms')
+                model:  my.conf.getModel('waveforms')
             },
             lfotype: {
                 type: 'itemized',
                 name: 'LFO Type',
                 default: 'sine',
-                model: WH.conf.getModel('waveforms')
+                model:  my.conf.getModel('waveforms')
             },
             lforate: {
                 type: 'generic',
@@ -384,10 +386,10 @@ window.WH = window.WH || {};
             }
         });
         
-        lfoOsc = WH.core.createOsc();
-        lfoGain = WH.core.createGain();
-        osc = WH.core.createOsc();
-        amp = WH.core.createGain();
+        lfoOsc = my.core.createOsc();
+        lfoGain = my.core.createGain();
+        osc = my.core.createOsc();
+        amp = my.core.createGain();
         osc.to(amp).to(my.output);
         lfoOsc.to(lfoGain).to(osc.detune);
         osc.start(0);

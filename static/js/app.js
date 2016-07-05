@@ -17,10 +17,67 @@ $(function() {
      * Application startup.
      */
     function startApp() {
-        WH.View.setup();
-        WH.studio.setup();
-        if (!WH.file.loadFromStorage()) {
-            WH.file.createNew();
+        // create objects that will be the modules of the app
+        var arrangement = {},
+            conf = {},
+            core = {},
+            file = {},
+            pluginManager = {},
+            studio = {},
+            transport = {};
+        
+        // create old style modules
+        var view = WH.createView({
+                arrangement: arrangement,
+                conf: conf,
+                core: core,
+                file: file,
+                transport: transport
+            });
+        
+        // add functionality and inject dependencies
+        WH.createArrangement({
+            that: arrangement,
+            conf: conf,
+            transport: transport,
+            view: view
+        });
+        WH.createConf({
+            that: conf
+        });
+        WH.createCore({
+            that: core
+        });
+        WH.createFile({
+            that: file,
+            arrangement: arrangement,
+            studio: studio,
+            transport: transport
+        });
+        WH.createPluginManager({
+            that: pluginManager,
+            conf: conf,
+            core: core
+        });
+        WH.createStudio({
+            that: studio,
+            conf: conf,
+            core: core,
+            pluginManager: pluginManager,
+            view: view
+        });
+        WH.createTransport({
+            that: transport,
+            arrangement: arrangement,
+            core: core,
+            studio: studio,
+            view: view
+        });
+        
+        view.setup();
+        studio.setup();
+        if (!file.loadFromStorage()) {
+            file.createNew();
         }
         
         // console.log('All properties in namespace WH:');

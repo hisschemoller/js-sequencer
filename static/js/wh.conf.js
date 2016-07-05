@@ -10,9 +10,9 @@ window.WH = window.WH || {};
     /**
      * @constructor
      */
-    function createConf() {
+    function createConf(specs) {
 
-        var that = {},
+        var that = specs.that,
             patternCount = 16,
             trackCount = 4,
             patternDurationInBeats = 4,
@@ -65,5 +65,5 @@ window.WH = window.WH || {};
     /** 
      * Singleton
      */
-    WH.conf = createConf();
+    WH.createConf = createConf;
 })(WH);

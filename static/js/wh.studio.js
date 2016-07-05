@@ -12,9 +12,13 @@ window.WH = window.WH || {};
     /**
      * @constructor
      */
-    function createStudio() {
+    function createStudio(specs) {
         
-        var that,
+        var that = specs.that,
+            conf = specs.conf,
+            core = specs.core,
+            pluginManager = specs.pluginManager,
+            view = specs.view,
             
             /**
              * Channel plugins that form a mixer.
@@ -54,20 +58,20 @@ window.WH = window.WH || {};
              */
             setup = function() {
                 var i = 0,
-                    n = WH.conf.getTrackCount(),
+                    n = conf.getTrackCount(),
                     channel;
 
                 instruments = new Array(n);
 
                 for (i; i < n; i++) {
-                    var channel = WH.pluginManager.createPlugin('channel');
+                    var channel = pluginManager.createPlugin('channel');
                     channel.setSoloCallback(onSoloChange);
-                    channel.to(WH.core.getMainOut());
+                    channel.to(core.getMainOut());
                     channels.push(channel);
-                    WH.View.setChannel(channel, i);
+                    view.setChannel(channel, i);
                 }
 
-                WH.View.setSelectedChannel(channels[0].getId());
+                view.setSelectedChannel(channels[0].getId());
             },
 
             /**
@@ -79,7 +83,7 @@ window.WH = window.WH || {};
                     instrument,
                     channel,
                     i = 0,
-                    trackCount = WH.conf.getTrackCount(),
+                    trackCount = conf.getTrackCount(),
                     param,
                     soloedChannel;
 
@@ -87,7 +91,7 @@ window.WH = window.WH || {};
 
                     // remove the old instrument, if it exists
                     if (instruments[i]) {
-                        WH.View.clearInstrument(instruments[i], i);
+                        view.clearInstrument(instruments[i], i);
                         instruments[i].cut();
                         instruments[i] = null;
                     }
@@ -97,12 +101,12 @@ window.WH = window.WH || {};
 
                     // add the instrument
                     if (rackData.instrument && rackData.instrument.name) {
-                        instrument = WH.pluginManager.createPlugin(rackData.instrument.name);
+                        instrument = pluginManager.createPlugin(rackData.instrument.name);
                         if (instrument) {
                             instrument.setPreset(rackData.instrument.preset);
                             instrument.to(channel);
                             instruments[i] = instrument;
-                            WH.View.setInstrument(instrument, i);
+                            view.setInstrument(instrument, i);
                         }
                     }
 
@@ -113,7 +117,7 @@ window.WH = window.WH || {};
                         soloedChannel = channel;
                     }
 
-                    WH.View.setPluginPreset(channel.getId(), channel.getPreset());
+                    view.setPluginPreset(channel.getId(), channel.getPreset());
                 }
 
                 // if there's soloed channels set the solo after all presets are set
@@ -198,11 +202,10 @@ window.WH = window.WH || {};
 
                 if (plugin) {
                     plugin.setParamValue(paramKey, paramValue);
-                    WH.View.updatePluginControl(pluginId, paramKey, plugin.getParam(paramKey));
+                    view.updatePluginControl(pluginId, paramKey, plugin.getParam(paramKey));
                 }
             };
         
-        that = {};
         that.onSoloChange = onSoloChange;
         that.setup = setup;
         that.setData = setData;
@@ -211,9 +214,6 @@ window.WH = window.WH || {};
         that.setParameter = setParameter;
         return that;
     }
-
-    /**
-     * Singleton
-     */
-    WH.studio = createStudio();
+    
+    WH.createStudio = createStudio;
 })(WH);

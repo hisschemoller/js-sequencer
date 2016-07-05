@@ -10,10 +10,11 @@ window.WH = window.WH || {};
     /**
      * @constructor
      */
-    function StepsView() {
-
+    function StepsView(specs) {
         // private variables
-        var settings = {
+        var arrangement = specs.arrangement,
+            conf = specs.conf,
+            settings = {
                 stepClass: '.step'
             },
 
@@ -50,7 +51,7 @@ window.WH = window.WH || {};
                     stepEl,
                     stepEls;
 
-                for (i; i < WH.conf.getStepCount(); i++) {
+                for (i; i < conf.getStepCount(); i++) {
                     stepEl = elements.templates.step.children().first().clone();
                     stepEl.find(settings.ctrlTextClass).text(i + 1);
                     elements.stepsContainer.append(stepEl);
@@ -74,7 +75,7 @@ window.WH = window.WH || {};
          * @param {Number} index Channel / track index.
          */
         this.setSelected = function(index) {
-            var steps = WH.arrangement.getTrackSteps(index),
+            var steps = arrangement.getTrackSteps(index),
                 channelColorClass = settings.channelColorClasses[index],
                 i = 0,
                 n = steps ? steps.length : 0;
@@ -115,7 +116,7 @@ window.WH = window.WH || {};
     /**
      * Exports
      */
-    WH.StepsView = function() {
-        return new StepsView();
+    WH.StepsView = function(specs) {
+        return new StepsView(specs);
     };
 })(WH);

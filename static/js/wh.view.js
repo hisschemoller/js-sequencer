@@ -12,10 +12,15 @@ window.WH = window.WH || {};
     /**
      * @constructor
      */
-    function View() {
-
+    function View(specs) {
+        
         // private variables
-        var settings = {
+        var arrangement = specs.arrangement,
+            conf = specs.conf,
+            core = specs.core,
+            file = specs.file,
+            transport = specs.transport,
+            settings = {
                 channelSelectClass: '.channel__select',
                 rackClass: '.rack',
                 rackGeneratorContainerClass: '.rack__generator',
@@ -86,14 +91,26 @@ window.WH = window.WH || {};
              */
             init = function() {
                 var i = 0,
-                    n = WH.conf.getTrackCount(),
+                    n = conf.getTrackCount(),
                     rackEl;
 
-                controls = WH.ControlsView();
+                controls = WH.ControlsView({
+                    arrangement: arrangement,
+                    conf: conf,
+                    file: file,
+                    transport: transport,
+                    view: this
+                });
 
-                stepsView = WH.StepsView();
+                stepsView = WH.StepsView({
+                    arrangement: arrangement,
+                    conf: conf
+                });
 
-                patterns = WH.PatternView();
+                patterns = WH.PatternView({
+                    arrangement: arrangement,
+                    conf: conf
+                });
                 
                 song = WH.createSongView();
 
@@ -179,7 +196,7 @@ window.WH = window.WH || {};
 
             for (i; i < n; i++) {
                 step = playbackQueue[i];
-                start = Math.max(0, WH.core.getNow() - step.getAbsStart()) * 1000;
+                start = Math.max(0, core.getNow() - step.getAbsStart()) * 1000;
 
                 if (start != oldStart && stepArray.length > 0) {
                     delayUpdateSequencerActivity(oldStart, stepArray);
@@ -391,7 +408,9 @@ window.WH = window.WH || {};
     }
 
     /**
-     * Singleton
+     * Exports
      */
-    WH.View = new View();
+    WH.createView = function(specs) {
+        return new View(specs);
+    };
 })(WH);

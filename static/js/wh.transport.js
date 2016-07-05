@@ -32,8 +32,12 @@ window.WH = window.WH || {};
     /**
      * @description Creates a transport object.
      */
-    function createTransport() {
-        var that,
+    function createTransport(specs) {
+        var that = specs.that,
+            arrangement = specs.arrangement,
+            core = specs.core,
+            studio = specs.studio,
+            view = specs.view,
             isRunning = false,
             isLoop = false,
             now = 0,
@@ -82,7 +86,7 @@ window.WH = window.WH || {};
              */
             setPlayheadPosition = function(position) {
                 now = position;
-                absOrigin = WH.core.getNow() - now;
+                absOrigin = core.getNow() - now;
             },
 
             /**
@@ -93,7 +97,7 @@ window.WH = window.WH || {};
                     needsScan = false;
 
                     // fill playbackQueue with arrangement events 
-                    WH.arrangement.scanEvents(sec2tick(scanStart), sec2tick(scanEnd), playbackQueue);
+                    arrangement.scanEvents(sec2tick(scanStart), sec2tick(scanEnd), playbackQueue);
 
                     if (playbackQueue.length) {
                         // adjust event timing
@@ -108,8 +112,8 @@ window.WH = window.WH || {};
                         }
 
                         // play the events with sound generating plugin instruments
-                        WH.studio.playEvents(playbackQueue);
-                        WH.View.onSequencerEvents(playbackQueue);
+                        studio.playEvents(playbackQueue);
+                        view.onSequencerEvents(playbackQueue);
                     }
                 }
             },
@@ -142,7 +146,7 @@ window.WH = window.WH || {};
             run = function () {
                 if (isRunning) {
                     // add time elapsed to now_t by checking now_ac
-                    var absNow = WH.core.getNow();
+                    var absNow = core.getNow();
                     now += (absNow - absLastNow);
                     absLastNow = absNow;
                     // scan notes in range
@@ -167,14 +171,14 @@ window.WH = window.WH || {};
              */
             start = function () {
                 // Arrange time references.
-                var absNow = WH.core.getNow();
+                var absNow = core.getNow();
                 absOrigin = absNow - now;
                 absLastNow = absNow;
                 // Reset scan range.
                 resetScanRange();
                 // Transport is running.
                 isRunning = true;
-                WH.View.updateTransportState(isRunning);
+                view.updateTransportState(isRunning);
             },
 
             /**
@@ -183,7 +187,7 @@ window.WH = window.WH || {};
             pause = function () {
                 isRunning = false;
                 flushPlaybackQueue();
-                WH.View.updateTransportState(isRunning);
+                view.updateTransportState(isRunning);
             },
 
             /**
@@ -284,7 +288,7 @@ window.WH = window.WH || {};
                 now *= factor;
                 loopStart *= factor;
                 loopEnd *= factor;
-                absOrigin = WH.core.getNow() - now;
+                absOrigin = core.getNow() - now;
             },
 
             /**
@@ -294,8 +298,6 @@ window.WH = window.WH || {};
             getBPM = function () {
                 return bpm;
             };
-        
-        that = {};
         
         setBPM(bpm);
         run();
@@ -311,6 +313,6 @@ window.WH = window.WH || {};
     /**
      * Singleton
      */
-    WH.transport = createTransport();
+    WH.createTransport = createTransport;
 
 })(WH);

@@ -10,10 +10,12 @@ window.WH = window.WH || {};
     /**
      * @constructor
      */
-    function PatternView() {
+    function PatternView(specs) {
 
         // private variables
-        var settings = {
+        var arrangement = specs.arrangement,
+            conf = specs.conf,
+            settings = {
                 patternClass: '.pattern'
             },
 
@@ -54,7 +56,7 @@ window.WH = window.WH || {};
                 var i = 0,
                     patternEl;
 
-                for (i; i < WH.conf.getPatternCount(); i++) {
+                for (i; i < conf.getPatternCount(); i++) {
                     patternEl = elements.templates.pattern.children().first().clone();
                     patternEl.find(settings.ctrlTextClass).text(String.fromCharCode(i + 65).toLowerCase());
                     elements.container.append(patternEl);
@@ -96,7 +98,7 @@ window.WH = window.WH || {};
     /**
      * Exports
      */
-    WH.PatternView = function() {
-        return new PatternView();
+    WH.PatternView = function(specs) {
+        return new PatternView(specs);
     };
 })(WH);
