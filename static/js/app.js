@@ -11,14 +11,12 @@
  */
 $(function() {
 
-    var overlay = $('#overlay-startup');
+    
 
     /**
      * Application startup.
      */
     function startApp() {
-        // remove the iOS audio startup overlay
-        overlay.remove();
         WH.View.setup();
         WH.studio.setup();
         if (!WH.file.loadFromStorage()) {
@@ -38,15 +36,15 @@ $(function() {
      * So for iOS an overlay is shown for the user to click.
      * @see https://paulbakaus.com/tutorials/html5/web-audio-on-ios/
      */
-    function unlockIOSAudio() {
-        // remove event listener
-        overlay.off('touchend', unlockIOSAudio);
+    function unlockIOSAudio(core, overlay) {
+        // event listener did its job
+        overlay.removeEventListener('touchend', unlockIOSAudio);
 
         // create an empty buffer
-        var buffer = WX._ctx.createBuffer(1, 1, 22050);
-        var source = WX._ctx.createBufferSource();
+        var buffer = core.createBuffer(1, 1, 22050);
+        var source = core.createBufferSource();
         source.buffer = buffer;
-        source.connect(WX._ctx.destination);
+        source.connect(core.getMainOut());
 
         // play the empty buffer
         if (typeof source.start === 'undefined') {
@@ -57,8 +55,9 @@ $(function() {
 
         // setup a timeout to check that we are unlocked on the next event loop
         var interval = setInterval(function() {
-            if (WX.now > 0) {
+            if (core.getNow() > 0) {
                 clearInterval(interval);
+                overlay.parentNode.removeChild(overlay);
                 startApp();
             }
         }, 100);
@@ -66,7 +65,11 @@ $(function() {
 
     // show click overlay on iOS devices
     if(/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        overlay.on('touchend', unlockIOSAudio).show();
+        var el = document.getElementById('overlay-startup');
+        el.addEventListener('touchend', function() {
+            unlockIOSAudio(WH.core, this);
+        });
+        el.style.display = 'block';
     } else {
         startApp();
     }
