@@ -122,8 +122,8 @@ window.WH = window.WH || {};
     function createGeneratorPlugin(specs, my) {
 
         var that,
-            output = WH.core.getGain(),
-            outlet = WH.core.getGain();
+            output = WH.core.createGain(),
+            outlet = WH.core.createGain();
 
         my = my || {};
         my.output = output;
@@ -140,10 +140,10 @@ window.WH = window.WH || {};
     function createProcessorPlugin(specs, my) {
 
         var that,
-            input = WH.core.getGain(),
-            inlet = WH.core.getGain(),
-            output = WH.core.getGain(),
-            outlet = WH.core.getGain();
+            input = WH.core.createGain(),
+            inlet = WH.core.createGain(),
+            output = WH.core.createGain(),
+            outlet = WH.core.createGain();
 
         my = my || {};
         my.input = input;
@@ -290,8 +290,8 @@ window.WH = window.WH || {};
             }
         });
         
-        panner = WH.core.getPanner();
-        soloMute = WH.core.getGain();
+        panner = WH.core.createPanner();
+        soloMute = WH.core.createGain();
         my.input.to(soloMute).to(panner).to(my.output);
         level = soloMute.gain.value;
         
@@ -384,10 +384,10 @@ window.WH = window.WH || {};
             }
         });
         
-        lfoOsc = WH.core.getOsc();
-        lfoGain = WH.core.getGain();
-        osc = WH.core.getOsc();
-        amp = WH.core.getGain();
+        lfoOsc = WH.core.createOsc();
+        lfoGain = WH.core.createGain();
+        osc = WH.core.createOsc();
+        amp = WH.core.createGain();
         osc.to(amp).to(my.output);
         lfoOsc.to(lfoGain).to(osc.detune);
         osc.start(0);

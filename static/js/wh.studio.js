@@ -62,7 +62,7 @@ window.WH = window.WH || {};
                 for (i; i < n; i++) {
                     var channel = WH.pluginManager.createPlugin('channel');
                     channel.setSoloCallback(onSoloChange);
-                    channel.to(WH.core.getMasterOut());
+                    channel.to(WH.core.getMainOut());
                     channels.push(channel);
                     WH.View.setChannel(channel, i);
                 }

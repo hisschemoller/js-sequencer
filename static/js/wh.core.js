@@ -40,22 +40,26 @@ window.WH = window.WH || {};
              */
             getSampleRate = function() {
                 return ctx.sampleRate;
+            },
+            
+            getMainOut = function() {
+                return ctx.destination;
             }, 
             
-            getGain = function() {
+            createGain = function() {
                 return ctx.createGain();
             }, 
             
-            getOsc = function() {
+            createOsc = function() {
                 return ctx.createOscillator();
             }, 
             
-            getPanner = function() {
+            createPanner = function() {
                 return ctx.createPanner();
-            },
+            }, 
             
-            getMasterOut = function() {
-                return ctx.destination;
+            createBufferSource = function() {
+                return ctx.createBufferSource();
             };
         
         that = {};
@@ -63,10 +67,10 @@ window.WH = window.WH || {};
         createAudioContext();
         
         that.getNow = getNow;
-        that.getGain = getGain;
-        that.getOsc = getOsc;
-        that.getPanner = getPanner;
-        that.getMasterOut = getMasterOut;
+        that.getMainOut = getMainOut;
+        that.createGain = createGain;
+        that.createOsc = createOsc;
+        that.createPanner = createPanner;
         return that;
     }
 
