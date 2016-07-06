@@ -2,8 +2,8 @@
     box-sizing: border-box;
 }
 body {
-    background-color: #333;
-    color: #ccc;
+    background-color: #ddd;
+    color: #aaa;
     font-family: 'PT Sans Narrow', sans-serif;
     font-size: 16px;
     margin: 0;
@@ -12,15 +12,15 @@ body {
 main {
     margin: auto;
     height: 100vh;
-    max-height: 640px;
+    max-height: 480px;
     min-height: 320px;
-    max-width: 640px;
+    max-width: 480px;
     min-width: 320px;
     position: relative;
 }
 button {
-    background-color: #666;
-    border: none;
+    background-color: #ddd;
+    border: 2px solid #fff;
     color: #ccc;
     cursor: pointer;
     display: inline-block;
@@ -29,8 +29,8 @@ button {
     padding: 8px 20px
 }
 button:hover {
-    background-color: #888;
-    color: #fff;
+    background-color: #eee;
+    color: #ccc;
 }
 button:focus {
     outline: 0;
@@ -92,8 +92,8 @@ button:focus {
 }
 .tile,
 .ctrl {
-    background-color: #666;
-    border: 1px solid #333;
+    background-color: #ddd;
+    border: 1px solid #fff;
     display: block;
     float: left;
     height: 40px;
@@ -135,7 +135,7 @@ button:focus {
         .ctrl__label {}
         .ctrl__text {
             bottom: 0;
-            color: #eee;
+            color: #fff;
             line-height: 40px;
             left: 0;
             position: absolute;
@@ -143,7 +143,7 @@ button:focus {
             top: 0;
         }
         .ctrl__name {
-            color: #eee;
+            color: #fff;
             font-size: 12px;
             left: 0;
             position: absolute;
@@ -151,7 +151,7 @@ button:focus {
             top: 3px;
         }
         .ctrl__value {
-            color: #eee;
+            color: #fff;
             font-size: 17px;
             left: 0;
             position: absolute;
@@ -168,6 +168,10 @@ button:focus {
     .channel.is-selected {
         background-color: #888;
     }
+        .channel-selects {
+            border-left: 1px solid #fff;
+            border-right: 1px solid #fff;
+        }
         .channel__select {}
         .ctrl--channel-select {
             width: 12.5%;
@@ -212,7 +216,10 @@ button:focus {
             .channel__controls .plugin__control:nth-child(2) {
                 width: 50%;
             }*/
-.steps {}
+.steps {
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+}
     .step {
         width: 12.5%;
     }
@@ -220,8 +227,11 @@ button:focus {
         clear: left;
     }
     .step.is-active {
-        background-color: #777;
+        background-color: #eee;
     }
+        .step.is-active .ctrl__text {
+            color: #ccc;
+        }
         .step > .ctrl__background {
             opacity: 0.2;
         }
@@ -229,8 +239,8 @@ button:focus {
             display: none;
             opacity: 0.6;
         }
-        .step.is-selected  .ctrl__name {
-            color: #fff;
+        .step.is-selected .ctrl__name {
+            color: #ccc;
         }
 .patterns {
     display: none;
@@ -332,7 +342,11 @@ button:focus {
                     .plugin__control .ctrl {
                         float: none;
                     }
-.tabs {}
+.tabs {
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+    border-top: 1px solid #fff;
+}
     .ctrl--tab {
         width: 25%;
     }
@@ -348,6 +362,7 @@ button:focus {
         }
 
 .transport {
+    border: 1px solid #fff;
     bottom: 0;
     height: 40px;
     left: 0;
@@ -358,7 +373,7 @@ button:focus {
         width: 25%;
     }
     .ctrl--transport .ctrl__hilight {
-        background-color: #999;
+        background-color: #fff;
         display: none;
         opacity: 0.6
     }
@@ -370,7 +385,7 @@ button:focus {
         display: none;
     }*/
 .overlay {
-    background-color: #333;
+    background-color: #ddd;
     bottom: 0;
     display: none;
     left: 0;
@@ -446,7 +461,7 @@ button:focus {
             margin: 10px 2px 10px 2px;
         }
         .dialog__button:hover {
-            background-color: #888;
+            background-color: #eee;
         }
 #templates {
     display: none;
