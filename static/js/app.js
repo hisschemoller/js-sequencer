@@ -32,6 +32,7 @@ $(function() {
                 conf: conf,
                 core: core,
                 file: file,
+                studio: studio,
                 transport: transport
             });
         
@@ -51,6 +52,7 @@ $(function() {
         WH.createFile({
             that: file,
             arrangement: arrangement,
+            conf: conf,
             studio: studio,
             transport: transport
         });

@@ -7,7 +7,7 @@ window.WH = window.WH || {};
 
 (function (WH) {
 
-    function pluginView(plugin, containerEl, channelIndex) {
+    function pluginView(plugin, containerEl, channelIndex, studio, file) {
 
             /**
              * Object settings
@@ -242,8 +242,8 @@ window.WH = window.WH || {};
                     paramKey = controlEl.data(settings.data.paramKey),
                     paramValue = !controlEl.hasClass(settings.selectedClass);
 
-                WH.studio.setParameter(e.data.plugin.getId(), paramKey, paramValue);
-                WH.file.autoSave();
+                studio.setParameter(e.data.plugin.getId(), paramKey, paramValue);
+                file.autoSave();
             },
 
             /**
@@ -295,7 +295,7 @@ window.WH = window.WH || {};
                 elements.overlayCtrlGeneric.hide();
                 elements.app.off(self.eventType.move, onGenericOverlayTouchMove);
                 elements.app.off(self.eventType.end, onGenericOverlayTouchEnd);
-                WH.file.autoSave();
+                file.autoSave();
             },
 
             /**
@@ -315,7 +315,7 @@ window.WH = window.WH || {};
                 }
                 
                 if (e.data.isEnabled) {
-                    WH.studio.setParameter(e.data.pluginId, e.data.paramKey, value);
+                    studio.setParameter(e.data.pluginId, e.data.paramKey, value);
                 }
             },
 
@@ -375,7 +375,7 @@ window.WH = window.WH || {};
                 elements.overlayCtrlItemized.hide();
                 elements.app.off(self.eventType.move, onItemizedOverlayTouchMove);
                 elements.app.off(self.eventType.end, onItemizedOverlayTouchEnd);
-                WH.file.autoSave();
+                file.autoSave();
             },
 
             /**
@@ -402,7 +402,7 @@ window.WH = window.WH || {};
                         e.data.itemEls[newIndex].className += ' ' + settings.activeClass;
                     }
                     e.data.changedIndex = newIndex;
-                    WH.studio.setParameter(e.data.pluginId, e.data.paramKey, e.data.model[newIndex].value);
+                    studio.setParameter(e.data.pluginId, e.data.paramKey, e.data.model[newIndex].value);
                 }
             };
 
@@ -452,8 +452,8 @@ window.WH = window.WH || {};
     /**
      * Exports
      */
-    WH.PluginView = function(plugin, containerEl, channelIndex) {
-        return new pluginView(plugin, containerEl, channelIndex);
+    WH.PluginView = function(plugin, containerEl, channelIndex, studio, file) {
+        return new pluginView(plugin, containerEl, channelIndex, studio, file);
     };
 
 })(WH);

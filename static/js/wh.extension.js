@@ -59,8 +59,7 @@ AudioParam.prototype.cancel = AudioParam.prototype.cancelScheduledValues;
  *   2 = exponential, 3 = target value [start, time constant].
  * @see  http://www.w3.org/TR/webaudio/#methodsandparams-AudioParam-section
  */
-AudioParam.prototype.set = function (value, time, rampType) {
-    var now = WH.core.getNow();
+AudioParam.prototype.set = function (value, now, time, rampType) {
     switch (rampType) {
         case 0:
         case undefined:
@@ -91,7 +90,7 @@ AudioParam.prototype.set = function (value, time, rampType) {
 
 /**
  * Object.assign polyfill.
- * Used by Safari iOS.
+ * Used by Safari iOS v7.
  * @see https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
  */
 if (typeof Object.assign != 'function') {

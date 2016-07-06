@@ -322,13 +322,13 @@ window.WH = window.WH || {};
             lfoOsc,
             lfoGain,
             noteOn = function(pitch, velocity, time) {
-                time = (time || my.core.getNow());
-                amp.gain.set(velocity / 127, [time, 0.02], 3);
-                osc.frequency.set(WH.mtof(pitch), time, 0);
+                time = (time || amp.context.currentTime);
+                amp.gain.set(velocity / 127, amp.context.currentTime, [time, 0.02], 3);
+                osc.frequency.set(WH.mtof(pitch), osc.context.currentTime, time, 0);
             },
             noteOff = function(pitch, time) {
-                time = (time || my.core.getNow());
-                amp.gain.set(0, time);
+                time = (time || amp.context.currentTime);
+                amp.gain.set(0, amp.context.currentTime, time);
             };
 
         my = my || {};
@@ -347,10 +347,10 @@ window.WH = window.WH || {};
             lfoOsc.type = value;
         };
         my.$lforate = function (value, time, rampType) {
-            lfoOsc.frequency.set(value, time, rampType);
+            lfoOsc.frequency.set(value, lfoOsc.context.currentTime, time, rampType);
         };
         my.$lfodepth = function (value, time, rampType) {
-            lfoGain.gain.set(value, time, rampType);
+            lfoGain.gain.set(value, lfoGain.context.currentTime, time, rampType);
         };
         
         that = WH.createGeneratorPlugin(specs, my);

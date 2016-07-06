@@ -7,13 +7,14 @@ window.WH = window.WH || {};
 
 (function (WH) {
 
-    function createRandomizedProject() {
+    function createRandomizedProject(specs) {
 
         // private variables
-        var patternCount = WH.conf.getPatternCount(),
-            trackCount = WH.conf.getTrackCount(),
-            stepCount = WH.conf.getStepCount(),
-            stepDuration = Math.floor( WH.conf.getPPQN() / WH.conf.getStepsPerBeat() ),
+        var conf = specs.conf,
+            patternCount = conf.getPatternCount(),
+            trackCount = conf.getTrackCount(),
+            stepCount = conf.getStepCount(),
+            stepDuration = Math.floor(conf.getPPQN() / conf.getStepsPerBeat()),
             pentatonicMinScale = [0, 3, 5, 6, 7, 10],
             data = {
                 bpm: 100 + Math.floor(Math.random() * 20),

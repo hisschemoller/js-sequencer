@@ -140,7 +140,7 @@ window.WH = window.WH || {};
                     case 2:
                         // new
                         transport.pause();
-                        WH.DialogView({
+                        WH.createDialogView({
                             headerText: 'New Project',
                             bodyText: 'Are you sure? If you create a new project, the current project will be lost.',
                             primaryCallback: function() {
@@ -151,7 +151,7 @@ window.WH = window.WH || {};
                     case 3:
                         // random
                         transport.pause();
-                        WH.DialogView({
+                        WH.createDialogView({
                             headerText: 'Random Project',
                             bodyText: 'Are you sure? If you create a new random project, the current project will be lost.',
                             primaryCallback: function() {

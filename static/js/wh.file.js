@@ -16,6 +16,7 @@ window.WH = window.WH || {};
 
         var that = specs.that,
             arrangement = specs.arrangement,
+            conf = specs.conf,
             studio = specs.studio,
             transport = specs.transport,
             settings = {
@@ -39,7 +40,10 @@ window.WH = window.WH || {};
              * @param {Boolean} isRandom If true create a randomized project.
              */
             createNew = function(isRandom) {
-                var data = isRandom ? WH.createRandomizedProject() : WH.createProject();
+                var specs = {
+                        conf: conf
+                    },
+                    data = isRandom ? WH.createRandomizedProject(specs) : WH.createProject(specs);
                 transport.setBPM(data.bpm);
                 arrangement.setData(data.arrangement);
                 studio.setData(data.racks);

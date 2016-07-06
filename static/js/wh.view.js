@@ -19,6 +19,7 @@ window.WH = window.WH || {};
             conf = specs.conf,
             core = specs.core,
             file = specs.file,
+            studio = specs.studio,
             transport = specs.transport,
             settings = {
                 channelSelectClass: '.channel__select',
@@ -93,7 +94,7 @@ window.WH = window.WH || {};
                 var i = 0,
                     n = conf.getTrackCount(),
                     rackEl;
-
+                    
                 controls = WH.ControlsView({
                     arrangement: arrangement,
                     conf: conf,
@@ -132,7 +133,7 @@ window.WH = window.WH || {};
                 controls.addTransportControls(elements.transportContainer, settings.transport);
 
                 self.setSelectedTab(0);
-            },
+            }.bind(this),
 
             /**
              * Delay screen update to keep it synchronised with the audio.
@@ -312,7 +313,7 @@ window.WH = window.WH || {};
             var pluginView,
                 containerEl = elements.channelContainer;
 
-            pluginViews[channel.getId()] = WH.PluginView(channel, containerEl, index);
+            pluginViews[channel.getId()] = WH.PluginView(channel, containerEl, index, studio, file);
         };
 
         /**
@@ -326,7 +327,7 @@ window.WH = window.WH || {};
                 rackEl = $(elements.racks[index]),
                 containerEl = rackEl.find(settings.rackGeneratorContainerClass);
 
-            pluginViews[instrument.getId()] = WH.PluginView(instrument, containerEl, index);
+            pluginViews[instrument.getId()] = WH.PluginView(instrument, containerEl, index, studio, file);
         };
 
         /**
