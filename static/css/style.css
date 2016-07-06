@@ -261,6 +261,10 @@ button:focus {
         .song-part.is-active .ctrl__text {
             color: #fff;
         }
+        .song-part__filler,
+        .song__header-filler {
+            width: 62.5%;
+        }
 .rack {
     display: none;
 }
@@ -383,7 +387,12 @@ button:focus {
 #overlay-ctrl-generic {}
     .overlay-ctrl__info {
         padding: 20px 40px 0 40px;
+        margin: 0 auto;
+        max-width: 280px;
         width: 100%;
+    }
+    .overlay-ctrl__info td:nth-child(2) {
+        width: 60%;
     }
     .overlay-ctrl__value {
         font-size: 36px;
