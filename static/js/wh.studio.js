@@ -100,7 +100,7 @@ window.WH = window.WH || {};
                     channel = channels[i];
 
                     // add the instrument
-                    if (rackData.instrument && rackData.instrument.name) {
+                    if (rackData && rackData.instrument && rackData.instrument.name) {
                         instrument = pluginManager.createPlugin(rackData.instrument.name);
                         if (instrument) {
                             instrument.setPreset(rackData.instrument.preset);

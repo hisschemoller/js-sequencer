@@ -14,7 +14,7 @@ window.WH = window.WH || {};
 
         var that = specs.that,
             patternCount = 16,
-            trackCount = 4,
+            trackCount = 8,
             patternDurationInBeats = 4,
             stepsPerBeat = 4,
             ppqn = 480,

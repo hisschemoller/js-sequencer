@@ -63,6 +63,18 @@ button:focus {
 .color4 {
     background-color: #f00 !important;
 }
+.color5 {
+    background-color: #06f !important;
+}
+.color6 {
+    background-color: #0ff !important;
+}
+.color7 {
+    background-color: #0f0 !important;
+}
+.color8 {
+    background-color: #9f0 !important;
+}
 .application {
 }
 .racks,
@@ -151,14 +163,14 @@ button:focus {
 }
     .channel {
         float: left;
-        width: 25%;
+        width: 12.5%;
     }
     .channel.is-selected {
         background-color: #888;
     }
         .channel__select {}
         .ctrl--channel-select {
-            width: 25%;
+            width: 12.5%;
         }
                 .ctrl--channel-select > .ctrl__background {
                     opacity: 0.2;
@@ -196,10 +208,10 @@ button:focus {
             .channel__controls .ctrl.is-selected .ctrl__text {
                 color: #fff;
             }
-            .channel__controls .plugin__control:nth-child(1),
+            /*.channel__controls .plugin__control:nth-child(1),
             .channel__controls .plugin__control:nth-child(2) {
                 width: 50%;
-            }
+            }*/
 .steps {}
     .step {
         width: 12.5%;
