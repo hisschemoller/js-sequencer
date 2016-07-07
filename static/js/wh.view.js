@@ -12,10 +12,16 @@ window.WH = window.WH || {};
     /**
      * @constructor
      */
-    function View() {
-
+    function View(specs) {
+        
         // private variables
-        var settings = {
+        var arrangement = specs.arrangement,
+            conf = specs.conf,
+            core = specs.core,
+            file = specs.file,
+            studio = specs.studio,
+            transport = specs.transport,
+            settings = {
                 channelSelectClass: '.channel__select',
                 rackClass: '.rack',
                 rackGeneratorContainerClass: '.rack__generator',
@@ -86,14 +92,26 @@ window.WH = window.WH || {};
              */
             init = function() {
                 var i = 0,
-                    n = WH.conf.getTrackCount(),
+                    n = conf.getTrackCount(),
                     rackEl;
+                    
+                controls = WH.ControlsView({
+                    arrangement: arrangement,
+                    conf: conf,
+                    file: file,
+                    transport: transport,
+                    view: this
+                });
 
-                controls = WH.ControlsView();
+                stepsView = WH.StepsView({
+                    arrangement: arrangement,
+                    conf: conf
+                });
 
-                stepsView = WH.StepsView();
-
-                patterns = WH.PatternView();
+                patterns = WH.PatternView({
+                    arrangement: arrangement,
+                    conf: conf
+                });
                 
                 song = WH.createSongView();
 
@@ -115,7 +133,7 @@ window.WH = window.WH || {};
                 controls.addTransportControls(elements.transportContainer, settings.transport);
 
                 self.setSelectedTab(0);
-            },
+            }.bind(this),
 
             /**
              * Delay screen update to keep it synchronised with the audio.
@@ -179,7 +197,7 @@ window.WH = window.WH || {};
 
             for (i; i < n; i++) {
                 step = playbackQueue[i];
-                start = Math.max(0, WX.now - step.getAbsStart()) * 1000;
+                start = Math.max(0, core.getNow() - step.getAbsStart()) * 1000;
 
                 if (start != oldStart && stepArray.length > 0) {
                     delayUpdateSequencerActivity(oldStart, stepArray);
@@ -288,20 +306,20 @@ window.WH = window.WH || {};
         /**
          * Fill a mixer channel with mixer channel controls.
          * This happens once because the mixer is created only once.
-         * @param {Object} channel WX.PlugIn Processor object.
+         * @param {Object} channel Plugin Processor object.
          * @param {Number} index Channel index in which to create the channel controls.
          */
         this.setChannel = function(channel, index) {
             var pluginView,
                 containerEl = elements.channelContainer;
 
-            pluginViews[channel.getId()] = WH.PluginView(channel, containerEl, index);
+            pluginViews[channel.getId()] = WH.PluginView(channel, containerEl, index, studio, file);
         };
 
         /**
          * Set the instrument controls,
          * typically after project initialisation or channel switch.
-         * @param {Object} instrument WX.PlugIn Generator object.
+         * @param {Object} instrument Plugin Generator object.
          * @param {Number} index Rack index in which to set the instrument.
          */
         this.setInstrument = function(instrument, index) {
@@ -309,12 +327,12 @@ window.WH = window.WH || {};
                 rackEl = $(elements.racks[index]),
                 containerEl = rackEl.find(settings.rackGeneratorContainerClass);
 
-            pluginViews[instrument.getId()] = WH.PluginView(instrument, containerEl, index);
+            pluginViews[instrument.getId()] = WH.PluginView(instrument, containerEl, index, studio, file);
         };
 
         /**
          * Remove the instrument from the rack and delete it
-         * @param {Object} instrument WX.PlugIn Generator object.
+         * @param {Object} instrument Plugin Generator object.
          * @param {Number} index Rack index from which to remove the instrument.
          */
         this.clearInstrument = function(instrument, index) {
@@ -329,10 +347,10 @@ window.WH = window.WH || {};
          * Update a control to reflect a changed plugin parameter.
          * @param {Number} pluginId Unique ID of the plugin.
          * @param {String} paramKey The parameter to change.
-         * @param {Object} paramValues Object containing all the values of the parameter.
+         * @param {Object} param Parameter object.
          */
-        this.updatePluginControl = function(pluginId, paramKey, paramValues) {
-            pluginViews[pluginId].updateControl(paramKey, paramValues);
+        this.updatePluginControl = function(pluginId, paramKey, param) {
+            pluginViews[pluginId].updateControl(paramKey, param);
         };
 
         /**
@@ -391,7 +409,9 @@ window.WH = window.WH || {};
     }
 
     /**
-     * Singleton
+     * Exports
      */
-    WH.View = new View();
+    WH.createView = function(specs) {
+        return new View(specs);
+    };
 })(WH);

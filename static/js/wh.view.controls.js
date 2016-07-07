@@ -10,10 +10,15 @@ window.WH = window.WH || {};
     /**
      * @constructor
      */
-    function ControlsView() {
+    function ControlsView(specs) {
 
         // private variables
-        var settings = {
+        var arrangement = specs.arrangement,
+            conf = specs.conf,
+            file = specs.file,
+            transport = specs.transport,
+            view = specs.view,
+            settings = {
                 ctrlChannelSelectClass: '.ctrl--channel-select',
                 tabClass: '.ctrl--tab',
                 transportClass: '.ctrl--transport',
@@ -55,7 +60,7 @@ window.WH = window.WH || {};
          */
         this.addChannelSelectControls = function(containerEl) {
             var i = 0,
-                n = WH.conf.getTrackCount(),
+                n = conf.getTrackCount(),
                 channelSelectEl,
                 channelSelectEls;
 
@@ -70,7 +75,7 @@ window.WH = window.WH || {};
             channelSelectEls = containerEl.find(settings.ctrlChannelSelectClass);
             channelSelectEls.on(self.eventType.click, function(e) {
                 var index = channelSelectEls.index(e.currentTarget);
-                WH.View.setSelectedChannel(index);
+                view.setSelectedChannel(index);
             });
 
             return channelSelectEls;
@@ -97,7 +102,7 @@ window.WH = window.WH || {};
             tabEls = containerEl.find(settings.tabClass);
             tabEls.on(self.eventType.click, function(e) {
                 var index = tabEls.index(e.currentTarget);
-                WH.View.setSelectedTab(index);
+                view.setSelectedTab(index);
             });
 
             return tabEls;
@@ -126,31 +131,31 @@ window.WH = window.WH || {};
                 switch (index) {
                     case 0:
                         // play
-                        WH.TimeBase.togglePlayStop();
+                        transport.toggleStartStop();
                         break;
                     case 1:
                         // song
-                        WH.arrangement.toggleSongMode();
+                        arrangement.toggleSongMode();
                         break;
                     case 2:
                         // new
-                        WH.TimeBase.pause();
-                        WH.DialogView({
+                        transport.pause();
+                        WH.createDialogView({
                             headerText: 'New Project',
                             bodyText: 'Are you sure? If you create a new project, the current project will be lost.',
                             primaryCallback: function() {
-                                WH.file.createNew();
+                                file.createNew();
                             }
                         });
                         break;
                     case 3:
                         // random
-                        WH.TimeBase.pause();
-                        WH.DialogView({
+                        transport.pause();
+                        WH.createDialogView({
                             headerText: 'Random Project',
                             bodyText: 'Are you sure? If you create a new random project, the current project will be lost.',
                             primaryCallback: function() {
-                                WH.file.createNew(true);
+                                file.createNew(true);
                             }
                         });
                         break;
@@ -168,8 +173,8 @@ window.WH = window.WH || {};
     /**
      * Exports
      */
-    WH.ControlsView = function() {
-        return new ControlsView();
+    WH.ControlsView = function(specs) {
+        return new ControlsView(specs);
     };
 
 })(WH);

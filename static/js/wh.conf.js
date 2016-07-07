@@ -10,14 +10,22 @@ window.WH = window.WH || {};
     /**
      * @constructor
      */
-    function createConf() {
+    function createConf(specs) {
 
-        var that = {},
+        var that = specs.that,
             patternCount = 16,
-            trackCount = 4,
+            trackCount = 8,
             patternDurationInBeats = 4,
             stepsPerBeat = 4,
-            ppqn = 480;
+            ppqn = 480,
+            models = {
+                waveforms: [
+                    {label: 'Sine', value: 'sine'},
+                    {label: 'Square', value: 'square'},
+                    {label: 'Saw', value: 'sawtooth'},
+                    {label: 'Triangle', value: 'triangle'}
+                ]
+            };
 
         that.getPatternCount = function() {
             return patternCount;
@@ -43,11 +51,19 @@ window.WH = window.WH || {};
             return ppqn;
         };
         
+        that.getModel = function(modelKey) {
+            if (models.hasOwnProperty(modelKey)) {
+                return models[modelKey];
+            } else {
+                console.error('Model ', modelKey, ' doesn\'t exist.');
+            }
+        };
+        
         return that;
     }
     
     /** 
      * Singleton
      */
-    WH.conf = createConf();
+    WH.createConf = createConf;
 })(WH);

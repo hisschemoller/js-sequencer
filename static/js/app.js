@@ -11,21 +11,83 @@
  */
 $(function() {
 
-    var overlay = $('#overlay-startup');
+    
 
     /**
      * Application startup.
      */
     function startApp() {
-        // remove the iOS audio startup overlay
-        overlay.remove();
-        // remove WX.Transport because extended with WH.TimeBase
-        WX.Transport = null;
-        WH.View.setup();
-        WH.studio.setup();
-        if (!WH.file.loadFromStorage()) {
-            WH.file.createNew();
+        // create objects that will be the modules of the app
+        var arrangement = {},
+            conf = {},
+            core = {},
+            file = {},
+            pluginManager = {},
+            studio = {},
+            transport = {};
+        
+        // create old style modules
+        var view = WH.createView({
+                arrangement: arrangement,
+                conf: conf,
+                core: core,
+                file: file,
+                studio: studio,
+                transport: transport
+            });
+        
+        // add functionality and inject dependencies
+        WH.createArrangement({
+            that: arrangement,
+            conf: conf,
+            transport: transport,
+            view: view
+        });
+        WH.createConf({
+            that: conf
+        });
+        WH.createCore({
+            that: core
+        });
+        WH.createFile({
+            that: file,
+            arrangement: arrangement,
+            conf: conf,
+            studio: studio,
+            transport: transport
+        });
+        WH.createPluginManager({
+            that: pluginManager,
+            conf: conf,
+            core: core
+        });
+        WH.createStudio({
+            that: studio,
+            conf: conf,
+            core: core,
+            pluginManager: pluginManager,
+            view: view
+        });
+        WH.createTransport({
+            that: transport,
+            arrangement: arrangement,
+            core: core,
+            studio: studio,
+            view: view
+        });
+        
+        view.setup();
+        studio.setup();
+        if (!file.loadFromStorage()) {
+            file.createNew();
         }
+        
+        // console.log('All properties in namespace WH:');
+        // for (var prop in WH) {
+        //     if (WH.hasOwnProperty(prop)) {
+        //         console.log('- ', prop, ' - ', typeof prop);
+        //     }
+        // }
     }
 
     /**
@@ -33,15 +95,15 @@ $(function() {
      * So for iOS an overlay is shown for the user to click.
      * @see https://paulbakaus.com/tutorials/html5/web-audio-on-ios/
      */
-    function unlockIOSAudio() {
-        // remove event listener
-        overlay.off('touchend', unlockIOSAudio);
+    function unlockIOSAudio(core, overlay) {
+        // event listener did its job
+        overlay.removeEventListener('touchend', unlockIOSAudio);
 
         // create an empty buffer
-        var buffer = WX._ctx.createBuffer(1, 1, 22050);
-        var source = WX._ctx.createBufferSource();
+        var buffer = core.createBuffer(1, 1, 22050);
+        var source = core.createBufferSource();
         source.buffer = buffer;
-        source.connect(WX._ctx.destination);
+        source.connect(core.getMainOut());
 
         // play the empty buffer
         if (typeof source.start === 'undefined') {
@@ -52,8 +114,9 @@ $(function() {
 
         // setup a timeout to check that we are unlocked on the next event loop
         var interval = setInterval(function() {
-            if (WX.now > 0) {
+            if (core.getNow() > 0) {
                 clearInterval(interval);
+                overlay.parentNode.removeChild(overlay);
                 startApp();
             }
         }, 100);
@@ -61,39 +124,12 @@ $(function() {
 
     // show click overlay on iOS devices
     if(/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        overlay.on('touchend', unlockIOSAudio).show();
+        var el = document.getElementById('overlay-startup');
+        el.addEventListener('touchend', function() {
+            unlockIOSAudio(WH.core, this);
+        });
+        el.style.display = 'block';
     } else {
         startApp();
     }
 });
-
-
-
-/**
- * Object.assign polyfill.
- * Used by Safari iOS.
- * @see https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
- */
-if (typeof Object.assign != 'function') {
-    (function () {
-        Object.assign = function (target) {
-            'use strict';
-            if (target === undefined || target === null) {
-                throw new TypeError('Cannot convert undefined or null to object');
-            }
-
-            var output = Object(target);
-            for (var index = 1; index < arguments.length; index++) {
-                var source = arguments[index];
-                if (source !== undefined && source !== null) {
-                    for (var nextKey in source) {
-                        if (source.hasOwnProperty(nextKey)) {
-                            output[nextKey] = source[nextKey];
-                        }
-                    }
-                }
-            }
-            return output;
-        };
-    })();
-}

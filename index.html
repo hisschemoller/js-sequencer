@@ -34,6 +34,7 @@
                         <div class="ctrl__layer ctrl__background"></div>
                         <span class="plugin__name-label ctrl__text">Loop</span>
                     </li>
+                    <div class="tile song__header-filler"></div>
                 </ul>
                 <div class="song__list-container">
                     <ul class="song__list">
@@ -79,12 +80,14 @@
                 <span class="overlay-startup_header">TAP TO START</span>
             </div>
             <div id="overlay-dialog" class="overlay">
-                <h2 class="dialog__header"></h2>
-                <p class="dialog__body"></p>
-                <div class="dialog__controls">
-                    <button class="dialog__button dialog__button--secondary"></button>
-                    <button class="dialog__button dialog__button--primary"></button>
-                </div>
+                <div class="dialog">
+                    <h2 class="dialog__header"></h2>
+                    <p class="dialog__body"></p>
+                    <div class="dialog__controls">
+                        <button class="dialog__button dialog__button--secondary"></button>
+                        <button class="dialog__button dialog__button--primary"></button>
+                    </div>
+                </dialog>
             </div>
         </div>
     </main>
@@ -144,6 +147,7 @@
                     <div class="ctrl__layer ctrl__background"></div>
                     <span class="ctrl__text"></span>
                 </div>
+                <div class="tile song-part__filler"></div>
             </li>
         </div>
         <div id="template-plugin">
@@ -232,10 +236,10 @@
                 <ul class="plugin__pages">
                     <li class="plugin__page">
                          <div class="plugin__controls">
-                            <div class="plugin__control oscType"></div>
-                            <div class="plugin__control lfoType"></div>
-                            <div class="plugin__control lfoRate"></div>
-                            <div class="plugin__control lfoDepth"></div>
+                            <div class="plugin__control osctype"></div>
+                            <div class="plugin__control lfotype"></div>
+                            <div class="plugin__control lforate"></div>
+                            <div class="plugin__control lfodepth"></div>
                          </div>
                     </li>
                 </ul>
@@ -297,28 +301,23 @@
         </div>
     </div><!-- /templates -->
     <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="static/js/waax/waax.js"></script>
-    <script src="static/js/waax/waax.extension.js"></script>
-    <script src="static/js/waax/waax.util.js"></script>
-    <script src="static/js/waax/waax.core.js"></script>
-    <script src="static/js/waax/waax.timebase.js"></script>
-    <script src="static/js/waax/plugins/fader.js"></script>
     <script src="static/js/app.js"></script>
     <script src="static/js/wh.file.js"></script>
     <script src="static/js/wh.file.project.js"></script>
     <script src="static/js/wh.file.project.random.js"></script>
-    <script src="static/js/wh.plugin.js"></script>
-    <script src="static/js/wh.plugin.channel.js"></script>
-    <script src="static/js/wh.plugin.simpleosc.js"></script>
-    <script src="static/js/wh.plugin.wxs1.js"></script>
+    <script src="static/js/wh.plugin.base.js"></script>
+    <script src="static/js/wh.plugin.manager.js"></script>
+    <script src="static/js/wh.plugin.parameter.js"></script>
     <script src="static/js/wh.arrangement.js"></script>
     <script src="static/js/wh.arrangement.pattern.js"></script>
     <script src="static/js/wh.arrangement.songpart.js"></script>
     <script src="static/js/wh.arrangement.step.js"></script>
     <script src="static/js/wh.arrangement.track.js"></script>
     <script src="static/js/wh.conf.js"></script>
+    <script src="static/js/wh.core.js"></script>
+    <script src="static/js/wh.extension.js"></script>
     <script src="static/js/wh.studio.js"></script>
-    <script src="static/js/wh.timebase.js"></script>
+    <script src="static/js/wh.transport.js"></script>
     <script src="static/js/wh.util.js"></script>
     <script src="static/js/wh.view.abstract.js"></script>
     <script src="static/js/wh.view.js"></script>

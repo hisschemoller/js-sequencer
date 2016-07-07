@@ -2,8 +2,8 @@
     box-sizing: border-box;
 }
 body {
-    background-color: #333;
-    color: #ccc;
+    background-color: #ddd;
+    color: #fff;
     font-family: 'PT Sans Narrow', sans-serif;
     font-size: 16px;
     margin: 0;
@@ -12,16 +12,16 @@ body {
 main {
     margin: auto;
     height: 100vh;
-    max-height: 640px;
+    max-height: 480px;
     min-height: 320px;
-    max-width: 640px;
+    max-width: 480px;
     min-width: 320px;
     position: relative;
 }
 button {
-    background-color: #666;
-    border: none;
-    color: #ccc;
+    background-color: #ddd;
+    border: 2px solid #fff;
+    color: #fff;
     cursor: pointer;
     display: inline-block;
     font-family: 'PT Sans Narrow', sans-serif;
@@ -29,11 +29,16 @@ button {
     padding: 8px 20px
 }
 button:hover {
-    background-color: #888;
+    background-color: #e6e6e6;
     color: #fff;
 }
 button:focus {
     outline: 0;
+}
+.cf:after {
+    clear: both;
+    content: '';
+    display: table;
 }
 .application {
     bottom: 8px;
@@ -63,6 +68,18 @@ button:focus {
 .color4 {
     background-color: #f00 !important;
 }
+.color5 {
+    background-color: #06f !important;
+}
+.color6 {
+    background-color: #0ff !important;
+}
+.color7 {
+    background-color: #0f0 !important;
+}
+.color8 {
+    background-color: #9f0 !important;
+}
 .application {
 }
 .racks,
@@ -80,8 +97,8 @@ button:focus {
 }
 .tile,
 .ctrl {
-    background-color: #666;
-    border: 1px solid #333;
+    background-color: #ddd;
+    border: 1px solid #fff;
     display: block;
     float: left;
     height: 40px;
@@ -123,7 +140,7 @@ button:focus {
         .ctrl__label {}
         .ctrl__text {
             bottom: 0;
-            color: #eee;
+            color: #fff;
             line-height: 40px;
             left: 0;
             position: absolute;
@@ -131,7 +148,7 @@ button:focus {
             top: 0;
         }
         .ctrl__name {
-            color: #eee;
+            color: #fff;
             font-size: 12px;
             left: 0;
             position: absolute;
@@ -139,7 +156,7 @@ button:focus {
             top: 3px;
         }
         .ctrl__value {
-            color: #eee;
+            color: #fff;
             font-size: 17px;
             left: 0;
             position: absolute;
@@ -151,14 +168,18 @@ button:focus {
 }
     .channel {
         float: left;
-        width: 25%;
+        width: 12.5%;
     }
     .channel.is-selected {
         background-color: #888;
     }
+        .channel-selects {
+            border-left: 1px solid #fff;
+            border-right: 1px solid #fff;
+        }
         .channel__select {}
         .ctrl--channel-select {
-            width: 25%;
+            width: 12.5%;
         }
                 .ctrl--channel-select > .ctrl__background {
                     opacity: 0.2;
@@ -196,11 +217,14 @@ button:focus {
             .channel__controls .ctrl.is-selected .ctrl__text {
                 color: #fff;
             }
-            .channel__controls .plugin__control:nth-child(1),
+            /*.channel__controls .plugin__control:nth-child(1),
             .channel__controls .plugin__control:nth-child(2) {
                 width: 50%;
-            }
-.steps {}
+            }*/
+.steps {
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+}
     .step {
         width: 12.5%;
     }
@@ -208,20 +232,31 @@ button:focus {
         clear: left;
     }
     .step.is-active {
-        background-color: #777;
+        background-color: #e4e4e4;
     }
+        .step.is-active.is-selected .ctrl__text {
+            /*color: #ccc;*/
+        }
         .step > .ctrl__background {
             opacity: 0.2;
         }
         .step > .ctrl__hilight {
             display: none;
-            opacity: 0.6;
+            opacity: 0.4;
         }
-        .step.is-selected  .ctrl__name {
-            color: #fff;
+        .step.is-selected .ctrl__name {
+            color: #ccc;
         }
 .patterns {
+    border-bottom: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
     display: none;
+}
+.patterns:after {
+    clear: both;
+    content: '';
+    display: table;
 }
     .pattern {
         width: 12.5%;
@@ -231,6 +266,10 @@ button:focus {
         opacity: 0.2;
     }
 .song {}
+    .song__header {
+        border-left: 1px solid #fff;
+        border-right: 1px solid #fff;
+    }
     .song__list-container {
         bottom: 40px;
         left: 0;
@@ -240,7 +279,15 @@ button:focus {
         top: 80px;
     }
     .song-part {
+        border-left: 1px solid #fff;
+        border-right: 1px solid #fff;
         width: 100%;
+    }
+    .song-part:first-child {
+        border-top: 1px solid #fff;
+    }
+    .song-part:last-child {
+        border-bottom: 1px solid #fff;
     }
         .song-part.is-active .ctrl__background {
             background-color: #fff;
@@ -248,6 +295,10 @@ button:focus {
         }
         .song-part.is-active .ctrl__text {
             color: #fff;
+        }
+        .song-part__filler,
+        .song__header-filler {
+            width: 62.5%;
         }
 .rack {
     display: none;
@@ -261,7 +312,15 @@ button:focus {
         }
 
 .plugin {}
-    .plugin__header {}
+    .plugin__header {
+        border-left: 1px solid #fff;
+        border-right: 1px solid #fff;
+    }
+    .plugin__header:after {
+        clear: both;
+        content: '';
+        display: table;
+    }
         .plugin__header .ctrl__background {
             opacity: 0.2;
         }
@@ -296,8 +355,16 @@ button:focus {
         width: 100%;
     }
         .plugin__page {
+            border-bottom: 1px solid #fff;
+            border-left: 1px solid #fff;
+            border-right: 1px solid #fff;
             display: none;
             width: 100%;
+        }
+        .plugin__page:after {
+            clear: both;
+            content: '';
+            display: table;
         }
         .plugin__page.is-selected {
             display: block;
@@ -316,7 +383,11 @@ button:focus {
                     .plugin__control .ctrl {
                         float: none;
                     }
-.tabs {}
+.tabs {
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+    border-top: 1px solid #fff;
+}
     .ctrl--tab {
         width: 25%;
     }
@@ -332,8 +403,9 @@ button:focus {
         }
 
 .transport {
+    border: 1px solid #fff;
     bottom: 0;
-    height: 40px;
+    height: 42px;
     left: 0;
     position: absolute;
     right: 0;
@@ -342,7 +414,7 @@ button:focus {
         width: 25%;
     }
     .ctrl--transport .ctrl__hilight {
-        background-color: #999;
+        background-color: #fff;
         display: none;
         opacity: 0.6
     }
@@ -354,7 +426,7 @@ button:focus {
         display: none;
     }*/
 .overlay {
-    background-color: #333;
+    background-color: #ddd;
     bottom: 0;
     display: none;
     left: 0;
@@ -371,21 +443,28 @@ button:focus {
 #overlay-ctrl-generic {}
     .overlay-ctrl__info {
         padding: 20px 40px 0 40px;
+        margin: 0 auto;
+        max-width: 280px;
         width: 100%;
+    }
+    .overlay-ctrl__info td:nth-child(2) {
+        width: 60%;
     }
     .overlay-ctrl__value {
         font-size: 36px;
     }
     .overlay-ctrl__slider {
-        background-color: #666;
+        background-color: #ddd;
+        border: 2px solid #fff;
         bottom: 60px;
-        left: 20px;
+        left: 100px;
         position: absolute;
-        right: 20px;
+        right: 100px;
         top: 100px;
     }
         .overlay-ctrl__slider-thumb {
-            background-color: #999;
+            background-color: #eee;
+            border-top: 2px solid #fff;
             bottom: 0;
             left: 0;
             position: absolute;
@@ -393,40 +472,43 @@ button:focus {
         }
 #overlay-ctrl-itemized {}
     .overlay-ctrl__items {
-        border: 1px solid #999;
+        border: 2px solid #fff;
         margin: 20px 30px;
     }
         .overlay-ctrl__item:not(:last-child) {
-            border-bottom: 1px solid #999;
+            border-bottom: 2px solid #fff;
         }
         .overlay-ctrl__item {
-            background-color: #666;
+            background-color: #ddd;
             color: #fff;
             padding: 15px 30px;
             cursor: pointer;
         }
         .overlay-ctrl__item.is-selected {
-            background-color: #aaa;
+            color: #ccc;
+            background-color: #fff;
         }
         .overlay-ctrl__item.is-active {
-            background-color: #888;
+            color: #ccc;
+            background-color: #eee;
         }
 #overlay-dialog {
-    padding: 10px 30px;
+    padding: 10px 50px;
 }
-    .dialog__header {
-        font-size: 2rem;
+    .dialog {
+        border: 2px solid #fff;
+        padding: 10px;
     }
-    .dialog__controls {
-        font-size: 0;
-        text-align: center;
-    }
-        .dialog__button {
-            margin: 10px 2px 10px 2px;
+        .dialog__header {
+            font-size: 2rem;
         }
-        .dialog__button:hover {
-            background-color: #888;
+        .dialog__controls {
+            font-size: 0;
+            text-align: center;
         }
+            .dialog__button {
+                margin: 10px 2px 10px 2px;
+            }
 #templates {
     display: none;
 }

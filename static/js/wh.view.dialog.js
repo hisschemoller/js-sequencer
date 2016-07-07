@@ -94,7 +94,7 @@ window.WH = window.WH || {};
     /**
      * Exports
      */
-    WH.DialogView = function(options) {
+    WH.createDialogView = function(options) {
         return new DialogView(options);
     };
 })(WH);

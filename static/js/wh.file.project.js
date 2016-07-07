@@ -11,12 +11,13 @@ window.WH = window.WH || {};
      * Create data for a new empty arrangement.
      * @return {Object}  Empty arrangement setup data.
      */
-    function createProject() {
+    function createProject(specs) {
         
-        var patternCount = WH.conf.getPatternCount(),
-            trackCount = WH.conf.getTrackCount(),
-            stepCount = WH.conf.getStepCount(),
-            stepDuration = Math.floor( WH.conf.getPPQN() / WH.conf.getStepsPerBeat() ),
+        var conf = specs.conf,
+            patternCount = conf.getPatternCount(),
+            trackCount = conf.getTrackCount(),
+            stepCount = conf.getStepCount(),
+            stepDuration = Math.floor(conf.getPPQN() / conf.getStepsPerBeat()),
             data = {
                 bpm: 120,
                 racks: [],
@@ -29,11 +30,11 @@ window.WH = window.WH || {};
         for (var j = 0; j < trackCount; j++) {
             var rack = {
                 instrument: {
-                    name: 'SimpleOsc',
+                    name: 'simpleosc',
                     preset: {
-                        oscType: WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
-                        oscFreq: WX.mtof(60),
-                        lfoType: WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
+                        oscType: 'sine',
+                        oscFreq: 440,
+                        lfoType: 'sine',
                         lfoRate: 1.0,
                         lfoDepth: 1.0
                     }

@@ -7,7 +7,7 @@ window.WH = window.WH || {};
 
 (function (WH) {
 
-    function pluginView(plugin, containerEl, channelIndex) {
+    function pluginView(plugin, containerEl, channelIndex, studio, file) {
 
             /**
              * Object settings
@@ -64,10 +64,9 @@ window.WH = window.WH || {};
                 },
 
                 pluginTemplates: {
-                    Channel: $('#template-channel'),
-                    WXS1: $('#template-plugin-wxs1'),
-                    SimpleOsc: $('#template-plugin-simpleosc'),
-                    SimpleOsc2: $('#template-plugin-simpleosc2')
+                    channel: $('#template-channel'),
+                    wxs1: $('#template-plugin-wxs1'),
+                    simpleosc: $('#template-plugin-simpleosc')
                 }
             },
 
@@ -87,7 +86,7 @@ window.WH = window.WH || {};
              * Initialise the view, add DOM event handlers.
              */
             init = function() {
-                var pluginTemplate = elements.pluginTemplates[plugin.info.className];
+                var pluginTemplate = elements.pluginTemplates[plugin.getName()];
                 pluginEl = pluginTemplate.children().first().clone();
                 pluginEl.appendTo(containerEl);
                 pluginEl.attr('data-' + settings.data.pluginId, plugin.getId());
@@ -109,7 +108,7 @@ window.WH = window.WH || {};
                 // add the header to the plugin
                 var headerEl = elements.pluginHeaderTemplate.children().clone();
                 headerEl.appendTo(headerContainer);
-                headerEl.find(settings.pluginNameClass).text(plugin.info.name);
+                headerEl.find(settings.pluginNameClass).text(plugin.getTitle());
 
                 // add pagination if there's mupltiple control pages
                 var pageEls = pluginEl.find(settings.pluginPageClass),
@@ -181,38 +180,40 @@ window.WH = window.WH || {};
                 var paramKey,
                     paramValue,
                     param,
-                    controlContainer;
+                    controlContainer,
+                    pluginParams = plugin.getParams();
 
-                for (paramKey in plugin.params) {
+                for (paramKey in pluginParams) {
                     controlContainer = pluginEl.find('.' + paramKey);
 
                     if (controlContainer.length) {
-                        param = plugin.params[paramKey];
-                        paramValue = param.value;
+                        param = pluginParams[paramKey];
+                        paramValue = param.getValue();
 
-                        switch (param.type) {
-                            case 'Generic':
+                        switch (param.getType()) {
+                            case 'generic':
                                 paramValue = paramValue.toFixed(1);
                                 controlEl = elements.templates.ctrlGeneric.children().first().clone();
-                                controlEl.find(settings.ctrlNameClass).text(param.name);
+                                controlEl.find(settings.ctrlNameClass).text(param.getName());
                                 controlEl.find(settings.ctrlValueClass).text(paramValue);
                                 paramType = settings.ctrlTypes.generic;
                                 break;
-                            case 'Itemized':
-                                paramValue = WX.findKeyByValue(param.getModel(), paramValue);
+                            case 'itemized':
                                 controlEl = elements.templates.ctrlItemized.children().first().clone();
-                                controlEl.find(settings.ctrlNameClass).text(param.name);
-                                controlEl.find(settings.ctrlValueClass).text(paramValue);
+                                controlEl.find(settings.ctrlNameClass).text(param.getName());
+                                controlEl.find(settings.ctrlValueClass).text(param.getLabel());
                                 paramType = settings.ctrlTypes.itemized;
                                 break;
-                            case 'Boolean':
+                            case 'boolean':
                                 controlEl = elements.templates.ctrlBoolean.children().first().clone();
-                                controlEl.find(settings.ctrlTextClass).text(param.name);
+                                controlEl.find(settings.ctrlTextClass).text(param.getName());
                                 if (paramValue) {
                                     controlEl.addClass(settings.selectedClass);
                                 }
                                 paramType = settings.ctrlTypes.boolean;
                                 break;
+                            default:
+                                console.error('Parameter type ', param.type, ' is not supported.');
                         }
 
                         controlEl.attr('data-' + settings.data.paramKey, paramKey);
@@ -241,8 +242,8 @@ window.WH = window.WH || {};
                     paramKey = controlEl.data(settings.data.paramKey),
                     paramValue = !controlEl.hasClass(settings.selectedClass);
 
-                WH.studio.setParameter(e.data.plugin.getId(), paramKey, paramValue);
-                WH.file.autoSave();
+                studio.setParameter(e.data.plugin.getId(), paramKey, paramValue);
+                file.autoSave();
             },
 
             /**
@@ -258,23 +259,28 @@ window.WH = window.WH || {};
                 var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
                     thumb = elements.overlayCtrlGeneric.find(settings.overlaySliderThumb),
                     paramKey = $(e.currentTarget).data(settings.data.paramKey),
-                    param = e.data.plugin.getParameterValues(paramKey),
-                    normalValue = (param.value - param.min) / (param.max - param.min),
+                    param = e.data.plugin.getParam(paramKey),
+                    value = param.getValue(),
+                    min = param.getMin(),
+                    max = param.getMax(),
+                    normalValue = (value - min) / (max - min),
+
                     userY = self.isTouchDevice ? e.originalEvent.changedTouches[0].clientY : e.clientY,
                     normalUserY = Math.max(0, 1 - Math.min(((userY - slider.offset().top) / slider.height()), 1)),
                     eventData = {
                         pluginId: e.data.plugin.getId(),
                         paramKey: paramKey,
-                        param: param,
+                        min: min,
+                        max: max,
                         normalValue: normalValue,
                         normalUserY: normalUserY,
                         isEnabled: false
                     };
 
-                elements.overlayCtrlGeneric.find(settings.overlayName).text(param.name);
-                elements.overlayCtrlGeneric.find(settings.overlayValue).text(param.value.toFixed(2));
-                elements.overlayCtrlGeneric.find(settings.overlayMin).text(param.min.toFixed(1));
-                elements.overlayCtrlGeneric.find(settings.overlayMax).text(param.max.toFixed(1));
+                elements.overlayCtrlGeneric.find(settings.overlayName).text(param.getName());
+                elements.overlayCtrlGeneric.find(settings.overlayValue).text(value.toFixed(2));
+                elements.overlayCtrlGeneric.find(settings.overlayMin).text(min.toFixed(1));
+                elements.overlayCtrlGeneric.find(settings.overlayMax).text(max.toFixed(1));
                 elements.app.on(self.eventType.move, eventData, onGenericOverlayTouchMove);
                 elements.app.on(self.eventType.end, eventData, onGenericOverlayTouchEnd);
 
@@ -289,7 +295,7 @@ window.WH = window.WH || {};
                 elements.overlayCtrlGeneric.hide();
                 elements.app.off(self.eventType.move, onGenericOverlayTouchMove);
                 elements.app.off(self.eventType.end, onGenericOverlayTouchEnd);
-                WH.file.autoSave();
+                file.autoSave();
             },
 
             /**
@@ -299,16 +305,17 @@ window.WH = window.WH || {};
             onGenericOverlayTouchMove = function(e) {
                 var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
                     userY = self.isTouchDevice ? e.originalEvent.changedTouches[0].clientY : e.clientY,
-                    normalValue = Math.max(0, 1 - Math.min(((userY - slider.offset().top) / slider.height()), 1));
+                    normalValue = Math.max(0, 1 - Math.min(((userY - slider.offset().top) / slider.height()), 1)),
+                    value = e.data.min + ((e.data.max - e.data.min) * normalValue);
 
                 if (!e.data.isEnabled &&
                     ((e.data.normalUserY >= e.data.normalValue) && (normalValue <= e.data.normalValue)) ||
                     ((e.data.normalUserY <= e.data.normalValue) && (normalValue >= e.data.normalValue))) {
                     e.data.isEnabled = true;
                 }
-
+                
                 if (e.data.isEnabled) {
-                    WH.studio.setParameter(e.data.pluginId, e.data.paramKey, normalValue);
+                    studio.setParameter(e.data.pluginId, e.data.paramKey, value);
                 }
             },
 
@@ -318,24 +325,25 @@ window.WH = window.WH || {};
              */
             onItemizedControlTouchStart = function(e) {
                 e.preventDefault();
-                elements.overlayCtrlItemized.show();
 
                 var paramKey = $(e.currentTarget).data(settings.data.paramKey),
-                    param = e.data.plugin.getParameterValues(paramKey),
+                    param = e.data.plugin.getParam(paramKey),
+                    model = param.getModel(),
                     listEl = elements.overlayCtrlItemized.find(settings.overlayList),
                     i = 0,
-                    n = param.model.length,
+                    n = model.length,
                     itemEl;
-
+                
+                elements.overlayCtrlItemized.show();
                 elements.overlayCtrlItemized.find(settings.overlayName).text(param.name);
                 listEl.empty();
 
                 for (i; i < n; i++) {
                     itemEl = elements.templates.overlayControlItem.children().first().clone();
-                    itemEl.text(param.model[i].key);
+                    itemEl.text(model[i].label);
                     itemEl.appendTo(listEl);
 
-                    if (param.value == param.model[i].value) {
+                    if (param.value == model[i].value) {
                         itemEl.addClass(settings.selectedClass);
                     }
                 }
@@ -344,15 +352,15 @@ window.WH = window.WH || {};
                     eventData = {
                         pluginId: e.data.plugin.getId(),
                         paramKey: paramKey,
-                        model: param.model,
-                        originalIndex: param.valueNormalized,
+                        model: model,
+                        originalIndex: param.getIndex(),
                         changedIndex: null,
                         itemEls: elements.overlayCtrlItemized.find(settings.overlayListItem),
                         listLeft: listOffset.left,
                         listTop: listOffset.top,
                         listRight: listOffset.left + listEl.width(),
                         listBottom: listOffset.top + listEl.height(),
-                        itemHeight: listEl.height() / param.model.length
+                        itemHeight: listEl.height() / model.length
                     };
 
                 elements.app.on(self.eventType.move, eventData, onItemizedOverlayTouchMove);
@@ -367,7 +375,7 @@ window.WH = window.WH || {};
                 elements.overlayCtrlItemized.hide();
                 elements.app.off(self.eventType.move, onItemizedOverlayTouchMove);
                 elements.app.off(self.eventType.end, onItemizedOverlayTouchEnd);
-                WH.file.autoSave();
+                file.autoSave();
             },
 
             /**
@@ -394,7 +402,7 @@ window.WH = window.WH || {};
                         e.data.itemEls[newIndex].className += ' ' + settings.activeClass;
                     }
                     e.data.changedIndex = newIndex;
-                    WH.studio.setParameter(e.data.pluginId, e.data.paramKey, newIndex);
+                    studio.setParameter(e.data.pluginId, e.data.paramKey, e.data.model[newIndex].value);
                 }
             };
 
@@ -411,24 +419,25 @@ window.WH = window.WH || {};
          * Update a control to reflect a changed plugin parameter.
          * @param {Number} pluginId Unique ID of the plugin.
          * @param {String} paramKey The parameter to change.
-         * @param {Object} paramValues Object containing all the values of the parameter.
+         * @param {Object} param Parameter object.
          */
-        this.updateControl = function(paramKey, paramValues) {
+         this.updateControl = function(paramKey, param) {
             var ctrlEl = pluginEl.find(settings.ctrlClass + '[data-' + settings.data.paramKey + '="' + paramKey + '"]'),
                 ctrlType = ctrlEl.data(settings.data.paramType);
 
             switch (ctrlType) {
                 case settings.ctrlTypes.generic:
-                    var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider);
-                    ctrlEl.find(settings.ctrlValueClass).text(paramValues.value.toFixed(2));
-                    elements.overlayCtrlGeneric.find(settings.overlayValue).text(paramValues.value.toFixed(2));
-                    elements.overlayCtrlGeneric.find(settings.overlaySliderThumb).height(slider.height() * paramValues.valueNormalized);
+                    var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
+                        normalValue = (param.getValue() - param.getMin()) / (param.getMax() - param.getMin());
+                    ctrlEl.find(settings.ctrlValueClass).text(param.getValue().toFixed(2));
+                    elements.overlayCtrlGeneric.find(settings.overlayValue).text(param.getValue().toFixed(2));
+                    elements.overlayCtrlGeneric.find(settings.overlaySliderThumb).height(slider.height() * normalValue);
                     break;
                 case settings.ctrlTypes.itemized:
-                    ctrlEl.find(settings.ctrlValueClass).text(paramValues.model[paramValues.valueNormalized].key);
+                    ctrlEl.find(settings.ctrlValueClass).text(param.getLabel());
                     break;
                 case settings.ctrlTypes.boolean:
-                    ctrlEl.toggleClass(settings.selectedClass, paramValues.value);
+                    ctrlEl.toggleClass(settings.selectedClass, param.getValue());
                     break;
             }
         };
@@ -443,8 +452,8 @@ window.WH = window.WH || {};
     /**
      * Exports
      */
-    WH.PluginView = function(plugin, containerEl, channelIndex) {
-        return new pluginView(plugin, containerEl, channelIndex);
+    WH.PluginView = function(plugin, containerEl, channelIndex, studio, file) {
+        return new pluginView(plugin, containerEl, channelIndex, studio, file);
     };
 
 })(WH);

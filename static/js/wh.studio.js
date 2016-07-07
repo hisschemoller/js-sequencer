@@ -7,14 +7,18 @@
  */
 window.WH = window.WH || {};
 
-(function (WH, WX) {
+(function (WH) {
 
     /**
      * @constructor
      */
-    function createStudio() {
+    function createStudio(specs) {
         
-        var that,
+        var that = specs.that,
+            conf = specs.conf,
+            core = specs.core,
+            pluginManager = specs.pluginManager,
+            view = specs.view,
             
             /**
              * Channel plugins that form a mixer.
@@ -41,7 +45,7 @@ window.WH = window.WH || {};
 
                 // test if any of the channels is soloed
                 for (i; i < n; i++) {
-                    isAnySoloActive = isAnySoloActive || channels[i].get('solo');
+                    isAnySoloActive = isAnySoloActive || channels[i].getParamValue('solo');
                 }
 
                 for (i = 0; i < n; i++) {
@@ -54,20 +58,20 @@ window.WH = window.WH || {};
              */
             setup = function() {
                 var i = 0,
-                    n = WH.conf.getTrackCount(),
+                    n = conf.getTrackCount(),
                     channel;
 
                 instruments = new Array(n);
 
                 for (i; i < n; i++) {
-                    var channel = WX.Channel();
+                    var channel = pluginManager.createPlugin('channel');
                     channel.setSoloCallback(onSoloChange);
-                    channel.to(WX.Master);
+                    channel.to(core.getMainOut());
                     channels.push(channel);
-                    WH.View.setChannel(channel, i);
+                    view.setChannel(channel, i);
                 }
 
-                WH.View.setSelectedChannel(channels[0].getId());
+                view.setSelectedChannel(channels[0].getId());
             },
 
             /**
@@ -79,52 +83,41 @@ window.WH = window.WH || {};
                     instrument,
                     channel,
                     i = 0,
-                    n = WH.conf.getTrackCount(),
-                    generators = WX.PlugIn.getRegistered('Generator'),
-                    j = 0,
-                    p = generators.length,
+                    trackCount = conf.getTrackCount(),
                     param,
                     soloedChannel;
 
-                for (i; i < n; i++) {
+                    for (i; i < trackCount; i++) {
 
                     // remove the old instrument, if it exists
                     if (instruments[i]) {
-                        WH.View.clearInstrument(instruments[i], i);
+                        view.clearInstrument(instruments[i], i);
                         instruments[i].cut();
                         instruments[i] = null;
                     }
 
-                    rack = data[i];
+                    rackData = data[i];
                     channel = channels[i];
 
-                    for (j = 0; j < p; j++) {
-                        if (generators[j] == rack.instrument.name) {
-                            instrument = WX[rack.instrument.name]();
-
-                            // update plugin parameters if they exist.
-                            for (param in rack.instrument.preset) {
-                                instrument.set(param, rack.instrument.preset[param]);
-                            }
-                            break;
+                    // add the instrument
+                    if (rackData && rackData.instrument && rackData.instrument.name) {
+                        instrument = pluginManager.createPlugin(rackData.instrument.name);
+                        if (instrument) {
+                            instrument.setPreset(rackData.instrument.preset);
+                            instrument.to(channel);
+                            instruments[i] = instrument;
+                            view.setInstrument(instrument, i);
                         }
                     }
 
-                    // add the instrument
-                    if (instrument) {
-                        instrument.to(channel);
-                        instruments[i] = instrument;
-                        WH.View.setInstrument(instrument, i);
-                    }
-
-                    channel.setPreset(Object.assign({}, channel.defaultPreset, rack.channel.preset));
+                    channel.setPreset(Object.assign({}, channel.defaultPreset, rackData.channel.preset));
 
                     // if there's channels soloed, remember one of them
-                    if (channel.get('solo')) {
+                    if (channel.getParamValue('solo')) {
                         soloedChannel = channel;
                     }
 
-                    WH.View.setPluginPreset(channel.getId(), channel.getPresetValues());
+                    view.setPluginPreset(channel.getId(), channel.getPreset());
                 }
 
                 // if there's soloed channels set the solo after all presets are set
@@ -144,15 +137,9 @@ window.WH = window.WH || {};
                     rack;
 
                 for (i; i < n; i++) {
-
                     rack = {
-                        instrument: {
-                            name: instruments[i].info.className,
-                            preset: instruments[i].getPreset()
-                        },
-                        channel: {
-                            preset: channels[i].getPreset()
-                        }
+                        instrument: instruments[i] ? instruments[i].getData() : null,
+                        channel: channels[i].getData()
                     };
                     racks.push(rack);
                 }
@@ -195,7 +182,7 @@ window.WH = window.WH || {};
                 // is it a generator?
                 n = instruments.length;
                 for (i; i < n; i++) {
-                    if (pluginId == instruments[i].getId()) {
+                    if (instruments[i] && pluginId == instruments[i].getId()) {
                         plugin = instruments[i];
                         break;
                     }
@@ -214,12 +201,11 @@ window.WH = window.WH || {};
                 }
 
                 if (plugin) {
-                    plugin.setParameter(paramKey, paramValue);
-                    WH.View.updatePluginControl(pluginId, paramKey, plugin.getParameterValues(paramKey));
+                    plugin.setParamValue(paramKey, paramValue);
+                    view.updatePluginControl(pluginId, paramKey, plugin.getParam(paramKey));
                 }
             };
         
-        that = {};
         that.onSoloChange = onSoloChange;
         that.setup = setup;
         that.setData = setData;
@@ -228,9 +214,6 @@ window.WH = window.WH || {};
         that.setParameter = setParameter;
         return that;
     }
-
-    /**
-     * Singleton
-     */
-    WH.studio = createStudio();
-})(WH, WX);
+    
+    WH.createStudio = createStudio;
+})(WH);

@@ -9,9 +9,10 @@ window.WH = window.WH || {};
     
     function createPattern(specs) {
         var that,
+            conf = specs.conf,
             trackCount = specs.data.tracks.length,
             tracks = [],
-            lengthInTicks = WH.conf.getPPQN() * WH.conf.getPatternDurationInBeats(),
+            lengthInTicks = conf.getPPQN() * conf.getPatternDurationInBeats(),
             
             /**
              * Scan events within time range.
@@ -72,7 +73,8 @@ window.WH = window.WH || {};
         for (var i = 0; i < trackCount; i++) {
             tracks.push(WH.createTrack({
                 data: specs.data.tracks[i], 
-                channel: i
+                channel: i,
+                conf: conf
             }));
         }
         
