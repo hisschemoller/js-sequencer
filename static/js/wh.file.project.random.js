@@ -192,6 +192,24 @@ window.WH = window.WH || {};
                 }
             },
 
+            createRack1 = function() {
+                var channel = 1,
+                    rack = data.racks[channel];
+                rack.instrument.name = 'simpleosc';
+                rack.channel.preset.pan = 0.3;
+            },
+
+            createPatterns1 = function() {
+                var channel = 1, track, step, i, j;
+                for (i = 0; i < patternCount; i++) {
+                    track = data.arrangement.patterns[i].tracks[channel];
+                    for(j = 0; j < stepCount; j++) {
+                        step = track.steps[j];
+                        step.velocity = (Math.random() > 0.85 ? 120 : 0);
+                    }
+                }
+            },
+
             createSong = function() {
                 for (var i = 0; i < 2; i++) {
                     data.arrangement.song.push({
@@ -204,6 +222,8 @@ window.WH = window.WH || {};
         init();
         createRack0();
         createPatterns0();
+        createRack1();
+        createPatterns1();
         createSong();
 
         return data;
