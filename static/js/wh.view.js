@@ -373,23 +373,6 @@ window.WH = window.WH || {};
         this.updatePluginControl = function(pluginId, paramKey, param) {
             pluginViews[pluginId].updateControl(paramKey, param);
         };
-
-        /**
-         * Apply a plugin preset to the plugin with the provided ID.
-         * @param {Number} pluginId Unique lugin ID.
-         * @param {Array} presetValues Plugin preset as array of objects with key value pairs.
-         */
-        this.setPluginPreset =  function(pluginId, presetValues) {
-            var paramKey,
-                paramValues;
-
-            for (paramKey in presetValues) {
-                paramValues = presetValues[paramKey];
-                if (paramValues.isEditable) {
-                    this.updatePluginControl(pluginId, paramKey, paramValues);
-                }
-            }
-        };
         
         /**
          * Show a new song in the song view.

@@ -322,7 +322,7 @@ button:focus {
         display: table;
     }
         .plugin__header .ctrl__background {
-            opacity: 0.2;
+            /*opacity: 0.2;*/
         }
         .plugin__name {
             cursor: default;
@@ -371,7 +371,7 @@ button:focus {
         }
             .plugin__controls {}
                 .plugin__control {
-                    background-color: #555;
+                    background-color: #ddd;
                     display: block;
                     float: left;
                     height: 40px;

@@ -85,9 +85,12 @@ window.WH = window.WH || {};
                     i = 0,
                     trackCount = conf.getTrackCount(),
                     param,
-                    soloedChannel;
+                    paramKey,
+                    soloedChannel,
+                    pluginId,
+                    preset;
 
-                    for (i; i < trackCount; i++) {
+                for (i; i < trackCount; i++) {
 
                     // remove the old instrument, if it exists
                     if (instruments[i]) {
@@ -109,15 +112,19 @@ window.WH = window.WH || {};
                             view.setInstrument(instrument, i);
                         }
                     }
-
+                    
                     channel.setPreset(Object.assign({}, channel.defaultPreset, rackData.channel.preset));
 
                     // if there's channels soloed, remember one of them
                     if (channel.getParamValue('solo')) {
                         soloedChannel = channel;
                     }
-
-                    view.setPluginPreset(channel.getId(), channel.getPreset());
+                    
+                    preset = channel.getPreset();
+                    pluginId = channel.getId();
+                    for (paramKey in preset) {
+                        view.updatePluginControl(pluginId, paramKey, channel.getParam(paramKey));
+                    }
                 }
 
                 // if there's soloed channels set the solo after all presets are set
@@ -135,7 +142,7 @@ window.WH = window.WH || {};
                     i = 0,
                     n = channels.length,
                     rack;
-
+                    
                 for (i; i < n; i++) {
                     rack = {
                         instrument: instruments[i] ? instruments[i].getData() : null,
