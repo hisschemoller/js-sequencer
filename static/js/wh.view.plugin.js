@@ -61,13 +61,6 @@ window.WH = window.WH || {};
                     ctrlBoolean: $('#template-ctrl-boolean'),
                     ctrlItemized: $('#template-ctrl-itemized'),
                     overlayControlItem: $('#template-overlay-ctrl-item')
-                },
-
-                pluginTemplates: {
-                    channel: $('#template-channel'),
-                    wxs1: $('#template-plugin-wxs1'),
-                    simpleosc: $('#template-plugin-simpleosc'),
-                    kick: $('#template-plugin-kick')
                 }
             },
 
@@ -87,7 +80,7 @@ window.WH = window.WH || {};
              * Initialise the view, add DOM event handlers.
              */
             init = function() {
-                var pluginTemplate = elements.pluginTemplates[plugin.getName()];
+                var pluginTemplate = $('#template-plugin-' + plugin.getName());
                 pluginEl = pluginTemplate.children().first().clone();
                 pluginEl.appendTo(containerEl);
                 pluginEl.attr('data-' + settings.data.pluginId, plugin.getId());
