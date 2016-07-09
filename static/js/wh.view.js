@@ -134,6 +134,26 @@ window.WH = window.WH || {};
 
                 self.setSelectedTab(0);
             }.bind(this),
+            
+            /**
+             * Shortcut keys.
+             */
+            initDomEvents = function() {
+                document.addEventListener('keydown', function(e) {
+                    switch (e.keyCode) {
+                        case 32:
+                            transport.toggleStartStop();
+                            break;
+                        case 192:
+                            if (e.altKey) {
+                                file.createNew(true);
+                                transport.rewind();
+                                transport.start();
+                            }
+                            break;
+                    }
+                });
+            },
 
             /**
              * Delay screen update to keep it synchronised with the audio.
@@ -181,6 +201,7 @@ window.WH = window.WH || {};
          */
         this.setup = function() {
             init();
+            initDomEvents();
         };
 
         /**

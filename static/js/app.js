@@ -10,9 +10,7 @@
  * Application startup.
  */
 $(function() {
-
     
-
     /**
      * Application startup.
      */
