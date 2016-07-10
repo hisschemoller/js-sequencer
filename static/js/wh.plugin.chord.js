@@ -12,10 +12,9 @@ window.WH = window.WH || {};
 
         var that,
             startFrequency,
-            chordPitches = [0, 3, 7, 10],
-            current = [],
-            voices = [],
-            numVoices = 5,
+            fadeOutTime = 2.0,
+            chordPitches = [-4, 0, 3, 7],
+            playingNow = [],
             init = function() {
             },
             createChordVoices = function(pitch, velocity, time) {
@@ -34,33 +33,33 @@ window.WH = window.WH || {};
                     };
                     voice.amp.gain.set(0, now, now);
                     voice.amp.gain.set(velocity / 127, now, [time, 0.005], 3);
+                    voice.osc.type = 'sine';
                     voice.osc.frequency.set(WH.mtof(pitch + chordPitches[i]), now, time, 0);
                     voice.osc.to(voice.amp).to(my.output);
                     voice.osc.start(time);
                     chord.voices.push(voice);
                 }
                 
-                current.push(chord);
+                playingNow.push(chord);
             },
             endChord = function(pitch, time) {
                 var i, j,
-                    numPlayingChords = current.length,
+                    numPlayingChords = playingNow.length,
                     numVoicesInChord,
                     chord, voice,
                     ampRelease = Math.random() / 10,
                     now = my.output.context.currentTime;
                 for (i = 0; i < numPlayingChords; i++) {
-                    chord = current[i];
+                    chord = playingNow[i];
                     if (pitch == chord.pitch) {
                         numVoicesInChord = chord.voices.length;
                         for (j = 0; j < numVoicesInChord; j++) {
                             voice = chord.voices[j];
                             voice.amp.gain.set(0.0, now, [time, ampRelease], 3);
-                            voice.osc.stop(time + ampRelease + 2.0);
-                            console.log('stop');
+                            voice.osc.stop(time + ampRelease + fadeOutTime);
                         }
                     }
-                    current.splice(i, 1);
+                    playingNow.splice(i, 1);
                 }
             },
             noteOn = function(pitch, velocity, time) {
