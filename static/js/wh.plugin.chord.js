@@ -22,9 +22,18 @@ window.WH = window.WH || {};
                     i,
                     numVoices = chordPitches.length,
                     chord = {
-                    pitch: pitch,
-                    voices: []
-                };
+                        pitch: pitch,
+                        voices: [],
+                        filter: specs.core.createFilter()
+                    };
+                    
+                chord.filter.type.value = 'lowpass';
+                chord.filter.frequency.value = 50;
+                chord.filter.frequency.set(100, now, [time, 0.1], 3);
+                chord.filter.frequency.set(10000, now, [time + 0.1, 0.1], 3);
+                chord.filter.frequency.set(50, now, [time + 0.2, 0.1], 3);
+                chord.filter.Q.value = 20;
+                chord.filter.to(my.output);
                 
                 for (i = 0; i < numVoices; i++) {
                     voice = {
@@ -33,9 +42,9 @@ window.WH = window.WH || {};
                     };
                     voice.amp.gain.set(0, now, now);
                     voice.amp.gain.set(velocity / 127, now, [time, 0.005], 3);
-                    voice.osc.type = 'sine';
+                    voice.osc.type = 'square';
                     voice.osc.frequency.set(WH.mtof(pitch + chordPitches[i]), now, time, 0);
-                    voice.osc.to(voice.amp).to(my.output);
+                    voice.osc.to(voice.amp).to(chord.filter);
                     voice.osc.start(time);
                     chord.voices.push(voice);
                 }
