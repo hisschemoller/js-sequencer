@@ -378,7 +378,7 @@ button:focus {
                     width: 100%;
                 }
                 .plugin__control.empty {
-                    border: 1px solid #333;
+                    border: 1px solid #fff;
                 }
                     .plugin__control .ctrl {
                         float: none;

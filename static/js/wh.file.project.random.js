@@ -86,7 +86,7 @@ window.WH = window.WH || {};
             createRack1 = function() {
                 var channel = 1,
                     rack = data.racks[channel];
-                rack.instrument.name = 'simpleosc';
+                rack.instrument.name = 'chord';
                 rack.channel.preset.pan = 0.3;
             },
 
@@ -96,7 +96,8 @@ window.WH = window.WH || {};
                     track = data.arrangement.patterns[i].tracks[channel];
                     for(j = 0; j < stepCount; j++) {
                         step = track.steps[j];
-                        step.velocity = 0;
+                        step.pitch = 60;
+                        step.velocity = (Math.random() > .9) ? 30 : 0;
                     }
                 }
             },
