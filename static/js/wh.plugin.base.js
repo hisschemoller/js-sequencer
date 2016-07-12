@@ -104,6 +104,7 @@ window.WH = window.WH || {};
         my = my || {};
         my.conf = specs.conf;
         my.core = specs.core;
+        my.transport = specs.transport;
         my.id = id;
         my.defineParams = defineParams;
         

@@ -15,11 +15,43 @@ window.WH = window.WH || {};
             fadeOutTime = 2.0,
             chordPitches = [-4, 0, 3, 7],
             playingNow = [],
+            filterSeq,
             init = function() {
+                var sixteenthInSeconds = (60 / my.transport.getBPM()) / 4;
+                filterSeq = [{
+                        freq: 100,
+                        dur: sixteenthInSeconds
+                    },{
+                        freq: 10000,
+                        dur: sixteenthInSeconds
+                    },{
+                        freq: 20,
+                        dur: sixteenthInSeconds * 2
+                    },{
+                        freq: 4040,
+                        dur: sixteenthInSeconds * 4
+                    },{
+                        freq: 150,
+                        dur: sixteenthInSeconds * 5
+                    },{
+                        freq: 3000,
+                        dur: sixteenthInSeconds / 2
+                    },{
+                        freq: 440,
+                        dur: sixteenthInSeconds / 2
+                    },{
+                        freq: 600,
+                        dur: sixteenthInSeconds * 2
+                    },{
+                        freq: 20,
+                        dur: sixteenthInSeconds / 2
+                    }
+                ];
             },
             createChordVoices = function(pitch, velocity, time) {
                 var now = my.output.context.currentTime,
-                    i,
+                    i, t, 
+                    filterIndex,
                     numVoices = chordPitches.length,
                     chord = {
                         pitch: pitch,
@@ -28,12 +60,18 @@ window.WH = window.WH || {};
                     };
                     
                 chord.filter.type.value = 'lowpass';
-                chord.filter.frequency.value = 50;
-                chord.filter.frequency.set(100, now, [time, 0.1], 3);
-                chord.filter.frequency.set(10000, now, [time + 0.1, 0.1], 3);
-                chord.filter.frequency.set(50, now, [time + 0.2, 0.1], 3);
-                chord.filter.Q.value = 20;
+                chord.filter.Q.value = 15;
                 chord.filter.to(my.output);
+                
+                t = time;
+                filterIndex = Math.floor((velocity % 10) % filterSeq.length);
+                chord.filter.frequency.setValueAtTime(filterSeq[filterIndex].freq, time);
+                t += filterSeq[filterIndex].dur;
+                for (i = 1; i < filterSeq.length; i++) {
+                    filterIndex = (filterIndex + 1) % filterSeq.length;
+                    chord.filter.frequency.exponentialRampToValueAtTime(filterSeq[filterIndex].freq, t);
+                    t += filterSeq[filterIndex].dur;
+                }
                 
                 for (i = 0; i < numVoices; i++) {
                     voice = {
@@ -41,7 +79,7 @@ window.WH = window.WH || {};
                         amp: specs.core.createGain()
                     };
                     voice.amp.gain.set(0, now, now);
-                    voice.amp.gain.set(velocity / 127, now, [time, 0.005], 3);
+                    voice.amp.gain.set((velocity / 127) / (16 + (Math.random() * 8)), now, [time, 0.005], 3);
                     voice.osc.type = 'square';
                     voice.osc.frequency.set(WH.mtof(pitch + chordPitches[i]), now, time, 0);
                     voice.osc.to(voice.amp).to(chord.filter);

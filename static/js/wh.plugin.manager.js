@@ -11,14 +11,16 @@ window.WH = window.WH || {};
     function createPluginManager(specs) {
         var that = specs.that,
             conf = specs.conf,
-            core = specs.core
+            core = specs.core,
+            transport = specs.transport
             pluginIdCounter = 0,
             createPlugin = function(pluginName) {
                 if (WH.plugins && WH.plugins[pluginName]) {
                     var plugin = WH.plugins[pluginName].create({
                         id: pluginIdCounter,
                         conf: conf,
-                        core: core
+                        core: core,
+                        transport: transport
                     });
                     pluginIdCounter += 1;
                     return plugin;

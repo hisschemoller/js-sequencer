@@ -30,7 +30,7 @@ window.WH = window.WH || {};
         		osc.frequency.value = startFrequency;
         		osc.frequency.setValueAtTime(startFrequency, time);
         		osc.frequency.exponentialRampToValueAtTime(endFrequency, time + pitchDecay);
-        		env.gain.value = startGain;
+        		env.gain.value = startGain * (velocity / 127);
         		env.gain.setValueAtTime(startGain, time);
         		env.gain.linearRampToValueAtTime(0.0, time + length);
         		osc.start(time);
