@@ -1,10 +1,18 @@
+/**
+ * Kick drum plugin.
+ * @see http://codepen.io/andremichelle/pen/LGZWvW
+ *
+ * @namespace WH
+ */
 
+window.WH = window.WH || {};
 
 (function (WH) {
 
     function createKickPlugin(specs, my) {
 
         var that,
+            startGain = 0.8,
             startFrequency,
             endFrequency,
             length,
@@ -22,12 +30,12 @@
         		osc.frequency.value = startFrequency;
         		osc.frequency.setValueAtTime(startFrequency, time);
         		osc.frequency.exponentialRampToValueAtTime(endFrequency, time + pitchDecay);
-        		env.gain.value = 0.8;
-        		env.gain.setValueAtTime(0.8, time);
+        		env.gain.value = startGain * (velocity / 127);
+        		env.gain.setValueAtTime(startGain, time);
         		env.gain.linearRampToValueAtTime(0.0, time + length);
         		osc.start(time);
         		osc.stop(time + length);
-            }
+            },
             noteOn = function(pitch, velocity, time) {
                 time = (time || specs.core.getNow());
                 createVoice(pitch, velocity, time);
@@ -36,7 +44,7 @@
             };
 
         my = my || {};
-        my.name = 'kick'
+        my.name = 'kick';
         my.title = 'Kick';
         my.defaultPreset = {
             startfreq: 120,

@@ -57,7 +57,8 @@ $(function() {
         WH.createPluginManager({
             that: pluginManager,
             conf: conf,
-            core: core
+            core: core,
+            transport: transport
         });
         WH.createStudio({
             that: studio,

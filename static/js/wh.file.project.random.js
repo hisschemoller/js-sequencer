@@ -78,7 +78,28 @@ window.WH = window.WH || {};
                     track = data.arrangement.patterns[i].tracks[channel];
                     for(j = 0; j < stepCount; j++) {
                         step = track.steps[j];
-                        step.velocity = (j % 4 == 0) ? 100 : 0;
+                        switch (j) {
+                            case 0:
+                                step.velocity = 100;
+                                break
+                            case 2:
+                            case 10:
+                                step.velocity = (Math.random() > 0.2) ? 95 : 0;
+                                break;
+                            case 6:
+                            case 12:
+                            case 14:
+                                step.velocity = (Math.random() > 0.85) ? 60 : 0;
+                                break;
+                            case 1:
+                            case 4:
+                            case 8:
+                            case 9:
+                            case 11:
+                            case 15:
+                                step.velocity = (Math.random() > 0.95) ? 30 : 0;
+                                break;
+                        }
                     }
                 }
             },
@@ -86,7 +107,7 @@ window.WH = window.WH || {};
             createRack1 = function() {
                 var channel = 1,
                     rack = data.racks[channel];
-                rack.instrument.name = 'simpleosc';
+                rack.instrument.name = 'chord';
                 rack.channel.preset.pan = 0.3;
             },
 
@@ -94,10 +115,10 @@ window.WH = window.WH || {};
                 var channel = 1, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
                     track = data.arrangement.patterns[i].tracks[channel];
-                    for(j = 0; j < stepCount; j++) {
-                        step = track.steps[j];
-                        step.velocity = 0;
-                    }
+                    step = track.steps[2];
+                    step.pitch = 60;
+                    step.velocity = 50 + i;
+                    step.duration = stepDuration * 8;
                 }
             },
 
