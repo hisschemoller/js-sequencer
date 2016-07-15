@@ -24,6 +24,11 @@ window.WH = window.WH || {};
                     {label: 'Square', value: 'square'},
                     {label: 'Saw', value: 'sawtooth'},
                     {label: 'Triangle', value: 'triangle'}
+                ],
+                filtertypes: [
+                    {label: 'Lowpass', value: 'lowpass'},
+                    {label: 'Bandpass', value: 'bandpass'},
+                    {label: 'Highpass', value: 'highpass'}
                 ]
             };
 

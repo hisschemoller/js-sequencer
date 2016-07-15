@@ -12,7 +12,7 @@ window.WH = window.WH || {};
     function createKickPlugin(specs, my) {
 
         var that,
-            startGain = 0.8,
+            startGain = 0.6,
             startFrequency,
             endFrequency,
             length,
@@ -24,14 +24,16 @@ window.WH = window.WH || {};
                 pitchDecay = my.defaultPreset.pitchdecay;
             },
             createVoice = function(pitch, velocity, time) {
-                var osc = specs.core.createOsc();
-        		var env = specs.core.createGain();
+                var osc = specs.core.createOsc(),
+                    env = specs.core.createGain(),
+                    pitchDec = (pitch == 100) ? (0.6 + (Math.random() * 0.2)) : pitchDecay,
+                    gain = startGain * (velocity / 127);
         		osc.to(env).to(my.output);
         		osc.frequency.value = startFrequency;
         		osc.frequency.setValueAtTime(startFrequency, time);
-        		osc.frequency.exponentialRampToValueAtTime(endFrequency, time + pitchDecay);
-        		env.gain.value = startGain * (velocity / 127);
-        		env.gain.setValueAtTime(startGain, time);
+        		osc.frequency.exponentialRampToValueAtTime(endFrequency, time + pitchDec);
+        		env.gain.value = gain;
+        		env.gain.setValueAtTime(gain, time);
         		env.gain.linearRampToValueAtTime(0.0, time + length);
         		osc.start(time);
         		osc.stop(time + length);
