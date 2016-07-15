@@ -122,6 +122,26 @@ window.WH = window.WH || {};
                 }
             },
 
+            createRack2 = function() {
+                var channel = 2,
+                    rack = data.racks[channel];
+                rack.instrument.name = 'impulse';
+                rack.channel.preset.pan = 0.0;
+            },
+
+            createPatterns2 = function() {
+                var channel = 2, track, step, i, j;
+                for (i = 0; i < patternCount; i++) {
+                    track = data.arrangement.patterns[i].tracks[channel];
+                    for(j = 0; j < stepCount; j++) {
+                        step = track.steps[j];
+                        step.pitch = 60;
+                        step.velocity = (Math.random() > 0.5) ? 100 : 0;
+                        step.duration = stepDuration;
+                    }
+                }
+            },
+
             createSong = function() {
                 for (var i = 0; i < 2; i++) {
                     data.arrangement.song.push({
@@ -136,6 +156,8 @@ window.WH = window.WH || {};
         createPatterns0();
         createRack1();
         createPatterns1();
+        createRack2();
+        createPatterns2();
         createSong();
 
         return data;
