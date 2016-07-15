@@ -15,13 +15,15 @@ window.WH = window.WH || {};
             },
             createImpulseVoice = function(pitch, velocity, time) {
                 var osc = my.core.createOsc(),
-                    filter = my.core.createFilter();
+                    filter = my.core.createFilter(),
+                    panner = my.core.createStereoPanner();
                 osc.type = 'sawtooth';
                 osc.frequency.value = 20 + (Math.random() * 50);
                 filter.type = 'lowpass';
                 filter.Q.value = 20;
                 filter.frequency.value = 1000 + (Math.random() * 10000);
-                osc.to(filter).to(my.output);
+                panner.pan.value = 0.75 - (Math.random() * 1.5);
+                osc.to(filter).to(panner).to(my.output);
                 osc.start(time);
                 osc.stop(time + (1 / osc.frequency.value));
             },
