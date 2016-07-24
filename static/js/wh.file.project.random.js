@@ -213,6 +213,24 @@ window.WH = window.WH || {};
                 }
             },
 
+            createRack4 = function() {
+                var channel = 4,
+                    rack = data.racks[channel];
+                rack.instrument.name = 'hihat';
+                rack.channel.preset.pan = 0.0;
+            },
+
+            createPatterns4 = function() {
+                var channel = 4, track, step, i, j;
+                for (i = 0; i < patternCount; i++) {
+                    track = data.arrangement.patterns[i].tracks[channel];
+                    track.steps[2].velocity = 30;
+                    track.steps[6].velocity = 30;
+                    track.steps[10].velocity = 30;
+                    track.steps[14].velocity = 30;
+                }
+            },
+
             createSong = function() {
                 for (var i = 0; i < 2; i++) {
                     data.arrangement.song.push({
@@ -232,6 +250,8 @@ window.WH = window.WH || {};
         createPatterns2();
         createRack3();
         createPatterns3();
+        createRack4();
+        createPatterns4();
         createSong();
 
         return data;
