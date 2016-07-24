@@ -86,6 +86,11 @@ window.WH = window.WH || {};
              * Song view object.
              */
             song,
+            
+            /**
+             * Number of columns to display based on window width. 
+             */
+            responsiveCols = 0,
 
             /**
              * Initialise the view, add DOM event handlers.
@@ -144,7 +149,7 @@ window.WH = window.WH || {};
                         case 32:
                             transport.toggleStartStop();
                             break;
-                        case 192:
+                        case 192: // 192 == '~'
                             if (e.altKey) {
                                 file.createNew(true);
                                 transport.rewind();
@@ -153,6 +158,31 @@ window.WH = window.WH || {};
                             break;
                     }
                 });
+                
+                window.addEventListener('resize', onResize); 
+            },
+            
+            /**
+             * 
+             */
+            onResize = function(e) {
+                var w = window.innerWidth,
+                    prevResponsiveCols = responsiveCols;
+                
+                if (w < 640 && responsiveCols !== 1) {
+                    responsiveCols = 1;
+                } else if (w >= 640 && w < 960 && responsiveCols !== 2) {
+                    responsiveCols = 2;
+                    isChanged = true;
+                } else if (w >= 960 && w < 1280 && responsiveCols !== 3) {
+                    responsiveCols = 3;
+                } else if (w >= 1280 && responsiveCols !== 4) {
+                    responsiveCols = 4;
+                }
+                
+                if (responsiveCols != prevResponsiveCols) {
+                    document.getElementById('app').dataset.cols = responsiveCols;
+                }
             },
 
             /**

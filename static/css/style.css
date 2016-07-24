@@ -14,7 +14,7 @@ main {
     height: 100vh;
     max-height: 480px;
     min-height: 320px;
-    max-width: 480px;
+    /*max-width: 480px;*/
     min-width: 320px;
     position: relative;
 }
@@ -511,4 +511,48 @@ button:focus {
             }
 #templates {
     display: none;
+}
+
+/********************
+ * 2 columns
+ ********************/
+[data-cols='2'] .channel-selects,
+[data-cols='2'] .channels,
+[data-cols='2'] .steps,
+[data-cols='2'] .patterns,
+[data-cols='2'] .racks,
+[data-cols='2'] .song {
+    display: block !important;
+    position: absolute;
+    width: 50%;
+}
+[data-cols='2'] .channel-selects {
+    left: 0;
+    top: 0;
+}
+[data-cols='2'] .channels {
+    left: 0;
+    top: 40px;
+}
+[data-cols='2'] .racks {
+    left: 0;
+    top: 200px;
+}
+[data-cols='2'] .steps {
+    left: 50%;
+    top: 0;
+}
+[data-cols='2'] .patterns {
+    left: 50%;
+    top: 80px;
+}
+[data-cols='2'] .song {
+    left: 50%;
+    top: 160px;
+}
+
+@media only screen and (min-width: 656px) {
+    .tabs {
+        display: none;
+    }
 }
