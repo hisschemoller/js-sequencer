@@ -27,16 +27,18 @@ window.WH = window.WH || {};
                 var osc = specs.core.createOsc(),
                     env = specs.core.createGain(),
                     pitchDec = (pitch == 100) ? (0.6 + (Math.random() * 0.2)) : pitchDecay,
-                    gain = startGain * (velocity / 127);
+                    gain = startGain * (velocity / 127),
+                    lengthRandom = length + (length * (Math.random() * 0.5)),
+                    startFrequencyRandom = startFrequency + (startFrequency * (Math.random() * 0.2));
         		osc.to(env).to(my.output);
         		osc.frequency.value = startFrequency;
         		osc.frequency.setValueAtTime(startFrequency, time);
         		osc.frequency.exponentialRampToValueAtTime(endFrequency + (pitch - 60), time + pitchDec);
         		env.gain.value = gain;
         		env.gain.setValueAtTime(gain, time);
-        		env.gain.linearRampToValueAtTime(0.0, time + length);
+        		env.gain.linearRampToValueAtTime(0.0, time + lengthRandom);
         		osc.start(time);
-        		osc.stop(time + length);
+        		osc.stop(time + lengthRandom);
             },
             noteOn = function(pitch, velocity, time) {
                 time = (time || specs.core.getNow());
