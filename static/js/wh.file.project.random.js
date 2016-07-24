@@ -76,33 +76,42 @@ window.WH = window.WH || {};
                 var channel = 0, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
                     track = data.arrangement.patterns[i].tracks[channel];
-                    for(j = 0; j < stepCount; j++) {
-                        step = track.steps[j];
-                        switch (j) {
-                            case 0:
-                                step.velocity = 127;
-                                break
-                            case 6:
-                            case 8:
-                            case 14:
-                                step.velocity = (Math.random() > 0.1) ? 110 : 0;
-                                break;
-                            case 4:
-                                step.pitch = 100;
-                                step.velocity = (Math.random() > 0.15) ? 100 : 0;
-                                break;
-                            case 2:
-                            case 12:
-                                step.velocity = (Math.random() > 0.85) ? 60 : 0;
-                                break;
-                            case 1:
-                            case 9:
-                            case 11:
-                            case 15:
-                                step.velocity = (Math.random() > 0.95) ? 20 : 0;
-                                break;
-                        }
-                    }
+                    track.steps[0].velocity = 127;
+                    track.steps[2].velocity = 100;
+                    track.steps[3].velocity = 100;
+                    track.steps[3].pitch = 100;
+                    track.steps[5].velocity = 100;
+                    track.steps[5].pitch = 103;
+                    // track.steps[15].velocity = 70;
+                    // track.steps[15].pitch = 130;
+                    
+                    // for(j = 0; j < st    epCount; j++) {
+                    //     step = track.steps[j];
+                    //     switch (j) {
+                    //         case 0:
+                    //             step.velocity = 127;
+                    //             break
+                    //         case 6:
+                    //         case 8:
+                    //         case 14:
+                    //             step.velocity = (Math.random() > 0.1) ? 110 : 0;
+                    //             break;
+                    //         case 4:
+                    //             step.pitch = 100;
+                    //             step.velocity = (Math.random() > 0.15) ? 100 : 0;
+                    //             break;
+                    //         case 2:
+                    //         case 12:
+                    //             step.velocity = (Math.random() > 0.85) ? 60 : 0;
+                    //             break;
+                    //         case 1:
+                    //         case 9:
+                    //         case 11:
+                    //         case 15:
+                    //             step.velocity = (Math.random() > 0.95) ? 20 : 0;
+                    //             break;
+                    //     }
+                    // }
                 }
             },
 
@@ -119,6 +128,8 @@ window.WH = window.WH || {};
                     track = data.arrangement.patterns[i].tracks[channel];
                     step = track.steps[8];
                     step.pitch = (Math.floor(i / 4) % 2 == 0) ? 60 : 58;
+                    step.pitch = (i >= 10 && i < 12) ? step.pitch + 1 : step.pitch;
+                    step.pitch = (i >= 14 && i < 16) ? step.pitch + 1 : step.pitch;
                     step.velocity = 30 + i;
                     step.duration = stepDuration * 8;
                 }
@@ -135,25 +146,30 @@ window.WH = window.WH || {};
                 var channel = 2, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
                     track = data.arrangement.patterns[i].tracks[channel];
-                    for(j = 0; j < stepCount; j++) {
-                        step = track.steps[j];
-                        switch (j) {
-                            case 2:
-                            case 6:
-                            case 10:
-                            // case 14:
-                                step.pitch = 60;
-                                step.velocity = (Math.random() > 0.1) ? 50 : 0;
-                                break;
-                            case 1:
-                            case 5:
-                            case 9:
-                            // case 13:
-                                step.pitch = 60;
-                                step.velocity = (Math.random() > 0.65) ? 50 : 0;
-                                break;
-                        }
-                    }
+                    track.steps[6].velocity = 40;
+                    track.steps[8].velocity = 40;
+                    track.steps[12].velocity = 40;
+                    track.steps[14].velocity = 40;
+                    // track.steps[8].velocity = 40;
+                    // for(j = 0; j < stepCount; j++) {
+                    //     step = track.steps[j];
+                    //     switch (j) {
+                    //         case 2:
+                    //         case 6:
+                    //         case 10:
+                    //         // case 14:
+                    //             step.pitch = 60;
+                    //             step.velocity = (Math.random() > 0.1) ? 50 : 0;
+                    //             break;
+                    //         case 1:
+                    //         case 5:
+                    //         case 9:
+                    //         // case 13:
+                    //             step.pitch = 60;
+                    //             step.velocity = (Math.random() > 0.65) ? 50 : 0;
+                    //             break;
+                    //     }
+                    // }
                 }
             },
 
@@ -178,7 +194,8 @@ window.WH = window.WH || {};
                                 break;
                             case 14:
                                 step.pitch = (Math.floor(i / 4) % 2 == 0) ? 48 : 46;
-                                step.velocity = 100 + i;
+                                step.pitch = (i >= 14 && i < 16) ? step.pitch + 1 : step.pitch;
+                                step.velocity = ((i >= 2 && i < 4) || (i >= 6 && i < 8)) ? 0 : 100 + i;
                                 step.duration = (i >= 12) ? stepDuration * 6 : stepDuration * 4;
                                 break;
                             // case 9:
@@ -200,7 +217,8 @@ window.WH = window.WH || {};
                 for (var i = 0; i < 2; i++) {
                     data.arrangement.song.push({
                         patternIndex: i,
-                        repeats: 1
+                        repeats: 1,
+                        mutes: null
                     });
                 }
             };
