@@ -16,6 +16,7 @@ window.WH = window.WH || {};
             chordPitches = [0, 3, 7, 10, 12, 22],
             playingNow = [],
             filterSeq,
+            filterMultiply = 1.0,
             init = function() {
                 var sixteenthInSeconds = (60 / my.transport.getBPM()) / 4;
                 filterSeq = [{
@@ -52,6 +53,7 @@ window.WH = window.WH || {};
                 var now = my.output.context.currentTime,
                     i, t, 
                     filterIndex,
+                    filterFreq,
                     numVoices = chordPitches.length,
                     chord = {
                         pitch: pitch,
@@ -60,16 +62,18 @@ window.WH = window.WH || {};
                     };
                     
                 chord.filter.type.value = 'lowpass';
-                chord.filter.Q.value = 20;
+                chord.filter.Q.value = 15;
                 chord.filter.to(my.output);
                 
                 t = time;
                 filterIndex = Math.floor(((velocity % 10) + 4) % filterSeq.length);
-                chord.filter.frequency.setValueAtTime(filterSeq[filterIndex].freq, time);
+                filterFreq = filterSeq[filterIndex].freq * filterMultiply;
+                chord.filter.frequency.setValueAtTime(filterFreq, time);
                 t += filterSeq[filterIndex].dur;
                 for (i = 1; i < filterSeq.length; i++) {
                     filterIndex = (filterIndex + 1) % filterSeq.length;
-                    chord.filter.frequency.exponentialRampToValueAtTime(filterSeq[filterIndex].freq + 10000, t);
+                    filterFreq = filterSeq[filterIndex].freq * filterMultiply;
+                    chord.filter.frequency.exponentialRampToValueAtTime(filterFreq, t);
                     t += filterSeq[filterIndex].dur;
                 }
                 
@@ -127,6 +131,10 @@ window.WH = window.WH || {};
         my.name = 'chord2';
         my.title = 'Chord Synth 2';
         my.defaultPreset = {
+            filtermultiply: 1.0,
+        };
+        my.$filtermultiply = function (value, time, rampType) {
+            filterMultiply = value;
         };
         
         that = WH.createGeneratorPlugin(specs, my);
@@ -134,6 +142,14 @@ window.WH = window.WH || {};
         init();
         
         my.defineParams({
+            filtermultiply: {
+                type: 'generic',
+                name: 'Filt Freq X',
+                default: 1.0,
+                min: 0.01,
+                max: 8.0,
+                unit: 'Multiplier'
+            }
         });
             
         that.noteOn = noteOn;
