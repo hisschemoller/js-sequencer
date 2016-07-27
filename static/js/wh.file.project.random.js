@@ -82,36 +82,6 @@ window.WH = window.WH || {};
                     track.steps[3].pitch = 100;
                     track.steps[5].velocity = 100;
                     track.steps[5].pitch = 103;
-                    // track.steps[15].velocity = 70;
-                    // track.steps[15].pitch = 130;
-                    
-                    // for(j = 0; j < st    epCount; j++) {
-                    //     step = track.steps[j];
-                    //     switch (j) {
-                    //         case 0:
-                    //             step.velocity = 127;
-                    //             break
-                    //         case 6:
-                    //         case 8:
-                    //         case 14:
-                    //             step.velocity = (Math.random() > 0.1) ? 110 : 0;
-                    //             break;
-                    //         case 4:
-                    //             step.pitch = 100;
-                    //             step.velocity = (Math.random() > 0.15) ? 100 : 0;
-                    //             break;
-                    //         case 2:
-                    //         case 12:
-                    //             step.velocity = (Math.random() > 0.85) ? 60 : 0;
-                    //             break;
-                    //         case 1:
-                    //         case 9:
-                    //         case 11:
-                    //         case 15:
-                    //             step.velocity = (Math.random() > 0.95) ? 20 : 0;
-                    //             break;
-                    //     }
-                    // }
                 }
             },
 
@@ -139,6 +109,7 @@ window.WH = window.WH || {};
                 var channel = 2,
                     rack = data.racks[channel];
                 rack.instrument.name = 'impulse';
+                rack.channel.preset.level = 0.2;
                 rack.channel.preset.pan = 0.0;
             },
 
@@ -150,26 +121,6 @@ window.WH = window.WH || {};
                     track.steps[8].velocity = 40;
                     track.steps[12].velocity = 40;
                     track.steps[14].velocity = 40;
-                    // track.steps[8].velocity = 40;
-                    // for(j = 0; j < stepCount; j++) {
-                    //     step = track.steps[j];
-                    //     switch (j) {
-                    //         case 2:
-                    //         case 6:
-                    //         case 10:
-                    //         // case 14:
-                    //             step.pitch = 60;
-                    //             step.velocity = (Math.random() > 0.1) ? 50 : 0;
-                    //             break;
-                    //         case 1:
-                    //         case 5:
-                    //         case 9:
-                    //         // case 13:
-                    //             step.pitch = 60;
-                    //             step.velocity = (Math.random() > 0.65) ? 50 : 0;
-                    //             break;
-                    //     }
-                    // }
                 }
             },
 
@@ -177,6 +128,7 @@ window.WH = window.WH || {};
                 var channel = 3,
                     rack = data.racks[channel];
                 rack.instrument.name = 'chord2';
+                rack.channel.preset.level = 0.85;
                 rack.channel.preset.pan = 0.0;
             },
 
@@ -224,21 +176,28 @@ window.WH = window.WH || {};
                 var channel = 4, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
                     track = data.arrangement.patterns[i].tracks[channel];
-                    track.steps[2].velocity = 30;
-                    track.steps[6].velocity = 30;
-                    track.steps[10].velocity = 30;
-                    track.steps[14].velocity = 30;
+                    track.steps[2].velocity = 30 + Math.floor(Math.random() * 30);
+                    track.steps[6].velocity = 30 + Math.floor(Math.random() * 30);
+                    track.steps[10].velocity = 30 + Math.floor(Math.random() * 30);
+                    track.steps[14].velocity = 30 + Math.floor(Math.random() * 30);
+                    
+                    // pitch 61 only plays sometimes
+                    track.steps[3].velocity = 40;
+                    track.steps[3].pitch = 61;
+                    track.steps[15].velocity = 40;
+                    track.steps[15].pitch = 61;
                 }
             },
 
             createSong = function() {
-                for (var i = 0; i < 2; i++) {
-                    data.arrangement.song.push({
-                        patternIndex: i,
-                        repeats: 1,
-                        mutes: null
-                    });
-                }
+                data.arrangement.song.push({patternIndex: 2, repeats: 6});
+                data.arrangement.song.push({patternIndex: 3, repeats: 2});
+                data.arrangement.song.push({patternIndex: 2, repeats: 6});
+                data.arrangement.song.push({patternIndex: 3, repeats: 2});
+                data.arrangement.song.push({patternIndex: 0, repeats: 12});
+                data.arrangement.song.push({patternIndex: 1, repeats: 4});
+                data.arrangement.song.push({patternIndex: 4, repeats: 12});
+                data.arrangement.song.push({patternIndex: 5, repeats: 4});
             };
 
         init();

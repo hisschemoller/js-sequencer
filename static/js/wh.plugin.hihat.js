@@ -16,6 +16,12 @@ window.WH = window.WH || {};
             init = function() {
             },
             createHihatVoice = function(pitch, velocity, time) {
+                
+                // pitch 61 only plays sometimes
+                if (pitch == 61 && Math.random() > 0.15) {
+                    return;
+                } 
+                
                 var volume = velocity / 127;
                     gain = my.core.createGain(),
                     bandpass = my.core.createFilter(),
