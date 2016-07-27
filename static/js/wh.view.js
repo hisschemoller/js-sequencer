@@ -159,7 +159,7 @@ window.WH = window.WH || {};
                     }
                 });
                 
-                window.addEventListener('resize', onResize); 
+                window.addEventListener('resize', onResize);
             },
             
             /**
@@ -232,6 +232,7 @@ window.WH = window.WH || {};
         this.setup = function() {
             init();
             initDomEvents();
+            onResize();
         };
 
         /**
