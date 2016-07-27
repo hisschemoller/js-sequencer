@@ -181,7 +181,7 @@ window.WH = window.WH || {};
                 }
                 
                 if (responsiveCols != prevResponsiveCols) {
-                    document.getElementById('app').dataset.cols = responsiveCols;
+                    document.getElementsByTagName('main')[0].dataset.cols = responsiveCols;
                 }
             },
 

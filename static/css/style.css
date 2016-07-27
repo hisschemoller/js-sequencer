@@ -350,7 +350,7 @@ button:focus {
                 opacity: 0.5;
             }
     .plugin__pages {
-        height: 160px;
+        /*height: 160px;*/
         overflow: hidden;
         width: 100%;
     }
@@ -516,6 +516,9 @@ button:focus {
 /********************
  * 2 columns
  ********************/
+[data-cols='2'] {
+     max-height: none;
+}
 [data-cols='2'] .channel-selects,
 [data-cols='2'] .channels,
 [data-cols='2'] .steps,
@@ -538,6 +541,9 @@ button:focus {
     left: 0;
     top: 200px;
 }
+    [data-cols='2'] .rack {
+        display: block !important;
+    }
 [data-cols='2'] .steps {
     left: 50%;
     top: 0;
@@ -547,9 +553,13 @@ button:focus {
     top: 80px;
 }
 [data-cols='2'] .song {
+    bottom: 40px;
     left: 50%;
     top: 160px;
 }
+    [data-cols='2'] .song__list-container {
+        top: 40px;
+    }
 
 @media only screen and (min-width: 656px) {
     .tabs {
