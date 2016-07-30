@@ -65,14 +65,14 @@ window.WH = window.WH || {};
                 }
             },
 
-            createRack0 = function() {
+            createRackA = function() {
                 var channel = 0,
                     rack = data.racks[channel];
                 rack.instrument.name = 'kick';
                 rack.channel.preset.pan = 0.1;
             },
 
-            createPatterns0 = function() {
+            createPatternsA = function() {
                 var channel = 0, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
                     track = data.arrangement.patterns[i].tracks[channel];
@@ -85,14 +85,14 @@ window.WH = window.WH || {};
                 }
             },
 
-            createRack1 = function() {
+            createRackB = function() {
                 var channel = 1,
                     rack = data.racks[channel];
                 rack.instrument.name = 'chord';
                 rack.channel.preset.pan = 0.0;
             },
 
-            createPatterns1 = function() {
+            createPatternsB = function() {
                 var channel = 1, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
                     track = data.arrangement.patterns[i].tracks[channel];
@@ -105,7 +105,7 @@ window.WH = window.WH || {};
                 }
             },
 
-            createRack2 = function() {
+            createRackC = function() {
                 var channel = 2,
                     rack = data.racks[channel];
                 rack.instrument.name = 'impulse';
@@ -113,7 +113,7 @@ window.WH = window.WH || {};
                 rack.channel.preset.pan = 0.0;
             },
 
-            createPatterns2 = function() {
+            createPatternsC = function() {
                 var channel = 2, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
                     track = data.arrangement.patterns[i].tracks[channel];
@@ -201,16 +201,16 @@ window.WH = window.WH || {};
             };
 
         init();
-        createRack0();
-        createPatterns0();
-        createRack1();
-        createPatterns1();
-        createRack2();
-        createPatterns2();
-        createRack3();
-        createPatterns3();
-        createRack4();
-        createPatterns4();
+        createRackA();
+        createPatternsA();
+        createRackB();
+        createPatternsB();
+        createRackC();
+        createPatternsC();
+        createRackD();
+        createPatternsD();
+        createRackE();
+        createPatternsE();
         createSong();
 
         return data;
