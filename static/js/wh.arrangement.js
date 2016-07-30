@@ -36,16 +36,6 @@ window.WH = window.WH || {};
             },
 
             /**
-             * Change to another pattern.
-             * @param {Number} index Index of pattern in patterns array.
-             */
-            changePattern = function(index) {
-                patternIndex = index;
-                view.setSelectedPattern(index);
-                view.setSelectedSteps();
-            },
-
-            /**
              * Create an arrangement from a data object.
              * @param {Object} data Data object.
              */
@@ -79,7 +69,7 @@ window.WH = window.WH || {};
                     view.setSong(song);
                 }
 
-                changePattern(0);
+                setSelectedPattern(0);
             },
 
             /**
@@ -157,7 +147,7 @@ window.WH = window.WH || {};
                             } else {
                                 songPartNextStart = null;
                             }
-                            changePattern(song[songPartIndex].getPatternIndex());
+                            setSelectedPattern(song[songPartIndex].getPatternIndex());
                             // scan the first bit of the new song part
                             patterns[patternIndex].scanEvents(song[songPartIndex].getStart(), end, playbackQueue);
                             // update the view
