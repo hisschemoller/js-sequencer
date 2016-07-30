@@ -147,7 +147,7 @@ window.WH = window.WH || {};
                 name: 'Filt Freq X',
                 default: 1.0,
                 min: 0.01,
-                max: 2.0,
+                max: 10.0,
                 unit: 'Multiplier'
             }
         });

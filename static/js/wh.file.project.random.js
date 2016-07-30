@@ -75,6 +75,9 @@ window.WH = window.WH || {};
             createPatternsA = function() {
                 var channel = 0, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
+                    if (i == 8 || i == 9) {
+                        continue;
+                    }
                     track = data.arrangement.patterns[i].tracks[channel];
                     track.steps[0].velocity = 127;
                     track.steps[2].velocity = 100;
@@ -95,9 +98,6 @@ window.WH = window.WH || {};
             createPatternsB = function() {
                 var channel = 1, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
-                    if (i == 8 || i == 9) {
-                        continue;
-                    }
                     track = data.arrangement.patterns[i].tracks[channel];
                     step = track.steps[8];
                     step.pitch = (Math.floor(i / 4) % 2 == 0) ? 60 : 58;
@@ -119,7 +119,7 @@ window.WH = window.WH || {};
             createPatternsC = function() {
                 var channel = 2, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
-                    if (i == 8) {
+                    if (i == 8 || i == 9) {
                         continue;
                     }
                     track = data.arrangement.patterns[i].tracks[channel];
@@ -130,7 +130,7 @@ window.WH = window.WH || {};
                 }
             },
 
-            createRack3 = function() {
+            createRackD = function() {
                 var channel = 3,
                     rack = data.racks[channel];
                 rack.instrument.name = 'chord2';
@@ -138,12 +138,9 @@ window.WH = window.WH || {};
                 rack.channel.preset.pan = 0.0;
             },
 
-            createPatterns3 = function() {
+            createPatternsD = function() {
                 var channel = 3, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
-                    if (i == 8 || i == 9) {
-                        continue;
-                    }
                     track = data.arrangement.patterns[i].tracks[channel];
                     for(j = 0; j < stepCount; j++) {
                         step = track.steps[j];
@@ -174,14 +171,14 @@ window.WH = window.WH || {};
                 }
             },
 
-            createRack4 = function() {
+            createRackE = function() {
                 var channel = 4,
                     rack = data.racks[channel];
                 rack.instrument.name = 'hihat';
                 rack.channel.preset.pan = 0.0;
             },
 
-            createPatterns4 = function() {
+            createPatternsE = function() {
                 var channel = 4, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
                     if (i == 8) {
@@ -202,9 +199,25 @@ window.WH = window.WH || {};
             },
 
             createSong = function() {
-                data.arrangement.song.push({patternIndex: 9, repeats: 8});
                 data.arrangement.song.push({patternIndex: 2, repeats: 8});
                 data.arrangement.song.push({patternIndex: 3, repeats: 8});
+                data.arrangement.song.push({patternIndex: 2, repeats: 8});
+                data.arrangement.song.push({patternIndex: 3, repeats: 8});
+                
+                data.arrangement.song.push({patternIndex: 0, repeats: 12});
+                data.arrangement.song.push({patternIndex: 1, repeats: 4});
+                data.arrangement.song.push({patternIndex: 4, repeats: 12});
+                data.arrangement.song.push({patternIndex: 5, repeats: 4});
+                
+                data.arrangement.song.push({patternIndex: 0, repeats: 8});
+                data.arrangement.song.push({patternIndex: 8, repeats: 8});
+                data.arrangement.song.push({patternIndex: 9, repeats: 8});
+                data.arrangement.song.push({patternIndex: 10, repeats: 8});
+                data.arrangement.song.push({patternIndex: 11, repeats: 8});
+                data.arrangement.song.push({patternIndex: 8, repeats: 8});
+                data.arrangement.song.push({patternIndex: 2, repeats: 8});
+                data.arrangement.song.push({patternIndex: 8, repeats: 6});
+                
                 data.arrangement.song.push({patternIndex: 0, repeats: 12});
                 data.arrangement.song.push({patternIndex: 1, repeats: 4});
                 data.arrangement.song.push({patternIndex: 4, repeats: 12});
