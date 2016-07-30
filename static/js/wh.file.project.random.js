@@ -95,6 +95,9 @@ window.WH = window.WH || {};
             createPatternsB = function() {
                 var channel = 1, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
+                    if (i == 8 || i == 9) {
+                        continue;
+                    }
                     track = data.arrangement.patterns[i].tracks[channel];
                     step = track.steps[8];
                     step.pitch = (Math.floor(i / 4) % 2 == 0) ? 60 : 58;
@@ -116,6 +119,9 @@ window.WH = window.WH || {};
             createPatternsC = function() {
                 var channel = 2, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
+                    if (i == 8) {
+                        continue;
+                    }
                     track = data.arrangement.patterns[i].tracks[channel];
                     track.steps[6].velocity = 40;
                     track.steps[8].velocity = 40;
@@ -135,6 +141,9 @@ window.WH = window.WH || {};
             createPatterns3 = function() {
                 var channel = 3, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
+                    if (i == 8 || i == 9) {
+                        continue;
+                    }
                     track = data.arrangement.patterns[i].tracks[channel];
                     for(j = 0; j < stepCount; j++) {
                         step = track.steps[j];
@@ -175,6 +184,9 @@ window.WH = window.WH || {};
             createPatterns4 = function() {
                 var channel = 4, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
+                    if (i == 8) {
+                        continue;
+                    }
                     track = data.arrangement.patterns[i].tracks[channel];
                     track.steps[2].velocity = 30 + Math.floor(Math.random() * 30);
                     track.steps[6].velocity = 30 + Math.floor(Math.random() * 30);
@@ -190,10 +202,9 @@ window.WH = window.WH || {};
             },
 
             createSong = function() {
-                data.arrangement.song.push({patternIndex: 2, repeats: 6});
-                data.arrangement.song.push({patternIndex: 3, repeats: 2});
-                data.arrangement.song.push({patternIndex: 2, repeats: 6});
-                data.arrangement.song.push({patternIndex: 3, repeats: 2});
+                data.arrangement.song.push({patternIndex: 9, repeats: 8});
+                data.arrangement.song.push({patternIndex: 2, repeats: 8});
+                data.arrangement.song.push({patternIndex: 3, repeats: 8});
                 data.arrangement.song.push({patternIndex: 0, repeats: 12});
                 data.arrangement.song.push({patternIndex: 1, repeats: 4});
                 data.arrangement.song.push({patternIndex: 4, repeats: 12});
