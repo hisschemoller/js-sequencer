@@ -17,6 +17,7 @@ window.WH = window.WH || {};
             playingNow = [],
             filterSeq,
             filterMultiply = 1.0,
+            ampRelease = 0.1,
             init = function() {
                 var sixteenthInSeconds = (60 / my.transport.getBPM()) / 4;
                 filterSeq = [{
@@ -55,6 +56,8 @@ window.WH = window.WH || {};
                     filterIndex,
                     filterFreq,
                     numVoices = chordPitches.length,
+                    numFilterSteps = filterSeq.length * 2,
+                    numStepsToLoop = filterSeq.length - Math.floor(Math.random() * 4),
                     chord = {
                         pitch: pitch,
                         voices: [],
@@ -70,8 +73,8 @@ window.WH = window.WH || {};
                 filterFreq = filterSeq[filterIndex].freq * filterMultiply;
                 chord.filter.frequency.setValueAtTime(filterFreq, time);
                 t += filterSeq[filterIndex].dur;
-                for (i = 1; i < filterSeq.length; i++) {
-                    filterIndex = (filterIndex + 1) % filterSeq.length;
+                for (i = 1; i < numFilterSteps; i++) {
+                    filterIndex = (filterIndex + 1) % numStepsToLoop;
                     filterFreq = filterSeq[filterIndex].freq * filterMultiply;
                     chord.filter.frequency.exponentialRampToValueAtTime(filterFreq, t);
                     t += filterSeq[filterIndex].dur;
@@ -100,7 +103,7 @@ window.WH = window.WH || {};
                     numPlayingChords = playingNow.length,
                     numVoicesInChord,
                     chord, voice,
-                    ampRelease = Math.random() / 10,
+                    aRelease = ampRelease + Math.random() / 10,
                     now = my.output.context.currentTime;
                 // vary end time
                 time += Math.floor(Math.random() * 0.5);
@@ -111,8 +114,8 @@ window.WH = window.WH || {};
                         numVoicesInChord = chord.voices.length;
                         for (j = 0; j < numVoicesInChord; j++) {
                             voice = chord.voices[j];
-                            voice.amp.gain.set(0.0, now, [time, ampRelease], 3);
-                            voice.osc.stop(time + ampRelease + fadeOutTime);
+                            voice.amp.gain.set(0.0, now, [time, aRelease], 3);
+                            voice.osc.stop(time + aRelease + fadeOutTime);
                         }
                     }
                     playingNow.splice(i, 1);
@@ -132,9 +135,13 @@ window.WH = window.WH || {};
         my.title = 'Chord Synth';
         my.defaultPreset = {
             filtermultiply: 1.0,
+            amprelease: 0.1
         };
         my.$filtermultiply = function (value, time, rampType) {
             filterMultiply = value;
+        };
+        my.$amprelease = function (value, time, rampType) {
+            ampRelease = value;
         };
         
         that = WH.createGeneratorPlugin(specs, my);
@@ -149,6 +156,14 @@ window.WH = window.WH || {};
                 min: 0.01,
                 max: 10.0,
                 unit: 'Multiplier'
+            },
+            amprelease: {
+                type: 'generic',
+                name: 'Amp Release',
+                default: 0.1,
+                min: 0.1,
+                max: 4.0,
+                unit: 'Seconds'
             }
         });
             
