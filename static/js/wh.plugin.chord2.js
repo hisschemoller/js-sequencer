@@ -17,6 +17,10 @@ window.WH = window.WH || {};
             playingNow = [],
             filterSeq,
             filterMultiply = 1.0,
+            lfoOsc,
+            lfoGain,
+            gain,
+            
             init = function() {
                 var sixteenthInSeconds = (60 / my.transport.getBPM()) / 4;
                 filterSeq = [{
@@ -48,6 +52,15 @@ window.WH = window.WH || {};
                         dur: sixteenthInSeconds / 2
                     }
                 ];
+                gain = my.core.createGain();
+                gain.to(my.output);
+                lfoOsc = my.core.createOsc();
+                lfoOsc.type = 'sine';
+                lfoOsc.frequency.value = 4;
+                lfoGain = my.core.createGain();
+                lfoGain.gain.value = 1.0;
+                lfoOsc.to(lfoGain).to(gain.gain);
+                lfoOsc.start();
             },
             createChordVoices = function(pitch, velocity, time) {
                 var now = my.output.context.currentTime,
@@ -63,7 +76,7 @@ window.WH = window.WH || {};
                     
                 chord.filter.type.value = 'lowpass';
                 chord.filter.Q.value = 15;
-                chord.filter.to(my.output);
+                chord.filter.to(gain);
                 
                 t = time;
                 filterIndex = Math.floor(((velocity % 10) + 4) % filterSeq.length);
@@ -132,9 +145,17 @@ window.WH = window.WH || {};
         my.title = 'Chord Synth 2';
         my.defaultPreset = {
             filtermultiply: 1.0,
+            lforate: 2.0,
+            lfodepth: 0.5
         };
         my.$filtermultiply = function (value, time, rampType) {
             filterMultiply = value;
+        };
+        my.$lforate = function (value, time, rampType) {
+            lfoOsc.frequency.set(value, lfoOsc.context.currentTime, time, rampType);
+        };
+        my.$lfodepth = function (value, time, rampType) {
+            lfoGain.gain.set(value, lfoGain.context.currentTime, time, rampType);
         };
         
         that = WH.createGeneratorPlugin(specs, my);
@@ -149,6 +170,22 @@ window.WH = window.WH || {};
                 min: 0.01,
                 max: 8.0,
                 unit: 'Multiplier'
+            },
+            lforate: {
+                type: 'generic',
+                name: 'LFO Rate',
+                default: 1.0,
+                min: 0.0,
+                max: 20.0,
+                unit: 'Hertz'
+            },
+            lfodepth: {
+                type: 'generic',
+                name: 'LFO Depth',
+                default: 0.5,
+                min: 0.0,
+                max: 1.0,
+                unit: 'LinearGain'
             }
         });
             
