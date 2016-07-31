@@ -53,7 +53,7 @@ window.WH = window.WH || {};
         my.defaultPreset = {
             startfreq: 120,
             endfreq: 50,
-            length: 0.2,
+            length: 0.15,
             pitchdecay: 0.1
         };
         my.$startfreq = function (value, time, rampType) {
@@ -93,7 +93,7 @@ window.WH = window.WH || {};
             length: {
                 type: 'generic',
                 name: 'Length',
-                default: 0.2,
+                default: 0.15,
                 min: 0.01,
                 max: 2.0,
                 unit: 'sec.'
