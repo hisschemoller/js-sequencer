@@ -426,7 +426,7 @@ button:focus {
         display: none;
     }*/
 .overlay {
-    background-color: #ddd;
+    background-color: rgba(225, 225, 225, 0.4);
     bottom: 0;
     display: none;
     left: 0;
@@ -434,6 +434,15 @@ button:focus {
     right: 0;
     top: 0;
 }
+    .overlay__content {
+        background-color: #ddd;
+        border: 2px solid #fff;
+        height: 400px;
+        margin: 100px auto 0 auto;
+        max-height: 400px;
+        max-width: 200px;
+        position: relative;
+    }
 #overlay-startup {}
     .overlay-startup_header {
         display: block;
@@ -442,10 +451,10 @@ button:focus {
     }
 #overlay-ctrl-generic {}
     .overlay-ctrl__info {
-        padding: 20px 40px 0 40px;
+        padding: 20px 10px 0 10px;
         margin: 0 auto;
         max-width: 280px;
-        width: 100%;
+        width: 100%;overlay__content
     }
     .overlay-ctrl__info td:nth-child(2) {
         width: 60%;
@@ -456,10 +465,10 @@ button:focus {
     .overlay-ctrl__slider {
         background-color: #ddd;
         border: 2px solid #fff;
-        bottom: 60px;
-        left: 100px;
+        bottom: 10px;
+        left: 10px;
         position: absolute;
-        right: 100px;
+        right: 10px;
         top: 100px;
     }
         .overlay-ctrl__slider-thumb {
