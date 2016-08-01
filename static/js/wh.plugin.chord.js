@@ -56,7 +56,7 @@ window.WH = window.WH || {};
                     filterIndex,
                     filterFreq,
                     numVoices = chordPitches.length,
-                    numFilterSteps = filterSeq.length * 2,
+                    numFilterSteps = filterSeq.length * 3,
                     numStepsToLoop = filterSeq.length - Math.floor(Math.random() * 4),
                     chord = {
                         pitch: pitch,
@@ -162,7 +162,7 @@ window.WH = window.WH || {};
                 name: 'Amp Release',
                 default: 0.1,
                 min: 0.1,
-                max: 4.0,
+                max: 16.0,
                 unit: 'Seconds'
             }
         });
