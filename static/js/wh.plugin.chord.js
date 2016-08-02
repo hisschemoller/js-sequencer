@@ -56,7 +56,7 @@ window.WH = window.WH || {};
                     filterIndex,
                     filterFreq,
                     numVoices = chordPitches.length,
-                    numFilterSteps = filterSeq.length * 3,
+                    numFilterSteps = filterSeq.length * 6,
                     numStepsToLoop = filterSeq.length - Math.floor(Math.random() * 4),
                     chord = {
                         pitch: pitch,

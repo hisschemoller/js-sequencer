@@ -152,7 +152,8 @@ window.WH = window.WH || {};
                         case 192: // 192 == '~'
                             if (e.altKey) {
                                 file.createNew(true);
-                                arrangement.setSelectedPattern(9);
+                                //arrangement.setSelectedPattern(9);
+                                arrangement.toggleSongMode();
                                 transport.rewind();
                                 transport.start();
                             }

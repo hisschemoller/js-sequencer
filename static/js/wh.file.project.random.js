@@ -75,7 +75,7 @@ window.WH = window.WH || {};
             createPatternsA = function() {
                 var channel = 0, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
-                    if (i == 8 || i == 9) {
+                    if (i == 8 || i == 9 || i == 12) {
                         continue;
                     }
                     track = data.arrangement.patterns[i].tracks[channel];
@@ -98,6 +98,9 @@ window.WH = window.WH || {};
             createPatternsB = function() {
                 var channel = 1, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
+                    if (i == 12 || i == 13) {
+                        continue;
+                    }
                     track = data.arrangement.patterns[i].tracks[channel];
                     step = track.steps[8];
                     step.pitch = (Math.floor(i / 4) % 2 == 0) ? 60 : 58;
@@ -142,6 +145,9 @@ window.WH = window.WH || {};
             createPatternsD = function() {
                 var channel = 3, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
+                    if (i == 12 || i == 13) {
+                        continue;
+                    }
                     track = data.arrangement.patterns[i].tracks[channel];
                     for(j = 0; j < stepCount; j++) {
                         step = track.steps[j];
@@ -184,7 +190,7 @@ window.WH = window.WH || {};
             createPatternsE = function() {
                 var channel = 4, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
-                    if (i == 8) {
+                    if (i == 8 || i == 12) {
                         continue;
                     }
                     track = data.arrangement.patterns[i].tracks[channel];
@@ -219,8 +225,9 @@ window.WH = window.WH || {};
                 data.arrangement.song.push({patternIndex: 10, repeats: 8});
                 data.arrangement.song.push({patternIndex: 11, repeats: 8});
                 
-                data.arrangement.song.push({patternIndex: 8, repeats: 8});
-                data.arrangement.song.push({patternIndex: 2, repeats: 8});
+                data.arrangement.song.push({patternIndex: 12, repeats: 4});
+                data.arrangement.song.push({patternIndex: 13, repeats: 4});
+                data.arrangement.song.push({patternIndex: 2, repeats: 4});
                 
                 data.arrangement.song.push({patternIndex: 0, repeats: 12});
                 data.arrangement.song.push({patternIndex: 1, repeats: 4});
