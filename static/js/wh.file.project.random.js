@@ -122,7 +122,7 @@ window.WH = window.WH || {};
             createPatternsC = function() {
                 var channel = 2, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
-                    if (i == 8 || i == 9) {
+                    if (i == 8 || i == 9 || i == 12) {
                         continue;
                     }
                     track = data.arrangement.patterns[i].tracks[channel];
