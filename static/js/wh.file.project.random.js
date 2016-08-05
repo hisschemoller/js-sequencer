@@ -17,7 +17,7 @@ window.WH = window.WH || {};
             stepDuration = Math.floor(conf.getPPQN() / conf.getStepsPerBeat()),
             pentatonicMinScale = [0, 3, 5, 6, 7, 10],
             data = {
-                bpm: 100 + Math.floor(Math.random() * 20),
+                bpm: 110 + Math.floor(Math.random() * 10),
                 racks: [],
                 arrangement: {
                     patterns: [],
@@ -69,6 +69,7 @@ window.WH = window.WH || {};
                 var channel = 0,
                     rack = data.racks[channel];
                 rack.instrument.name = 'kick';
+                rack.channel.preset.level = 1.0;
                 rack.channel.preset.pan = 0.1;
             },
 
@@ -92,6 +93,7 @@ window.WH = window.WH || {};
                 var channel = 1,
                     rack = data.racks[channel];
                 rack.instrument.name = 'chord';
+                rack.channel.preset.level = 0.8;
                 rack.channel.preset.pan = 0.0;
             },
 
@@ -138,7 +140,7 @@ window.WH = window.WH || {};
                     rack = data.racks[channel];
                 rack.instrument.name = 'chord2';
                 rack.instrument.preset.lfodepth = 0;
-                rack.channel.preset.level = 0.85;
+                rack.channel.preset.level = 0.5;
                 rack.channel.preset.pan = 0.0;
             },
 
@@ -184,6 +186,7 @@ window.WH = window.WH || {};
                 var channel = 4,
                     rack = data.racks[channel];
                 rack.instrument.name = 'hihat';
+                rack.channel.preset.level = 1.0;
                 rack.channel.preset.pan = 0.0;
             },
 
