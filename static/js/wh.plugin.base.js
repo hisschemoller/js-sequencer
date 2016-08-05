@@ -38,9 +38,12 @@ window.WH = window.WH || {};
                     params[key] = WH.createParameter(paramOptions[key]);
                 }
             },
+            getInfo = function() {
+                return 'Plugin name: ' + getName() + ', id: ' + getId() + ', data: ', getData();
+            },
             getParams = function() {
                 return params;
-            }
+            },
             getParam = function(paramKey) {
                 if (params.hasOwnProperty(paramKey)) {
                     return params[paramKey];
@@ -101,12 +104,15 @@ window.WH = window.WH || {};
         my = my || {};
         my.conf = specs.conf;
         my.core = specs.core;
+        my.transport = specs.transport;
         my.id = id;
         my.defineParams = defineParams;
         
         that = {};
+        
         that.to = to;
         that.cut = cut;
+        that.getInfo = getInfo;
         that.getParams = getParams;
         that.getParam = getParam;
         that.setParamValue = setParamValue;
@@ -155,7 +161,7 @@ window.WH = window.WH || {};
         
         inlet.to(input);
         output.to(outlet);
-
+        
         that = createPlugin(specs, my);
         return that;
     }
@@ -168,8 +174,7 @@ window.WH = window.WH || {};
 
 (function (WH) {
 
-    function createPlugin(specs, my) {
-
+    function createChannelPlugin(specs, my) {
         var that,
             isMute = false,
             isSolo = false,
@@ -195,7 +200,7 @@ window.WH = window.WH || {};
                     return;
                 }
 
-                if (pluginId == getId()) {
+                if (pluginId == my.id) {
                     if (isSolo) {
                         soloMute.gain.value = level;
                     } else {
@@ -304,7 +309,7 @@ window.WH = window.WH || {};
 
     WH.plugins = WH.plugins || {};
     WH.plugins['channel'] = {
-        create: createPlugin,
+        create: createChannelPlugin,
         type: 'processor'
     };
 
@@ -314,7 +319,7 @@ window.WH = window.WH || {};
 
 (function (WH) {
 
-    function createPlugin(specs, my) {
+    function createSimpleOscPlugin(specs, my) {
 
         var that,
             osc,
@@ -403,7 +408,7 @@ window.WH = window.WH || {};
 
     WH.plugins = WH.plugins || {};
     WH.plugins['simpleosc'] = {
-        create: createPlugin,
+        create: createSimpleOscPlugin,
         type: 'generator'
     };
 

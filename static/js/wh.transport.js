@@ -302,6 +302,7 @@ window.WH = window.WH || {};
         setBPM(bpm);
         run();
         
+        that.start = start;
         that.pause = pause;
         that.rewind = rewind;
         that.toggleStartStop = toggleStartStop;

@@ -11,31 +11,22 @@ window.WH = window.WH || {};
     function createPluginManager(specs) {
         var that = specs.that,
             conf = specs.conf,
-            core = specs.core
+            core = specs.core,
+            transport = specs.transport
             pluginIdCounter = 0,
             createPlugin = function(pluginName) {
-                // try {
-                    if (WH.plugins && WH.plugins[pluginName]) {
-                        var plugin = WH.plugins[pluginName].create({
-                            id: pluginIdCounter,
-                            conf: conf,
-                            core: core
-                        });
-                        pluginIdCounter += 1;
-                        return plugin;
-                    } else {
-                        throw {
-                            name: 'Plugin Error',
-                            message: 'No plugin found with name: ' + pluginName
-                        };
-                    }
-                // } catch (error) {
-                //     WH.DialogView({
-                //         type: 'alert',
-                //         headerText: error.name,
-                //         bodyText: error.message
-                //     });
-                // }
+                if (WH.plugins && WH.plugins[pluginName]) {
+                    var plugin = WH.plugins[pluginName].create({
+                        id: pluginIdCounter,
+                        conf: conf,
+                        core: core,
+                        transport: transport
+                    });
+                    pluginIdCounter += 1;
+                    return plugin;
+                } else {
+                    console.error('No plugin found with name: ', pluginName);
+                }
             };
             
         that.createPlugin = createPlugin;

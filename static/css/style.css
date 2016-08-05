@@ -14,7 +14,7 @@ main {
     height: 100vh;
     max-height: 480px;
     min-height: 320px;
-    max-width: 480px;
+    /*max-width: 480px;*/
     min-width: 320px;
     position: relative;
 }
@@ -322,7 +322,7 @@ button:focus {
         display: table;
     }
         .plugin__header .ctrl__background {
-            opacity: 0.2;
+            /*opacity: 0.2;*/
         }
         .plugin__name {
             cursor: default;
@@ -350,7 +350,7 @@ button:focus {
                 opacity: 0.5;
             }
     .plugin__pages {
-        height: 160px;
+        /*height: 160px;*/
         overflow: hidden;
         width: 100%;
     }
@@ -371,14 +371,14 @@ button:focus {
         }
             .plugin__controls {}
                 .plugin__control {
-                    background-color: #555;
+                    background-color: #ddd;
                     display: block;
                     float: left;
                     height: 40px;
                     width: 100%;
                 }
                 .plugin__control.empty {
-                    border: 1px solid #333;
+                    border: 1px solid #fff;
                 }
                     .plugin__control .ctrl {
                         float: none;
@@ -426,7 +426,7 @@ button:focus {
         display: none;
     }*/
 .overlay {
-    background-color: #ddd;
+    background-color: rgba(225, 225, 225, 0.4);
     bottom: 0;
     display: none;
     left: 0;
@@ -434,6 +434,15 @@ button:focus {
     right: 0;
     top: 0;
 }
+    .overlay__content {
+        background-color: #ddd;
+        border: 2px solid #fff;
+        height: 400px;
+        margin: 100px auto 0 auto;
+        max-height: 400px;
+        max-width: 200px;
+        position: relative;
+    }
 #overlay-startup {}
     .overlay-startup_header {
         display: block;
@@ -442,10 +451,10 @@ button:focus {
     }
 #overlay-ctrl-generic {}
     .overlay-ctrl__info {
-        padding: 20px 40px 0 40px;
+        padding: 20px 10px 0 10px;
         margin: 0 auto;
         max-width: 280px;
-        width: 100%;
+        width: 100%;overlay__content
     }
     .overlay-ctrl__info td:nth-child(2) {
         width: 60%;
@@ -456,10 +465,10 @@ button:focus {
     .overlay-ctrl__slider {
         background-color: #ddd;
         border: 2px solid #fff;
-        bottom: 60px;
-        left: 100px;
+        bottom: 10px;
+        left: 10px;
         position: absolute;
-        right: 100px;
+        right: 10px;
         top: 100px;
     }
         .overlay-ctrl__slider-thumb {
@@ -511,4 +520,58 @@ button:focus {
             }
 #templates {
     display: none;
+}
+
+/********************
+ * 2 columns
+ ********************/
+[data-cols='2'] {
+     max-height: none;
+}
+[data-cols='2'] .channel-selects,
+[data-cols='2'] .channels,
+[data-cols='2'] .steps,
+[data-cols='2'] .patterns,
+[data-cols='2'] .racks,
+[data-cols='2'] .song {
+    display: block !important;
+    position: absolute;
+    width: 50%;
+}
+[data-cols='2'] .channel-selects {
+    left: 0;
+    top: 0;
+}
+[data-cols='2'] .channels {
+    left: 0;
+    top: 40px;
+}
+[data-cols='2'] .racks {
+    left: 0;
+    top: 200px;
+}
+    [data-cols='2'] .rack {
+        display: block !important;
+    }
+[data-cols='2'] .steps {
+    left: 50%;
+    top: 0;
+}
+[data-cols='2'] .patterns {
+    left: 50%;
+    top: 80px;
+}
+[data-cols='2'] .song {
+    bottom: 40px;
+    left: 50%;
+    top: 160px;
+}
+    [data-cols='2'] .song__list-container {
+        top: 40px;
+    }
+
+@media only screen and (min-width: 656px) {
+    .tabs {
+        display: none;
+    }
 }

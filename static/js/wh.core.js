@@ -90,6 +90,15 @@ window.WH = window.WH || {};
             createPanner = function() {
                 return ctx.createPanner();
             },
+                        
+            /**
+             * Creates an instance of WA Panner node.
+             * @return {AudioNode} WA Panner node.
+             * @see  http://www.w3.org/TR/webaudio/#PannerNode
+             */
+            createStereoPanner = function() {
+                return ctx.createStereoPanner();
+            },
             
             /**
              * Creates an instance of WA Delay node.
@@ -181,6 +190,7 @@ window.WH = window.WH || {};
         that.createBuffer = createBuffer;
         that.createGain = createGain;
         that.createPanner = createPanner;
+        that.createStereoPanner = createStereoPanner;
         that.createDelay = createDelay;
         that.createFilter = createFilter;
         that.createCompressor = createCompressor;

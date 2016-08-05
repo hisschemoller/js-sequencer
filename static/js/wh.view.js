@@ -86,6 +86,11 @@ window.WH = window.WH || {};
              * Song view object.
              */
             song,
+            
+            /**
+             * Number of columns to display based on window width. 
+             */
+            responsiveCols = 0,
 
             /**
              * Initialise the view, add DOM event handlers.
@@ -134,6 +139,53 @@ window.WH = window.WH || {};
 
                 self.setSelectedTab(0);
             }.bind(this),
+            
+            /**
+             * Shortcut keys.
+             */
+            initDomEvents = function() {
+                document.addEventListener('keydown', function(e) {
+                    switch (e.keyCode) {
+                        case 32:
+                            transport.toggleStartStop();
+                            break;
+                        case 192: // 192 == '~'
+                            if (e.altKey) {
+                                file.createNew(true);
+                                //arrangement.setSelectedPattern(9);
+                                arrangement.toggleSongMode();
+                                transport.rewind();
+                                transport.start();
+                            }
+                            break;
+                    }
+                });
+                
+                window.addEventListener('resize', onResize);
+            },
+            
+            /**
+             * 
+             */
+            onResize = function(e) {
+                var w = window.innerWidth,
+                    prevResponsiveCols = responsiveCols;
+                
+                if (w < 640 && responsiveCols !== 1) {
+                    responsiveCols = 1;
+                } else if (w >= 640 && w < 960 && responsiveCols !== 2) {
+                    responsiveCols = 2;
+                    isChanged = true;
+                } else if (w >= 960 && w < 1280 && responsiveCols !== 3) {
+                    responsiveCols = 3;
+                } else if (w >= 1280 && responsiveCols !== 4) {
+                    responsiveCols = 4;
+                }
+                
+                if (responsiveCols != prevResponsiveCols) {
+                    document.getElementsByTagName('main')[0].dataset.cols = responsiveCols;
+                }
+            },
 
             /**
              * Delay screen update to keep it synchronised with the audio.
@@ -181,6 +233,8 @@ window.WH = window.WH || {};
          */
         this.setup = function() {
             init();
+            initDomEvents();
+            onResize();
         };
 
         /**
@@ -351,23 +405,6 @@ window.WH = window.WH || {};
          */
         this.updatePluginControl = function(pluginId, paramKey, param) {
             pluginViews[pluginId].updateControl(paramKey, param);
-        };
-
-        /**
-         * Apply a plugin preset to the plugin with the provided ID.
-         * @param {Number} pluginId Unique lugin ID.
-         * @param {Array} presetValues Plugin preset as array of objects with key value pairs.
-         */
-        this.setPluginPreset =  function(pluginId, presetValues) {
-            var paramKey,
-                paramValues;
-
-            for (paramKey in presetValues) {
-                paramValues = presetValues[paramKey];
-                if (paramValues.isEditable) {
-                    this.updatePluginControl(pluginId, paramKey, paramValues);
-                }
-            }
         };
         
         /**

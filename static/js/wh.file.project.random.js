@@ -17,120 +17,11 @@ window.WH = window.WH || {};
             stepDuration = Math.floor(conf.getPPQN() / conf.getStepsPerBeat()),
             pentatonicMinScale = [0, 3, 5, 6, 7, 10],
             data = {
-                bpm: 100 + Math.floor(Math.random() * 20),
+                bpm: 110 + Math.floor(Math.random() * 10),
                 racks: [],
                 arrangement: {
                     patterns: [],
                     song: []
-                }
-            },
-
-            /**
-             * Create data for an arrangement with randomized patterns and data.
-             * @return {Object}  Empty arrangement setup data.
-             */
-            create = function() {
-                for (var j = 0; j < trackCount; j++) {
-                    var osc1type = WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
-                        osc2type = WX.findValueByKey(WX.WAVEFORMS, 'Sine'),
-                        filterMod = 0;
-                    switch (j) {
-                        case 0:
-                            break;
-                        case 1:
-                            osc1type = WX.findValueByKey(WX.WAVEFORMS, 'Sawtooth');
-                            break;
-                        case 2:
-                            osc1Type = WX.findValueByKey(WX.WAVEFORMS, 'Square');
-                            break;
-                        case 3:
-                            osc1Type = WX.findValueByKey(WX.WAVEFORMS, 'Triangle');
-                            break;
-                    }
-                    var rack = {
-                        instrument: {
-                            name: 'simpleosc',
-                            preset: {
-                                ampAttack: 0.1,
-                                ampDecay: 0.1,
-                                ampSustain: 1.0,
-                                ampRelease: 0.2,
-                                filterAttack: 0.0,
-                                filterDecay: 0.0,
-                                filterSustain: 1.0,
-                                filterRelease: 0.0,
-                                osc1type: osc1type,
-                                osc2type: osc2type,
-                                osc1octave: 0,
-                                filterMod: filterMod,
-                                cutoff: 20000,
-                                reso: 0
-                            }
-                        },
-                        channel: {
-                            preset: {
-                                mute: false,
-                                solo: false,
-                                pan: (j * 0.4) - 0.6,
-                                level: 1.0
-                            }
-                        }
-                    };
-                    data.racks.push(rack);
-                }
-
-                for (var i = 0; i < patternCount; i++) {
-                    var pattern = {
-                        tracks: []
-                    };
-                    data.arrangement.patterns.push(pattern);
-                    for (var j = 0; j < trackCount; j++) {
-                        var track = {
-                            steps: []
-                        };
-                        pattern.tracks.push(track);
-                        for(var k = 0; k < stepCount; k++) {
-                            var pitch = 0,
-                                velocity = 0,
-                                duration = stepDuration / 2;
-                            switch (j) {
-                                case 0:
-                                    pitch = 48 + (Math.floor(Math.random() * 3) * 12) + pentatonicMinScale[Math.floor(Math.random() * pentatonicMinScale.length)];
-                                    velocity = (Math.random() > 0.85 ? 120 : 0);
-                                    duration = stepDuration / 2;
-                                    break;
-                                case 1:
-                                    pitch = 24 + pentatonicMinScale[Math.floor(Math.random() * pentatonicMinScale.length)];
-                                    velocity = (Math.random() > 0.95 ? 50 : 0);
-                                    break;
-                                case 2:
-                                    pitch = 48 + pentatonicMinScale[Math.floor(Math.random() * pentatonicMinScale.length)];
-                                    velocity = (Math.random() > 0.9 ? 20 : 0);
-                                    duration = stepDuration;
-                                    break;
-                                case 3:
-                                    pitch = 60 + pentatonicMinScale[Math.floor(Math.random() * pentatonicMinScale.length)];
-                                    velocity = (Math.random() > 0.85 ? 120 : 0);
-                                    duration = Math.floor( stepDuration / 8 );
-                                    break;
-                            }
-                            var step = {
-                                channel: j,
-                                pitch: pitch,
-                                velocity: velocity,
-                                start: stepDuration * k,
-                                duration: duration
-                            };
-                            track.steps.push(step);
-                        }
-                    }
-                }
-
-                for (var i = 0; i < 4; i++) {
-                    data.arrangement.song.push({
-                        patternIndex: i,
-                        repeats: 1
-                    });
                 }
             },
 
@@ -174,56 +65,190 @@ window.WH = window.WH || {};
                 }
             },
 
-            createRack0 = function() {
+            createRackA = function() {
                 var channel = 0,
                     rack = data.racks[channel];
-                rack.instrument.name = 'simpleosc';
-                rack.channel.preset.pan = -0.1;
+                rack.instrument.name = 'kick';
+                rack.channel.preset.level = 1.0;
+                rack.channel.preset.pan = 0.1;
             },
 
-            createPatterns0 = function() {
+            createPatternsA = function() {
                 var channel = 0, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
+                    if (i == 8 || i == 9 || i == 12) {
+                        continue;
+                    }
+                    track = data.arrangement.patterns[i].tracks[channel];
+                    track.steps[0].velocity = 127;
+                    track.steps[2].velocity = 100;
+                    track.steps[3].velocity = 100;
+                    track.steps[3].pitch = 100;
+                    track.steps[5].velocity = 100;
+                    track.steps[5].pitch = 103;
+                }
+            },
+
+            createRackB = function() {
+                var channel = 1,
+                    rack = data.racks[channel];
+                rack.instrument.name = 'chord';
+                rack.channel.preset.level = 0.8;
+                rack.channel.preset.pan = 0.0;
+            },
+
+            createPatternsB = function() {
+                var channel = 1, track, step, i, j;
+                for (i = 0; i < patternCount; i++) {
+                    if (i == 12 || i == 13) {
+                        continue;
+                    }
+                    track = data.arrangement.patterns[i].tracks[channel];
+                    step = track.steps[8];
+                    step.pitch = (Math.floor(i / 4) % 2 == 0) ? 60 : 58;
+                    step.pitch = (i == 11) ? step.pitch + 1 : step.pitch;
+                    step.pitch = (i >= 14 && i < 16) ? step.pitch + 1 : step.pitch;
+                    step.velocity = 30 + i;
+                    step.duration = stepDuration * 8;
+                }
+            },
+
+            createRackC = function() {
+                var channel = 2,
+                    rack = data.racks[channel];
+                rack.instrument.name = 'impulse';
+                rack.channel.preset.level = 0.2;
+                rack.channel.preset.pan = 0.0;
+            },
+
+            createPatternsC = function() {
+                var channel = 2, track, step, i, j;
+                for (i = 0; i < patternCount; i++) {
+                    if (i == 8 || i == 9 || i == 12) {
+                        continue;
+                    }
+                    track = data.arrangement.patterns[i].tracks[channel];
+                    track.steps[6].velocity = 40;
+                    track.steps[8].velocity = 40;
+                    track.steps[12].velocity = 40;
+                    track.steps[14].velocity = 40;
+                }
+            },
+
+            createRackD = function() {
+                var channel = 3,
+                    rack = data.racks[channel];
+                rack.instrument.name = 'chord2';
+                rack.instrument.preset.lfodepth = 0;
+                rack.channel.preset.level = 0.5;
+                rack.channel.preset.pan = 0.0;
+            },
+
+            createPatternsD = function() {
+                var channel = 3, track, step, i, j;
+                for (i = 0; i < patternCount; i++) {
+                    if (i == 12 || i == 13) {
+                        continue;
+                    }
                     track = data.arrangement.patterns[i].tracks[channel];
                     for(j = 0; j < stepCount; j++) {
                         step = track.steps[j];
-                        step.velocity = (Math.random() > 0.85 ? 120 : 0);
+                        switch (j) {
+                            case 3:
+                                step.pitch = (Math.floor(i / 4) % 2 == 0) ? 48 : 46;
+                                step.velocity = (i >= 12) ? 0 : 100 + i;
+                                step.pitch = (i == 11) ? step.pitch + 1 : step.pitch;
+                                step.duration = stepDuration * 4;
+                                break;
+                            case 14:
+                                step.pitch = (Math.floor(i / 4) % 2 == 0) ? 48 : 46;
+                                step.pitch = (i >= 14 && i < 16) ? step.pitch + 1 : step.pitch;
+                                step.pitch = (i == 11) ? step.pitch + 1 : step.pitch;
+                                step.velocity = ((i >= 2 && i < 4) || (i >= 6 && i < 8)) ? 0 : 100 + i;
+                                step.duration = (i >= 12) ? stepDuration * 6 : stepDuration * 4;
+                                break;
+                            // case 9:
+                            //     step.pitch = (Math.floor(i / 4) % 2 == 0) ? 49 : 47;
+                            //     step.velocity = (i >= 8 && i < 12) ? 50 + i : 0;
+                            //     step.duration = stepDuration * 3;
+                            //     break;
+                            case 11:
+                                step.pitch = (Math.floor(i / 4) % 2 == 0) ? 49 : 47;
+                                step.velocity = (i >= 8 && i < 12) ? 100 + i : 0;
+                                step.duration = stepDuration * 3;
+                                break;
+                        }
                     }
                 }
             },
 
-            createRack1 = function() {
-                var channel = 1,
+            createRackE = function() {
+                var channel = 4,
                     rack = data.racks[channel];
-                rack.instrument.name = 'simpleosc';
-                rack.channel.preset.pan = 0.3;
+                rack.instrument.name = 'hihat';
+                rack.channel.preset.level = 1.0;
+                rack.channel.preset.pan = 0.0;
             },
 
-            createPatterns1 = function() {
-                var channel = 1, track, step, i, j;
+            createPatternsE = function() {
+                var channel = 4, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
-                    track = data.arrangement.patterns[i].tracks[channel];
-                    for(j = 0; j < stepCount; j++) {
-                        step = track.steps[j];
-                        step.velocity = (Math.random() > 0.85 ? 120 : 0);
+                    if (i == 8 || i == 12) {
+                        continue;
                     }
+                    track = data.arrangement.patterns[i].tracks[channel];
+                    track.steps[2].velocity = 30 + Math.floor(Math.random() * 30);
+                    track.steps[6].velocity = 30 + Math.floor(Math.random() * 30);
+                    track.steps[10].velocity = 30 + Math.floor(Math.random() * 30);
+                    track.steps[14].velocity = 30 + Math.floor(Math.random() * 30);
+                    
+                    // pitch 61 only plays sometimes
+                    track.steps[3].velocity = 40;
+                    track.steps[3].pitch = 61;
+                    track.steps[15].velocity = 40;
+                    track.steps[15].pitch = 61;
                 }
             },
 
             createSong = function() {
-                for (var i = 0; i < 2; i++) {
-                    data.arrangement.song.push({
-                        patternIndex: i,
-                        repeats: 1
-                    });
-                }
+                data.arrangement.song.push({patternIndex: 2, repeats: 8});
+                data.arrangement.song.push({patternIndex: 3, repeats: 8});
+                data.arrangement.song.push({patternIndex: 2, repeats: 8});
+                data.arrangement.song.push({patternIndex: 3, repeats: 8});
+                
+                data.arrangement.song.push({patternIndex: 0, repeats: 12});
+                data.arrangement.song.push({patternIndex: 1, repeats: 4});
+                data.arrangement.song.push({patternIndex: 4, repeats: 12});
+                data.arrangement.song.push({patternIndex: 5, repeats: 4});
+                
+                data.arrangement.song.push({patternIndex: 0, repeats: 8});
+                
+                data.arrangement.song.push({patternIndex: 8, repeats: 8});
+                data.arrangement.song.push({patternIndex: 9, repeats: 8});
+                data.arrangement.song.push({patternIndex: 10, repeats: 8});
+                data.arrangement.song.push({patternIndex: 11, repeats: 8});
+                
+                data.arrangement.song.push({patternIndex: 12, repeats: 4});
+                data.arrangement.song.push({patternIndex: 13, repeats: 4});
+                data.arrangement.song.push({patternIndex: 2, repeats: 4});
+                
+                data.arrangement.song.push({patternIndex: 0, repeats: 12});
+                data.arrangement.song.push({patternIndex: 1, repeats: 4});
+                data.arrangement.song.push({patternIndex: 4, repeats: 12});
+                data.arrangement.song.push({patternIndex: 5, repeats: 4});
             };
 
         init();
-        createRack0();
-        createPatterns0();
-        createRack1();
-        createPatterns1();
+        createRackA();
+        createPatternsA();
+        createRackB();
+        createPatternsB();
+        createRackC();
+        createPatternsC();
+        createRackD();
+        createPatternsD();
+        createRackE();
+        createPatternsE();
         createSong();
 
         return data;
