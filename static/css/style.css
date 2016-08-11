@@ -522,6 +522,12 @@ button:focus {
     display: none;
 }
 
+@media only screen and (min-width: 656px) {
+    .tabs {
+        display: none;
+    }
+}
+
 /********************
  * 2 columns
  ********************/
@@ -583,8 +589,124 @@ button:focus {
         border-bottom: none;
     }
 
-@media only screen and (min-width: 656px) {
-    .tabs {
-        display: none;
-    }
+/********************
+ * 3 columns
+ ********************/
+[data-cols='3'] {
+     max-height: none;
 }
+[data-cols='3'] .channel-selects,
+[data-cols='3'] .channels,
+[data-cols='3'] .steps,
+[data-cols='3'] .patterns,
+[data-cols='3'] .racks,
+[data-cols='3'] .song {
+    display: block !important;
+    position: absolute;
+    width: 33.3333%;
+}
+[data-cols='3'] .channel-selects {
+    border-top: 1px solid #fff;
+    left: 33.3333%;
+    top: 0;
+}
+[data-cols='3'] .channels {
+    border-top: 1px solid #fff;
+    left: 33.3333%;
+    top: 40px;
+}
+[data-cols='3'] .racks {
+    border-bottom: 1px solid #fff;
+    border-top: 1px solid #fff;
+    left: 0;
+    top: 0;
+}
+    [data-cols='3'] .rack {
+        display: block !important;
+    }
+[data-cols='3'] .steps {
+    border-top: 1px solid #fff;
+    left: 66.6666%;
+    top: 0;
+}
+[data-cols='3'] .patterns {
+    border-top: 1px solid #fff;
+    left: 66.6666%;
+    top: 80px;
+}
+[data-cols='3'] .song {
+    border-top: 1px solid #fff;
+    bottom: 40px;
+    left: 66.6666%;
+    top: 160px;
+}
+    [data-cols='3'] .song__list-container {
+        top: 40px;
+    }
+    [data-cols='3'] .song-part:first-child {
+        border-top: none;
+    }
+    [data-cols='3'] .plugin__page {
+        border-bottom: none;
+    }
+
+/********************
+ * 4 columns
+ ********************/
+[data-cols='4'] {
+     max-height: none;
+}
+[data-cols='4'] .channel-selects,
+[data-cols='4'] .channels,
+[data-cols='4'] .steps,
+[data-cols='4'] .patterns,
+[data-cols='4'] .racks,
+[data-cols='4'] .song {
+    display: block !important;
+    position: absolute;
+    width: 25%;
+}
+[data-cols='4'] .channel-selects {
+    border-top: 1px solid #fff;
+    left: 25%;
+    top: 0;
+}
+[data-cols='4'] .channels {
+    border-top: 1px solid #fff;
+    left: 25%;
+    top: 40px;
+}
+[data-cols='4'] .racks {
+    border-bottom: 1px solid #fff;
+    border-top: 1px solid #fff;
+    left: 0;
+    top: 0;
+}
+    [data-cols='4'] .rack {
+        display: block !important;
+    }
+[data-cols='4'] .steps {
+    border-top: 1px solid #fff;
+    left: 50%;
+    top: 0;
+}
+[data-cols='4'] .patterns {
+    border-top: 1px solid #fff;
+    left: 50%;
+    top: 80px;
+}
+[data-cols='4'] .song {
+    border-top: 1px solid #fff;
+    bottom: 40px;
+    left: 50%;
+    top: 160px;
+}
+    [data-cols='4'] .song__list-container {
+        top: 40px;
+    }
+    [data-cols='4'] .song-part:first-child {
+        border-top: none;
+    }
+    [data-cols='4'] .plugin__page {
+        border-bottom: none;
+    }
