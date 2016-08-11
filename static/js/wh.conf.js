@@ -29,6 +29,11 @@ window.WH = window.WH || {};
                     {label: 'Lowpass', value: 'lowpass'},
                     {label: 'Bandpass', value: 'bandpass'},
                     {label: 'Highpass', value: 'highpass'}
+                ],
+                noisetypes: [
+                    {label: 'White', value: 'white'},
+                    {label: 'Pink', value: 'pink'},
+                    {label: 'Brown', value: 'brown'}
                 ]
             };
 

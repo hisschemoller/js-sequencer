@@ -119,7 +119,7 @@ window.WH = window.WH || {};
 
             createRackE = function() {
                 var channel = 4, rack = data.racks[channel];
-                // rack.instrument.name = 'hihat';
+                rack.instrument.name = 'noise';
                 rack.channel.preset.level = 1.0;
                 rack.channel.preset.pan = 0.0;
             },
@@ -127,6 +127,10 @@ window.WH = window.WH || {};
             createPatternsE = function() {
                 var channel = 4, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
+                    track = data.arrangement.patterns[i].tracks[channel];
+                    step = track.steps[0];
+                    step.velocity = 100;
+                    step.duration = stepDuration * 16;
                 }
             },
 
