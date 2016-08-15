@@ -22,7 +22,8 @@ window.WH = window.WH || {};
                 pluginPagePrevClass: '.plugin__page-prev',
                 pluginPageNextClass: '.plugin__page-next',
                 pluginPageNumberClass: '.plugin__page-number',
-
+                
+                overlayColorBg: '.overlay__color',
                 overlayName: '.overlay-ctrl__name',
                 overlayValue: '.overlay-ctrl__value',
                 overlayMin: '.overlay-ctrl__min',
@@ -75,6 +76,7 @@ window.WH = window.WH || {};
              * @type {Object}
              */
             pluginEl,
+            colorClass,
 
             /**
              * Initialise the view, add DOM event handlers.
@@ -86,7 +88,8 @@ window.WH = window.WH || {};
                 pluginEl.attr('data-' + settings.data.pluginId, plugin.getId());
                 addHeader();
                 addControls();
-                self.setColor(pluginEl, settings.channelColorClasses[channelIndex]);
+                colorClass = settings.channelColorClasses[channelIndex]
+                self.setColor(pluginEl, colorClass);
             },
 
             /**
@@ -258,7 +261,6 @@ window.WH = window.WH || {};
                     min = param.getMin(),
                     max = param.getMax(),
                     normalValue = (value - min) / (max - min),
-
                     userY = self.isTouchDevice ? e.originalEvent.changedTouches[0].clientY : e.clientY,
                     normalUserY = Math.max(0, 1 - Math.min(((userY - slider.offset().top) / slider.height()), 1)),
                     eventData = {
@@ -271,6 +273,7 @@ window.WH = window.WH || {};
                         isEnabled: false
                     };
 
+                elements.overlayCtrlGeneric.find(settings.overlayColorBg).addClass(colorClass);
                 elements.overlayCtrlGeneric.find(settings.overlayName).text(param.getName());
                 elements.overlayCtrlGeneric.find(settings.overlayValue).text(value.toFixed(2));
                 elements.overlayCtrlGeneric.find(settings.overlayMin).text(min.toFixed(1));
@@ -286,6 +289,7 @@ window.WH = window.WH || {};
              * @param {Event} e Touch or mouse end event.
              */
             onGenericOverlayTouchEnd = function(e) {
+                elements.overlayCtrlGeneric.find(settings.overlayColorBg).removeClass(colorClass);
                 elements.overlayCtrlGeneric.hide();
                 elements.app.off(self.eventType.move, onGenericOverlayTouchMove);
                 elements.app.off(self.eventType.end, onGenericOverlayTouchEnd);
@@ -330,6 +334,7 @@ window.WH = window.WH || {};
                 
                 elements.overlayCtrlItemized.show();
                 elements.overlayCtrlItemized.find(settings.overlayName).text(param.name);
+                elements.overlayCtrlItemized.find(settings.overlayColorBg).addClass(colorClass);
                 listEl.empty();
 
                 for (i; i < n; i++) {
@@ -367,6 +372,7 @@ window.WH = window.WH || {};
              */
             onItemizedOverlayTouchEnd = function(e) {
                 elements.overlayCtrlItemized.hide();
+                elements.overlayCtrlItemized.find(settings.overlayColorBg).addClass(colorClass);
                 elements.app.off(self.eventType.move, onItemizedOverlayTouchMove);
                 elements.app.off(self.eventType.end, onItemizedOverlayTouchEnd);
                 file.autoSave();

@@ -443,6 +443,14 @@ button:focus {
         max-width: 200px;
         position: relative;
     }
+        .overlay__color {
+            bottom: 0;
+            left: 0;
+            opacity: 0.1;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
 #overlay-startup {}
     .overlay-startup_header {
         display: block;
@@ -454,7 +462,7 @@ button:focus {
         padding: 20px 10px 0 10px;
         margin: 0 auto;
         max-width: 280px;
-        width: 100%;overlay__content
+        width: 100%;
     }
     .overlay-ctrl__info td:nth-child(2) {
         width: 60%;
@@ -502,11 +510,13 @@ button:focus {
             background-color: #eee;
         }
 #overlay-dialog {
-    padding: 10px 50px;
 }
     .dialog {
+        background: #ddd;
         border: 2px solid #fff;
-        padding: 10px;
+        margin: 0 auto;
+        max-width: 400px;
+        padding: 10px 30px;
     }
         .dialog__header {
             font-size: 2rem;
@@ -698,10 +708,11 @@ button:focus {
 [data-cols='4'] .song {
     border-top: 1px solid #fff;
     bottom: 40px;
-    left: 50%;
-    top: 160px;
+    left: 75%;
+    top: 0;
 }
     [data-cols='4'] .song__list-container {
+        bottom: 2px;
         top: 40px;
     }
     [data-cols='4'] .song-part:first-child {
