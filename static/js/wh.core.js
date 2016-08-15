@@ -184,6 +184,7 @@ window.WH = window.WH || {};
         createAudioContext();
         
         that.getNow = getNow;
+        that.getSampleRate = getSampleRate;
         that.getMainOut = getMainOut;
         that.createOsc = createOsc;
         that.createBufferSource = createBufferSource;
@@ -202,10 +203,7 @@ window.WH = window.WH || {};
         that.createMerger = createMerger;
         return that;
     }
-
-    /**
-     * Singleton
-     */
+    
     WH.createCore = createCore;
     
 })(WH);
