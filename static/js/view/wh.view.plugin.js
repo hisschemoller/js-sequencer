@@ -23,6 +23,7 @@ window.WH = window.WH || {};
                 pluginPageNextClass: '.plugin__page-next',
                 pluginPageNumberClass: '.plugin__page-number',
                 
+                overlayContent: '.overlay__content',
                 overlayColorBg: '.overlay__color',
                 overlayName: '.overlay-ctrl__name',
                 overlayValue: '.overlay-ctrl__value',
@@ -249,9 +250,7 @@ window.WH = window.WH || {};
              */
             onGenericControlTouchStart = function(e) {
                 e.preventDefault();
-
-                elements.overlayCtrlGeneric.show();
-
+                
                 // get parameter from plugin
                 var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
                     thumb = elements.overlayCtrlGeneric.find(settings.overlaySliderThumb),
@@ -272,7 +271,8 @@ window.WH = window.WH || {};
                         normalUserY: normalUserY,
                         isEnabled: false
                     };
-
+                    
+                elements.overlayCtrlGeneric.show();
                 elements.overlayCtrlGeneric.find(settings.overlayColorBg).addClass(colorClass);
                 elements.overlayCtrlGeneric.find(settings.overlayName).text(param.getName());
                 elements.overlayCtrlGeneric.find(settings.overlayValue).text(value.toFixed(2));
@@ -282,6 +282,8 @@ window.WH = window.WH || {};
                 elements.app.on(self.eventType.end, eventData, onGenericOverlayTouchEnd);
 
                 thumb.height(slider.height() * normalValue);
+                
+                setOverlayPosition(elements.overlayCtrlGeneric.find(settings.overlayContent), e);
             },
 
             /**
@@ -364,6 +366,8 @@ window.WH = window.WH || {};
 
                 elements.app.on(self.eventType.move, eventData, onItemizedOverlayTouchMove);
                 elements.app.on(self.eventType.end, eventData, onItemizedOverlayTouchEnd);
+                
+                setOverlayPosition(elements.overlayCtrlItemized.find(settings.overlayContent), e);
             },
 
             /**
@@ -404,6 +408,28 @@ window.WH = window.WH || {};
                     e.data.changedIndex = newIndex;
                     studio.setParameter(e.data.pluginId, e.data.paramKey, e.data.model[newIndex].value);
                 }
+            },
+            
+            /**
+             * Set the control overlay as close as possible to the mouse position,
+             * but within the browser window.
+             * @param {object} el jQuery wrapped overlay DOM element.
+             * @param {object} e Mouse event to get coordinates from.
+             */
+            setOverlayPosition = function(el, e) {
+                var x, y,
+                    margin = 8;
+                
+                x = this.isTouchDevice ? e.originalEvent.changedTouches[0].clientX : e.clientX,
+                y = this.isTouchDevice ? e.originalEvent.changedTouches[0].clientY : e.clientY;
+                x -= el.width() / 2;
+                y -= el.height() / 2;
+                x = Math.max( margin, Math.min(x, window.innerWidth - el.width() - margin));
+                y = Math.max( margin, Math.min(y, window.innerHeight - el.height() - margin));
+                el.offset({
+                    left: x, 
+                    top: y
+                });
             };
 
         this.destroy = function() {

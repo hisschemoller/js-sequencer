@@ -438,10 +438,9 @@ button:focus {
         background-color: #ddd;
         border: 2px solid #fff;
         height: 400px;
-        margin: 100px auto 0 auto;
         max-height: 400px;
         max-width: 200px;
-        position: relative;
+        position: absolute;
     }
         .overlay__color {
             bottom: 0;
