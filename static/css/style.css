@@ -278,7 +278,26 @@ button:focus {
             border: 1px solid #fff;
             float: left;
             height: 20px;
+            position: relative;
             width: 6.25%;
+        }
+        .tracks__step.active {
+            
+        }
+        .tracks__step:before {
+            background-color: #ddd;
+            bottom: 0;
+            content: '';
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .tracks__step.selected:before {
+            opacity: 0.8;
+        }
+        .tracks__step.selected.active:before {
+            opacity: 0.6;
         }
 .song {}
     .song__header {
