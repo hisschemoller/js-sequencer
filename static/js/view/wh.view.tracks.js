@@ -7,12 +7,11 @@ window.WH = window.WH || {};
 
 (function (ns) {
     
-    function createTracksView(specs) {
+    function createTracksView(specs, my) {
         var that = specs.that,
             conf = specs.conf,
             trackCount = conf.getTrackCount(),
             stepCount = conf.getStepCount(),
-            tracksEl = $('#tracks'),
             
             /**
              * Initialize the view, create the track lanes.
@@ -23,7 +22,7 @@ window.WH = window.WH || {};
                     stepTemplate = $('#template-tracks-step');
                 for (i = 0; i < trackCount; i++) {
                     trackEl = trackTemplate.children().first().clone();
-                    tracksEl.append(trackEl);
+                    my.rootEl.append(trackEl);
                     for (j = 0; j < stepCount; j++) {
                         stepEl = stepTemplate.children().first().clone();
                         trackEl.append(stepEl);
@@ -35,28 +34,26 @@ window.WH = window.WH || {};
              * Update all tracks of a pattern.
              */
             setPattern = function(patternData) {
-                var i, j, trackData;
+                var i, j, trackData, stepData;
                 for (i = 0; i < trackCount; i++) {
                     trackData = patternData.getTrackSteps(i);
-                    // console.log(patternData.getTrackSteps(i));
                     for (j = 0; j < stepCount; j++) {
                         
+                        if (trackData[j].getVelocity()) {
+                            
+                        }
                     }
                 }
-            },
-            
-            /**
-             * Set DOM element visibility.
-             * @param {boolean} isVisible True if visible.
-             */
-            setVisible = function(isVisible) {
-                tracksEl.toggle(isVisible === true);
             };
+            
+        var my = my || {};
+        my.rootEl = $('#tracks');
+        
+        that = WH.createBaseView(specs, my);
         
         init();
         
         that.setPattern = setPattern;
-        that.setVisible = setVisible;
         return that;
     }
 
