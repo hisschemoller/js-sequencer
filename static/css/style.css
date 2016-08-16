@@ -566,7 +566,9 @@ button:focus {
 [data-cols='2'] .racks {
     border-bottom: 1px solid #fff;
     border-top: 1px solid #fff;
+    bottom: 40px;
     left: 0;
+    overflow-y: auto;
     top: 200px;
 }
     [data-cols='2'] .rack {
@@ -627,7 +629,9 @@ button:focus {
 [data-cols='3'] .racks {
     border-bottom: 1px solid #fff;
     border-top: 1px solid #fff;
+    bottom: 40px;
     left: 0;
+    overflow-y: auto;
     top: 0;
 }
     [data-cols='3'] .rack {
@@ -688,7 +692,9 @@ button:focus {
 [data-cols='4'] .racks {
     border-bottom: 1px solid #fff;
     border-top: 1px solid #fff;
+    bottom: 40px;
     left: 0;
+    overflow-y: auto;
     top: 0;
 }
     [data-cols='4'] .rack {
