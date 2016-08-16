@@ -8,7 +8,7 @@ window.WH = window.WH || {};
 (function (ns) {
     
     function createTracksView(specs, my) {
-        var that = specs.that,
+        var that,
             conf = specs.conf,
             trackCount = conf.getTrackCount(),
             stepCount = conf.getStepCount(),

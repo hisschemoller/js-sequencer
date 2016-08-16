@@ -10,8 +10,7 @@ window.WH = window.WH || {};
 
     function createSongView(specs, my) {
         var that,
-            view = $('.song'),
-            listEl = view.find('.song__list'),
+            listEl,
             partEls,
             partTemplate = $('#template-song-part'),
             selectors = {
@@ -24,9 +23,18 @@ window.WH = window.WH || {};
             classes = {
                 active: 'is-active'
             },
-            setVisible = function(isVisible) {
-                view.toggle(isVisible === true);
-            }, 
+            
+            /**
+             * Initialise the component.
+             */
+            init = function() {
+                listEl = my.rootEl.find('.song__list');
+            }
+            
+            /**
+             * Create a song list from song data.
+             * @param {array} songData Array of song parts.
+             */
             setSong = function(songData) {
                 var i = 0,
                     songLength = songData.length,
@@ -44,15 +52,25 @@ window.WH = window.WH || {};
                 }
                 partEls = listEl.find(selectors.part);
             },
+            
+            /**
+             * Show an active song part.
+             * @param {number} index Index of the active song part.
+             */
             setActivePart = function(index) {
                 partEls.removeClass(classes.active);
                 if (!isNaN(index)) {
                     $(partEls[index]).addClass(classes.active);
                 }
             };
+            
+        var my = my || {};
+        my.rootEl = $('.song');
         
-        that = {};
-        that.setVisible = setVisible;
+        that = WH.createBaseView(specs, my);
+        
+        init();
+        
         that.setSong = setSong;
         that.setActivePart = setActivePart;
         return that;
