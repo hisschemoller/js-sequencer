@@ -22,6 +22,7 @@ $(function() {
             file = {},
             pluginManager = {},
             studio = {},
+            tracksView = {},
             transport = {};
         
         // create old style modules
@@ -31,6 +32,7 @@ $(function() {
                 core: core,
                 file: file,
                 studio: studio,
+                tracksView: tracksView,
                 transport: transport
             });
         
@@ -39,7 +41,8 @@ $(function() {
             that: arrangement,
             conf: conf,
             transport: transport,
-            view: view
+            view: view,
+            tracksView: tracksView
         });
         WH.createConf({
             that: conf
@@ -73,6 +76,10 @@ $(function() {
             core: core,
             studio: studio,
             view: view
+        });
+        WH.createTracksView({
+            that: tracksView,
+            conf: conf
         });
         
         view.setup();

@@ -265,6 +265,21 @@ button:focus {
         background-color: #fff;
         opacity: 0.2;
     }
+#tracks {
+    border: 1px solid #fff;
+}
+    .tracks__track {}
+    .tracks__track:after {
+        clear: both;
+        content: '';
+        display: table;
+    }
+        .tracks__step {
+            border: 1px solid #fff;
+            float: left;
+            height: 20px;
+            width: 6.25%;
+        }
 .song {}
     .song__header {
         border-left: 1px solid #fff;
@@ -546,6 +561,7 @@ button:focus {
 [data-cols='2'] .channel-selects,
 [data-cols='2'] .channels,
 [data-cols='2'] .steps,
+[data-cols='2'] #tracks,
 [data-cols='2'] .patterns,
 [data-cols='2'] .racks,
 [data-cols='2'] .song {
@@ -579,18 +595,24 @@ button:focus {
     left: 50%;
     top: 0;
 }
+[data-cols='2'] #tracks {
+    display: block;
+    left: 50%;
+    top: 80px;
+}
 [data-cols='2'] .patterns {
     border-top: 1px solid #fff;
     left: 50%;
-    top: 80px;
+    top: 240px;
 }
 [data-cols='2'] .song {
     border-top: 1px solid #fff;
     bottom: 40px;
     left: 50%;
-    top: 160px;
+    top: 320px;
 }
     [data-cols='2'] .song__list-container {
+        bottom: 2px;
         top: 40px;
     }
     [data-cols='2'] .song-part:first-child {
@@ -611,6 +633,7 @@ button:focus {
 [data-cols='3'] .steps,
 [data-cols='3'] .patterns,
 [data-cols='3'] .racks,
+[data-cols='3'] #tracks,
 [data-cols='3'] .song {
     display: block !important;
     position: absolute;
@@ -642,15 +665,20 @@ button:focus {
     left: 66.6666%;
     top: 0;
 }
+[data-cols='3'] #tracks {
+    display: block;
+    left: 66.6666%;
+    top: 80px;
+}
 [data-cols='3'] .patterns {
     border-top: 1px solid #fff;
     left: 66.6666%;
-    top: 80px;
+    top: 240px;
 }
 [data-cols='3'] .song {
     border-top: 1px solid #fff;
     bottom: 40px;
-    left: 66.6666%;
+    left: 33.3333%;
     top: 160px;
 }
     [data-cols='3'] .song__list-container {
@@ -672,6 +700,7 @@ button:focus {
 [data-cols='4'] .channel-selects,
 [data-cols='4'] .channels,
 [data-cols='4'] .steps,
+[data-cols='4'] #tracks,
 [data-cols='4'] .patterns,
 [data-cols='4'] .racks,
 [data-cols='4'] .song {
@@ -705,10 +734,15 @@ button:focus {
     left: 50%;
     top: 0;
 }
+[data-cols='4'] #tracks {
+    display: block;
+    left: 50%;
+    top: 80px;
+}
 [data-cols='4'] .patterns {
     border-top: 1px solid #fff;
     left: 50%;
-    top: 80px;
+    top: 240px;
 }
 [data-cols='4'] .song {
     border-top: 1px solid #fff;

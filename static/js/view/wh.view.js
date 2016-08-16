@@ -21,6 +21,7 @@ window.WH = window.WH || {};
             file = specs.file,
             studio = specs.studio,
             transport = specs.transport,
+            tracksView = specs.tracksView,
             settings = {
                 channelSelectClass: '.channel__select',
                 rackClass: '.rack',
@@ -284,6 +285,7 @@ window.WH = window.WH || {};
                         elements.channelContainer.hide();
                         elements.rackContainer.show();
                         patterns.setVisible(false);
+                        tracksView.setVisible(false);
                         song.setVisible(false);
                         break;
                     case 1:
@@ -293,6 +295,7 @@ window.WH = window.WH || {};
                         elements.channelContainer.show();
                         elements.rackContainer.hide();
                         patterns.setVisible(false);
+                        tracksView.setVisible(false);
                         song.setVisible(false);
                         break;
                     case 2:
@@ -302,6 +305,7 @@ window.WH = window.WH || {};
                         elements.channelContainer.hide();
                         elements.rackContainer.hide();
                         patterns.setVisible(true);
+                        tracksView.setVisible(true);
                         song.setVisible(false);
                         break;
                     case 3:
@@ -311,6 +315,7 @@ window.WH = window.WH || {};
                         elements.channelContainer.hide();
                         elements.rackContainer.hide();
                         patterns.setVisible(false);
+                        tracksView.setVisible(false);
                         song.setVisible(true);
                         break;
                 }

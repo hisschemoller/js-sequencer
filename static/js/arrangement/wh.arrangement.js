@@ -18,6 +18,7 @@ window.WH = window.WH || {};
             conf = specs.conf,
             transport = specs.transport,
             view = specs.view,
+            tracksView = specs.tracksView,
             patterns = [],
             patternIndex = 0,
             isSongMode = false,
@@ -214,6 +215,7 @@ window.WH = window.WH || {};
                 patternIndex = Math.max(0, Math.min(index, conf.getPatternCount()));
                 view.setSelectedPattern(patternIndex);
                 view.setSelectedSteps();
+                tracksView.setPattern(patterns[patternIndex]);
             };
         
         that.setData = setData;
