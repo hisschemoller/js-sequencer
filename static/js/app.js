@@ -21,7 +21,9 @@ $(function() {
             core = {},
             file = {},
             pluginManager = {},
+            songView = {},
             studio = {},
+            tracksView = {},
             transport = {};
         
         // create old style modules
@@ -30,7 +32,9 @@ $(function() {
                 conf: conf,
                 core: core,
                 file: file,
+                songView: songView,
                 studio: studio,
+                tracksView: tracksView,
                 transport: transport
             });
         
@@ -38,6 +42,8 @@ $(function() {
         WH.createArrangement({
             that: arrangement,
             conf: conf,
+            songView: songView,
+            tracksView: tracksView,
             transport: transport,
             view: view
         });
@@ -60,6 +66,9 @@ $(function() {
             core: core,
             transport: transport
         });
+        WH.createSongView({
+            that: songView
+        });
         WH.createStudio({
             that: studio,
             conf: conf,
@@ -74,7 +83,12 @@ $(function() {
             studio: studio,
             view: view
         });
+        WH.createTracksView({
+            that: tracksView,
+            conf: conf
+        });
         
+        // app initialisation
         view.setup();
         studio.setup();
         if (!file.loadFromStorage()) {

@@ -16,6 +16,8 @@ window.WH = window.WH || {};
     function createArrangement(specs) {
         var that = specs.that,
             conf = specs.conf,
+            songView = specs.songView,
+            tracksView = specs.tracksView,
             transport = specs.transport,
             view = specs.view,
             patterns = [],
@@ -66,7 +68,7 @@ window.WH = window.WH || {};
                         songPartData.absoluteEnd = songPartEnd;
                         song.push(WH.createSongPart(songPartData));
                     }
-                    view.setSong(song);
+                    songView.setSong(song);
                 }
 
                 setSelectedPattern(0);
@@ -151,7 +153,7 @@ window.WH = window.WH || {};
                             // scan the first bit of the new song part
                             patterns[patternIndex].scanEvents(song[songPartIndex].getStart(), end, playbackQueue);
                             // update the view
-                            view.setActiveSongPart(songPartIndex);
+                            songView.setActivePart(songPartIndex);
                         } else {
                             // no new song part starts during this time span, do nothing
                         }
@@ -190,7 +192,7 @@ window.WH = window.WH || {};
                     songPartNextIndex = 0;
                     songPartNextStart = song[songPartNextIndex].getStart();
                 } else {
-                    
+                    songView.setActivePart(null);
                 }
             },
 
@@ -214,6 +216,7 @@ window.WH = window.WH || {};
                 patternIndex = Math.max(0, Math.min(index, conf.getPatternCount()));
                 view.setSelectedPattern(patternIndex);
                 view.setSelectedSteps();
+                tracksView.setPattern(patterns[patternIndex]);
             };
         
         that.setData = setData;

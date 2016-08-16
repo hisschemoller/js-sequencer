@@ -19,8 +19,10 @@ window.WH = window.WH || {};
             conf = specs.conf,
             core = specs.core,
             file = specs.file,
+            songView = specs.songView,
             studio = specs.studio,
             transport = specs.transport,
+            tracksView = specs.tracksView,
             settings = {
                 channelSelectClass: '.channel__select',
                 rackClass: '.rack',
@@ -83,11 +85,6 @@ window.WH = window.WH || {};
             patterns = null,
             
             /**
-             * Song view object.
-             */
-            song,
-            
-            /**
              * Number of columns to display based on window width. 
              */
             responsiveCols = 0,
@@ -117,8 +114,6 @@ window.WH = window.WH || {};
                     arrangement: arrangement,
                     conf: conf
                 });
-                
-                song = WH.createSongView();
 
                 // create the channel select buttons
                 elements.channelSelects = controls.addChannelSelectControls(elements.channelSelectsContainer);
@@ -284,7 +279,8 @@ window.WH = window.WH || {};
                         elements.channelContainer.hide();
                         elements.rackContainer.show();
                         patterns.setVisible(false);
-                        song.setVisible(false);
+                        tracksView.setVisible(false);
+                        songView.setVisible(false);
                         break;
                     case 1:
                         // open mixer
@@ -293,7 +289,8 @@ window.WH = window.WH || {};
                         elements.channelContainer.show();
                         elements.rackContainer.hide();
                         patterns.setVisible(false);
-                        song.setVisible(false);
+                        tracksView.setVisible(false);
+                        songView.setVisible(false);
                         break;
                     case 2:
                         // open patterns
@@ -302,7 +299,8 @@ window.WH = window.WH || {};
                         elements.channelContainer.hide();
                         elements.rackContainer.hide();
                         patterns.setVisible(true);
-                        song.setVisible(false);
+                        tracksView.setVisible(true);
+                        songView.setVisible(false);
                         break;
                     case 3:
                         // open song
@@ -311,7 +309,8 @@ window.WH = window.WH || {};
                         elements.channelContainer.hide();
                         elements.rackContainer.hide();
                         patterns.setVisible(false);
-                        song.setVisible(true);
+                        tracksView.setVisible(false);
+                        songView.setVisible(true);
                         break;
                 }
             }
@@ -406,21 +405,6 @@ window.WH = window.WH || {};
         this.updatePluginControl = function(pluginId, paramKey, param) {
             pluginViews[pluginId].updateControl(paramKey, param);
         };
-        
-        /**
-         * Show a new song in the song view.
-         */
-        this.setSong = function(songData) {
-            song.setSong(songData);
-        };
-        
-        /**
-         * Show a new song in the song view.
-         * @param {Number} songPartIndex Song part index within the song.
-         */
-        this.setActiveSongPart = function(songPartIndex) {
-            song.setActivePart(songPartIndex);
-        };
 
         /**
          * Song mode entered or left.
@@ -428,10 +412,7 @@ window.WH = window.WH || {};
         this.updateSongMode = function(isSongMode) {
             // TODO: the song button will move somewhere better
             $(elements.transportContainer.find(settings.ctrlClass)[1]).toggleClass(settings.selectedClass, isSongMode);
-            if (!isSongMode) {
-                song.setActivePart(null);
-            }
-        };
+        };  
 
         /**
          * Playback started or stopped.

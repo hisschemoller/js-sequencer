@@ -265,6 +265,40 @@ button:focus {
         background-color: #fff;
         opacity: 0.2;
     }
+#tracks {
+    border: 1px solid #fff;
+}
+    .tracks__track {}
+    .tracks__track:after {
+        clear: both;
+        content: '';
+        display: table;
+    }
+        .tracks__step {
+            border: 1px solid #fff;
+            float: left;
+            height: 20px;
+            position: relative;
+            width: 6.25%;
+        }
+        .tracks__step.active {
+            
+        }
+        .tracks__step:before {
+            background-color: #ddd;
+            bottom: 0;
+            content: '';
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .tracks__step.selected:before {
+            opacity: 0.8;
+        }
+        .tracks__step.selected.active:before {
+            opacity: 0.6;
+        }
 .song {}
     .song__header {
         border-left: 1px solid #fff;
@@ -438,11 +472,18 @@ button:focus {
         background-color: #ddd;
         border: 2px solid #fff;
         height: 400px;
-        margin: 100px auto 0 auto;
         max-height: 400px;
         max-width: 200px;
-        position: relative;
+        position: absolute;
     }
+        .overlay__color {
+            bottom: 0;
+            left: 0;
+            opacity: 0.1;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
 #overlay-startup {}
     .overlay-startup_header {
         display: block;
@@ -454,7 +495,7 @@ button:focus {
         padding: 20px 10px 0 10px;
         margin: 0 auto;
         max-width: 280px;
-        width: 100%;overlay__content
+        width: 100%;
     }
     .overlay-ctrl__info td:nth-child(2) {
         width: 60%;
@@ -502,11 +543,13 @@ button:focus {
             background-color: #eee;
         }
 #overlay-dialog {
-    padding: 10px 50px;
 }
     .dialog {
+        background: #ddd;
         border: 2px solid #fff;
-        padding: 10px;
+        margin: 0 auto;
+        max-width: 400px;
+        padding: 10px 30px;
     }
         .dialog__header {
             font-size: 2rem;
@@ -537,6 +580,7 @@ button:focus {
 [data-cols='2'] .channel-selects,
 [data-cols='2'] .channels,
 [data-cols='2'] .steps,
+[data-cols='2'] #tracks,
 [data-cols='2'] .patterns,
 [data-cols='2'] .racks,
 [data-cols='2'] .song {
@@ -557,7 +601,9 @@ button:focus {
 [data-cols='2'] .racks {
     border-bottom: 1px solid #fff;
     border-top: 1px solid #fff;
+    bottom: 40px;
     left: 0;
+    overflow-y: auto;
     top: 200px;
 }
     [data-cols='2'] .rack {
@@ -568,18 +614,24 @@ button:focus {
     left: 50%;
     top: 0;
 }
+[data-cols='2'] #tracks {
+    display: block;
+    left: 50%;
+    top: 80px;
+}
 [data-cols='2'] .patterns {
     border-top: 1px solid #fff;
     left: 50%;
-    top: 80px;
+    top: 240px;
 }
 [data-cols='2'] .song {
     border-top: 1px solid #fff;
     bottom: 40px;
     left: 50%;
-    top: 160px;
+    top: 320px;
 }
     [data-cols='2'] .song__list-container {
+        bottom: 2px;
         top: 40px;
     }
     [data-cols='2'] .song-part:first-child {
@@ -600,6 +652,7 @@ button:focus {
 [data-cols='3'] .steps,
 [data-cols='3'] .patterns,
 [data-cols='3'] .racks,
+[data-cols='3'] #tracks,
 [data-cols='3'] .song {
     display: block !important;
     position: absolute;
@@ -618,7 +671,9 @@ button:focus {
 [data-cols='3'] .racks {
     border-bottom: 1px solid #fff;
     border-top: 1px solid #fff;
+    bottom: 40px;
     left: 0;
+    overflow-y: auto;
     top: 0;
 }
     [data-cols='3'] .rack {
@@ -629,15 +684,20 @@ button:focus {
     left: 66.6666%;
     top: 0;
 }
+[data-cols='3'] #tracks {
+    display: block;
+    left: 66.6666%;
+    top: 80px;
+}
 [data-cols='3'] .patterns {
     border-top: 1px solid #fff;
     left: 66.6666%;
-    top: 80px;
+    top: 240px;
 }
 [data-cols='3'] .song {
     border-top: 1px solid #fff;
     bottom: 40px;
-    left: 66.6666%;
+    left: 33.3333%;
     top: 160px;
 }
     [data-cols='3'] .song__list-container {
@@ -659,6 +719,7 @@ button:focus {
 [data-cols='4'] .channel-selects,
 [data-cols='4'] .channels,
 [data-cols='4'] .steps,
+[data-cols='4'] #tracks,
 [data-cols='4'] .patterns,
 [data-cols='4'] .racks,
 [data-cols='4'] .song {
@@ -679,7 +740,9 @@ button:focus {
 [data-cols='4'] .racks {
     border-bottom: 1px solid #fff;
     border-top: 1px solid #fff;
+    bottom: 40px;
     left: 0;
+    overflow-y: auto;
     top: 0;
 }
     [data-cols='4'] .rack {
@@ -690,18 +753,24 @@ button:focus {
     left: 50%;
     top: 0;
 }
+[data-cols='4'] #tracks {
+    display: block;
+    left: 50%;
+    top: 80px;
+}
 [data-cols='4'] .patterns {
     border-top: 1px solid #fff;
     left: 50%;
-    top: 80px;
+    top: 240px;
 }
 [data-cols='4'] .song {
     border-top: 1px solid #fff;
     bottom: 40px;
-    left: 50%;
-    top: 160px;
+    left: 75%;
+    top: 0;
 }
     [data-cols='4'] .song__list-container {
+        bottom: 2px;
         top: 40px;
     }
     [data-cols='4'] .song-part:first-child {
