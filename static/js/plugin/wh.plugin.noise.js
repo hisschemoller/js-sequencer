@@ -12,12 +12,17 @@ window.WH = window.WH || {};
 
         var that,
             voices = [],
+            cachedWhiteNoise,
 
             /**
              * Create a buffer of white noise.
              * @return {object} AudioBuffer of white noise.
              */
             createWhiteNoise = function() {
+                if (cachedWhiteNoise) {
+                    return cachedWhiteNoise;
+                }
+
                 var channels = 1,
                     sampleRate = my.core.getSampleRate(),
                     bufferSize = sampleRate * (60 / my.transport.getBPM()) * 2,
@@ -28,6 +33,8 @@ window.WH = window.WH || {};
                 for (i = 0; i < bufferSize; i++) {
                     bufferChannels[i] = Math.random() * 2 - 1;
                 }
+
+                cachedWhiteNoise = buffer;
 
                 return buffer;
             },
