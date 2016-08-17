@@ -20,9 +20,6 @@ window.WH = window.WH || {};
                 partPattern: '.song-part__pattern',
                 partRepeats: '.song-part__repeats',
             },
-            classes = {
-                active: 'is-active'
-            },
             
             /**
              * Initialise the component.
@@ -58,9 +55,9 @@ window.WH = window.WH || {};
              * @param {number} index Index of the active song part.
              */
             setActivePart = function(index) {
-                partEls.removeClass(classes.active);
+                partEls.removeClass(my.classes.active);
                 if (!isNaN(index)) {
-                    $(partEls[index]).addClass(classes.active);
+                    $(partEls[index]).addClass(my.classes.active);
                 }
             };
             
