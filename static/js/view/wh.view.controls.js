@@ -58,28 +58,28 @@ window.WH = window.WH || {};
          * Add the controls that selects a channel in the mixer.
          * @param {Object} containerEls jQuery HTML element.
          */
-        this.addChannelSelectControls = function(containerEl) {
-            var i = 0,
-                n = conf.getTrackCount(),
-                channelSelectEl,
-                channelSelectEls;
-
-            for (i; i < n; i++) {
-                var channelSelectEl = elements.templates.channelSelect.children().first().clone();
-                channelSelectEl.find(settings.ctrlTextClass).text(String.fromCharCode(65 + i));
-                channelSelectEl.find(settings.ctrlBackgroundClass).addClass(settings.channelColorClasses[i]);
-                channelSelectEl.find(settings.ctrlHighlightClass).addClass(settings.channelColorClasses[i]);
-                $(containerEl).append(channelSelectEl);
-            }
-
-            channelSelectEls = containerEl.find(settings.ctrlChannelSelectClass);
-            channelSelectEls.on(self.eventType.click, function(e) {
-                var index = channelSelectEls.index(e.currentTarget);
-                view.setSelectedChannel(index);
-            });
-
-            return channelSelectEls;
-        };
+        // this.addChannelSelectControls = function(containerEl) {
+        //     var i = 0,
+        //         n = conf.getTrackCount(),
+        //         channelSelectEl,
+        //         channelSelectEls;
+        // 
+        //     for (i; i < n; i++) {
+        //         var channelSelectEl = elements.templates.channelSelect.children().first().clone();
+        //         channelSelectEl.find(settings.ctrlTextClass).text(String.fromCharCode(65 + i));
+        //         channelSelectEl.find(settings.ctrlBackgroundClass).addClass(settings.channelColorClasses[i]);
+        //         channelSelectEl.find(settings.ctrlHighlightClass).addClass(settings.channelColorClasses[i]);
+        //         $(containerEl).append(channelSelectEl);
+        //     }
+        // 
+        //     channelSelectEls = containerEl.find(settings.ctrlChannelSelectClass);
+        //     channelSelectEls.on(self.eventType.click, function(e) {
+        //         var index = channelSelectEls.index(e.currentTarget);
+        //         view.setSelectedChannel(index);
+        //     });
+        // 
+        //     return channelSelectEls;
+        // };
 
         /**
          * Add the tab controls to the tab bar.

@@ -61,7 +61,11 @@ window.WH = window.WH || {};
                 channelSelectEls.get(channelIndex).className += ' ' + my.classes.selected;
                 
                 // TODO: set selected plugin
+                elements.racks.removeClass(settings.selectedClass);
+                elements.racks.get(channelIndex).className += ' ' + settings.selectedClass;
+                
                 // TODO: set steps of selected channel 
+                this.setSelectedSteps();
             };
         
         var my = my || {};

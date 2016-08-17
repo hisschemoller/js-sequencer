@@ -20,6 +20,7 @@ window.WH = window.WH || {};
             conf = specs.conf,
             core = specs.core,
             file = specs.file,
+            stepsView = specs.stepsView,
             songView = specs.songView,
             studio = specs.studio,
             transport = specs.transport,
@@ -70,7 +71,7 @@ window.WH = window.WH || {};
              * StepsView creates sequencer steps UI controls.
              * @type {Object}
              */
-            stepsView = null,
+            // stepsView = null,
 
             /**
              * WH.PluginView plugin view objects.
@@ -106,10 +107,10 @@ window.WH = window.WH || {};
                     view: this
                 });
 
-                stepsView = WH.StepsView({
-                    arrangement: arrangement,
-                    conf: conf
-                });
+                // stepsView = WH.StepsView({
+                //     arrangement: arrangement,
+                //     conf: conf
+                // });
 
                 patterns = WH.PatternView({
                     arrangement: arrangement,
