@@ -23,6 +23,7 @@ $(function() {
             file = {},
             pluginManager = {},
             songView = {},
+            stepsView = {},
             studio = {},
             tracksView = {},
             transport = {};
@@ -35,6 +36,7 @@ $(function() {
                 core: core,
                 file: file,
                 songView: songView,
+                stepsView: stepsView,
                 studio: studio,
                 tracksView: tracksView,
                 transport: transport
@@ -72,6 +74,11 @@ $(function() {
             core: core,
             transport: transport
         });
+        WH.createStepsView({
+            that: stepsView,
+            arrangement: arrangement,
+            conf: conf
+        });
         WH.createSongView({
             that: songView
         });
@@ -96,6 +103,7 @@ $(function() {
         
         // app initialisation
         view.setup();
+        stepsView.setup();
         channelSelectsView.setup();
         studio.setup();
         if (!file.loadFromStorage()) {
