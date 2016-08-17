@@ -77,8 +77,5 @@ window.WH = window.WH || {};
         return that;
     }
     
-    /** 
-     * Singleton
-     */
     WH.createConf = createConf;
 })(WH);
