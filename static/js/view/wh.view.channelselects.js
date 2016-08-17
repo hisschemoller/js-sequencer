@@ -10,30 +10,66 @@ window.WH = window.WH || {};
 
     function createChannelSelectView(specs, my) {
         var that,
+            conf = specs.conf,
+            rootEl = $('.channel-selects'),
             channelSelectTemplate = $('#template-channel-select'),
-            classes = {
-                
+            channelSelectEls,
+            channelIndex,
+            selectors = {
+                channelSelect: '.ctrl--channel-select'
             },
+            
             /**
              * Initialise, create the select buttons.
              */
-            init = function() {
+            setup = function() {
                 var i, n, channelSelectEl;
                 
-                n = my.conf.getTrackCount();
+                n = conf.getTrackCount();
                 for (i = 0; i < n; i++) {
                     channelSelectEl = channelSelectTemplate.children().first().clone();
-                    channelSelectEl.find(settings.ctrlTextClass).text(String.fromCharCode(65 + i));
+                    channelSelectEl.find(my.selectors.ctrlText).text(String.fromCharCode(65 + i));
+                    channelSelectEl.find(my.selectors.ctrlBackground).addClass(my.classes.colors[i]);
+                    channelSelectEl.find(my.selectors.ctrlHighlight).addClass(my.classes.colors[i]);
+                    my.rootEl.append(channelSelectEl);
                 }
+                
+                channelSelectEls = my.rootEl.find(selectors.channelSelect);
+                channelSelectEls.on(my.eventType.click, onClick);
+            },
+            
+            /**
+             * Click on channel select button.
+             */
+            onClick = function(e) {
+                var index = channelSelectEls.index(e.currentTarget);
+                setSelectedChannel(index);
+            },
+            
+            /**
+             * Set selected channel.
+             * @param {number} index Index of the channel to select.
+             */
+            setSelectedChannel = function(index) {
+                if (index === channelIndex) {
+                    return;
+                }
+                
+                channelIndex = index;
+                
+                channelSelectEls.removeClass(my.classes.selected);
+                channelSelectEls.get(channelIndex).className += ' ' + my.classes.selected;
+                
+                // TODO: set selected plugin
+                // TODO: set steps of selected channel 
             };
         
         var my = my || {};
-        my.rootEl = $('.channel-selects');
+        my.rootEl = rootEl;
         
         that = WH.createBaseView(specs, my);
         
-        init();
-        
+        that.setup = setup;
         return that;
     }
 

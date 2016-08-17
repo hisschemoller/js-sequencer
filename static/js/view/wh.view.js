@@ -16,6 +16,7 @@ window.WH = window.WH || {};
         
         // private variables
         var arrangement = specs.arrangement,
+            channelSelectsView = specs.channelSelectsView,
             conf = specs.conf,
             core = specs.core,
             file = specs.file,
@@ -24,7 +25,7 @@ window.WH = window.WH || {};
             transport = specs.transport,
             tracksView = specs.tracksView,
             settings = {
-                channelSelectClass: '.channel__select',
+                // channelSelectClass: '.channel__select',
                 rackClass: '.rack',
                 rackGeneratorContainerClass: '.rack__generator',
 
@@ -37,8 +38,8 @@ window.WH = window.WH || {};
              * @type {Object}
              */
             elements = {
-                channelSelects: null,
-                channelSelectsContainer: $('.channel-selects'),
+                // channelSelects: null,
+                // channelSelectsContainer: $('.channel-selects'),
                 channelContainer: $('.channels'),
                 racks: null,
                 rackContainer: $('.racks'),
@@ -116,7 +117,7 @@ window.WH = window.WH || {};
                 });
 
                 // create the channel select buttons
-                elements.channelSelects = controls.addChannelSelectControls(elements.channelSelectsContainer);
+                // elements.channelSelects = controls.addChannelSelectControls(elements.channelSelectsContainer);
 
                 // create the plugin racks
                 for (i = 0; i < n; i++) {
@@ -275,7 +276,7 @@ window.WH = window.WH || {};
                     case 0:
                         // open instrument
                         stepsView.setVisible(true);
-                        elements.channelSelects.show();
+                        channelSelectsView.setVisible(true);
                         elements.channelContainer.hide();
                         elements.rackContainer.show();
                         patterns.setVisible(false);
@@ -285,7 +286,7 @@ window.WH = window.WH || {};
                     case 1:
                         // open mixer
                         stepsView.setVisible(true);
-                        elements.channelSelects.show();
+                        channelSelectsView.setVisible(true);
                         elements.channelContainer.show();
                         elements.rackContainer.hide();
                         patterns.setVisible(false);
@@ -295,7 +296,7 @@ window.WH = window.WH || {};
                     case 2:
                         // open patterns
                         stepsView.setVisible(true);
-                        elements.channelSelects.show();
+                        channelSelectsView.setVisible(true);
                         elements.channelContainer.hide();
                         elements.rackContainer.hide();
                         patterns.setVisible(true);
@@ -305,7 +306,7 @@ window.WH = window.WH || {};
                     case 3:
                         // open song
                         stepsView.setVisible(false);
-                        elements.channelSelects.hide();
+                        channelSelectsView.setVisible(false);
                         elements.channelContainer.hide();
                         elements.rackContainer.hide();
                         patterns.setVisible(false);

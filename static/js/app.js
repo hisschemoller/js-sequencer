@@ -17,6 +17,7 @@ $(function() {
     function startApp() {
         // create objects that will be the modules of the app
         var arrangement = {},
+            channelSelectsView = {},
             conf = {},
             core = {},
             file = {},
@@ -29,6 +30,7 @@ $(function() {
         // create old style modules
         var view = WH.createView({
                 arrangement: arrangement,
+                channelSelectsView: channelSelectsView,
                 conf: conf,
                 core: core,
                 file: file,
@@ -46,6 +48,10 @@ $(function() {
             tracksView: tracksView,
             transport: transport,
             view: view
+        });
+        WH.createChannelSelectView({
+            that: channelSelectsView,
+            conf: conf
         });
         WH.createConf({
             that: conf
@@ -90,6 +96,7 @@ $(function() {
         
         // app initialisation
         view.setup();
+        channelSelectsView.setup();
         studio.setup();
         if (!file.loadFromStorage()) {
             file.createNew();
