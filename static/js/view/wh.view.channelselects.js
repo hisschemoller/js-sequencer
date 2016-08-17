@@ -11,6 +11,7 @@ window.WH = window.WH || {};
     function createChannelSelectView(specs, my) {
         var that,
             conf = specs.conf,
+            stepsView = specs.stepsView,
             rootEl = $('.channel-selects'),
             channelSelectTemplate = $('#template-channel-select'),
             channelSelectEls,
@@ -61,11 +62,18 @@ window.WH = window.WH || {};
                 channelSelectEls.get(channelIndex).className += ' ' + my.classes.selected;
                 
                 // TODO: set selected plugin
-                elements.racks.removeClass(settings.selectedClass);
-                elements.racks.get(channelIndex).className += ' ' + settings.selectedClass;
+                // elements.racks.removeClass(settings.selectedClass);
+                // elements.racks.get(channelIndex).className += ' ' + settings.selectedClass;
                 
-                // TODO: set steps of selected channel 
-                this.setSelectedSteps();
+                stepsView.setSelected(channelIndex);
+            },
+            
+            /**
+             * Get index of seleted channel.
+             * @return {number} Index of the selected track.
+             */
+            getSelectedChannel = function() {
+                return channelIndex;
             };
         
         var my = my || {};
@@ -74,6 +82,8 @@ window.WH = window.WH || {};
         that = WH.createBaseView(specs, my);
         
         that.setup = setup;
+        that.setSelectedChannel = setSelectedChannel;
+        that.getSelectedChannel = getSelectedChannel;
         return that;
     }
 

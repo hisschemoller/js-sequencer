@@ -11,9 +11,11 @@ window.WH = window.WH || {};
         // private variables
         var that,
             arrangement = specs.arrangement,
+            channelSelectsView = specs.channelSelectsView,
             conf = specs.conf,
             rootEl = $('.steps'),
             stepTemplate = $('#template-step'),
+            stepEls,
             
             selectors = {
                 step: '.step'
@@ -30,7 +32,7 @@ window.WH = window.WH || {};
              * Add controls for all steps in a pattern track.
              */
             addStepControls = function() {
-                var i, n, stepEl, stepEls;
+                var i, n, stepEl;
                     
                 n = conf.getStepCount();
                 for (i = 0; i < n; i++) {
@@ -39,8 +41,8 @@ window.WH = window.WH || {};
                     rootEl.append(stepEl);
                 }
 
-                stepsEls = rootEl.find(selectors.step);
-                stepsEls.on(my.eventType.click, function(e) {});
+                stepEls = rootEl.find(selectors.step);
+                stepEls.on(my.eventType.click, function(e) {});
             },
 
             /**
@@ -49,10 +51,12 @@ window.WH = window.WH || {};
              * @param {Number} index Channel / track index.
              */
             setSelected = function(index) {
-                var i, n, stepEl,
-                    stepsData = arrangement.getTrackSteps(index),
-                    colorClass = my.classes.colors[index];
-
+                var i, n, stepEl, stepsData, colorClass;
+                    
+                index = isNaN(index) ? channelSelectsView.getSelectedChannel() : index;
+                stepsData = arrangement.getTrackSteps(index);
+                colorClass = my.classes.colors[index];
+                
                 stepEls.removeClass(my.classes.allColors);
                 stepEls.removeClass(my.classes.selected);
 
@@ -87,6 +91,7 @@ window.WH = window.WH || {};
         that = WH.createBaseView(specs, my);
         
         that.setup = setup;
+        that.setSelected = setSelected;
         return that;
     }
     

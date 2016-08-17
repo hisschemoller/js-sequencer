@@ -17,6 +17,7 @@ window.WH = window.WH || {};
         var that = specs.that,
             conf = specs.conf,
             songView = specs.songView,
+            stepsView = specs.stepsView,
             tracksView = specs.tracksView,
             transport = specs.transport,
             view = specs.view,
@@ -215,7 +216,7 @@ window.WH = window.WH || {};
             setSelectedPattern = function(index) {
                 patternIndex = Math.max(0, Math.min(index, conf.getPatternCount()));
                 view.setSelectedPattern(patternIndex);
-                view.setSelectedSteps();
+                stepsView.setSelected();
                 tracksView.setPattern(patterns[patternIndex]);
             };
         

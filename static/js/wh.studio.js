@@ -15,6 +15,7 @@ window.WH = window.WH || {};
     function createStudio(specs) {
         
         var that = specs.that,
+            channelSelectsView = specs.channelSelectsView,
             conf = specs.conf,
             core = specs.core,
             pluginManager = specs.pluginManager,
@@ -71,7 +72,7 @@ window.WH = window.WH || {};
                     view.setChannel(channel, i);
                 }
 
-                view.setSelectedChannel(channels[0].getId());
+                channelSelectsView.setSelectedChannel(channels[0].getId());
             },
 
             /**
@@ -153,7 +154,7 @@ window.WH = window.WH || {};
 
                 return racks;
             },
-
+            
             /**
              * Add instuments and connect them to the output.
              * @param {Array} playbackQueue Array to collect Steps.

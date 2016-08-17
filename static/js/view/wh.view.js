@@ -324,31 +324,31 @@ window.WH = window.WH || {};
          * - Show selected channel's instrument rack.
          * @param {Number} index Index of the channel to select.
          */
-        this.setSelectedChannel = function(index) {
-            if (index == channelIndex) {
-                return;
-            }
-
-            channelIndex = index;
-
-            elements.channelSelects.removeClass(settings.selectedClass);
-            elements.channelSelects.get(channelIndex).className += ' ' + settings.selectedClass;
-
-            elements.racks.removeClass(settings.selectedClass);
-            elements.racks.get(channelIndex).className += ' ' + settings.selectedClass;
-
-            this.setSelectedSteps();
-        };
+        // this.setSelectedChannel = function(index) {
+        //     if (index == channelIndex) {
+        //         return;
+        //     }
+        // 
+        //     channelIndex = index;
+        // 
+        //     elements.channelSelects.removeClass(settings.selectedClass);
+        //     elements.channelSelects.get(channelIndex).className += ' ' + settings.selectedClass;
+        // 
+        //     elements.racks.removeClass(settings.selectedClass);
+        //     elements.racks.get(channelIndex).className += ' ' + settings.selectedClass;
+        // 
+        //     this.setSelectedSteps();
+        // };
 
         /**
          * Update the pattern to show selected steps.
          * Typically after switching patterns or tracks.
          * @param {Number} index Channel / track index.
          */
-        this.setSelectedSteps = function(index) {
-            index = isNaN(index) ? channelIndex : index;
-            stepsView.setSelected(index);
-        };
+        // this.setSelectedSteps = function(index) {
+        //     index = isNaN(index) ? channelIndex : index;
+        //     stepsView.setSelected(index);
+        // };
 
         /**
          * Set the selected pattern element.

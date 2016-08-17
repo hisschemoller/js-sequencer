@@ -47,13 +47,15 @@ $(function() {
             that: arrangement,
             conf: conf,
             songView: songView,
+            stepsView: stepsView,
             tracksView: tracksView,
             transport: transport,
             view: view
         });
         WH.createChannelSelectView({
             that: channelSelectsView,
-            conf: conf
+            conf: conf,
+            stepsView: stepsView
         });
         WH.createConf({
             that: conf
@@ -77,6 +79,7 @@ $(function() {
         WH.createStepsView({
             that: stepsView,
             arrangement: arrangement,
+            channelSelectsView: channelSelectsView,
             conf: conf
         });
         WH.createSongView({
@@ -84,6 +87,7 @@ $(function() {
         });
         WH.createStudio({
             that: studio,
+            channelSelectsView: channelSelectsView,
             conf: conf,
             core: core,
             pluginManager: pluginManager,
@@ -105,7 +109,7 @@ $(function() {
         view.setup();
         stepsView.setup();
         channelSelectsView.setup();
-        studio.setup();
+        studio.setup(); 
         if (!file.loadFromStorage()) {
             file.createNew();
         }
