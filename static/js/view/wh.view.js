@@ -218,9 +218,9 @@ window.WH = window.WH || {};
                         stepsView.updateActiveStep(step.getIndex());
                     }
 
-                    // update the channels
+                    // update the channel selects
                     if (step.getVelocity() > 0) {
-                        self.animateHighlight($(elements.channelSelects.get(step.getChannel())));
+                        channelSelectsView.animateHighlight(step.getChannel());
                     }
                 }
             };

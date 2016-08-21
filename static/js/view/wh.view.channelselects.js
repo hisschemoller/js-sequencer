@@ -48,6 +48,18 @@ window.WH = window.WH || {};
             },
             
             /**
+             * Indicate note played on channel with animation.
+             * @param {number} index  Index of the channel to animate.
+             */
+            animateHighlight = function(index) {
+                $(channelSelectEls[index]).find(my.selectors.ctrlHighlight)
+                    .show()
+                    .stop()
+                    .fadeIn(0)
+                    .fadeOut(300);
+            },
+            
+            /**
              * Set selected channel.
              * @param {number} index Index of the channel to select.
              */
@@ -82,6 +94,7 @@ window.WH = window.WH || {};
         that = WH.createBaseView(specs, my);
         
         that.setup = setup;
+        that.animateHighlight = animateHighlight;
         that.setSelectedChannel = setSelectedChannel;
         that.getSelectedChannel = getSelectedChannel;
         return that;
