@@ -247,13 +247,13 @@ button:focus {
         .step.selected .ctrl__name {
             color: #ccc;
         }
-.patterns {
+#patterns {
     border-bottom: 1px solid #fff;
     border-left: 1px solid #fff;
     border-right: 1px solid #fff;
     display: none;
 }
-.patterns:after {
+#patterns:after {
     clear: both;
     content: '';
     display: table;
@@ -581,7 +581,7 @@ button:focus {
 [data-cols='2'] .channels,
 [data-cols='2'] .steps,
 [data-cols='2'] #tracks,
-[data-cols='2'] .patterns,
+[data-cols='2'] #patterns,
 [data-cols='2'] .racks,
 [data-cols='2'] .song {
     display: block !important;
@@ -619,7 +619,7 @@ button:focus {
     left: 50%;
     top: 80px;
 }
-[data-cols='2'] .patterns {
+[data-cols='2'] #patterns {
     border-top: 1px solid #fff;
     left: 50%;
     top: 240px;
@@ -650,7 +650,7 @@ button:focus {
 [data-cols='3'] .channel-selects,
 [data-cols='3'] .channels,
 [data-cols='3'] .steps,
-[data-cols='3'] .patterns,
+[data-cols='3'] #patterns,
 [data-cols='3'] .racks,
 [data-cols='3'] #tracks,
 [data-cols='3'] .song {
@@ -689,7 +689,7 @@ button:focus {
     left: 66.6666%;
     top: 80px;
 }
-[data-cols='3'] .patterns {
+[data-cols='3'] #patterns {
     border-top: 1px solid #fff;
     left: 66.6666%;
     top: 240px;
@@ -721,7 +721,7 @@ button:focus {
 [data-cols='4'] .channels,
 [data-cols='4'] .steps,
 [data-cols='4'] #tracks,
-[data-cols='4'] .patterns,
+[data-cols='4'] #patterns,
 [data-cols='4'] .racks,
 [data-cols='4'] .song {
     display: block !important;
@@ -759,7 +759,7 @@ button:focus {
     left: 50%;
     top: 80px;
 }
-[data-cols='4'] .patterns {
+[data-cols='4'] #patterns {
     border-top: 1px solid #fff;
     left: 50%;
     top: 240px;

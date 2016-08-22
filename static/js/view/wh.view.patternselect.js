@@ -10,10 +10,10 @@ window.WH = window.WH || {};
     function createPatternSelectView(specs) {
 
         // private variables
-        var arrangement = specs.arrangement,
+        var that,
             arrangement = specs.arrangement,
             conf = specs.conf,
-            rootEl = $('.patterns'),
+            rootEl = $('#patterns'),
             patternTemplate = $('#template-pattern'),
             selectors = {
                 pattern: '.pattern'
