@@ -20,6 +20,7 @@ window.WH = window.WH || {};
             conf = specs.conf,
             core = specs.core,
             file = specs.file,
+            patternSelectView = specs.patternSelectView,
             stepsView = specs.stepsView,
             songView = specs.songView,
             studio = specs.studio,
@@ -84,7 +85,7 @@ window.WH = window.WH || {};
              * PatternView pattern selection controls.
              * @type {Object}
              */
-            patterns = null,
+            // patterns = null,
             
             /**
              * Number of columns to display based on window width. 
@@ -112,10 +113,10 @@ window.WH = window.WH || {};
                 //     conf: conf
                 // });
 
-                patterns = WH.PatternView({
-                    arrangement: arrangement,
-                    conf: conf
-                });
+                // patterns = WH.PatternView({
+                //     arrangement: arrangement,
+                //     conf: conf
+                // });
 
                 // create the channel select buttons
                 // elements.channelSelects = controls.addChannelSelectControls(elements.channelSelectsContainer);
@@ -280,7 +281,7 @@ window.WH = window.WH || {};
                         channelSelectsView.setVisible(true);
                         elements.channelContainer.hide();
                         elements.rackContainer.show();
-                        patterns.setVisible(false);
+                        patternSelectView.setVisible(false);
                         tracksView.setVisible(false);
                         songView.setVisible(false);
                         break;
@@ -290,7 +291,7 @@ window.WH = window.WH || {};
                         channelSelectsView.setVisible(true);
                         elements.channelContainer.show();
                         elements.rackContainer.hide();
-                        patterns.setVisible(false);
+                        patternSelectView.setVisible(false);
                         tracksView.setVisible(false);
                         songView.setVisible(false);
                         break;
@@ -300,7 +301,7 @@ window.WH = window.WH || {};
                         channelSelectsView.setVisible(true);
                         elements.channelContainer.hide();
                         elements.rackContainer.hide();
-                        patterns.setVisible(true);
+                        patternSelectView.setVisible(true);
                         tracksView.setVisible(true);
                         songView.setVisible(false);
                         break;
@@ -310,7 +311,7 @@ window.WH = window.WH || {};
                         channelSelectsView.setVisible(false);
                         elements.channelContainer.hide();
                         elements.rackContainer.hide();
-                        patterns.setVisible(false);
+                        patternSelectView.setVisible(false);
                         tracksView.setVisible(false);
                         songView.setVisible(true);
                         break;
@@ -354,9 +355,9 @@ window.WH = window.WH || {};
          * Set the selected pattern element.
          * @param {Number} index Index of the element to set as selected.
          */
-        this.setSelectedPattern = function(index) {
-            patterns.setSelected(index);
-        };
+        // this.setSelectedPattern = function(index) {
+        //     patterns.setSelected(index);
+        // };
 
         /**
          * Fill a mixer channel with mixer channel controls.

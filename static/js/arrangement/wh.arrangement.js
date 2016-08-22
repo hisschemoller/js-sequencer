@@ -16,6 +16,7 @@ window.WH = window.WH || {};
     function createArrangement(specs) {
         var that = specs.that,
             conf = specs.conf,
+            patternSelectView = specs.patternSelectView,
             songView = specs.songView,
             stepsView = specs.stepsView,
             tracksView = specs.tracksView,
@@ -215,7 +216,7 @@ window.WH = window.WH || {};
              */
             setSelectedPattern = function(index) {
                 patternIndex = Math.max(0, Math.min(index, conf.getPatternCount()));
-                view.setSelectedPattern(patternIndex);
+                patternSelectView.setSelected(patternIndex);
                 stepsView.setSelected();
                 tracksView.setPattern(patterns[patternIndex]);
             };

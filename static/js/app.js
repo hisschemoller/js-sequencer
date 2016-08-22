@@ -21,6 +21,7 @@ $(function() {
             conf = {},
             core = {},
             file = {},
+            patternSelectView = {},
             pluginManager = {},
             songView = {},
             stepsView = {},
@@ -35,6 +36,7 @@ $(function() {
                 conf: conf,
                 core: core,
                 file: file,
+                patternSelectView: patternSelectView,
                 songView: songView,
                 stepsView: stepsView,
                 studio: studio,
@@ -46,6 +48,7 @@ $(function() {
         WH.createArrangement({
             that: arrangement,
             conf: conf,
+            patternSelectView: patternSelectView,
             songView: songView,
             stepsView: stepsView,
             tracksView: tracksView,
@@ -69,6 +72,11 @@ $(function() {
             conf: conf,
             studio: studio,
             transport: transport
+        });
+        WH.createPatternSelectView({
+            that: patternSelectView,
+            arrangement: arrangement,
+            conf: conf
         });
         WH.createPluginManager({
             that: pluginManager,

@@ -10,9 +10,9 @@ window.WH = window.WH || {};
     function AbstractView(settings) {
 
         var defaults = {
-                activeClass: 'is-active',
-                selectedClass: 'is-selected',
-                disabledClass: 'is-disabled',
+                activeClass: 'active',
+                selectedClass: 'selected',
+                disabledClass: 'disabled',
                 channelColorClasses: ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7', 'color8'],
                 ctrlClass: '.ctrl',
                 ctrlGenericClass: '.ctrl--generic',
