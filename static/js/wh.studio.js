@@ -15,7 +15,7 @@ window.WH = window.WH || {};
     function createStudio(specs) {
         
         var that = specs.that,
-            channelSelectsView = specs.channelSelectsView,
+            channelSelectView = specs.channelSelectView,
             conf = specs.conf,
             core = specs.core,
             pluginManager = specs.pluginManager,
@@ -72,7 +72,7 @@ window.WH = window.WH || {};
                     view.setChannel(channel, i);
                 }
 
-                channelSelectsView.setSelectedChannel(channels[0].getId());
+                channelSelectView.setSelectedChannel(channels[0].getId());
             },
 
             /**

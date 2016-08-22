@@ -11,7 +11,7 @@ window.WH = window.WH || {};
         // private variables
         var that,
             arrangement = specs.arrangement,
-            channelSelectsView = specs.channelSelectsView,
+            channelSelectView = specs.channelSelectView,
             conf = specs.conf,
             rootEl = $('.steps'),
             stepTemplate = $('#template-step'),
@@ -53,7 +53,7 @@ window.WH = window.WH || {};
             setSelected = function(index) {
                 var i, n, stepEl, stepsData, colorClass;
                     
-                index = isNaN(index) ? channelSelectsView.getSelectedChannel() : index;
+                index = isNaN(index) ? channelSelectView.getSelectedChannel() : index;
                 stepsData = arrangement.getTrackSteps(index);
                 colorClass = my.classes.colors[index];
                 

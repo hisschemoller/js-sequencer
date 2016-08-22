@@ -17,7 +17,7 @@ $(function() {
     function startApp() {
         // create objects that will be the modules of the app
         var arrangement = {},
-            channelSelectsView = {},
+            channelSelectView = {},
             conf = {},
             core = {},
             file = {},
@@ -32,7 +32,7 @@ $(function() {
         // create old style modules
         var view = WH.createView({
                 arrangement: arrangement,
-                channelSelectsView: channelSelectsView,
+                channelSelectView: channelSelectView,
                 conf: conf,
                 core: core,
                 file: file,
@@ -56,7 +56,7 @@ $(function() {
             view: view
         });
         WH.createChannelSelectView({
-            that: channelSelectsView,
+            that: channelSelectView,
             conf: conf,
             stepsView: stepsView
         });
@@ -87,7 +87,7 @@ $(function() {
         WH.createStepsView({
             that: stepsView,
             arrangement: arrangement,
-            channelSelectsView: channelSelectsView,
+            channelSelectView: channelSelectView,
             conf: conf
         });
         WH.createSongView({
@@ -95,7 +95,7 @@ $(function() {
         });
         WH.createStudio({
             that: studio,
-            channelSelectsView: channelSelectsView,
+            channelSelectView: channelSelectView,
             conf: conf,
             core: core,
             pluginManager: pluginManager,
@@ -116,7 +116,7 @@ $(function() {
         // app initialisation
         view.setup();
         stepsView.setup();
-        channelSelectsView.setup();
+        channelSelectView.setup();
         studio.setup(); 
         if (!file.loadFromStorage()) {
             file.createNew();

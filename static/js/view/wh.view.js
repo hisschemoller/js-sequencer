@@ -16,7 +16,7 @@ window.WH = window.WH || {};
         
         // private variables
         var arrangement = specs.arrangement,
-            channelSelectsView = specs.channelSelectsView,
+            channelSelectView = specs.channelSelectView,
             conf = specs.conf,
             core = specs.core,
             file = specs.file,
@@ -221,7 +221,7 @@ window.WH = window.WH || {};
 
                     // update the channel selects
                     if (step.getVelocity() > 0) {
-                        channelSelectsView.animateHighlight(step.getChannel());
+                        channelSelectView.animateHighlight(step.getChannel());
                     }
                 }
             };
@@ -278,7 +278,7 @@ window.WH = window.WH || {};
                     case 0:
                         // open instrument
                         stepsView.setVisible(true);
-                        channelSelectsView.setVisible(true);
+                        channelSelectView.setVisible(true);
                         elements.channelContainer.hide();
                         elements.rackContainer.show();
                         patternSelectView.setVisible(false);
@@ -288,7 +288,7 @@ window.WH = window.WH || {};
                     case 1:
                         // open mixer
                         stepsView.setVisible(true);
-                        channelSelectsView.setVisible(true);
+                        channelSelectView.setVisible(true);
                         elements.channelContainer.show();
                         elements.rackContainer.hide();
                         patternSelectView.setVisible(false);
@@ -298,7 +298,7 @@ window.WH = window.WH || {};
                     case 2:
                         // open patterns
                         stepsView.setVisible(true);
-                        channelSelectsView.setVisible(true);
+                        channelSelectView.setVisible(true);
                         elements.channelContainer.hide();
                         elements.rackContainer.hide();
                         patternSelectView.setVisible(true);
@@ -308,7 +308,7 @@ window.WH = window.WH || {};
                     case 3:
                         // open song
                         stepsView.setVisible(false);
-                        channelSelectsView.setVisible(false);
+                        channelSelectView.setVisible(false);
                         elements.channelContainer.hide();
                         elements.rackContainer.hide();
                         patternSelectView.setVisible(false);
