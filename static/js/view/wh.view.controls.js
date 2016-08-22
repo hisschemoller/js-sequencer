@@ -16,25 +16,7 @@ window.WH = window.WH || {};
         var arrangement = specs.arrangement,
             conf = specs.conf,
             file = specs.file,
-            /* transport = specs.transport, */
             view = specs.view,
-            settings = {
-                ctrlChannelSelectClass: '.ctrl--channel-select',
-                tabClass: '.ctrl--tab' /* ,
-                transportClass: '.ctrl--transport', */
-            },
-
-            /**
-             * HTML elements.
-             * @type {Object}
-             */
-            elements = {
-                templates: {
-                    /* transport: $('#template-ctrl-transport'), */
-                    channelSelect: $('#template-channel-select'),
-                    tab: $('#template-tab')
-                }
-            },
 
             /**
              * Reference to this once function has closed.
@@ -87,87 +69,87 @@ window.WH = window.WH || {};
          * @param {Array} data Array of tab label strings.
          * @return {Object} jQuery selector of the tab DOM elements.
          */
-        this.addTabControls = function(containerEl, data) {
-            var i = 0,
-                n = data.length,
-                tabEl,
-                tabEls;
-
-            for (i; i < n; i++) {
-                tabEl = elements.templates.tab.children().first().clone();
-                tabEl.find(settings.ctrlTextClass).text(data[i]);
-                containerEl.append(tabEl);
-            }
-
-            tabEls = containerEl.find(settings.tabClass);
-            tabEls.on(self.eventType.click, function(e) {
-                var index = tabEls.index(e.currentTarget);
-                view.setSelectedTab(index);
-            });
-
-            return tabEls;
-        };
+        // this.addTabControls = function(containerEl, data) {
+        //     var i = 0,
+        //         n = data.length,
+        //         tabEl,
+        //         tabEls;
+        // 
+        //     for (i; i < n; i++) {
+        //         tabEl = elements.templates.tab.children().first().clone();
+        //         tabEl.find(settings.ctrlTextClass).text(data[i]);
+        //         containerEl.append(tabEl);
+        //     }
+        // 
+        //     tabEls = containerEl.find(settings.tabClass);
+        //     tabEls.on(self.eventType.click, function(e) {
+        //         var index = tabEls.index(e.currentTarget);
+        //         view.setSelectedTab(index);
+        //     });
+        // 
+        //     return tabEls;
+        // };
 
         /**
          * Add the controls to the transport bar.
          * @param {Object} containerEl jQuery HTML element.
          * @param {Array} data Array of tab label strings.
          */
-        this.addTransportControls = function(containerEl, data) {
-            var i = 0,
-                n = data.length,
-                ctrlEl,
-                ctrlEls;
-
-            for (i; i < n; i++) {
-                ctrlEl = elements.templates.transport.children().first().clone();
-                ctrlEl.find(settings.ctrlTextClass).text(data[i]);
-                containerEl.append(ctrlEl);
-            }
-
-            ctrlEls = containerEl.find(settings.transportClass);
-            ctrlEls.on(self.eventType.click, function(e) {
-                var index = ctrlEls.index(e.currentTarget);
-                switch (index) {
-                    case 0:
-                        // play
-                        transport.toggleStartStop();
-                        break;
-                    case 1:
-                        // song
-                        arrangement.toggleSongMode();
-                        break;
-                    case 2:
-                        // new
-                        transport.pause();
-                        WH.createDialogView({
-                            headerText: 'New Project',
-                            bodyText: 'Are you sure? If you create a new project, the current project will be lost.',
-                            primaryCallback: function() {
-                                file.createNew();
-                            }
-                        });
-                        break;
-                    case 3:
-                        // random
-                        transport.pause();
-                        WH.createDialogView({
-                            headerText: 'Random Project',
-                            bodyText: 'Are you sure? If you create a new random project, the current project will be lost.',
-                            primaryCallback: function() {
-                                file.createNew(true);
-                            }
-                        });
-                        break;
-                }
-            });
-        };
-
-        // extend AbstractView
-        WH.AbstractView.call(this, settings);
-
-        // initialise
-        init();
+    //     this.addTransportControls = function(containerEl, data) {
+    //         var i = 0,
+    //             n = data.length,
+    //             ctrlEl,
+    //             ctrlEls;
+    // 
+    //         for (i; i < n; i++) {
+    //             ctrlEl = elements.templates.transport.children().first().clone();
+    //             ctrlEl.find(settings.ctrlTextClass).text(data[i]);
+    //             containerEl.append(ctrlEl);
+    //         }
+    // 
+    //         ctrlEls = containerEl.find(settings.transportClass);
+    //         ctrlEls.on(self.eventType.click, function(e) {
+    //             var index = ctrlEls.index(e.currentTarget);
+    //             switch (index) {
+    //                 case 0:
+    //                     // play
+    //                     transport.toggleStartStop();
+    //                     break;
+    //                 case 1:
+    //                     // song
+    //                     arrangement.toggleSongMode();
+    //                     break;
+    //                 case 2:
+    //                     // new
+    //                     transport.pause();
+    //                     WH.createDialogView({
+    //                         headerText: 'New Project',
+    //                         bodyText: 'Are you sure? If you create a new project, the current project will be lost.',
+    //                         primaryCallback: function() {
+    //                             file.createNew();
+    //                         }
+    //                     });
+    //                     break;
+    //                 case 3:
+    //                     // random
+    //                     transport.pause();
+    //                     WH.createDialogView({
+    //                         headerText: 'Random Project',
+    //                         bodyText: 'Are you sure? If you create a new random project, the current project will be lost.',
+    //                         primaryCallback: function() {
+    //                             file.createNew(true);
+    //                         }
+    //                     });
+    //                     break;
+    //             }
+    //         });
+    //     };
+    // 
+    //     // extend AbstractView
+    //     WH.AbstractView.call(this, settings);
+    // 
+    //     // initialise
+    //     init();
     }
 
     /**

@@ -26,12 +26,13 @@ window.WH = window.WH || {};
             studio = specs.studio,
             transport = specs.transport,
             tracksView = specs.tracksView,
+            
             settings = {
                 // channelSelectClass: '.channel__select',
                 rackClass: '.rack',
                 rackGeneratorContainerClass: '.rack__generator',
 
-                tabs: ['Sound', 'Mixer', 'Pattern', 'Song'],
+                // tabs: ['Sound', 'Mixer', 'Pattern', 'Song'],
                 // transport: ['Play', 'Song', 'New', 'Random']
             },
 
@@ -47,7 +48,7 @@ window.WH = window.WH || {};
                 rackContainer: $('.racks'),
                 rackTemplate: $('#template-rack'),
                 // transportContainer: $('.transport'),
-                tabContainer: $('.tabs')
+                // tabContainer: $('.tabs')
             },
 
             /**
@@ -130,12 +131,12 @@ window.WH = window.WH || {};
                 elements.racks = elements.rackContainer.find(settings.rackClass);
 
                 // create tabs
-                elements.tabs = controls.addTabControls(elements.tabContainer, settings.tabs);
+                //elements.tabs = controls.addTabControls(elements.tabContainer, settings.tabs);
 
                 // create transport buttons
                 // controls.addTransportControls(elements.transportContainer, settings.transport);
 
-                self.setSelectedTab(0);
+                // self.setSelectedTab(0);
             }.bind(this),
             
             /**
@@ -267,57 +268,57 @@ window.WH = window.WH || {};
          * Set a tab as selected and update the view state..
          * @param {Number} index Index of the tab to select.
          */
-        this.setSelectedTab = function(index) {
-            var tabEl = $(elements.tabs[index]),
-                isOpen = tabEl.hasClass(settings.selectedClass);
-
-            if (!isOpen) {
-                elements.tabs.removeClass(settings.selectedClass);
-                tabEl.addClass(settings.selectedClass);
-                switch (index) {
-                    case 0:
-                        // open instrument
-                        stepsView.setVisible(true);
-                        channelSelectView.setVisible(true);
-                        elements.channelContainer.hide();
-                        elements.rackContainer.show();
-                        patternSelectView.setVisible(false);
-                        tracksView.setVisible(false);
-                        songView.setVisible(false);
-                        break;
-                    case 1:
-                        // open mixer
-                        stepsView.setVisible(true);
-                        channelSelectView.setVisible(true);
-                        elements.channelContainer.show();
-                        elements.rackContainer.hide();
-                        patternSelectView.setVisible(false);
-                        tracksView.setVisible(false);
-                        songView.setVisible(false);
-                        break;
-                    case 2:
-                        // open patterns
-                        stepsView.setVisible(true);
-                        channelSelectView.setVisible(true);
-                        elements.channelContainer.hide();
-                        elements.rackContainer.hide();
-                        patternSelectView.setVisible(true);
-                        tracksView.setVisible(true);
-                        songView.setVisible(false);
-                        break;
-                    case 3:
-                        // open song
-                        stepsView.setVisible(false);
-                        channelSelectView.setVisible(false);
-                        elements.channelContainer.hide();
-                        elements.rackContainer.hide();
-                        patternSelectView.setVisible(false);
-                        tracksView.setVisible(false);
-                        songView.setVisible(true);
-                        break;
-                }
-            }
-        };
+        // this.setSelectedTab = function(index) {
+        //     var tabEl = $(elements.tabs[index]),
+        //         isOpen = tabEl.hasClass(settings.selectedClass);
+        // 
+        //     if (!isOpen) {
+        //         elements.tabs.removeClass(settings.selectedClass);
+        //         tabEl.addClass(settings.selectedClass);
+        //         switch (index) {
+        //             case 0:
+        //                 // open instrument
+        //                 stepsView.setVisible(true);
+        //                 channelSelectView.setVisible(true);
+        //                 elements.channelContainer.hide();
+        //                 elements.rackContainer.show();
+        //                 patternSelectView.setVisible(false);
+        //                 tracksView.setVisible(false);
+        //                 songView.setVisible(false);
+        //                 break;
+        //             case 1:
+        //                 // open mixer
+        //                 stepsView.setVisible(true);
+        //                 channelSelectView.setVisible(true);
+        //                 elements.channelContainer.show();
+        //                 elements.rackContainer.hide();
+        //                 patternSelectView.setVisible(false);
+        //                 tracksView.setVisible(false);
+        //                 songView.setVisible(false);
+        //                 break;
+        //             case 2:
+        //                 // open patterns
+        //                 stepsView.setVisible(true);
+        //                 channelSelectView.setVisible(true);
+        //                 elements.channelContainer.hide();
+        //                 elements.rackContainer.hide();
+        //                 patternSelectView.setVisible(true);
+        //                 tracksView.setVisible(true);
+        //                 songView.setVisible(false);
+        //                 break;
+        //             case 3:
+        //                 // open song
+        //                 stepsView.setVisible(false);
+        //                 channelSelectView.setVisible(false);
+        //                 elements.channelContainer.hide();
+        //                 elements.rackContainer.hide();
+        //                 patternSelectView.setVisible(false);
+        //                 tracksView.setVisible(false);
+        //                 songView.setVisible(true);
+        //                 break;
+        //         }
+        //     }
+        // };
 
         /**
          * Select a channel.
@@ -420,10 +421,10 @@ window.WH = window.WH || {};
         /**
          * Playback started or stopped.
          */
-        this.updateTransportState = function(isRunning) {
-            // TODO: this must be done better
-            $(elements.transportContainer.find(settings.ctrlClass)[0]).toggleClass(settings.selectedClass, isRunning);
-        };
+        // this.updateTransportState = function(isRunning) {
+        //     // TODO: this must be done better
+        //     $(elements.transportContainer.find(settings.ctrlClass)[0]).toggleClass(settings.selectedClass, isRunning);
+        // };
 
         // extend AbstractView
         WH.AbstractView.call(this, settings);

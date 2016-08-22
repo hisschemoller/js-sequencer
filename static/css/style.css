@@ -417,7 +417,7 @@ button:focus {
                     .plugin__control .ctrl {
                         float: none;
                     }
-.tabs {
+#tabs {
     border-left: 1px solid #fff;
     border-right: 1px solid #fff;
     border-top: 1px solid #fff;
@@ -566,7 +566,7 @@ button:focus {
 }
 
 @media only screen and (min-width: 656px) {
-    .tabs {
+    #tabs {
         display: none;
     }
 }

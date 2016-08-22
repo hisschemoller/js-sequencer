@@ -27,6 +27,7 @@ $(function() {
             songView = {},
             stepsView = {},
             studio = {},
+            tabsView = {},
             tracksView = {},
             transport = {};
         
@@ -108,6 +109,14 @@ $(function() {
             pluginManager: pluginManager,
             view: view
         });
+        WH.createTabsView({
+            that: tabsView,
+            channelSelectView: channelSelectView,
+            patternSelectView: patternSelectView,
+            stepsView: stepsView,
+            tracksView: tracksView,
+            songView: songView,
+        });
         WH.createTransport({
             that: transport,
             arrangement: arrangement,
@@ -125,7 +134,8 @@ $(function() {
         view.setup();
         stepsView.setup();
         channelSelectView.setup();
-        studio.setup(); 
+        studio.setup();
+        tabsView.setSelectedTab(0);
         if (!file.loadFromStorage()) {
             file.createNew();
         }
