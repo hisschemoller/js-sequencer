@@ -170,7 +170,7 @@ button:focus {
         float: left;
         width: 12.5%;
     }
-    .channel.is-selected {
+    .channel.selected {
         background-color: #888;
     }
         .channel-selects {
@@ -184,7 +184,7 @@ button:focus {
                 .ctrl--channel-select > .ctrl__background {
                     opacity: 0.2;
                 }
-                .ctrl--channel-select.is-selected > .ctrl__background {
+                .ctrl--channel-select.selected > .ctrl__background {
                     opacity: 0.4;
                 }
                 .ctrl--channel-select > .ctrl__hilight {
@@ -195,7 +195,7 @@ button:focus {
                 .ctrl--channel-select > .ctrl__name {
                     color: #ccc;
                 }
-                .ctrl--channel-select.is-selected .ctrl__name  {
+                .ctrl--channel-select.selected .ctrl__name  {
                     color: #fff;
                 }
         .channel__controls {
@@ -204,17 +204,17 @@ button:focus {
             .channel__controls .ctrl__background {
                 opacity: 0.1;
             }
-            .channel.is-selected .channel__controls .ctrl__background {
+            .channel.selected .channel__controls .ctrl__background {
                 opacity: 0.2;
             }
             .channel__controls .ctrl__hilight {
                 display: none;
                 opacity: 0.3;
             }
-            .channel__controls .ctrl.is-selected .ctrl__hilight {
+            .channel__controls .ctrl.selected .ctrl__hilight {
                 display: block;
             }
-            .channel__controls .ctrl.is-selected .ctrl__text {
+            .channel__controls .ctrl.selected .ctrl__text {
                 color: #fff;
             }
             /*.channel__controls .plugin__control:nth-child(1),
@@ -231,10 +231,10 @@ button:focus {
     .step:nth-child(8n + 1) {
         clear: left;
     }
-    .step.is-active {
+    .step.active {
         background-color: #e4e4e4;
     }
-        .step.is-active.is-selected .ctrl__text {
+        .step.active.selected .ctrl__text {
             /*color: #ccc;*/
         }
         .step > .ctrl__background {
@@ -244,7 +244,7 @@ button:focus {
             display: none;
             opacity: 0.4;
         }
-        .step.is-selected .ctrl__name {
+        .step.selected .ctrl__name {
             color: #ccc;
         }
 .patterns {
@@ -261,7 +261,7 @@ button:focus {
     .pattern {
         width: 12.5%;
     }
-    .pattern.is-selected .ctrl__background {
+    .pattern.selected .ctrl__background {
         background-color: #fff;
         opacity: 0.2;
     }
@@ -323,11 +323,11 @@ button:focus {
     .song-part:last-child {
         border-bottom: 1px solid #fff;
     }
-        .song-part.is-active .ctrl__background {
+        .song-part.active .ctrl__background {
             background-color: #fff;
             opacity: 0.3;
         }
-        .song-part.is-active .ctrl__text {
+        .song-part.active .ctrl__text {
             color: #fff;
         }
         .song-part__filler,
@@ -337,7 +337,7 @@ button:focus {
 .rack {
     display: none;
 }
-    .rack.is-selected {
+    .rack.selected {
         display: block;
     }
     .rack__generator {}
@@ -372,15 +372,15 @@ button:focus {
         .plugin__page-next {
             width: 12.5%;
         }
-        .plugin__page-prev.is-disabled,
-        .plugin__page-next.is-disabled {
+        .plugin__page-prev.disabled,
+        .plugin__page-next.disabled {
             cursor: default;
         }
         .plugin__settings {
             width: 12.5%;
         }
-            .plugin__page-prev.is-disabled .ctrl__text,
-            .plugin__page-next.is-disabled .ctrl__text {
+            .plugin__page-prev.disabled .ctrl__text,
+            .plugin__page-next.disabled .ctrl__text {
                 opacity: 0.5;
             }
     .plugin__pages {
@@ -400,7 +400,7 @@ button:focus {
             content: '';
             display: table;
         }
-        .plugin__page.is-selected {
+        .plugin__page.selected {
             display: block;
         }
             .plugin__controls {}
@@ -429,10 +429,10 @@ button:focus {
             background-color: #fff;
             opacity: 0.0;
         }
-        .ctrl--tab.is-selected > .ctrl__background {
+        .ctrl--tab.selected > .ctrl__background {
             opacity: 0.2;
         }
-        .ctrl--tab.is-selected > .ctrl__text {
+        .ctrl--tab.selected > .ctrl__text {
             color: #fff;
         }
 
@@ -452,11 +452,11 @@ button:focus {
         display: none;
         opacity: 0.6
     }
-    .ctrl--transport.is-selected .ctrl__hilight {
+    .ctrl--transport.selected .ctrl__hilight {
         display: block;
     }
-    /*.ctrl:not(.is-active) .ctrl__toggle-active,
-    .ctrl.is-active .ctrl__toggle-inactive {
+    /*.ctrl:not(.active) .ctrl__toggle-active,
+    .ctrl.active .ctrl__toggle-inactive {
         display: none;
     }*/
 .overlay {
@@ -534,11 +534,11 @@ button:focus {
             padding: 15px 30px;
             cursor: pointer;
         }
-        .overlay-ctrl__item.is-selected {
+        .overlay-ctrl__item.selected {
             color: #ccc;
             background-color: #fff;
         }
-        .overlay-ctrl__item.is-active {
+        .overlay-ctrl__item.active {
             color: #ccc;
             background-color: #eee;
         }
@@ -701,6 +701,7 @@ button:focus {
     top: 160px;
 }
     [data-cols='3'] .song__list-container {
+        bottom: 0;
         top: 40px;
     }
     [data-cols='3'] .song-part:first-child {
