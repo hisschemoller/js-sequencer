@@ -16,12 +16,12 @@ window.WH = window.WH || {};
         var arrangement = specs.arrangement,
             conf = specs.conf,
             file = specs.file,
-            transport = specs.transport,
+            /* transport = specs.transport, */
             view = specs.view,
             settings = {
                 ctrlChannelSelectClass: '.ctrl--channel-select',
-                tabClass: '.ctrl--tab',
-                transportClass: '.ctrl--transport',
+                tabClass: '.ctrl--tab' /* ,
+                transportClass: '.ctrl--transport', */
             },
 
             /**
@@ -30,7 +30,7 @@ window.WH = window.WH || {};
              */
             elements = {
                 templates: {
-                    transport: $('#template-ctrl-transport'),
+                    /* transport: $('#template-ctrl-transport'), */
                     channelSelect: $('#template-channel-select'),
                     tab: $('#template-tab')
                 }

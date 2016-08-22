@@ -32,7 +32,7 @@ window.WH = window.WH || {};
                 rackGeneratorContainerClass: '.rack__generator',
 
                 tabs: ['Sound', 'Mixer', 'Pattern', 'Song'],
-                transport: ['Play', 'Song', 'New', 'Random']
+                // transport: ['Play', 'Song', 'New', 'Random']
             },
 
             /**
@@ -46,7 +46,7 @@ window.WH = window.WH || {};
                 racks: null,
                 rackContainer: $('.racks'),
                 rackTemplate: $('#template-rack'),
-                transportContainer: $('.transport'),
+                // transportContainer: $('.transport'),
                 tabContainer: $('.tabs')
             },
 
@@ -104,7 +104,7 @@ window.WH = window.WH || {};
                     arrangement: arrangement,
                     conf: conf,
                     file: file,
-                    transport: transport,
+                    /* transport: transport, */
                     view: this
                 });
 
@@ -133,7 +133,7 @@ window.WH = window.WH || {};
                 elements.tabs = controls.addTabControls(elements.tabContainer, settings.tabs);
 
                 // create transport buttons
-                controls.addTransportControls(elements.transportContainer, settings.transport);
+                // controls.addTransportControls(elements.transportContainer, settings.transport);
 
                 self.setSelectedTab(0);
             }.bind(this),
@@ -412,10 +412,10 @@ window.WH = window.WH || {};
         /**
          * Song mode entered or left.
          */
-        this.updateSongMode = function(isSongMode) {
-            // TODO: the song button will move somewhere better
-            $(elements.transportContainer.find(settings.ctrlClass)[1]).toggleClass(settings.selectedClass, isSongMode);
-        };  
+        // this.updateSongMode = function(isSongMode) {
+        //     // TODO: the song button will move somewhere better
+        //     $(elements.transportContainer.find(settings.ctrlClass)[1]).toggleClass(settings.selectedClass, isSongMode);
+        // };  
 
         /**
          * Playback started or stopped.

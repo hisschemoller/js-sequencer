@@ -35,6 +35,7 @@ window.WH = window.WH || {};
     function createTransport(specs) {
         var that = specs.that,
             arrangement = specs.arrangement,
+            controlBarView = specs.controlBarView,
             core = specs.core,
             studio = specs.studio,
             view = specs.view,
@@ -178,7 +179,7 @@ window.WH = window.WH || {};
                 resetScanRange();
                 // Transport is running.
                 isRunning = true;
-                view.updateTransportState(isRunning);
+                controlBarView.updateTransportState(isRunning);
             },
 
             /**
@@ -187,7 +188,7 @@ window.WH = window.WH || {};
             pause = function () {
                 isRunning = false;
                 flushPlaybackQueue();
-                view.updateTransportState(isRunning);
+                controlBarView.updateTransportState(isRunning);
             },
 
             /**

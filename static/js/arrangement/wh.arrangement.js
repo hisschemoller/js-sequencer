@@ -16,12 +16,12 @@ window.WH = window.WH || {};
     function createArrangement(specs) {
         var that = specs.that,
             conf = specs.conf,
+            controlBarView = specs.controlBarView,
             patternSelectView = specs.patternSelectView,
             songView = specs.songView,
             stepsView = specs.stepsView,
             tracksView = specs.tracksView,
             transport = specs.transport,
-            view = specs.view,
             patterns = [],
             patternIndex = 0,
             isSongMode = false,
@@ -184,7 +184,7 @@ window.WH = window.WH || {};
                 }
 
                 isSongMode = !isSongMode;
-                view.updateSongMode(isSongMode);
+                controlBarView.updateSongMode(isSongMode);
 
                 if (isSongMode) {
                     transport.pause();

@@ -19,6 +19,7 @@ $(function() {
         var arrangement = {},
             channelSelectView = {},
             conf = {},
+            controlBarView = {},
             core = {},
             file = {},
             patternSelectView = {},
@@ -48,12 +49,12 @@ $(function() {
         WH.createArrangement({
             that: arrangement,
             conf: conf,
+            controlBarView: controlBarView,
             patternSelectView: patternSelectView,
             songView: songView,
             stepsView: stepsView,
             tracksView: tracksView,
-            transport: transport,
-            view: view
+            transport: transport
         });
         WH.createChannelSelectView({
             that: channelSelectView,
@@ -62,6 +63,12 @@ $(function() {
         });
         WH.createConf({
             that: conf
+        });
+        WH.createControlBarView({
+            that: controlBarView,
+            arrangement: arrangement,
+            file: file,
+            transport: transport
         });
         WH.createCore({
             that: core
@@ -104,6 +111,7 @@ $(function() {
         WH.createTransport({
             that: transport,
             arrangement: arrangement,
+            controlBarView: controlBarView,
             core: core,
             studio: studio,
             view: view
