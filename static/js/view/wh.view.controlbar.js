@@ -12,14 +12,14 @@ window.WH = window.WH || {};
             arrangement = specs.arrangement,
             file = specs.file,
             transport = specs.transport,
-            rootEl = $('.transport'),
+            rootEl = $('#controlbar'),
             ctrlNames = ['Play', 'Song', 'New', 'Random'],
-            ctrlTemplate = $('#template-ctrl-transport'),
+            ctrlTemplate = $('#template-ctrl-controlbar'),
             ctrlEls,
             ctrlSongMode,
             ctrlPlay,
             selectors = {
-                ctrl: '.ctrl--transport'
+                ctrl: '.ctrl--controlbar'
             },
             
             init = function() {

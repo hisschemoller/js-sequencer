@@ -436,7 +436,7 @@ button:focus {
             color: #fff;
         }
 
-.transport {
+#controlbar {
     border: 1px solid #fff;
     bottom: 0;
     height: 42px;
@@ -444,15 +444,15 @@ button:focus {
     position: absolute;
     right: 0;
 }
-    .ctrl--transport {
+    .ctrl--controlbar {
         width: 25%;
     }
-    .ctrl--transport .ctrl__hilight {
+    .ctrl--controlbar .ctrl__hilight {
         background-color: #fff;
         display: none;
         opacity: 0.6
     }
-    .ctrl--transport.selected .ctrl__hilight {
+    .ctrl--controlbar.selected .ctrl__hilight {
         display: block;
     }
     /*.ctrl:not(.active) .ctrl__toggle-active,
