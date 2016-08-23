@@ -18,6 +18,7 @@ window.WH = window.WH || {};
             channelSelectView = specs.channelSelectView,
             conf = specs.conf,
             core = specs.core,
+            mixerView = specs.mixerView,
             pluginManager = specs.pluginManager,
             view = specs.view,
             
@@ -69,7 +70,7 @@ window.WH = window.WH || {};
                     channel.setSoloCallback(onSoloChange);
                     channel.to(core.getMainOut());
                     channels.push(channel);
-                    view.setChannel(channel, i);
+                    mixerView.setChannel(channel, i);
                 }
 
                 channelSelectView.setSelectedChannel(channels[0].getId());

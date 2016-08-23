@@ -23,6 +23,7 @@ $(function() {
             controlBarView = {},
             core = {},
             file = {},
+            mixerView = {},
             patternSelectView = {},
             pluginManager = {},
             songView = {},
@@ -85,6 +86,9 @@ $(function() {
             studio: studio,
             transport: transport
         });
+        WH.createMixerView({
+            that: mixerView
+        });
         WH.createPatternSelectView({
             that: patternSelectView,
             arrangement: arrangement,
@@ -110,6 +114,7 @@ $(function() {
             channelSelectView: channelSelectView,
             conf: conf,
             core: core,
+            mixerView: mixerView,
             pluginManager: pluginManager,
             view: view
         });
