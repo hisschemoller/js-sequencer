@@ -14,9 +14,10 @@ $(function() {
     /**
      * Application startup.
      */
-    function startApp() {
+    function createApp() {
         // create objects that will be the modules of the app
-        var arrangement = {},
+        var appView = {},
+            arrangement = {},
             channelSelectView = {},
             conf = {},
             controlBarView = {},
@@ -47,6 +48,9 @@ $(function() {
             });
         
         // add functionality and inject dependencies
+        WH.createAppView({
+            that: appView
+        });
         WH.createArrangement({
             that: arrangement,
             conf: conf,
@@ -176,7 +180,7 @@ $(function() {
             if (core.getNow() > 0) {
                 clearInterval(interval);
                 overlay.parentNode.removeChild(overlay);
-                startApp();
+                createApp();
             }
         }, 100);
     }
@@ -189,6 +193,6 @@ $(function() {
         });
         el.style.display = 'block';
     } else {
-        startApp();
+        createApp();
     }
 });
