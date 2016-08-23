@@ -120,10 +120,11 @@ $(function() {
         WH.createTransport({
             that: transport,
             arrangement: arrangement,
+            channelSelectView: channelSelectView,
             controlBarView: controlBarView,
             core: core,
-            studio: studio,
-            view: view
+            stepsView: stepsView,
+            studio: studio
         });
         WH.createTracksView({
             that: tracksView,

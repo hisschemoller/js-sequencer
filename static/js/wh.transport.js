@@ -35,10 +35,11 @@ window.WH = window.WH || {};
     function createTransport(specs) {
         var that = specs.that,
             arrangement = specs.arrangement,
+            channelSelectView = specs.channelSelectView,
             controlBarView = specs.controlBarView,
             core = specs.core,
+            stepsView = specs.stepsView,
             studio = specs.studio,
-            view = specs.view,
             isRunning = false,
             isLoop = false,
             now = 0,
@@ -94,6 +95,8 @@ window.WH = window.WH || {};
              * Scan events in time range and advance playhead in each pattern.
              */
             scheduleNotesInScanRange = function () {
+                var i, n, absStart, step, stepArray, oldAbsStart, viewDelayTime;
+                
                 if (needsScan) {
                     needsScan = false;
 
@@ -101,20 +104,73 @@ window.WH = window.WH || {};
                     arrangement.scanEvents(sec2tick(scanStart), sec2tick(scanEnd), playbackQueue);
 
                     if (playbackQueue.length) {
+                        // array to collect steps with the same start time
+                        stepArray = [];
                         // adjust event timing
-                        var start, 
-                            step,
-                            i = 0;
-                        for (i; i < playbackQueue.length; i++) {
+                        n = playbackQueue.length;
+                        for (i = 0; i < n; i++) {
                             step = playbackQueue[i];
-                            start = absOrigin + tick2sec(step.getStart());
-                            step.setAbsStart( start );
-                            step.setAbsEnd( start + tick2sec(step.getDuration()));
+                            
+                            // convert step local time to AudioContext time
+                            absStart = absOrigin + tick2sec(step.getStart());
+                            step.setAbsStart( absStart );
+                            step.setAbsEnd( absStart + tick2sec(step.getDuration()));
+                            
+                            // if this step has a different start time than the previous,
+                            // start a new array
+                            if (absStart !== oldAbsStart && stepArray.length > 0) {
+                                delayNotesForView(oldAbsStart, stepArray);
+                                stepArray = [];
+                            }
+                            
+                            // collect all steps with the same start time in arrays
+                            stepArray.push(step);
+                            oldAbsStart = absStart;
                         }
 
                         // play the events with sound generating plugin instruments
+                        delayNotesForView(oldAbsStart, stepArray);
                         studio.playEvents(playbackQueue);
-                        view.onSequencerEvents(playbackQueue);
+                    }
+                }
+            },
+
+            /**
+             * Delay screen update to keep it synchronised with the audio.
+             * @param  {Number} start AudioContext time of notes start.
+             * @param  {Array} activeSteps Steps that play in the current timespan.
+             */
+            delayNotesForView = function(start, activeSteps) {
+                // convert to time to wait before update in milliseconds.
+                var viewDelayTime = Math.max(0, core.getNow() - start) * 1000;
+                if (viewDelayTime > 0) {
+                    setTimeout(function() {
+                        updateView(activeSteps);
+                    }, viewDelayTime);
+                } else {
+                    updateView(activeSteps);
+                }
+            },
+            
+            /**
+             * Update the views with the steps that start play.
+             * @param  {Array} activeSteps Steps that play in the current timespan.
+             */
+            updateView = function(activeSteps) {
+                var i, n, step, channelIndex;
+                channelIndex = channelSelectView.getSelectedChannel();
+                n = activeSteps.length;
+                for (i = 0; i < n; i++) {
+                    step = activeSteps[i];
+                    
+                    // update the steps
+                    if (step.getChannel() == channelIndex) {
+                        stepsView.updateActiveStep(step.getIndex());
+                    }
+                    
+                    // update the channel selects
+                    if (step.getVelocity() > 0) {
+                        channelSelectView.animateHighlight(step.getChannel());
                     }
                 }
             },

@@ -76,7 +76,7 @@ window.WH = window.WH || {};
              */
             updateActiveStep = function(index) {
                 stepEls.removeClass(my.classes.active);
-                stepEl = $(elements.steps[index]);
+                stepEl = $(stepEls[index]);
                 stepEl.addClass(my.classes.active);
                 stepEl.find(my.selectors.ctrlHighlight)
                     .show()
@@ -92,6 +92,7 @@ window.WH = window.WH || {};
         
         that.setup = setup;
         that.setSelected = setSelected;
+        that.updateActiveStep = updateActiveStep;
         return that;
     }
     

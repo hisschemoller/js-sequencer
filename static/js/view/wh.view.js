@@ -55,7 +55,7 @@ window.WH = window.WH || {};
              * Channel currently selected to view and edit.
              * @type {Number}
              */
-            channelIndex = -1,
+            // channelIndex = -1,
 
             /**
              * Reference to this once function has closed.
@@ -191,41 +191,41 @@ window.WH = window.WH || {};
              * @param  {Number} start Time to wait before update in milliseconds.
              * @param  {Array} activeSteps Steps that play in the current timespan.
              */
-            delayUpdateSequencerActivity = function(start, activeSteps) {
-                if (start > 0) {
-                    setTimeout(function() {
-                        updateSequencerActivity(activeSteps);
-                    }, start);
-                } else {
-                    updateSequencerActivity(activeSteps);
-                }
-            },
+            // delayUpdateSequencerActivity = function(start, activeSteps) {
+            //     if (start > 0) {
+            //         setTimeout(function() {
+            //             updateSequencerActivity(activeSteps);
+            //         }, start);
+            //     } else {
+            //         updateSequencerActivity(activeSteps);
+            //     }
+            // },
 
             /**
              * Update the active step, this creates the 'running light' animation.
              * Also display flashing activity on the channel selectors.
              * @param  {Array} stepArray Steps that play in the current timespan.
              */
-            updateSequencerActivity = function(stepArray) {
-                var i = 0,
-                    n = stepArray.length,
-                    step,
-                    stepEl;
-
-                for (i; i < n; i++) {
-                    step = stepArray[i];
-
-                    // update the steps
-                    if (step.getChannel() == channelIndex) {
-                        stepsView.updateActiveStep(step.getIndex());
-                    }
-
-                    // update the channel selects
-                    if (step.getVelocity() > 0) {
-                        channelSelectView.animateHighlight(step.getChannel());
-                    }
-                }
-            };
+            // updateSequencerActivity = function(stepArray) {
+            //     var i = 0,
+            //         n = stepArray.length,
+            //         step,
+            //         stepEl;
+            // 
+            //     for (i; i < n; i++) {
+            //         step = stepArray[i];
+            // 
+            //         // update the steps
+            //         if (step.getChannel() == channelIndex) {
+            //             stepsView.updateActiveStep(step.getIndex());
+            //         }
+            // 
+            //         // update the channel selects
+            //         if (step.getVelocity() > 0) {
+            //             channelSelectView.animateHighlight(step.getChannel());
+            //         }
+            //     }
+            // };
 
         /**
          * Initialization.
@@ -240,29 +240,33 @@ window.WH = window.WH || {};
          * Receive Step objects during playback to update the view with.
          * @param  {Array} playbackQueue Array of Step objects.
          */
-        this.onSequencerEvents = function(playbackQueue) {
-            var i = 0,
-                n = playbackQueue.length,
-                step,
-                start,
-                stepArray = [],
-                oldStart = -1;
-
-            for (i; i < n; i++) {
-                step = playbackQueue[i];
-                start = Math.max(0, core.getNow() - step.getAbsStart()) * 1000;
-
-                if (start != oldStart && stepArray.length > 0) {
-                    delayUpdateSequencerActivity(oldStart, stepArray);
-                    stepArray = [];
-                }
-
-                stepArray.push(step);
-                oldStart = start;
-            }
-
-            delayUpdateSequencerActivity(oldStart, stepArray);
-        };
+        // this.onSequencerEvents = function(playbackQueue) {
+        //     var i = 0,
+        //         n = playbackQueue.length,
+        //         step,
+        //         start,
+        //         stepArray = [],
+        //         oldStart = -1;
+        //     
+        //     for (i; i < n; i++) {
+        //         step = playbackQueue[i];
+        //         
+        //         // convert AudioContext time in sec. to time from the present in ms.
+        //         // make sure the step is in the present or future
+        //         start = Math.max(0, core.getNow() - step.getAbsStart()) * 1000;
+        //         // collect all the events with the same start time in arrays,
+        //         // and send those arrays to the delay timer
+        //         if (start != oldStart && stepArray.length > 0) {
+        //             delayUpdateSequencerActivity(oldStart, stepArray);
+        //             stepArray = [];
+        //         }
+        // 
+        //         stepArray.push(step);
+        //         oldStart = start;
+        //     }
+        //     
+        //     delayUpdateSequencerActivity(oldStart, stepArray);
+        // };
 
         /**
          * Set a tab as selected and update the view state..
