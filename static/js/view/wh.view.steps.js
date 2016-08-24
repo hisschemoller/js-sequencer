@@ -63,9 +63,11 @@ window.WH = window.WH || {};
                 // set selected state
                 n = stepsData ? stepsData.length : 0;
                 for (i = 0; i < n; i++) {
-                    var step = stepsData[i];
+                    var step = stepsData[i],
+                        stepEl = $(stepEls[step.getIndex()]);
                     if (step.getVelocity()) {
-                        stepEls[step.getIndex()].className += ' ' + my.classes.selected + ' ' + colorClass;
+                        stepEl.addClass(my.classes.selected);
+                        stepEl.find(my.selectors.ctrlBackground).addClass(colorClass);
                     }
                 }
             },
