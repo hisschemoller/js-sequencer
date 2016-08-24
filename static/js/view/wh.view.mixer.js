@@ -32,7 +32,6 @@ window.WH = window.WH || {};
                 });
                 
                 pluginViews[channelPlugin.getId()] = pluginView;
-                //pluginViews[channel.getId()] = WH.PluginView(channel, containerEl, index, studio, file);
             };
     
         var my = my || {};

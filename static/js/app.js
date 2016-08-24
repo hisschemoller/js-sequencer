@@ -121,6 +121,7 @@ $(function() {
         WH.createTabsView({
             that: tabsView,
             channelSelectView: channelSelectView,
+            mixerView: mixerView,
             patternSelectView: patternSelectView,
             stepsView: stepsView,
             tracksView: tracksView,

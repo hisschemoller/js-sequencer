@@ -10,6 +10,7 @@ window.WH = window.WH || {};
     function createTabsView(specs, my) {
         var that,
             channelSelectView = specs.channelSelectView,
+            mixerView = specs.mixerView,
             patternSelectView = specs.patternSelectView,
             stepsView = specs.stepsView,
             tracksView = specs.tracksView,
@@ -55,7 +56,7 @@ window.WH = window.WH || {};
                              // open instrument
                              stepsView.setVisible(true);
                              channelSelectView.setVisible(true);
-                            //  elements.channelContainer.hide();
+                             mixerView.setVisible(false);
                             //  elements.rackContainer.show();
                              patternSelectView.setVisible(false);
                              tracksView.setVisible(false);
@@ -65,7 +66,7 @@ window.WH = window.WH || {};
                              // open mixer
                              stepsView.setVisible(true);
                              channelSelectView.setVisible(true);
-                            //  elements.channelContainer.show();
+                             mixerView.setVisible(true);
                             //  elements.rackContainer.hide();
                              patternSelectView.setVisible(false);
                              tracksView.setVisible(false);
@@ -75,7 +76,7 @@ window.WH = window.WH || {};
                              // open patterns
                              stepsView.setVisible(true);
                              channelSelectView.setVisible(true);
-                            //  elements.channelContainer.hide();
+                             mixerView.setVisible(false);
                             //  elements.rackContainer.hide();
                              patternSelectView.setVisible(true);
                              tracksView.setVisible(true);
@@ -85,7 +86,7 @@ window.WH = window.WH || {};
                              // open song
                              stepsView.setVisible(false);
                              channelSelectView.setVisible(false);
-                            //  elements.channelContainer.hide();
+                             mixerView.setVisible(false);
                             //  elements.rackContainer.hide();
                              patternSelectView.setVisible(false);
                              tracksView.setVisible(false);
