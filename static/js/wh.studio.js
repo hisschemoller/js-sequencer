@@ -19,6 +19,7 @@ window.WH = window.WH || {};
             conf = specs.conf,
             core = specs.core,
             mixerView = specs.mixerView,
+            rackView = specs.rackView,
             pluginManager = specs.pluginManager,
             view = specs.view,
             
@@ -70,7 +71,7 @@ window.WH = window.WH || {};
                     channel.setSoloCallback(onSoloChange);
                     channel.to(core.getMainOut());
                     channels.push(channel);
-                    mixerView.setChannel(channel, i);
+                    mixerView.setPlugin(channel, i);
                 }
 
                 channelSelectView.setSelectedChannel(channels[0].getId());
@@ -96,9 +97,7 @@ window.WH = window.WH || {};
 
                     // remove the old instrument, if it exists
                     if (instruments[i]) {
-                        view.clearInstrument(instruments[i], i);
-                        instruments[i].cut();
-                        instruments[i] = null;
+                        clearInstrument(instruments[i], i);
                     }
 
                     rackData = data[i];
@@ -111,7 +110,7 @@ window.WH = window.WH || {};
                             instrument.setPreset(rackData.instrument.preset);
                             instrument.to(channel);
                             instruments[i] = instrument;
-                            view.setInstrument(instrument, i);
+                            rackView.setPlugin(instrument, i);
                         }
                     }
                     
@@ -154,6 +153,23 @@ window.WH = window.WH || {};
                 }
 
                 return racks;
+            },
+
+            /**
+             * Remove the instrument from the rack and delete it
+             * @param {Object} instrument Plugin Generator object.
+             * @param {Number} index Rack index from which to remove the instrument.
+             */
+            clearInstrument = function(instrument, index) {
+                // remove plugin view
+                var pluginID = instrument.getId();
+                if (pluginID) {
+                    pluginViews[pluginID].destroy();
+                    delete pluginViews[pluginID];
+                }
+                // remove plugin
+                instrument.cut();
+                instrument = null;
             },
             
             /**

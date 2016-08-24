@@ -54,17 +54,17 @@ window.WH = window.WH || {};
              * Initialise the view, add DOM event handlers.
              */
             init = function() {
-                var i = 0,
-                    n = conf.getTrackCount(),
-                    rackEl;
-                    
-                // create the plugin racks
-                for (i = 0; i < n; i++) {
-                    rackEl = elements.rackTemplate.children().first().clone();
-                    elements.rackContainer.append(rackEl);
-                }
-
-                elements.racks = elements.rackContainer.find(settings.rackClass);
+                // var i = 0,
+                //     n = conf.getTrackCount(),
+                //     rackEl;
+                //     
+                // // create the plugin racks
+                // for (i = 0; i < n; i++) {
+                //     rackEl = elements.rackTemplate.children().first().clone();
+                //     elements.rackContainer.append(rackEl);
+                // }
+                // 
+                // elements.racks = elements.rackContainer.find(settings.rackClass);
             };
 
         /**
@@ -80,12 +80,12 @@ window.WH = window.WH || {};
          * @param {Object} channel Plugin Processor object.
          * @param {Number} index Channel index in which to create the channel controls.
          */
-        this.setChannel = function(channel, index) {
-            var pluginView,
-                containerEl = elements.channelContainer;
-
-            pluginViews[channel.getId()] = WH.PluginView(channel, containerEl, index, studio, file);
-        };
+        // this.setChannel = function(channel, index) {
+        //     var pluginView,
+        //         containerEl = elements.channelContainer;
+        // 
+        //     pluginViews[channel.getId()] = WH.PluginView(channel, containerEl, index, studio, file);
+        // };
 
         /**
          * Set the instrument controls,
@@ -93,26 +93,27 @@ window.WH = window.WH || {};
          * @param {Object} instrument Plugin Generator object.
          * @param {Number} index Rack index in which to set the instrument.
          */
-        this.setInstrument = function(instrument, index) {
-            var pluginView,
-                rackEl = $(elements.racks[index]),
-                containerEl = rackEl.find(settings.rackGeneratorContainerClass);
-
-            pluginViews[instrument.getId()] = WH.PluginView(instrument, containerEl, index, studio, file);
-        };
+        // this.setInstrument = function(instrument, index) {
+        //     return;
+        //     var pluginView,
+        //         rackEl = $(elements.racks[index]),
+        //         containerEl = rackEl.find(settings.rackGeneratorContainerClass);
+        // 
+        //     pluginViews[instrument.getId()] = WH.PluginView(instrument, containerEl, index, studio, file);
+        // };
 
         /**
          * Remove the instrument from the rack and delete it
          * @param {Object} instrument Plugin Generator object.
          * @param {Number} index Rack index from which to remove the instrument.
          */
-        this.clearInstrument = function(instrument, index) {
-            var pluginID = instrument.getId();
-            if (pluginID) {
-                pluginViews[pluginID].destroy();
-                delete pluginViews[pluginID];
-            }
-        }
+        // this.clearInstrument = function(instrument, index) {
+        //     var pluginID = instrument.getId();
+        //     if (pluginID) {
+        //         pluginViews[pluginID].destroy();
+        //         delete pluginViews[pluginID];
+        //     }
+        // }
 
         /**
          * Update a control to reflect a changed plugin parameter.
@@ -121,6 +122,7 @@ window.WH = window.WH || {};
          * @param {Object} param Parameter object.
          */
         this.updatePluginControl = function(pluginId, paramKey, param) {
+            return;
             pluginViews[pluginId].updateControl(paramKey, param);
         };
 

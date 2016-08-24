@@ -26,6 +26,7 @@ $(function() {
             mixerView = {},
             patternSelectView = {},
             pluginManager = {},
+            rackView = {},
             songView = {},
             stepsView = {},
             studio = {},
@@ -86,9 +87,6 @@ $(function() {
             studio: studio,
             transport: transport
         });
-        WH.createMixerView({
-            that: mixerView
-        });
         WH.createPatternSelectView({
             that: patternSelectView,
             arrangement: arrangement,
@@ -99,6 +97,18 @@ $(function() {
             conf: conf,
             core: core,
             transport: transport
+        });
+        WH.createPluginRackView({
+            that: mixerView,
+            conf: conf,
+            rootEl: $('.channels'),
+            rackSlotContainerSel: '.channels'
+        });
+        WH.createPluginRackView({
+            that: rackView,
+            conf: conf,
+            rootEl: $('.rack'),
+            rackSlotContainerSel: '.rack__slot-list'
         });
         WH.createStepsView({
             that: stepsView,
@@ -116,6 +126,7 @@ $(function() {
             core: core,
             mixerView: mixerView,
             pluginManager: pluginManager,
+            rackView: rackView,
             view: view
         });
         WH.createTabsView({
@@ -123,6 +134,7 @@ $(function() {
             channelSelectView: channelSelectView,
             mixerView: mixerView,
             patternSelectView: patternSelectView,
+            rackView: rackView,
             stepsView: stepsView,
             tracksView: tracksView,
             songView: songView,
@@ -142,6 +154,8 @@ $(function() {
         });
         
         // app initialisation
+        mixerView.setup();
+        rackView.setup();
         view.setup();
         stepsView.setup();
         channelSelectView.setup();

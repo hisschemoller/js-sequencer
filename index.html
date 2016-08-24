@@ -19,7 +19,9 @@
             <ul class="ctrls steps"></ul>
             <div id="tracks"></div>
             <ul id="patterns" class="ctrls"></ul>
-            <ul class="ctrls racks"></ul>
+            <div class="rack">
+                <ul class="rack__slot-list ctrls"></ul>
+            </div>
             <ul id="controlbar" class="ctrls"></ul>
             <div class="song">
                 <ul class="ctrls song__header">
@@ -133,11 +135,8 @@
                 <span class="ctrl__label ctrl__text"></span>
             </li>
         </div>
-        <div id="template-rack">
-            <li class="rack">
-                <ul class="rack__generator"></ul>
-                <ul class="rack__processors"></ul>
-            </li>
+        <div id="template-rack-slot">
+            <li class="rack-slot"></li>
         </div>
         <div id="template-song-part">
             <li class="song-part clearfix">
@@ -414,9 +413,10 @@
     <script src="static/js/view/wh.view.channelselect.js"></script>
     <script src="static/js/view/wh.view.controlbar.js"></script>
     <script src="static/js/view/wh.view.dialog.js"></script>
-    <script src="static/js/view/wh.view.mixer.js"></script>
+    <script src="static/js/view/wh.view.pluginrack.js"></script>
     <script src="static/js/view/wh.view.patternselect.js"></script>
     <script src="static/js/view/wh.view.plugin.js"></script>
+    <script src="static/js/view/wh.view.pluginrack.js"></script>
     <script src="static/js/view/wh.view.song.js"></script>
     <script src="static/js/view/wh.view.steps.js"></script>
     <script src="static/js/view/wh.view.tabs.js"></script>

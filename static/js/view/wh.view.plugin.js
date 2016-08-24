@@ -54,6 +54,7 @@ window.WH = window.WH || {};
                 rootEl.appendTo(specs.parentEl);
                 addHeader();
                 addControls();
+                changePage(0, 0);
                 
                 // set color of the channel
                 colorClass = my.classes.colors[specs.index];
@@ -74,12 +75,12 @@ window.WH = window.WH || {};
                 // add the header to the plugin
                 var headerEl = templates.header.children().clone();
                 headerEl.appendTo(headerContainer);
-                headerEl.find(my.selectors.name).text(plugin.getTitle());
-
+                headerContainer.find(selectors.name).text(plugin.getTitle());
+                
                 // add pagination if there's mupltiple control pages
-                var pageEls = pluginEl.find(selectors.page),
-                    prevEl = pluginEl.find(selectors.pagePrev),
-                    nextEl = pluginEl.find(selectors.pageNext);
+                var pageEls = rootEl.find(selectors.page),
+                    prevEl = headerContainer.find(selectors.pagePrev),
+                    nextEl = headerContainer.find(selectors.pageNext);
                 if (pageEls.length > 1) {
                     prevEl.on(my.eventType.click, {dir:-1}, onPagingClick);
                     nextEl.on(my.eventType.click, {dir: 1}, onPagingClick);
@@ -87,56 +88,6 @@ window.WH = window.WH || {};
                     prevEl.addClass(my.classes.disabled);
                     nextEl.addClass(my.classes.disabled);
                 }
-                
-                changePage(0, 0);
-            },
-
-            /**
-             * Click on the previous or next page buttons.
-             * @param {Event} Click or touch event.
-             */
-            onPagingClick = function(e) {
-                changePage(e.data.dir);
-            },
-
-            /**
-             * Change to another page of contols.
-             * @param {Number} relativeChange New page index relative to the current.
-             * @param {Number} relativeChange
-             */
-            changePage = function(relativeChange, absoluteChange) {
-                var pageEls = pluginEl.find(my.selectors.page),
-                    prevEl = pluginEl.find(my.selectors.pagePrev),
-                    nextEl = pluginEl.find(my.selectors.pageNext),
-                    numberEl = pluginEl.find(my.selectors.pageNumber),
-                    currentPageEl = pageEls.filter('.' + my.classes.selected),
-                    currentIndex = pageEls.index(currentPageEl),
-                    newIndex,
-                    lastIndex = pageEls.length - 1;
-
-                // get the new page index
-                if (!isNaN(relativeChange) && relativeChange != 0) {
-                    newIndex = currentIndex + relativeChange;
-                } else {
-                    if (!isNaN(absoluteChange)) {
-                        newIndex = absoluteChange;
-                    }
-                }
-
-                // integers and clamp to existing page indexes
-                newIndex = Math.floor(newIndex);
-                newIndex = Math.max(0, Math.min(newIndex, lastIndex));
-
-                // disable or enable page buttons
-                prevEl.toggleClass(my.classes.disabled, newIndex == 0);
-                nextEl.toggleClass(my.classes.disabled, newIndex == lastIndex);
-
-                // set paging info text
-                numberEl.find(my.selectors.ctrlText).text((newIndex + 1) + '/' + pageEls.length);
-
-                // update selected page
-                pageEls.removeClass(my.classes.selected);
-                $(pageEls[newIndex]).addClass(my.classes.selected);
             },
 
             /**
@@ -148,7 +99,7 @@ window.WH = window.WH || {};
                     param,
                     controlContainer,
                     pluginParams = plugin.getParams();
-
+                    
                 for (paramKey in pluginParams) {
                     controlContainer = rootEl.find('.' + paramKey);
 
@@ -194,6 +145,54 @@ window.WH = window.WH || {};
                 // pluginEl.find(settings.ctrlBooleanClass).on(self.eventType.click, eventData, onBooleanControlClick);
                 // pluginEl.find(settings.ctrlGenericClass).on(self.eventType.start, eventData, onGenericControlTouchStart);
                 // pluginEl.find(settings.ctrlItemizedClass).on(self.eventType.start, eventData, onItemizedControlTouchStart);
+            },
+
+            /**
+             * Click on the previous or next page buttons.
+             * @param {Event} Click or touch event.
+             */
+            onPagingClick = function(e) {
+                changePage(e.data.dir);
+            },
+
+            /**
+             * Change to another page of contols.
+             * @param {Number} relativeChange New page index relative to the current.
+             * @param {Number} relativeChange
+             */
+            changePage = function(relativeChange, absoluteChange) {
+                var pageEls = rootEl.find(selectors.page),
+                    prevEl = rootEl.find(selectors.pagePrev),
+                    nextEl = rootEl.find(selectors.pageNext),
+                    numberEl = rootEl.find(selectors.pageNumber),
+                    currentPageEl = pageEls.filter('.' + my.classes.selected),
+                    currentIndex = pageEls.index(currentPageEl),
+                    newIndex,
+                    lastIndex = pageEls.length - 1;
+
+                // get the new page index
+                if (!isNaN(relativeChange) && relativeChange != 0) {
+                    newIndex = currentIndex + relativeChange;
+                } else {
+                    if (!isNaN(absoluteChange)) {
+                        newIndex = absoluteChange;
+                    }
+                }
+
+                // integers and clamp to existing page indexes
+                newIndex = Math.floor(newIndex);
+                newIndex = Math.max(0, Math.min(newIndex, lastIndex));
+
+                // disable or enable page buttons
+                prevEl.toggleClass(my.classes.disabled, newIndex == 0);
+                nextEl.toggleClass(my.classes.disabled, newIndex == lastIndex);
+console.log(pageEls);
+                // set paging info text
+                numberEl.find(my.selectors.ctrlText).text((newIndex + 1) + '/' + pageEls.length);
+
+                // update selected page
+                pageEls.removeClass(my.classes.selected);
+                $(pageEls[newIndex]).addClass(my.classes.selected);
             },
             
             /**

@@ -82,7 +82,6 @@ button:focus {
 }
 .application {
 }
-.racks,
 .rack__generator,
 .rack__processors,
 .plugin__header,
@@ -201,6 +200,9 @@ button:focus {
         .channel__controls {
             width: 100%;
         }
+            .rack-slot .channel__controls .plugin__control {
+                width: 100%;
+            }
             .channel__controls .ctrl__background {
                 opacity: 0.1;
             }
@@ -335,13 +337,18 @@ button:focus {
             width: 62.5%;
         }
 .rack {
+    bottom: 40px;
     display: none;
+    overflow-y: auto;
+    position: absolute;
+    top: 160px;
+    width: 100%;
 }
-    .rack.selected {
+    .rack__slot-list {
         display: block;
     }
-    .rack__generator {}
-        .rack__generator .plugin__control {
+    .rack-slot.selected {}
+        .rack-slot .plugin__control {
             width: 25%;
         }
 
@@ -384,7 +391,6 @@ button:focus {
                 opacity: 0.5;
             }
     .plugin__pages {
-        /*height: 160px;*/
         overflow: hidden;
         width: 100%;
     }
@@ -582,7 +588,7 @@ button:focus {
 [data-cols='2'] .steps,
 [data-cols='2'] #tracks,
 [data-cols='2'] #patterns,
-[data-cols='2'] .racks,
+[data-cols='2'] .rack,
 [data-cols='2'] .song {
     display: block !important;
     position: absolute;
@@ -598,7 +604,7 @@ button:focus {
     left: 0;
     top: 40px;
 }
-[data-cols='2'] .racks {
+[data-cols='2'] .rack {
     border-bottom: 1px solid #fff;
     border-top: 1px solid #fff;
     bottom: 40px;
@@ -606,7 +612,7 @@ button:focus {
     overflow-y: auto;
     top: 200px;
 }
-    [data-cols='2'] .rack {
+    [data-cols='2'] .rack__slot-list {
         display: block !important;
     }
 [data-cols='2'] .steps {
@@ -651,7 +657,7 @@ button:focus {
 [data-cols='3'] .channels,
 [data-cols='3'] .steps,
 [data-cols='3'] #patterns,
-[data-cols='3'] .racks,
+[data-cols='3'] .rack,
 [data-cols='3'] #tracks,
 [data-cols='3'] .song {
     display: block !important;
@@ -668,7 +674,7 @@ button:focus {
     left: 33.3333%;
     top: 40px;
 }
-[data-cols='3'] .racks {
+[data-cols='3'] .rack {
     border-bottom: 1px solid #fff;
     border-top: 1px solid #fff;
     bottom: 40px;
@@ -676,7 +682,7 @@ button:focus {
     overflow-y: auto;
     top: 0;
 }
-    [data-cols='3'] .rack {
+    [data-cols='3'] .rack__slot-list {
         display: block !important;
     }
 [data-cols='3'] .steps {
@@ -722,7 +728,7 @@ button:focus {
 [data-cols='4'] .steps,
 [data-cols='4'] #tracks,
 [data-cols='4'] #patterns,
-[data-cols='4'] .racks,
+[data-cols='4'] .rack,
 [data-cols='4'] .song {
     display: block !important;
     position: absolute;
@@ -738,7 +744,7 @@ button:focus {
     left: 25%;
     top: 40px;
 }
-[data-cols='4'] .racks {
+[data-cols='4'] .rack {
     border-bottom: 1px solid #fff;
     border-top: 1px solid #fff;
     bottom: 40px;
@@ -746,7 +752,7 @@ button:focus {
     overflow-y: auto;
     top: 0;
 }
-    [data-cols='4'] .rack {
+    [data-cols='4'] .rack__slot-list {
         display: block !important;
     }
 [data-cols='4'] .steps {

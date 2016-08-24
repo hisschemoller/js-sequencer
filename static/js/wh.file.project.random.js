@@ -107,8 +107,9 @@ window.WH = window.WH || {};
             createRackD = function() {
                 var channel = 3, rack = data.racks[channel];
                 // rack.instrument.name = 'chord2';
-                rack.channel.preset.level = 1.0;
-                rack.channel.preset.pan = 0.0;
+                rack.channel.preset.level = 0.8;
+                rack.channel.preset.pan = -0.2;
+                rack.channel.preset.mute = true;
             },
 
             createPatternsD = function() {
