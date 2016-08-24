@@ -11,6 +11,7 @@ window.WH = window.WH || {};
     function createChannelSelectView(specs, my) {
         var that,
             conf = specs.conf,
+            rackView = specs.rackView,
             stepsView = specs.stepsView,
             rootEl = $('.channel-selects'),
             channelSelectTemplate = $('#template-channel-select'),
@@ -73,9 +74,7 @@ window.WH = window.WH || {};
                 channelSelectEls.removeClass(my.classes.selected);
                 channelSelectEls.get(channelIndex).className += ' ' + my.classes.selected;
                 
-                // TODO: set selected plugin
-                // elements.racks.removeClass(settings.selectedClass);
-                // elements.racks.get(channelIndex).className += ' ' + settings.selectedClass;
+                rackView.setSelected(channelIndex);
                 
                 stepsView.setSelected(channelIndex);
             },

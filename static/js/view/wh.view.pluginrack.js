@@ -48,6 +48,15 @@ window.WH = window.WH || {};
                 });
                 
                 pluginViews[plugin.getId()] = pluginView;
+            },
+            
+            /**
+             * Set one of the plugins as selected.
+             */
+            setSelected = function(index) {
+                var slotEls = rootEl.find(selectors.rackSlot);
+                slotEls.removeClass(my.classes.selected);
+                slotEls[index].className += ' ' + my.classes.selected;
             };
     
         var my = my || {};
@@ -57,6 +66,7 @@ window.WH = window.WH || {};
         
         that.setup = setup;
         that.setPlugin = setPlugin;
+        that.setSelected = setSelected;
         return that;
     }
 

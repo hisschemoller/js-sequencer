@@ -66,6 +66,7 @@ $(function() {
         WH.createChannelSelectView({
             that: channelSelectView,
             conf: conf,
+            rackView: rackView,
             stepsView: stepsView
         });
         WH.createConf({
