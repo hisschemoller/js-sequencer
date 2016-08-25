@@ -12,6 +12,7 @@ window.WH = window.WH || {};
 
         var that,
             id = specs.id,
+            pubSub = specs.pubSub
             params = {},
             preset = {},
             to = function(target) {
@@ -19,7 +20,7 @@ window.WH = window.WH || {};
                     my.outlet.to(target.getInlet());
                     return target;
                 } else {
-                    try {   
+                    try {
                         my.outlet.to(target);
                         return target;
                     } catch (error) {
@@ -47,7 +48,10 @@ window.WH = window.WH || {};
                 // call the plugin's handler for this parameter
                 my['$' + key](value, time, rampType);
                 // update the plugin's view with the new parameter value
-                
+                pubSub.trigger(getId(), {
+                    key: key,
+                    param: params[key]
+                });
             },
             getInfo = function() {
                 return 'Plugin name: ' + getName() + ', id: ' + getId() + ', data: ', getData();

@@ -27,6 +27,7 @@ $(function() {
             mixerView = {},
             patternSelectView = {},
             pluginManager = {},
+            pubSub = {},
             rackView = {},
             songView = {},
             stepsView = {},
@@ -89,12 +90,14 @@ $(function() {
             that: pluginManager,
             conf: conf,
             core: core,
+            pubSub: pubSub,
             transport: transport
         });
         WH.createPluginRackView({
             that: mixerView,
             conf: conf,
             parameterEditView: parameterEditView,
+            pubSub: pubSub,
             rootEl: $('.channels'),
             rackSlotContainerSel: '.channels'
         });
@@ -102,8 +105,12 @@ $(function() {
             that: rackView,
             conf: conf,
             parameterEditView: parameterEditView,
+            pubSub: pubSub,
             rootEl: $('.rack'),
             rackSlotContainerSel: '.rack__slot-list'
+        });
+        WH.createPubSub({
+            that: pubSub
         });
         WH.createStepsView({
             that: stepsView,

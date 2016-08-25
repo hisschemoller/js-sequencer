@@ -11,7 +11,9 @@ window.WH = window.WH || {};
 
         // private variables
         var that = specs.that = {},
+            pubSub = specs.pubSub,
             plugin = specs.plugin,
+            pluginId,
             parameterEditView = specs.parameterEditView,
             rootEl,
             colorClass,
@@ -61,6 +63,10 @@ window.WH = window.WH || {};
                 colorClass = my.classes.colors[specs.index];
                 rootEl.find(my.selectors.ctrlBackground).addClass(colorClass);
                 rootEl.find(my.selectors.ctrlHighlight).addClass(colorClass);
+                
+                // add listener for changed plugin parameter values
+                pluginId = plugin.getId();
+                pubSub.on(pluginId, onParameterChange);
             },
 
             /**
@@ -237,6 +243,7 @@ window.WH = window.WH || {};
              * Remove event listeners and plugin HTML.
              */
             destroy = function() {
+                pubSub.off(pluginId, onParameterChange);
                 rootEl.find(selectors.pagePrev).off(my.eventType.click);
                 rootEl.find(selectors.pageNext).off(my.eventType.click);
                 rootEl.find(selectors.ctrlBoolean).off(my.eventType.click);
@@ -248,11 +255,14 @@ window.WH = window.WH || {};
             /**
              * Update a control to reflect a changed plugin parameter.
              * @param {Number} pluginId Unique ID of the plugin.
-             * @param {String} paramKey The parameter to change.
-             * @param {Object} param Parameter object.
+             * @param {object} data Changed parameter data object.
+             * @param {String} data.paramKey The parameter to change.
+             * @param {Object} data.param Parameter object.
              */
-             updateControl = function(paramKey, param) {
-                var ctrlEl = rootEl.find(my.selectors.ctrl + '[data-' + dataAttr.paramKey + '="' + paramKey + '"]'),
+             onParameterChange = function(data) {
+                var paramKey = data.paramKey,
+                    param = data.param,
+                    ctrlEl = rootEl.find(my.selectors.ctrl + '[data-' + dataAttr.paramKey + '="' + paramKey + '"]'),
                     ctrlType = ctrlEl.data(dataAttr.paramType);
 
                 switch (ctrlType) {

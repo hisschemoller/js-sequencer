@@ -13,6 +13,7 @@ window.WH = window.WH || {};
         var that = specs.that,
             conf = specs.conf,
             parameterEditView = specs.parameterEditView,
+            pubSub = specs.pubSub,
             rootEl = specs.rootEl,
             rackSlotContainerSel = specs.rackSlotContainerSel,
             rackSlotTemplate = $('#template-rack-slot'),
@@ -43,6 +44,7 @@ window.WH = window.WH || {};
              */
             setPlugin = function(plugin, index) {
                 var pluginView = WH.createPluginView({
+                    pubSub: pubSub,
                     plugin: plugin,
                     parameterEditView: parameterEditView,
                     parentEl: $(rootEl.find(selectors.rackSlot)[index]),
