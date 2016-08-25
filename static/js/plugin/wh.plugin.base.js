@@ -33,10 +33,21 @@ window.WH = window.WH || {};
             defineParams = function(paramOptions) {
                 var key;
                 for (key in paramOptions) {
-                    paramOptions[key].target = my;
-                    paramOptions[key].id = key;
+                    // paramOptions[key].target = my;
+                    paramOptions[key].key = key;
+                    paramOptions[key].callback = paramCallback;
                     params[key] = WH.createParameter(paramOptions[key]);
                 }
+            },
+            
+            /**
+             * Called by the plugin's parameters if their value is changed.
+             */
+            paramCallback = function(key, value, time, rampType) {
+                // call the plugin's handler for this parameter
+                my['$' + key](value, time, rampType);
+                // update the plugin's view with the new parameter value
+                
             },
             getInfo = function() {
                 return 'Plugin name: ' + getName() + ', id: ' + getId() + ', data: ', getData();
@@ -234,7 +245,7 @@ window.WH = window.WH || {};
         };
         my.$mute = function(value, time, rampType) {
             isMute = value;
-
+            
             if (value) {
                 soloMute.gain.value = 0.0;
             } else {

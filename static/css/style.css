@@ -197,30 +197,30 @@ button:focus {
                 .ctrl--channel-select.selected .ctrl__name  {
                     color: #fff;
                 }
-        .channel__controls {
+        .channel .plugin__controls {
             width: 100%;
         }
-            .rack-slot .channel__controls .plugin__control {
+            .rack-slot .channel .plugin__controls .plugin__control {
                 width: 100%;
             }
-            .channel__controls .ctrl__background {
+            .channel .plugin__controls .ctrl__background {
                 opacity: 0.1;
             }
-            .channel.selected .channel__controls .ctrl__background {
+            .channel.selected .plugin__controls .ctrl__background {
                 opacity: 0.2;
             }
-            .channel__controls .ctrl__hilight {
+            .channel .plugin__controls .ctrl__hilight {
                 display: none;
                 opacity: 0.3;
             }
-            .channel__controls .ctrl.selected .ctrl__hilight {
+            .channel .plugin__controls .ctrl.selected .ctrl__hilight {
                 display: block;
             }
-            .channel__controls .ctrl.selected .ctrl__text {
+            .channel .plugin__controls .ctrl.selected .ctrl__text {
                 color: #fff;
             }
-            /*.channel__controls .plugin__control:nth-child(1),
-            .channel__controls .plugin__control:nth-child(2) {
+            /*.channel .plugin__controls .plugin__control:nth-child(1),
+            .channel .plugin__controls .plugin__control:nth-child(2) {
                 width: 50%;
             }*/
 .steps {
@@ -496,7 +496,11 @@ button:focus {
         font-size: 32px;
         margin-top: 50px;
     }
-#overlay-ctrl-generic {}
+#overlay-parameter-edit {}
+    .overlay__content {}
+        .overlay__color {}
+
+.overlay__generic {}
     .overlay-ctrl__info {
         padding: 20px 10px 0 10px;
         margin: 0 auto;
@@ -526,7 +530,7 @@ button:focus {
             position: absolute;
             right: 0;
         }
-#overlay-ctrl-itemized {}
+.overlay__itemized {}
     .overlay-ctrl__items {
         border: 2px solid #fff;
         margin: 20px 30px;

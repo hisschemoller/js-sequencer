@@ -44,44 +44,44 @@
                     </ul>
                 </div>
             </div>
-            <div id="overlay-ctrl-generic" class="overlay">
+            <div id="overlay-parameter-edit" class="overlay">
                 <div class="overlay__content">
                     <div class="overlay__color"></div>
-                    <div class="table overlay-ctrl__info">
-                        <div class="tr">
-                            <div class="td">
-                                <span class="overlay-ctrl__label">Min</span>
+                    <div class="overlay__generic">
+                        <div class="table overlay-ctrl__info">
+                            <div class="tr">
+                                <div class="td">
+                                    <span class="overlay-ctrl__label">Min</span>
+                                </div>
+                                <div class="td">
+                                    <span class="overlay-ctrl__label overlay-ctrl__name"></span>
+                                </div>
+                                <div class="td">
+                                    <span class="overlay-ctrl__label">Max</span>
+                                </div>
                             </div>
-                            <div class="td">
-                                <span class="overlay-ctrl__label overlay-ctrl__name"></span>
-                            </div>
-                            <div class="td">
-                                <span class="overlay-ctrl__label">Max</span>
+                            <div class="tr">
+                                <div class="td">
+                                    <span class="overlay-ctrl__min"></span>
+                                </div>
+                                <div class="td">
+                                    <span class="overlay-ctrl__value"></span>
+                                </div>
+                                <div class="td">
+                                    <span class="overlay-ctrl__max"></span>
+                                </div>
                             </div>
                         </div>
-                        <div class="tr">
-                            <div class="td">
-                                <span class="overlay-ctrl__min"></span>
-                            </div>
-                            <div class="td">
-                                <span class="overlay-ctrl__value"></span>
-                            </div>
-                            <div class="td">
-                                <span class="overlay-ctrl__max"></span>
-                            </div>
+                        <div class="overlay-ctrl__slider">
+                            <div class="overlay-ctrl__slider-thumb"></div>
                         </div>
-                    </div>
-                    <div class="overlay-ctrl__slider">
-                        <div class="overlay-ctrl__slider-thumb"></div>
-                    </div>
-                </div><!-- /overlay__content -->
-            </div>
-            <div id="overlay-ctrl-itemized" class="overlay">
-                <div class="overlay__content">
-                    <div class="overlay-ctrl__info">
-                        <span class="overlay-ctrl__label overlay-ctrl__name"></span>
-                    </div>
-                    <ul class="overlay-ctrl__items"></ul>
+                    </div><!-- /overlay__generic -->
+                    <div class="overlay__itemized">
+                        <div class="overlay-ctrl__info">
+                            <span class="overlay-ctrl__label overlay-ctrl__name"></span>
+                        </div>
+                        <ul class="overlay-ctrl__items"></ul>
+                    </div><!-- /overlay__itemized -->
                 </div><!-- /overlay__content -->
             </div>
             <div id="overlay-startup" class="overlay">
@@ -342,7 +342,7 @@
         </div>
         <div id="template-plugin-channel">
             <li class="channel">
-                <ul class="ctrls channel__controls">
+                <ul class="ctrls plugin__controls">
                     <div class="plugin__control mute"></div>
                     <div class="plugin__control solo"></div>
                     <div class="plugin__control pan"></div>
@@ -413,6 +413,7 @@
     <script src="static/js/view/wh.view.channelselect.js"></script>
     <script src="static/js/view/wh.view.controlbar.js"></script>
     <script src="static/js/view/wh.view.dialog.js"></script>
+    <script src="static/js/view/wh.view.parameter.js"></script>
     <script src="static/js/view/wh.view.pluginrack.js"></script>
     <script src="static/js/view/wh.view.patternselect.js"></script>
     <script src="static/js/view/wh.view.plugin.js"></script>

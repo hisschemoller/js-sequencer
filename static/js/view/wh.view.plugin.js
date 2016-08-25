@@ -12,6 +12,7 @@ window.WH = window.WH || {};
         // private variables
         var that = specs.that = {},
             plugin = specs.plugin,
+            parameterEditView = specs.parameterEditView,
             rootEl,
             colorClass,
             
@@ -99,7 +100,7 @@ window.WH = window.WH || {};
                     param,
                     controlContainer,
                     pluginParams = plugin.getParams();
-                    
+                
                 for (paramKey in pluginParams) {
                     controlContainer = rootEl.find('.' + paramKey);
 
@@ -137,14 +138,51 @@ window.WH = window.WH || {};
                 }
 
                 // data to send to the DOM event handlers
-                var eventData = {
-                    plugin: plugin
-                };
+                // var eventData = {
+                //     plugin: plugin
+                // };
 
                 // DOM event handlers
-                // pluginEl.find(settings.ctrlBooleanClass).on(self.eventType.click, eventData, onBooleanControlClick);
-                // pluginEl.find(settings.ctrlGenericClass).on(self.eventType.start, eventData, onGenericControlTouchStart);
-                // pluginEl.find(settings.ctrlItemizedClass).on(self.eventType.start, eventData, onItemizedControlTouchStart);
+                rootEl.find(selectors.controls).on(my.eventType.click, onControlClick);
+                rootEl.find(selectors.controls).on(my.eventType.start, onControlTouchStart);
+                // pluginEl.find(settings.ctrlBooleanClass).on(my.eventType.click, eventData, onBooleanControlClick);
+                // pluginEl.find(settings.ctrlGenericClass).on(my.eventType.start, eventData, onGenericControlTouchStart);
+                // pluginEl.find(settings.ctrlItemizedClass).on(my.eventType.start, eventData, onItemizedControlTouchStart);
+            },
+            
+            /**
+             * Click on the plugin controls area.
+             * @param {Event} Click or touch event.
+             */
+            onControlClick = function(e) {
+                var ctrlEl, param, paramKey, paramValue;
+                // click is only used for boolean controls
+                ctrlEl = $(e.target).closest(my.selectors.ctrl);
+                if (ctrlEl.length && ctrlEl.attr('data-' + dataAttr.paramType)) {
+                    if (ctrlEl.attr('data-' + dataAttr.paramType) === ctrlTypes.boolean) {
+                        paramKey = ctrlEl.attr('data-' + dataAttr.paramKey);
+                        paramValue = !ctrlEl.hasClass(my.classes.selected);
+                        param = plugin.getParam(paramKey);
+                        param.setValue(paramValue);
+                    }
+                }
+            },
+            
+            /**
+             * Touchstart or mousedown on the plugin controls area.
+             * @param {Event} Click or touch event.
+             */
+            onControlTouchStart = function(e) {
+                var ctrlEl, paramType, paramKey, param;
+                ctrlEl = $(e.target).closest(my.selectors.ctrl);
+                if (ctrlEl.length) {
+                    paramType = ctrlEl.attr('data-' + dataAttr.paramType);
+                    paramKey = ctrlEl.attr('data-' + dataAttr.paramKey);
+                    if (paramType === ctrlTypes.generic || paramType === ctrlTypes.itemized) {
+                        param = plugin.getParam(paramKey);
+                        parameterEditView.showParam(param);
+                    }
+                }
             },
 
             /**
@@ -186,7 +224,7 @@ window.WH = window.WH || {};
                 // disable or enable page buttons
                 prevEl.toggleClass(my.classes.disabled, newIndex == 0);
                 nextEl.toggleClass(my.classes.disabled, newIndex == lastIndex);
-console.log(pageEls);
+                
                 // set paging info text
                 numberEl.find(my.selectors.ctrlText).text((newIndex + 1) + '/' + pageEls.length);
 

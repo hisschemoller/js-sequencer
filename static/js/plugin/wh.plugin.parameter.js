@@ -13,7 +13,7 @@ window.WH = window.WH || {};
         var that,
             type = specs.type,
             name = specs.name || 'Parameter',
-            callback = specs.target['$' + specs.id],
+            callback = specs.callback, // specs.target['$' + specs.id],
             getValue = function() {
                 return my.value;
             },
@@ -25,6 +25,7 @@ window.WH = window.WH || {};
             };
             
         my = my || {};
+        my.key = specs.key;
         my.value;
         my.defaultValue;
         my.callback = callback;
@@ -57,7 +58,7 @@ window.WH = window.WH || {};
             setValue = function(value, time, rampType) {
                 time = time || 0;
                 my.value = Math.max(min, Math.min(value, max));
-                my.callback(my.value, time, rampType);
+                my.callback(my.key, my.value, time, rampType);
             },
             getMin = function() {
                 return min;
@@ -88,7 +89,7 @@ window.WH = window.WH || {};
             setValue = function(value, time, rampType) {
                 my.value = value;
                 setIndexByValue(value);
-                my.callback(my.value, time, rampType);
+                my.callback(my.key, my.value, time, rampType);
             },
             setIndexByValue = function(value) {
                 var i, n = model.length;
@@ -128,7 +129,7 @@ window.WH = window.WH || {};
         var that,
             setValue = function(value, time, rampType) {
                 my.value = !!value;
-                my.callback(my.value, time, rampType);
+                my.callback(my.key, my.value, time, rampType);
             };
         
         my = my || {};

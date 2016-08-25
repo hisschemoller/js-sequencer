@@ -21,6 +21,7 @@ $(function() {
             channelSelectView = {},
             conf = {},
             controlBarView = {},
+            parameterEditView = {},
             core = {},
             file = {},
             mixerView = {},
@@ -35,19 +36,7 @@ $(function() {
             transport = {};
         
         // create old style modules
-        var view = WH.createView({
-                arrangement: arrangement,
-                channelSelectView: channelSelectView,
-                conf: conf,
-                core: core,
-                file: file,
-                patternSelectView: patternSelectView,
-                songView: songView,
-                stepsView: stepsView,
-                studio: studio,
-                tracksView: tracksView,
-                transport: transport
-            });
+        var view = WH.createView({});
         
         // add functionality and inject dependencies
         WH.createAppView({
@@ -88,6 +77,9 @@ $(function() {
             studio: studio,
             transport: transport
         });
+        WH.createParameterEditView({
+            that: parameterEditView
+        });
         WH.createPatternSelectView({
             that: patternSelectView,
             arrangement: arrangement,
@@ -102,12 +94,14 @@ $(function() {
         WH.createPluginRackView({
             that: mixerView,
             conf: conf,
+            parameterEditView: parameterEditView,
             rootEl: $('.channels'),
             rackSlotContainerSel: '.channels'
         });
         WH.createPluginRackView({
             that: rackView,
             conf: conf,
+            parameterEditView: parameterEditView,
             rootEl: $('.rack'),
             rackSlotContainerSel: '.rack__slot-list'
         });
@@ -157,7 +151,6 @@ $(function() {
         // app initialisation
         mixerView.setup();
         rackView.setup();
-        view.setup();
         stepsView.setup();
         channelSelectView.setup();
         studio.setup();
