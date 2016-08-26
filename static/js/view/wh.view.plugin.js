@@ -260,7 +260,7 @@ window.WH = window.WH || {};
              * @param {Object} data.param Parameter object.
              */
              onParameterChange = function(data) {
-                var paramKey = data.paramKey,
+                var paramKey = data.key,
                     param = data.param,
                     ctrlEl = rootEl.find(my.selectors.ctrl + '[data-' + dataAttr.paramKey + '="' + paramKey + '"]'),
                     ctrlType = ctrlEl.data(dataAttr.paramType);
@@ -269,15 +269,15 @@ window.WH = window.WH || {};
                     case ctrlTypes.generic:
                         var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
                             normalValue = (param.getValue() - param.getMin()) / (param.getMax() - param.getMin());
-                        ctrlEl.find(settings.ctrlValueClass).text(param.getValue().toFixed(2));
+                        ctrlEl.find(my.selectors.ctrlValue).text(param.getValue().toFixed(2));
                         elements.overlayCtrlGeneric.find(settings.overlayValue).text(param.getValue().toFixed(2));
                         elements.overlayCtrlGeneric.find(settings.overlaySliderThumb).height(slider.height() * normalValue);
                         break;
                     case ctrlTypes.itemized:
-                        ctrlEl.find(settings.ctrlValueClass).text(param.getLabel());
+                        ctrlEl.find(my.selectors.ctrlValue).text(param.getLabel());
                         break;
                     case ctrlTypes.boolean:
-                        ctrlEl.toggleClass(settings.selectedClass, param.getValue());
+                        ctrlEl.toggleClass(my.classes.selected, param.getValue());
                         break;
                 }
             };
@@ -288,7 +288,7 @@ window.WH = window.WH || {};
         that = WH.createBaseView(specs, my);
         
         init();
-        
+
         return that;
     }
 

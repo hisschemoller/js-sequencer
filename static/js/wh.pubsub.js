@@ -1,5 +1,5 @@
 /**
- * Mixer view that contains the channel plugin views.
+ * Publish subscribe pattern.
  *
  * @namespace WH
  */

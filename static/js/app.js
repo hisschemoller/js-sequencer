@@ -162,9 +162,9 @@ $(function() {
         channelSelectView.setup();
         studio.setup();
         tabsView.setSelectedTab(0);
-        if (!file.loadFromStorage()) {
-            file.createNew();
-        }
+        // if (!file.loadFromStorage()) {
+        //     file.createNew();
+        // }
         
         // console.log('All properties in namespace WH:');
         // for (var prop in WH) {

@@ -12,7 +12,7 @@ window.WH = window.WH || {};
 
         var that,
             id = specs.id,
-            pubSub = specs.pubSub
+            pubSub = specs.pubSub,
             params = {},
             preset = {},
             to = function(target) {
@@ -34,7 +34,6 @@ window.WH = window.WH || {};
             defineParams = function(paramOptions) {
                 var key;
                 for (key in paramOptions) {
-                    // paramOptions[key].target = my;
                     paramOptions[key].key = key;
                     paramOptions[key].callback = paramCallback;
                     params[key] = WH.createParameter(paramOptions[key]);
@@ -54,7 +53,7 @@ window.WH = window.WH || {};
                 });
             },
             getInfo = function() {
-                return 'Plugin name: ' + getName() + ', id: ' + getId() + ', data: ', getData();
+                return 'Plugin name: ' + getName() + ', id: ' + id + ', title: ' + getTitle();
             },
             getParams = function() {
                 return params;
