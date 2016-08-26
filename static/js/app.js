@@ -41,7 +41,10 @@ $(function() {
         
         // add functionality and inject dependencies
         WH.createAppView({
-            that: appView
+            that: appView,
+            arrangement: arrangement,
+            file: file,
+            transport: transport
         });
         WH.createArrangement({
             that: arrangement,

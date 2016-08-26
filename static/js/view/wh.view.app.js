@@ -9,6 +9,9 @@ window.WH = window.WH || {};
     
     function createAppView(specs, my) {
         var that = specs.that,
+            arrangement = specs.arrangement,
+            file = specs.file,
+            transport = specs.transport,
             rootEl = $('#app'),
             
             /**
