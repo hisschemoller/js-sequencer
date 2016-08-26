@@ -289,6 +289,7 @@ window.WH = window.WH || {};
         
         init();
 
+        that.destroy = destroy;
         return that;
     }
 

@@ -164,8 +164,7 @@ window.WH = window.WH || {};
                 // remove plugin view
                 var pluginID = instrument.getId();
                 if (pluginID) {
-                    pluginViews[pluginID].destroy();
-                    delete pluginViews[pluginID];
+                    rackView.clearPlugin(pluginID);
                 }
                 // remove plugin
                 instrument.cut();

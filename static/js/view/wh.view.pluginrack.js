@@ -53,6 +53,16 @@ window.WH = window.WH || {};
                 
                 pluginViews[plugin.getId()] = pluginView;
             },
+
+            /**
+             * Remove a plugin view.
+             * @param {string} pluginID ID of the plugin to remove.
+             */
+            clearPlugin = function(pluginID) {
+                console.log()
+                pluginViews[pluginID].destroy();
+                pluginViews[pluginID] = null;
+            },
             
             /**
              * Set one of the plugins as selected.
@@ -70,6 +80,7 @@ window.WH = window.WH || {};
         
         that.setup = setup;
         that.setPlugin = setPlugin;
+        that.clearPlugin = clearPlugin;
         that.setSelected = setSelected;
         return that;
     }
