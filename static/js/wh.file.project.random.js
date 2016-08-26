@@ -142,7 +142,7 @@ window.WH = window.WH || {};
             },
 
             createSong = function() {
-                data.arrangement.song.push({patternIndex: 0, repeats: 8});
+                data.arrangement.song.push({patternIndex: 0, repeats: 8, mutes: [0,1,5]});
             };
 
         init();
