@@ -59,7 +59,6 @@ window.WH = window.WH || {};
              * @param {string} pluginID ID of the plugin to remove.
              */
             clearPlugin = function(pluginID) {
-                console.log()
                 pluginViews[pluginID].destroy();
                 pluginViews[pluginID] = null;
             },

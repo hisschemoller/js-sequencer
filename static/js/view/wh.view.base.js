@@ -66,6 +66,7 @@ window.WH = window.WH || {};
         my.classes = classes;
         my.selectors = selectors;
         my.eventType = eventType;
+        my.isTouchDevice = isTouchDevice;
         
         that.setVisible = setVisible;
         return that;

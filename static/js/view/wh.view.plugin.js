@@ -42,12 +42,6 @@ window.WH = window.WH || {};
                 paramKey:  'param_key',
                 paramType: 'param_type'
             },
-
-            ctrlTypes = {
-                generic: 'generic',
-                itemized: 'itemized',
-                boolean: 'boolean'
-            },
             
             init = function() {
                 var pluginTemplate;
@@ -164,8 +158,9 @@ window.WH = window.WH || {};
                 var ctrlEl, param, paramKey, paramValue;
                 // click is only used for boolean controls
                 ctrlEl = $(e.target).closest(my.selectors.ctrl);
-                if (ctrlEl.length && ctrlEl.attr('data-' + dataAttr.paramType)) {
-                    if (ctrlEl.attr('data-' + dataAttr.paramType) === ctrlTypes.boolean) {
+                if (ctrlEl.length) {
+                    paramType = ctrlEl.attr('data-' + dataAttr.paramType);
+                    if (param.isTypeBoolean(paramType)) {
                         paramKey = ctrlEl.attr('data-' + dataAttr.paramKey);
                         paramValue = !ctrlEl.hasClass(my.classes.selected);
                         param = plugin.getParam(paramKey);
@@ -184,9 +179,9 @@ window.WH = window.WH || {};
                 if (ctrlEl.length) {
                     paramType = ctrlEl.attr('data-' + dataAttr.paramType);
                     paramKey = ctrlEl.attr('data-' + dataAttr.paramKey);
-                    if (paramType === ctrlTypes.generic || paramType === ctrlTypes.itemized) {
-                        param = plugin.getParam(paramKey);
-                        parameterEditView.showParam(param);
+                    param = plugin.getParam(paramKey);
+                    if (param.isTypeGeneric(paramType) || param.isTypeItemized(paramType)) {
+                        parameterEditView.showParam(param, colorClass, e);
                     }
                 }
             },
@@ -263,22 +258,18 @@ window.WH = window.WH || {};
                 var paramKey = data.key,
                     param = data.param,
                     ctrlEl = rootEl.find(my.selectors.ctrl + '[data-' + dataAttr.paramKey + '="' + paramKey + '"]'),
-                    ctrlType = ctrlEl.data(dataAttr.paramType);
+                    paramType = ctrlEl.data(dataAttr.paramType);
 
-                switch (ctrlType) {
-                    case ctrlTypes.generic:
-                        var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
-                            normalValue = (param.getValue() - param.getMin()) / (param.getMax() - param.getMin());
-                        ctrlEl.find(my.selectors.ctrlValue).text(param.getValue().toFixed(2));
-                        elements.overlayCtrlGeneric.find(settings.overlayValue).text(param.getValue().toFixed(2));
-                        elements.overlayCtrlGeneric.find(settings.overlaySliderThumb).height(slider.height() * normalValue);
-                        break;
-                    case ctrlTypes.itemized:
-                        ctrlEl.find(my.selectors.ctrlValue).text(param.getLabel());
-                        break;
-                    case ctrlTypes.boolean:
-                        ctrlEl.toggleClass(my.classes.selected, param.getValue());
-                        break;
+                if (param.isTypeGeneric(paramType)) {
+                    // var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
+                    var normalValue = (param.getValue() - param.getMin()) / (param.getMax() - param.getMin());
+                    ctrlEl.find(my.selectors.ctrlValue).text(param.getValue().toFixed(2));
+                    // elements.overlayCtrlGeneric.find(settings.overlayValue).text(param.getValue().toFixed(2));
+                    // elements.overlayCtrlGeneric.find(settings.overlaySliderThumb).height(slider.height() * normalValue);
+                } else if (param.isTypeItemized(paramType)) {
+                    ctrlEl.find(my.selectors.ctrlValue).text(param.getLabel());
+                } else if (param.isTypeBoolean(paramType)) {
+                    ctrlEl.toggleClass(my.classes.selected, param.getValue());
                 }
             };
     

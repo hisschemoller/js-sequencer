@@ -47,6 +47,7 @@ window.WH = window.WH || {};
                 transport.setBPM(data.bpm);
                 arrangement.setData(data.arrangement);
                 studio.setData(data.racks);
+                autoSave();
             },
 
             /**

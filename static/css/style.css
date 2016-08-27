@@ -481,6 +481,7 @@ button:focus {
         max-height: 400px;
         max-width: 200px;
         position: absolute;
+        width: 120px;
     }
         .overlay__color {
             bottom: 0;
@@ -500,7 +501,14 @@ button:focus {
     .overlay__content {}
         .overlay__color {}
 
-.overlay__generic {}
+.overlay__generic,
+.overlay__itemized {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
     .overlay-ctrl__info {
         padding: 20px 10px 0 10px;
         margin: 0 auto;

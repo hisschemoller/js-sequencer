@@ -14,6 +14,11 @@ window.WH = window.WH || {};
             type = specs.type,
             name = specs.name || 'Parameter',
             callback = specs.callback, // specs.target['$' + specs.id],
+            types = {
+                generic: 'generic',
+                itemized: 'itemized',
+                boolean: 'boolean'
+            },
             getValue = function() {
                 return my.value;
             },
@@ -22,6 +27,15 @@ window.WH = window.WH || {};
             },
             getName = function() {
                 return name;
+            },
+            isTypeGeneric = function(type) {
+                return type === types.generic;
+            },
+            isTypeItemized = function(type) {
+                return type === types.itemized;
+            },
+            isTypeBoolean = function(type) {
+                return type === types.boolean;
             };
             
         my = my || {};
@@ -35,6 +49,9 @@ window.WH = window.WH || {};
         that.getValue = getValue;
         that.getType = getType;
         that.getName = getName;
+        that.isTypeGeneric = isTypeGeneric;
+        that.isTypeItemized = isTypeItemized;
+        that.isTypeBoolean = isTypeBoolean;
         return that;
     }
 
