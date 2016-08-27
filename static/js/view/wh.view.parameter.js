@@ -142,7 +142,7 @@
                     
                     itemizedEl.show();
                     genericEl.hide();
-                    nameEl.text(param.name);
+                    nameEl.text(param.getName());
                     listEl.empty();
 
                     n = model.length;
@@ -150,8 +150,8 @@
                         itemEl = listItemTemplate.children().first().clone();
                         itemEl.text(model[i].label);
                         itemEl.appendTo(listEl);
-
-                        if (param.value == model[i].value) {
+                        
+                        if (param.getValue() == model[i].value) {
                             itemEl.addClass(my.classes.selected);
                         }
                     }

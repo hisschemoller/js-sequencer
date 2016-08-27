@@ -481,7 +481,7 @@ button:focus {
         max-height: 400px;
         max-width: 200px;
         position: absolute;
-        width: 120px;
+        width: 150px;
     }
         .overlay__color {
             bottom: 0;
@@ -542,7 +542,7 @@ button:focus {
 .overlay__itemized {}
     .overlay-ctrl__items {
         border: 2px solid #fff;
-        margin: 20px 30px;
+        margin: 20px 20px;
     }
         .overlay-ctrl__item:not(:last-child) {
             border-bottom: 2px solid #fff;
@@ -560,6 +560,9 @@ button:focus {
         .overlay-ctrl__item.active {
             color: #ccc;
             background-color: #eee;
+        }
+        .overlay__itemized .overlay-ctrl__name {
+            font-size: 24px;
         }
 #overlay-dialog {
 }
