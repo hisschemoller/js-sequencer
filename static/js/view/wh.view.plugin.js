@@ -137,17 +137,9 @@ window.WH = window.WH || {};
                     }
                 }
 
-                // data to send to the DOM event handlers
-                // var eventData = {
-                //     plugin: plugin
-                // };
-
                 // DOM event handlers
                 rootEl.find(selectors.controls).on(my.eventType.click, onControlClick);
                 rootEl.find(selectors.controls).on(my.eventType.start, onControlTouchStart);
-                // pluginEl.find(settings.ctrlBooleanClass).on(my.eventType.click, eventData, onBooleanControlClick);
-                // pluginEl.find(settings.ctrlGenericClass).on(my.eventType.start, eventData, onGenericControlTouchStart);
-                // pluginEl.find(settings.ctrlItemizedClass).on(my.eventType.start, eventData, onItemizedControlTouchStart);
             },
             
             /**

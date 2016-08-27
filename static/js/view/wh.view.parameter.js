@@ -12,6 +12,7 @@
                 pubSub = specs.pubSub,
                 windowEl = $(window),
                 rootEl = $('#overlay-parameter-edit'),
+                listItemTemplate = $('#template-overlay-ctrl-item'),
                 contentEl = rootEl.find('.overlay__content'),
                 colorBgEl = rootEl.find('.overlay__color'),
                 genericEl = rootEl.find('.overlay__generic'),
@@ -19,7 +20,6 @@
                 sliderEl = rootEl.find('.overlay-ctrl__slider'),
                 thumbEl = rootEl.find('.overlay-ctrl__slider-thumb'),
                 listEl = rootEl.find('.overlay-ctrl__items'),
-                listItemEl = rootEl.find('.overlay-ctrl__item'),
                 nameEl = rootEl.find('.overlay-ctrl__name'),
                 valueEl = rootEl.find('.overlay-ctrl__value'),
                 minEl = rootEl.find('.overlay-ctrl__min'),
@@ -30,6 +30,18 @@
                 isEnabled,
                 normalValue,
                 normalUserY,
+                originalIndex,
+                itemEls,
+                listOffset,
+                listLeft,
+                listTop,
+                listRight,
+                listBottom,
+                itemHeight,
+
+                selectors = {
+                    listItem: '.overlay-ctrl__item'
+                },
                 
                 /**
                  * Show a parameter's properties.
@@ -52,7 +64,7 @@
                     if (param.isTypeGeneric(param.getType())) {
                         showGenericParam(e);
                     } else if (param.isTypeItemized(param.getType())) {
-
+                        showItemizedParam(e);
                     }
                 },
 
@@ -116,6 +128,87 @@
                     rootEl.hide();
                     windowEl.off(my.eventType.move, onGenericOverlayTouchMove);
                     windowEl.off(my.eventType.end, onGenericOverlayTouchEnd);
+                    pubSub.off(pluginId, onParameterChange);
+                },
+
+                /**
+                 * Itemized control pressed on a plugin.
+                 * @param {Event} e Touchstart or mousedown event.
+                 */
+                showItemizedParam = function(e) {
+                    e.preventDefault();
+                    var model = param.getModel(),
+                        i, n, itemEl;
+                    
+                    itemizedEl.show();
+                    genericEl.hide();
+                    nameEl.text(param.name);
+                    listEl.empty();
+
+                    n = model.length;
+                    for (i = 0; i < n; i++) {
+                        itemEl = listItemTemplate.children().first().clone();
+                        itemEl.text(model[i].label);
+                        itemEl.appendTo(listEl);
+
+                        if (param.value == model[i].value) {
+                            itemEl.addClass(my.classes.selected);
+                        }
+                    }
+
+                    itemEls = itemizedEl.find(selectors.listItem);
+                    originalIndex = param.getIndex();
+                    changedIndex = null;
+                    listOffset = listEl.offset();
+                    listLeft = listOffset.left;
+                    listTop = listOffset.top;
+                    listRight = listOffset.left + listEl.width();
+                    listBottom = listOffset.top + listEl.height();
+                    itemHeight = listEl.height() / model.length;
+
+                    windowEl.on(my.eventType.move, onItemizedOverlayTouchMove);
+                    windowEl.on(my.eventType.end, onItemizedOverlayTouchEnd);
+                },
+
+                /**
+                 * Itemized control overlay touchend or mouseup.
+                 * @param {Event} e Touch or mouse move event.
+                 */
+                onItemizedOverlayTouchMove = function(e) {
+                    e.preventDefault();
+                    var userX = my.isTouchDevice ? e.originalEvent.changedTouches[0].clientX : e.clientX,
+                        userY = my.isTouchDevice ? e.originalEvent.changedTouches[0].clientY : e.clientY,
+                        newIndex;
+
+                    if (userX > listLeft && userX < listRight &&
+                        userY > listTop && userY < listBottom) {
+                        newIndex = Math.floor((userY - listTop) / itemHeight);
+                    } else {
+                        newIndex = -1;
+                    }
+
+                    if (newIndex != changedIndex) {
+                        itemEls.removeClass(my.classes.active);
+                        if (newIndex == -1) {
+                            newIndex = originalIndex;
+                        } else {
+                            itemEls[newIndex].className += ' ' + my.classes.active;
+                        }
+                        changedIndex = newIndex;
+                        param.setValue(param.getModel()[newIndex].value);
+                    }
+                },
+
+                /**
+                 * Itemized control overlay touchend or mouseup.
+                 * @param {Event} e Touch or mouse end event.
+                 */
+                onItemizedOverlayTouchEnd = function(e) {
+                    e.preventDefault();
+                    colorBgEl.removeClass(colorClass);
+                    rootEl.hide();
+                    windowEl.off(my.eventType.move, onItemizedOverlayTouchMove);
+                    windowEl.off(my.eventType.end, onItemizedOverlayTouchEnd);
                     pubSub.off(pluginId, onParameterChange);
                 },
 
