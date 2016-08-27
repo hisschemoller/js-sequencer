@@ -393,7 +393,7 @@ window.WH = window.WH || {};
                 default: 1.0,
                 min: 0.0,
                 max: 20.0,
-                unit: 'Hertz'
+                unit: 'Hz'
             },
             lfodepth: {
                 type: 'generic',
@@ -401,7 +401,7 @@ window.WH = window.WH || {};
                 default: 1.0,
                 min: 0.0,
                 max: 500.0,
-                unit: 'LinearGain'
+                unit: ''
             }
         });
         

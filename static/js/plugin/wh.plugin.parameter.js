@@ -82,6 +82,9 @@ window.WH = window.WH || {};
             },
             getMax = function() {
                 return max;
+            },
+            getUnit = function() {
+                return unit;
             };
         
         my = my || {};
@@ -95,6 +98,7 @@ window.WH = window.WH || {};
         that.setValue = setValue;
         that.getMin = getMin;
         that.getMax = getMax;
+        that.getUnit = getUnit;
         return that;
     }
 

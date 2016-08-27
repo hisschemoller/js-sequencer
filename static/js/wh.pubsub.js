@@ -12,16 +12,29 @@ window.WH = window.WH || {};
             subscriptions = {},
             
             on = function(event, callback) {
-                subscriptions[event] = callback;
+                if (!subscriptions[event]) {
+                    subscriptions[event] = [];
+                }
+                subscriptions[event].push(callback);
             },
             
             off = function(event, callback) {
-                delete subscriptions[event];
+                if (subscriptions[event]) {
+                    var n = subscriptions[event].length;
+                    while (--n > -1) {
+                        if (subscriptions[event][n] === callback) {
+                            subscriptions[event].splice(n, 1);
+                        }
+                    }
+                }
             },
             
             trigger = function(event, data) {
                 if (subscriptions[event]) {
-                    subscriptions[event](data);
+                    var n = subscriptions[event].length;
+                    while (--n > -1) {
+                        subscriptions[event][n](data);
+                    }
                 }
             };
         

@@ -160,10 +160,10 @@ window.WH = window.WH || {};
                 ctrlEl = $(e.target).closest(my.selectors.ctrl);
                 if (ctrlEl.length) {
                     paramType = ctrlEl.attr('data-' + dataAttr.paramType);
+                    paramKey = ctrlEl.attr('data-' + dataAttr.paramKey);
+                    param = plugin.getParam(paramKey);
                     if (param.isTypeBoolean(paramType)) {
-                        paramKey = ctrlEl.attr('data-' + dataAttr.paramKey);
                         paramValue = !ctrlEl.hasClass(my.classes.selected);
-                        param = plugin.getParam(paramKey);
                         param.setValue(paramValue);
                     }
                 }
@@ -181,7 +181,7 @@ window.WH = window.WH || {};
                     paramKey = ctrlEl.attr('data-' + dataAttr.paramKey);
                     param = plugin.getParam(paramKey);
                     if (param.isTypeGeneric(paramType) || param.isTypeItemized(paramType)) {
-                        parameterEditView.showParam(param, colorClass, e);
+                        parameterEditView.showParam(param, colorClass, pluginId, e);
                     }
                 }
             },
@@ -249,7 +249,6 @@ window.WH = window.WH || {};
 
             /**
              * Update a control to reflect a changed plugin parameter.
-             * @param {Number} pluginId Unique ID of the plugin.
              * @param {object} data Changed parameter data object.
              * @param {String} data.paramKey The parameter to change.
              * @param {Object} data.param Parameter object.
@@ -261,11 +260,8 @@ window.WH = window.WH || {};
                     paramType = ctrlEl.data(dataAttr.paramType);
 
                 if (param.isTypeGeneric(paramType)) {
-                    // var slider = elements.overlayCtrlGeneric.find(settings.overlaySlider),
                     var normalValue = (param.getValue() - param.getMin()) / (param.getMax() - param.getMin());
                     ctrlEl.find(my.selectors.ctrlValue).text(param.getValue().toFixed(2));
-                    // elements.overlayCtrlGeneric.find(settings.overlayValue).text(param.getValue().toFixed(2));
-                    // elements.overlayCtrlGeneric.find(settings.overlaySliderThumb).height(slider.height() * normalValue);
                 } else if (param.isTypeItemized(paramType)) {
                     ctrlEl.find(my.selectors.ctrlValue).text(param.getLabel());
                 } else if (param.isTypeBoolean(paramType)) {

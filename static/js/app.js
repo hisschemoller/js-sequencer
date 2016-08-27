@@ -82,7 +82,8 @@ $(function() {
             transport: transport
         });
         WH.createParameterEditView({
-            that: parameterEditView
+            that: parameterEditView,
+            pubSub: pubSub
         });
         WH.createPatternSelectView({
             that: patternSelectView,

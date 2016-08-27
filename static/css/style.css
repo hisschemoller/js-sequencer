@@ -510,16 +510,17 @@ button:focus {
     width: 100%;
 }
     .overlay-ctrl__info {
-        padding: 20px 10px 0 10px;
+        padding: 10px 10px 0 10px;
         margin: 0 auto;
         max-width: 280px;
         width: 100%;
     }
-    .overlay-ctrl__info td:nth-child(2) {
-        width: 60%;
-    }
     .overlay-ctrl__value {
         font-size: 36px;
+        line-height: 36px;
+    }
+    .overlay-ctrl__min-max {
+        font-size: 12px;
     }
     .overlay-ctrl__slider {
         background-color: #ddd;
@@ -716,7 +717,7 @@ button:focus {
     border-top: 1px solid #fff;
     bottom: 40px;
     left: 33.3333%;
-    top: 160px;
+    top: 200px;
 }
     [data-cols='3'] .song__list-container {
         bottom: 0;
