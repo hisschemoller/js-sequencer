@@ -57,7 +57,7 @@ window.WH = window.WH || {};
                 stepsData = arrangement.getTrackSteps(index);
                 colorClass = my.classes.colors[index];
                 
-                stepEls.removeClass(my.classes.allColors);
+                stepEls.find(my.selectors.ctrlBackground).removeClass(my.classes.allColors);
                 stepEls.removeClass(my.classes.selected);
 
                 // set selected state

@@ -51,6 +51,8 @@ window.WH = window.WH || {};
 
                 if (specs.type == 'alert') {
                     rootEl.find(selectors.secondary).hide();
+                } else {
+                    rootEl.find(selectors.secondary).show();
                 }
             },
 
