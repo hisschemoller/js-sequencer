@@ -242,6 +242,9 @@ button:focus {
         .step > .ctrl__background {
             opacity: 0.2;
         }
+        .step.active.selected > .ctrl__background {
+            opacity: 0.4;
+        }
         .step > .ctrl__hilight {
             display: none;
             opacity: 0.4;
