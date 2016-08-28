@@ -38,6 +38,7 @@ window.WH = window.WH || {};
                     paramOptions[key].callback = paramCallback;
                     params[key] = WH.createParameter(paramOptions[key]);
                 }
+                setPreset(my.defaultPreset);
             },
             
             /**
@@ -198,6 +199,13 @@ window.WH = window.WH || {};
             panner,
             soloMute,
 
+            init = function() {
+                panner = my.core.createPanner();
+                soloMute = my.core.createGain();
+                my.input.to(soloMute).to(panner).to(my.output);
+                level = soloMute.gain.value;
+            },
+
             /**
              * Set the callback function to notify the other channels of a solo parameter change.
              * @param {Function} callback The callback function.
@@ -283,6 +291,8 @@ window.WH = window.WH || {};
         };
 
         that = WH.createProcessorPlugin(specs, my);
+
+        init();
         
         my.defineParams({
             mute: {
@@ -311,11 +321,6 @@ window.WH = window.WH || {};
             }
         });
         
-        panner = my.core.createPanner();
-        soloMute = my.core.createGain();
-        my.input.to(soloMute).to(panner).to(my.output);
-        level = soloMute.gain.value;
-        
         that.setSoloCallback = setSoloCallback;
         that.onExternalSolo = onExternalSolo;
         return that;
@@ -340,6 +345,17 @@ window.WH = window.WH || {};
             amp,
             lfoOsc,
             lfoGain,
+            init = function() {
+                lfoOsc = my.core.createOsc();
+                lfoGain = my.core.createGain();
+                osc = my.core.createOsc();
+                amp = my.core.createGain();
+                osc.to(amp).to(my.output);
+                lfoOsc.to(lfoGain).to(osc.detune);
+                osc.start(0);
+                lfoOsc.start(0);
+                amp.gain.value = 0;
+            },
             noteOn = function(pitch, velocity, time) {
                 time = (time || amp.context.currentTime);
                 amp.gain.set(velocity / 127, amp.context.currentTime, [time, 0.02], 3);
@@ -374,6 +390,8 @@ window.WH = window.WH || {};
         
         that = WH.createGeneratorPlugin(specs, my);
         
+        init();
+        
         my.defineParams({
             osctype: {
                 type: 'itemized',
@@ -404,16 +422,6 @@ window.WH = window.WH || {};
                 unit: ''
             }
         });
-        
-        lfoOsc = my.core.createOsc();
-        lfoGain = my.core.createGain();
-        osc = my.core.createOsc();
-        amp = my.core.createGain();
-        osc.to(amp).to(my.output);
-        lfoOsc.to(lfoGain).to(osc.detune);
-        osc.start(0);
-        lfoOsc.start(0);
-        amp.gain.value = 0;
         
         that.noteOn = noteOn;
         that.noteOff = noteOff;
