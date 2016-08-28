@@ -12,6 +12,7 @@ window.WH = window.WH || {};
         // private variables
         var that = specs.that,
             conf = specs.conf,
+            file = specs.file,
             parameterEditView = specs.parameterEditView,
             pubSub = specs.pubSub,
             rootEl = specs.rootEl,
@@ -44,6 +45,7 @@ window.WH = window.WH || {};
              */
             setPlugin = function(plugin, index) {
                 var pluginView = WH.createPluginView({
+                    file: file,
                     pubSub: pubSub,
                     plugin: plugin,
                     parameterEditView: parameterEditView,

@@ -11,6 +11,7 @@ window.WH = window.WH || {};
 
         // private variables
         var that = specs.that = {},
+            file = specs.file,
             pubSub = specs.pubSub,
             plugin = specs.plugin,
             pluginId,
@@ -157,6 +158,7 @@ window.WH = window.WH || {};
                     if (param.isTypeBoolean(paramType)) {
                         paramValue = !ctrlEl.hasClass(my.classes.selected);
                         param.setValue(paramValue);
+                        file.autoSave();
                     }
                 }
             },

@@ -83,6 +83,7 @@ $(function() {
         });
         WH.createParameterEditView({
             that: parameterEditView,
+            file: file,
             pubSub: pubSub
         });
         WH.createPatternSelectView({
@@ -100,6 +101,7 @@ $(function() {
         WH.createPluginRackView({
             that: mixerView,
             conf: conf,
+            file: file,
             parameterEditView: parameterEditView,
             pubSub: pubSub,
             rootEl: $('.channels'),
@@ -108,6 +110,7 @@ $(function() {
         WH.createPluginRackView({
             that: rackView,
             conf: conf,
+            file: file,
             parameterEditView: parameterEditView,
             pubSub: pubSub,
             rootEl: $('.rack'),

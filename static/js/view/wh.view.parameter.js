@@ -9,6 +9,7 @@
         
         function createParameterEditView(specs) {
             var that,
+                file = specs.file,
                 pubSub = specs.pubSub,
                 windowEl = $(window),
                 rootEl = $('#overlay-parameter-edit'),
@@ -129,6 +130,7 @@
                     windowEl.off(my.eventType.move, onGenericOverlayTouchMove);
                     windowEl.off(my.eventType.end, onGenericOverlayTouchEnd);
                     pubSub.off(pluginId, onParameterChange);
+                    file.autoSave();
                 },
 
                 /**
@@ -210,6 +212,7 @@
                     windowEl.off(my.eventType.move, onItemizedOverlayTouchMove);
                     windowEl.off(my.eventType.end, onItemizedOverlayTouchEnd);
                     pubSub.off(pluginId, onParameterChange);
+                    file.autoSave();
                 },
 
                 /**
@@ -226,7 +229,7 @@
                         valueEl.text(param.getValue().toFixed(2));
                         thumbEl.height(sliderEl.height() * normalValue);
                     } else if (param.isTypeItemized(param.getType())) {
-
+                        // TODO something?
                     }
                 },
                 
