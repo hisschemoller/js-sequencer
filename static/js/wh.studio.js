@@ -15,10 +15,12 @@ window.WH = window.WH || {};
     function createStudio(specs) {
         
         var that = specs.that,
+            channelSelectView = specs.channelSelectView,
             conf = specs.conf,
             core = specs.core,
+            mixerView = specs.mixerView,
+            rackView = specs.rackView,
             pluginManager = specs.pluginManager,
-            view = specs.view,
             
             /**
              * Channel plugins that form a mixer.
@@ -64,14 +66,14 @@ window.WH = window.WH || {};
                 instruments = new Array(n);
 
                 for (i; i < n; i++) {
-                    var channel = pluginManager.createPlugin('channel');
+                    channel = pluginManager.createPlugin('channel');
                     channel.setSoloCallback(onSoloChange);
                     channel.to(core.getMainOut());
                     channels.push(channel);
-                    view.setChannel(channel, i);
+                    mixerView.setPlugin(channel, i);
                 }
 
-                view.setSelectedChannel(channels[0].getId());
+                channelSelectView.setSelectedChannel(channels[0].getId());
             },
 
             /**
@@ -79,24 +81,17 @@ window.WH = window.WH || {};
              * @param {Array} data Studio setup data.
              */
             setData = function(data) {
-                var rack,
-                    instrument,
+                var instrument,
                     channel,
                     i = 0,
                     trackCount = conf.getTrackCount(),
-                    param,
-                    paramKey,
-                    soloedChannel,
-                    pluginId,
-                    preset;
+                    soloedChannel;
 
                 for (i; i < trackCount; i++) {
 
                     // remove the old instrument, if it exists
                     if (instruments[i]) {
-                        view.clearInstrument(instruments[i], i);
-                        instruments[i].cut();
-                        instruments[i] = null;
+                        clearInstrument(instruments[i], i);
                     }
 
                     rackData = data[i];
@@ -109,7 +104,7 @@ window.WH = window.WH || {};
                             instrument.setPreset(rackData.instrument.preset);
                             instrument.to(channel);
                             instruments[i] = instrument;
-                            view.setInstrument(instrument, i);
+                            rackView.setPlugin(instrument, i);
                         }
                     }
                     
@@ -118,12 +113,6 @@ window.WH = window.WH || {};
                     // if there's channels soloed, remember one of them
                     if (channel.getParamValue('solo')) {
                         soloedChannel = channel;
-                    }
-                    
-                    preset = channel.getPreset();
-                    pluginId = channel.getId();
-                    for (paramKey in preset) {
-                        view.updatePluginControl(pluginId, paramKey, channel.getParam(paramKey));
                     }
                 }
 
@@ -154,6 +143,22 @@ window.WH = window.WH || {};
                 return racks;
             },
 
+            /**
+             * Remove the instrument from the rack and delete it
+             * @param {Object} instrument Plugin Generator object.
+             * @param {Number} index Rack index from which to remove the instrument.
+             */
+            clearInstrument = function(instrument, index) {
+                // remove plugin view
+                var pluginID = instrument.getId();
+                if (pluginID) {
+                    rackView.clearPlugin(pluginID);
+                }
+                // remove plugin
+                instrument.cut();
+                instrument = null;
+            },
+            
             /**
              * Add instuments and connect them to the output.
              * @param {Array} playbackQueue Array to collect Steps.

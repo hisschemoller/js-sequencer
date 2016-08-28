@@ -18,7 +18,6 @@ window.WH = window.WH || {};
             patternDurationInBeats = 4,
             stepsPerBeat = 4,
             ppqn = 480,
-            channelColorClasses = ['color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7', 'color8'],
             models = {
                 waveforms: [
                     {label: 'Sine', value: 'sine'},
@@ -60,10 +59,6 @@ window.WH = window.WH || {};
         
         that.getPPQN = function() {
             return ppqn;
-        };
-        
-        that.getColor = function(index) {
-            return channelColorClasses[index];
         };
         
         that.getModel = function(modelKey) {

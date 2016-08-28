@@ -10,11 +10,11 @@ window.WH = window.WH || {};
 
     function createSongView(specs, my) {
         var that,
+            rootEl = $('.song'),
             listEl,
             partEls,
             partTemplate = $('#template-song-part'),
             selectors = {
-                tileLabel: '.ctrl__text',
                 part: '.song-part',
                 partNr: '.song-part__order',
                 partPattern: '.song-part__pattern',
@@ -42,9 +42,9 @@ window.WH = window.WH || {};
                 for (i; i < songLength; i++) {
                     partData = songData[i];
                     partEl = partTemplate.children().first().clone();
-                    partEl.find(selectors.partNr).find(selectors.tileLabel).text((i + 1) + '.');
-                    partEl.find(selectors.partPattern).find(selectors.tileLabel).text(partData.getPatternIndex() + 1);
-                    partEl.find(selectors.partRepeats).find(selectors.tileLabel).text('x ' + partData.getRepeats());
+                    partEl.find(selectors.partNr).find(my.selectors.ctrlText).text((i + 1) + '.');
+                    partEl.find(selectors.partPattern).find(my.selectors.ctrlText).text(partData.getPatternIndex() + 1);
+                    partEl.find(selectors.partRepeats).find(my.selectors.ctrlText).text('x ' + partData.getRepeats());
                     listEl.append(partEl);
                 }
                 partEls = listEl.find(selectors.part);
@@ -62,7 +62,7 @@ window.WH = window.WH || {};
             };
             
         var my = my || {};
-        my.rootEl = $('.song');
+        my.rootEl = rootEl;
         
         that = WH.createBaseView(specs, my);
         

@@ -12,6 +12,7 @@ window.WH = window.WH || {};
 
         var that,
             id = specs.id,
+            pubSub = specs.pubSub,
             params = {},
             preset = {},
             to = function(target) {
@@ -19,7 +20,7 @@ window.WH = window.WH || {};
                     my.outlet.to(target.getInlet());
                     return target;
                 } else {
-                    try {   
+                    try {
                         my.outlet.to(target);
                         return target;
                     } catch (error) {
@@ -33,13 +34,27 @@ window.WH = window.WH || {};
             defineParams = function(paramOptions) {
                 var key;
                 for (key in paramOptions) {
-                    paramOptions[key].target = my;
-                    paramOptions[key].id = key;
+                    paramOptions[key].key = key;
+                    paramOptions[key].callback = paramCallback;
                     params[key] = WH.createParameter(paramOptions[key]);
                 }
+                setPreset(my.defaultPreset);
+            },
+            
+            /**
+             * Called by the plugin's parameters if their value is changed.
+             */
+            paramCallback = function(key, value, time, rampType) {
+                // call the plugin's handler for this parameter
+                my['$' + key](value, time, rampType);
+                // update the plugin's view with the new parameter value
+                pubSub.trigger(getId(), {
+                    key: key,
+                    param: params[key]
+                });
             },
             getInfo = function() {
-                return 'Plugin name: ' + getName() + ', id: ' + getId() + ', data: ', getData();
+                return 'Plugin name: ' + getName() + ', id: ' + id + ', title: ' + getTitle();
             },
             getParams = function() {
                 return params;
@@ -184,6 +199,13 @@ window.WH = window.WH || {};
             panner,
             soloMute,
 
+            init = function() {
+                panner = my.core.createPanner();
+                soloMute = my.core.createGain();
+                my.input.to(soloMute).to(panner).to(my.output);
+                level = soloMute.gain.value;
+            },
+
             /**
              * Set the callback function to notify the other channels of a solo parameter change.
              * @param {Function} callback The callback function.
@@ -234,7 +256,7 @@ window.WH = window.WH || {};
         };
         my.$mute = function(value, time, rampType) {
             isMute = value;
-
+            
             if (value) {
                 soloMute.gain.value = 0.0;
             } else {
@@ -269,6 +291,8 @@ window.WH = window.WH || {};
         };
 
         that = WH.createProcessorPlugin(specs, my);
+
+        init();
         
         my.defineParams({
             mute: {
@@ -297,11 +321,6 @@ window.WH = window.WH || {};
             }
         });
         
-        panner = my.core.createPanner();
-        soloMute = my.core.createGain();
-        my.input.to(soloMute).to(panner).to(my.output);
-        level = soloMute.gain.value;
-        
         that.setSoloCallback = setSoloCallback;
         that.onExternalSolo = onExternalSolo;
         return that;
@@ -326,6 +345,17 @@ window.WH = window.WH || {};
             amp,
             lfoOsc,
             lfoGain,
+            init = function() {
+                lfoOsc = my.core.createOsc();
+                lfoGain = my.core.createGain();
+                osc = my.core.createOsc();
+                amp = my.core.createGain();
+                osc.to(amp).to(my.output);
+                lfoOsc.to(lfoGain).to(osc.detune);
+                osc.start(0);
+                lfoOsc.start(0);
+                amp.gain.value = 0;
+            },
             noteOn = function(pitch, velocity, time) {
                 time = (time || amp.context.currentTime);
                 amp.gain.set(velocity / 127, amp.context.currentTime, [time, 0.02], 3);
@@ -360,6 +390,8 @@ window.WH = window.WH || {};
         
         that = WH.createGeneratorPlugin(specs, my);
         
+        init();
+        
         my.defineParams({
             osctype: {
                 type: 'itemized',
@@ -379,7 +411,7 @@ window.WH = window.WH || {};
                 default: 1.0,
                 min: 0.0,
                 max: 20.0,
-                unit: 'Hertz'
+                unit: 'Hz'
             },
             lfodepth: {
                 type: 'generic',
@@ -387,19 +419,9 @@ window.WH = window.WH || {};
                 default: 1.0,
                 min: 0.0,
                 max: 500.0,
-                unit: 'LinearGain'
+                unit: ''
             }
         });
-        
-        lfoOsc = my.core.createOsc();
-        lfoGain = my.core.createGain();
-        osc = my.core.createOsc();
-        amp = my.core.createGain();
-        osc.to(amp).to(my.output);
-        lfoOsc.to(lfoGain).to(osc.detune);
-        osc.start(0);
-        lfoOsc.start(0);
-        amp.gain.value = 0;
         
         that.noteOn = noteOn;
         that.noteOff = noteOff;

@@ -14,41 +14,59 @@ $(function() {
     /**
      * Application startup.
      */
-    function startApp() {
+    function createApp() {
         // create objects that will be the modules of the app
-        var arrangement = {},
+        var appView = {},
+            arrangement = {},
+            channelSelectView = {},
             conf = {},
+            controlBarView = {},
+            parameterEditView = {},
             core = {},
             file = {},
+            mixerView = {},
+            patternSelectView = {},
             pluginManager = {},
+            pubSub = {},
+            rackView = {},
             songView = {},
+            stepsView = {},
             studio = {},
+            tabsView = {},
             tracksView = {},
             transport = {};
         
-        // create old style modules
-        var view = WH.createView({
-                arrangement: arrangement,
-                conf: conf,
-                core: core,
-                file: file,
-                songView: songView,
-                studio: studio,
-                tracksView: tracksView,
-                transport: transport
-            });
-        
         // add functionality and inject dependencies
+        WH.createAppView({
+            that: appView,
+            arrangement: arrangement,
+            file: file,
+            transport: transport
+        });
         WH.createArrangement({
             that: arrangement,
             conf: conf,
+            controlBarView: controlBarView,
+            patternSelectView: patternSelectView,
             songView: songView,
+            stepsView: stepsView,
             tracksView: tracksView,
-            transport: transport,
-            view: view
+            transport: transport
+        });
+        WH.createChannelSelectView({
+            that: channelSelectView,
+            conf: conf,
+            rackView: rackView,
+            stepsView: stepsView
         });
         WH.createConf({
             that: conf
+        });
+        WH.createControlBarView({
+            that: controlBarView,
+            arrangement: arrangement,
+            file: file,
+            transport: transport
         });
         WH.createCore({
             that: core
@@ -60,28 +78,80 @@ $(function() {
             studio: studio,
             transport: transport
         });
+        WH.createParameterEditView({
+            that: parameterEditView,
+            file: file,
+            pubSub: pubSub
+        });
+        WH.createPatternSelectView({
+            that: patternSelectView,
+            arrangement: arrangement,
+            conf: conf
+        });
         WH.createPluginManager({
             that: pluginManager,
             conf: conf,
             core: core,
+            pubSub: pubSub,
             transport: transport
+        });
+        WH.createPluginRackView({
+            that: mixerView,
+            conf: conf,
+            file: file,
+            parameterEditView: parameterEditView,
+            pubSub: pubSub,
+            rootEl: $('.channels'),
+            rackSlotContainerSel: '.channels'
+        });
+        WH.createPluginRackView({
+            that: rackView,
+            conf: conf,
+            file: file,
+            parameterEditView: parameterEditView,
+            pubSub: pubSub,
+            rootEl: $('.rack'),
+            rackSlotContainerSel: '.rack__slot-list'
+        });
+        WH.createPubSub({
+            that: pubSub
+        });
+        WH.createStepsView({
+            that: stepsView,
+            arrangement: arrangement,
+            channelSelectView: channelSelectView,
+            conf: conf
         });
         WH.createSongView({
             that: songView
         });
         WH.createStudio({
             that: studio,
+            channelSelectView: channelSelectView,
             conf: conf,
             core: core,
+            mixerView: mixerView,
             pluginManager: pluginManager,
-            view: view
+            rackView: rackView
+        });
+        WH.createTabsView({
+            that: tabsView,
+            channelSelectView: channelSelectView,
+            mixerView: mixerView,
+            patternSelectView: patternSelectView,
+            rackView: rackView,
+            stepsView: stepsView,
+            tracksView: tracksView,
+            songView: songView,
         });
         WH.createTransport({
             that: transport,
             arrangement: arrangement,
+            channelSelectView: channelSelectView,
+            controlBarView: controlBarView,
             core: core,
-            studio: studio,
-            view: view
+            stepsView: stepsView,
+            studio: studio
         });
         WH.createTracksView({
             that: tracksView,
@@ -89,8 +159,12 @@ $(function() {
         });
         
         // app initialisation
-        view.setup();
+        mixerView.setup();
+        rackView.setup();
+        stepsView.setup();
+        channelSelectView.setup();
         studio.setup();
+        tabsView.setSelectedTab(0);
         if (!file.loadFromStorage()) {
             file.createNew();
         }
@@ -130,7 +204,7 @@ $(function() {
             if (core.getNow() > 0) {
                 clearInterval(interval);
                 overlay.parentNode.removeChild(overlay);
-                startApp();
+                createApp();
             }
         }, 100);
     }
@@ -143,6 +217,6 @@ $(function() {
         });
         el.style.display = 'block';
     } else {
-        startApp();
+        createApp();
     }
 });

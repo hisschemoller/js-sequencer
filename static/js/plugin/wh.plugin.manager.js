@@ -12,6 +12,7 @@ window.WH = window.WH || {};
         var that = specs.that,
             conf = specs.conf,
             core = specs.core,
+            pubSub = specs.pubSub,
             transport = specs.transport
             pluginIdCounter = 0,
             createPlugin = function(pluginName) {
@@ -20,6 +21,7 @@ window.WH = window.WH || {};
                         id: pluginIdCounter,
                         conf: conf,
                         core: core,
+                        pubSub: pubSub,
                         transport: transport
                     });
                     pluginIdCounter += 1;

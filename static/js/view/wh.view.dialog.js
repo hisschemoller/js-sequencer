@@ -8,20 +8,20 @@ window.WH = window.WH || {};
 (function (WH) {
 
     /**
-     * @constructor
-     * @param {Object} customOptions
+     * @param {Object} specs
      */
-    function DialogView(customOptions) {
+    function createDialogView(specs) {
 
         // private variables
-        var settings = {
-                headerClass: '.dialog__header',
-                bodyClass: '.dialog__body',
-                primaryClass: '.dialog__button--primary',
-                secondaryClass: '.dialog__button--secondary',
+        var selectors = {
+                header: '.dialog__header',
+                body: '.dialog__body',
+                primary: '.dialog__button--primary',
+                secondary: '.dialog__button--secondary',
             },
 
-            options = {
+            defaultSpecs = {
+                that: {},
                 type: 'confirm', // alert|confirm|prompt
                 headerText: 'What?',
                 bodyText: 'Please make a choice.',
@@ -35,29 +35,24 @@ window.WH = window.WH || {};
              * HTML dialog element.
              * @type {Object}
              */
-            dialogEl = $('#overlay-dialog'),
-
-            /**
-             * Reference to this, once function has closed.
-             * @type {Object}
-             */
-            self = this,
+            rootEl = $('#overlay-dialog'),
 
             /**
              * Initialise the view, add DOM event handlers.
              */
             init = function() {
-                options = Object.assign(options, customOptions);
-                dialogEl.find(settings.headerClass).text(options.headerText);
-                dialogEl.find(settings.bodyClass).text(options.bodyText);
-                dialogEl.find(settings.primaryClass).text(options.primaryLabel)
-                    .on(self.eventType.click, onButton);
-                dialogEl.find(settings.secondaryClass).text(options.secondaryLabel)
-                    .on(self.eventType.click, onButton);
-                dialogEl.show();
+                rootEl.find(selectors.header).text(specs.headerText);
+                rootEl.find(selectors.body).text(specs.bodyText);
+                rootEl.find(selectors.primary).text(specs.primaryLabel)
+                    .on(my.eventType.click, onButton);
+                rootEl.find(selectors.secondary).text(specs.secondaryLabel)
+                    .on(my.eventType.click, onButton);
+                rootEl.show();
 
-                if (options.type == 'alert') {
-                    dialogEl.find(settings.secondaryClass).hide();
+                if (specs.type == 'alert') {
+                    rootEl.find(selectors.secondary).hide();
+                } else {
+                    rootEl.find(selectors.secondary).show();
                 }
             },
 
@@ -65,36 +60,38 @@ window.WH = window.WH || {};
              * Click on primary or secondary button.
              */
             onButton = function(e) {
-                dialogEl.find(settings.primaryClass).off(self.eventType.click);
-                dialogEl.find(settings.secondaryClass).off(self.eventType.click);
+                rootEl.find(selectors.primary).off(my.eventType.click);
+                rootEl.find(selectors.secondary).off(my.eventType.click);
 
                 // primary callback
-                if ($(e.currentTarget).hasClass(settings.primaryClass.substr(1)) &&
-                    options.primaryCallback) {
-                    options.primaryCallback();
+                if ($(e.currentTarget).hasClass(selectors.primary.substr(1)) &&
+                    specs.primaryCallback) {
+                    specs.primaryCallback();
                 }
 
                 // secondary callback
-                if ($(e.currentTarget).hasClass(settings.secondaryClass.substr(1)) &&
-                    options.secondaryCallback) {
-                    options.secondaryCallback();
+                if ($(e.currentTarget).hasClass(selectors.secondary.substr(1)) &&
+                    specs.secondaryCallback) {
+                    specs.secondaryCallback();
                 }
 
-                dialogEl.hide();
-                delete this;
+                rootEl.hide();
+                delete that;
             };
-
-        // extend AbstractView
-        WH.AbstractView.call(this, settings);
-
+            
+        var my = my || {};
+        my.rootEl = rootEl;
+        
+        specs = Object.assign(defaultSpecs, specs);
+        
+        that = WH.createBaseView(specs, my);
+        
         // initialise
         init();
+        
+        return that;
     }
 
-    /**
-     * Exports
-     */
-    WH.createDialogView = function(options) {
-        return new DialogView(options);
-    };
+    WH.createDialogView = createDialogView;
+    
 })(WH);

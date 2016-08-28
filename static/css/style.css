@@ -82,7 +82,6 @@ button:focus {
 }
 .application {
 }
-.racks,
 .rack__generator,
 .rack__processors,
 .plugin__header,
@@ -170,7 +169,7 @@ button:focus {
         float: left;
         width: 12.5%;
     }
-    .channel.is-selected {
+    .channel.selected {
         background-color: #888;
     }
         .channel-selects {
@@ -184,7 +183,7 @@ button:focus {
                 .ctrl--channel-select > .ctrl__background {
                     opacity: 0.2;
                 }
-                .ctrl--channel-select.is-selected > .ctrl__background {
+                .ctrl--channel-select.selected > .ctrl__background {
                     opacity: 0.4;
                 }
                 .ctrl--channel-select > .ctrl__hilight {
@@ -195,30 +194,33 @@ button:focus {
                 .ctrl--channel-select > .ctrl__name {
                     color: #ccc;
                 }
-                .ctrl--channel-select.is-selected .ctrl__name  {
+                .ctrl--channel-select.selected .ctrl__name  {
                     color: #fff;
                 }
-        .channel__controls {
+        .channel .plugin__controls {
             width: 100%;
         }
-            .channel__controls .ctrl__background {
+            .rack-slot .channel .plugin__controls .plugin__control {
+                width: 100%;
+            }
+            .channel .plugin__controls .ctrl__background {
                 opacity: 0.1;
             }
-            .channel.is-selected .channel__controls .ctrl__background {
+            .channel.selected .plugin__controls .ctrl__background {
                 opacity: 0.2;
             }
-            .channel__controls .ctrl__hilight {
+            .channel .plugin__controls .ctrl__hilight {
                 display: none;
                 opacity: 0.3;
             }
-            .channel__controls .ctrl.is-selected .ctrl__hilight {
+            .channel .plugin__controls .ctrl.selected .ctrl__hilight {
                 display: block;
             }
-            .channel__controls .ctrl.is-selected .ctrl__text {
+            .channel .plugin__controls .ctrl.selected .ctrl__text {
                 color: #fff;
             }
-            /*.channel__controls .plugin__control:nth-child(1),
-            .channel__controls .plugin__control:nth-child(2) {
+            /*.channel .plugin__controls .plugin__control:nth-child(1),
+            .channel .plugin__controls .plugin__control:nth-child(2) {
                 width: 50%;
             }*/
 .steps {
@@ -231,29 +233,32 @@ button:focus {
     .step:nth-child(8n + 1) {
         clear: left;
     }
-    .step.is-active {
+    .step.active {
         background-color: #e4e4e4;
     }
-        .step.is-active.is-selected .ctrl__text {
+        .step.active.selected .ctrl__text {
             /*color: #ccc;*/
         }
         .step > .ctrl__background {
             opacity: 0.2;
         }
+        .step.active.selected > .ctrl__background {
+            opacity: 0.4;
+        }
         .step > .ctrl__hilight {
             display: none;
             opacity: 0.4;
         }
-        .step.is-selected .ctrl__name {
+        .step.selected .ctrl__name {
             color: #ccc;
         }
-.patterns {
+#patterns {
     border-bottom: 1px solid #fff;
     border-left: 1px solid #fff;
     border-right: 1px solid #fff;
     display: none;
 }
-.patterns:after {
+#patterns:after {
     clear: both;
     content: '';
     display: table;
@@ -261,7 +266,7 @@ button:focus {
     .pattern {
         width: 12.5%;
     }
-    .pattern.is-selected .ctrl__background {
+    .pattern.selected .ctrl__background {
         background-color: #fff;
         opacity: 0.2;
     }
@@ -323,11 +328,11 @@ button:focus {
     .song-part:last-child {
         border-bottom: 1px solid #fff;
     }
-        .song-part.is-active .ctrl__background {
+        .song-part.active .ctrl__background {
             background-color: #fff;
             opacity: 0.3;
         }
-        .song-part.is-active .ctrl__text {
+        .song-part.active .ctrl__text {
             color: #fff;
         }
         .song-part__filler,
@@ -335,13 +340,18 @@ button:focus {
             width: 62.5%;
         }
 .rack {
+    bottom: 40px;
     display: none;
+    overflow-y: auto;
+    position: absolute;
+    top: 160px;
+    width: 100%;
 }
-    .rack.is-selected {
+    .rack__slot-list {
         display: block;
     }
-    .rack__generator {}
-        .rack__generator .plugin__control {
+    .rack-slot.selected {}
+        .rack-slot .plugin__control {
             width: 25%;
         }
 
@@ -372,19 +382,18 @@ button:focus {
         .plugin__page-next {
             width: 12.5%;
         }
-        .plugin__page-prev.is-disabled,
-        .plugin__page-next.is-disabled {
+        .plugin__page-prev.disabled,
+        .plugin__page-next.disabled {
             cursor: default;
         }
         .plugin__settings {
             width: 12.5%;
         }
-            .plugin__page-prev.is-disabled .ctrl__text,
-            .plugin__page-next.is-disabled .ctrl__text {
+            .plugin__page-prev.disabled .ctrl__text,
+            .plugin__page-next.disabled .ctrl__text {
                 opacity: 0.5;
             }
     .plugin__pages {
-        /*height: 160px;*/
         overflow: hidden;
         width: 100%;
     }
@@ -400,7 +409,7 @@ button:focus {
             content: '';
             display: table;
         }
-        .plugin__page.is-selected {
+        .plugin__page.selected {
             display: block;
         }
             .plugin__controls {}
@@ -417,7 +426,7 @@ button:focus {
                     .plugin__control .ctrl {
                         float: none;
                     }
-.tabs {
+#tabs {
     border-left: 1px solid #fff;
     border-right: 1px solid #fff;
     border-top: 1px solid #fff;
@@ -429,14 +438,14 @@ button:focus {
             background-color: #fff;
             opacity: 0.0;
         }
-        .ctrl--tab.is-selected > .ctrl__background {
+        .ctrl--tab.selected > .ctrl__background {
             opacity: 0.2;
         }
-        .ctrl--tab.is-selected > .ctrl__text {
+        .ctrl--tab.selected > .ctrl__text {
             color: #fff;
         }
 
-.transport {
+#controlbar {
     border: 1px solid #fff;
     bottom: 0;
     height: 42px;
@@ -444,19 +453,19 @@ button:focus {
     position: absolute;
     right: 0;
 }
-    .ctrl--transport {
+    .ctrl--controlbar {
         width: 25%;
     }
-    .ctrl--transport .ctrl__hilight {
+    .ctrl--controlbar .ctrl__hilight {
         background-color: #fff;
         display: none;
         opacity: 0.6
     }
-    .ctrl--transport.is-selected .ctrl__hilight {
+    .ctrl--controlbar.selected .ctrl__hilight {
         display: block;
     }
-    /*.ctrl:not(.is-active) .ctrl__toggle-active,
-    .ctrl.is-active .ctrl__toggle-inactive {
+    /*.ctrl:not(.active) .ctrl__toggle-active,
+    .ctrl.active .ctrl__toggle-inactive {
         display: none;
     }*/
 .overlay {
@@ -475,6 +484,7 @@ button:focus {
         max-height: 400px;
         max-width: 200px;
         position: absolute;
+        width: 150px;
     }
         .overlay__color {
             bottom: 0;
@@ -490,18 +500,30 @@ button:focus {
         font-size: 32px;
         margin-top: 50px;
     }
-#overlay-ctrl-generic {}
+#overlay-parameter-edit {}
+    .overlay__content {}
+        .overlay__color {}
+
+.overlay__generic,
+.overlay__itemized {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
     .overlay-ctrl__info {
-        padding: 20px 10px 0 10px;
+        padding: 10px 10px 0 10px;
         margin: 0 auto;
         max-width: 280px;
         width: 100%;
     }
-    .overlay-ctrl__info td:nth-child(2) {
-        width: 60%;
-    }
     .overlay-ctrl__value {
         font-size: 36px;
+        line-height: 36px;
+    }
+    .overlay-ctrl__min-max {
+        font-size: 12px;
     }
     .overlay-ctrl__slider {
         background-color: #ddd;
@@ -520,10 +542,10 @@ button:focus {
             position: absolute;
             right: 0;
         }
-#overlay-ctrl-itemized {}
+.overlay__itemized {}
     .overlay-ctrl__items {
         border: 2px solid #fff;
-        margin: 20px 30px;
+        margin: 20px 20px;
     }
         .overlay-ctrl__item:not(:last-child) {
             border-bottom: 2px solid #fff;
@@ -534,13 +556,16 @@ button:focus {
             padding: 15px 30px;
             cursor: pointer;
         }
-        .overlay-ctrl__item.is-selected {
+        .overlay-ctrl__item.selected {
             color: #ccc;
             background-color: #fff;
         }
-        .overlay-ctrl__item.is-active {
+        .overlay-ctrl__item.active {
             color: #ccc;
             background-color: #eee;
+        }
+        .overlay__itemized .overlay-ctrl__name {
+            font-size: 24px;
         }
 #overlay-dialog {
 }
@@ -566,7 +591,7 @@ button:focus {
 }
 
 @media only screen and (min-width: 656px) {
-    .tabs {
+    #tabs {
         display: none;
     }
 }
@@ -581,8 +606,8 @@ button:focus {
 [data-cols='2'] .channels,
 [data-cols='2'] .steps,
 [data-cols='2'] #tracks,
-[data-cols='2'] .patterns,
-[data-cols='2'] .racks,
+[data-cols='2'] #patterns,
+[data-cols='2'] .rack,
 [data-cols='2'] .song {
     display: block !important;
     position: absolute;
@@ -598,7 +623,7 @@ button:focus {
     left: 0;
     top: 40px;
 }
-[data-cols='2'] .racks {
+[data-cols='2'] .rack {
     border-bottom: 1px solid #fff;
     border-top: 1px solid #fff;
     bottom: 40px;
@@ -606,7 +631,7 @@ button:focus {
     overflow-y: auto;
     top: 200px;
 }
-    [data-cols='2'] .rack {
+    [data-cols='2'] .rack__slot-list {
         display: block !important;
     }
 [data-cols='2'] .steps {
@@ -619,7 +644,7 @@ button:focus {
     left: 50%;
     top: 80px;
 }
-[data-cols='2'] .patterns {
+[data-cols='2'] #patterns {
     border-top: 1px solid #fff;
     left: 50%;
     top: 240px;
@@ -650,8 +675,8 @@ button:focus {
 [data-cols='3'] .channel-selects,
 [data-cols='3'] .channels,
 [data-cols='3'] .steps,
-[data-cols='3'] .patterns,
-[data-cols='3'] .racks,
+[data-cols='3'] #patterns,
+[data-cols='3'] .rack,
 [data-cols='3'] #tracks,
 [data-cols='3'] .song {
     display: block !important;
@@ -668,7 +693,7 @@ button:focus {
     left: 33.3333%;
     top: 40px;
 }
-[data-cols='3'] .racks {
+[data-cols='3'] .rack {
     border-bottom: 1px solid #fff;
     border-top: 1px solid #fff;
     bottom: 40px;
@@ -676,7 +701,7 @@ button:focus {
     overflow-y: auto;
     top: 0;
 }
-    [data-cols='3'] .rack {
+    [data-cols='3'] .rack__slot-list {
         display: block !important;
     }
 [data-cols='3'] .steps {
@@ -689,7 +714,7 @@ button:focus {
     left: 66.6666%;
     top: 80px;
 }
-[data-cols='3'] .patterns {
+[data-cols='3'] #patterns {
     border-top: 1px solid #fff;
     left: 66.6666%;
     top: 240px;
@@ -698,9 +723,10 @@ button:focus {
     border-top: 1px solid #fff;
     bottom: 40px;
     left: 33.3333%;
-    top: 160px;
+    top: 200px;
 }
     [data-cols='3'] .song__list-container {
+        bottom: 0;
         top: 40px;
     }
     [data-cols='3'] .song-part:first-child {
@@ -720,8 +746,8 @@ button:focus {
 [data-cols='4'] .channels,
 [data-cols='4'] .steps,
 [data-cols='4'] #tracks,
-[data-cols='4'] .patterns,
-[data-cols='4'] .racks,
+[data-cols='4'] #patterns,
+[data-cols='4'] .rack,
 [data-cols='4'] .song {
     display: block !important;
     position: absolute;
@@ -737,7 +763,7 @@ button:focus {
     left: 25%;
     top: 40px;
 }
-[data-cols='4'] .racks {
+[data-cols='4'] .rack {
     border-bottom: 1px solid #fff;
     border-top: 1px solid #fff;
     bottom: 40px;
@@ -745,7 +771,7 @@ button:focus {
     overflow-y: auto;
     top: 0;
 }
-    [data-cols='4'] .rack {
+    [data-cols='4'] .rack__slot-list {
         display: block !important;
     }
 [data-cols='4'] .steps {
@@ -758,7 +784,7 @@ button:focus {
     left: 50%;
     top: 80px;
 }
-[data-cols='4'] .patterns {
+[data-cols='4'] #patterns {
     border-top: 1px solid #fff;
     left: 50%;
     top: 240px;

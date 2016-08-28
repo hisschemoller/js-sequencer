@@ -13,14 +13,16 @@
 <body>
     <main>
         <div id="app" class="application">
-            <ul class="ctrls tabs"></ul>
+            <ul id="tabs" class="ctrls"></ul>
             <ul class="ctrls channel-selects"></ul>
             <ul class="ctrls channels"></ul>
             <ul class="ctrls steps"></ul>
             <div id="tracks"></div>
-            <ul class="ctrls patterns"></ul>
-            <ul class="ctrls racks"></ul>
-            <ul class="ctrls transport"></ul>
+            <ul id="patterns" class="ctrls"></ul>
+            <div class="rack">
+                <ul class="rack__slot-list ctrls"></ul>
+            </div>
+            <ul id="controlbar" class="ctrls"></ul>
             <div class="song">
                 <ul class="ctrls song__header">
                     <li class="tile tile--12 song__header-order">
@@ -42,44 +44,25 @@
                     </ul>
                 </div>
             </div>
-            <div id="overlay-ctrl-generic" class="overlay">
+            <div id="overlay-parameter-edit" class="overlay">
                 <div class="overlay__content">
                     <div class="overlay__color"></div>
-                    <div class="table overlay-ctrl__info">
-                        <div class="tr">
-                            <div class="td">
-                                <span class="overlay-ctrl__label">Min</span>
-                            </div>
-                            <div class="td">
-                                <span class="overlay-ctrl__label overlay-ctrl__name"></span>
-                            </div>
-                            <div class="td">
-                                <span class="overlay-ctrl__label">Max</span>
-                            </div>
+                    <div class="overlay__generic">
+                        <div class="overlay-ctrl__info">
+                            <div class="overlay-ctrl__label overlay-ctrl__name"></div>
+                            <div><span class="overlay-ctrl__value"></span>&nbsp;<span class="overlay-ctrl__unit"></span></div>
+                            <div class="overlay-ctrl__min-max">Min <span class="overlay-ctrl__min"></span> - Max <span class="overlay-ctrl__max"></span></div>
                         </div>
-                        <div class="tr">
-                            <div class="td">
-                                <span class="overlay-ctrl__min"></span>
-                            </div>
-                            <div class="td">
-                                <span class="overlay-ctrl__value"></span>
-                            </div>
-                            <div class="td">
-                                <span class="overlay-ctrl__max"></span>
-                            </div>
+                        <div class="overlay-ctrl__slider">
+                            <div class="overlay-ctrl__slider-thumb"></div>
                         </div>
-                    </div>
-                    <div class="overlay-ctrl__slider">
-                        <div class="overlay-ctrl__slider-thumb"></div>
-                    </div>
-                </div><!-- /overlay__content -->
-            </div>
-            <div id="overlay-ctrl-itemized" class="overlay">
-                <div class="overlay__content">
-                    <div class="overlay-ctrl__info">
-                        <span class="overlay-ctrl__label overlay-ctrl__name"></span>
-                    </div>
-                    <ul class="overlay-ctrl__items"></ul>
+                    </div><!-- /overlay__generic -->
+                    <div class="overlay__itemized">
+                        <div class="overlay-ctrl__info">
+                            <span class="overlay-ctrl__label overlay-ctrl__name"></span>
+                        </div>
+                        <ul class="overlay-ctrl__items"></ul>
+                    </div><!-- /overlay__itemized -->
                 </div><!-- /overlay__content -->
             </div>
             <div id="overlay-startup" class="overlay">
@@ -133,11 +116,8 @@
                 <span class="ctrl__label ctrl__text"></span>
             </li>
         </div>
-        <div id="template-rack">
-            <li class="rack">
-                <ul class="rack__generator"></ul>
-                <ul class="rack__processors"></ul>
-            </li>
+        <div id="template-rack-slot">
+            <li class="rack-slot"></li>
         </div>
         <div id="template-song-part">
             <li class="song-part clearfix">
@@ -343,7 +323,7 @@
         </div>
         <div id="template-plugin-channel">
             <li class="channel">
-                <ul class="ctrls channel__controls">
+                <ul class="ctrls plugin__controls">
                     <div class="plugin__control mute"></div>
                     <div class="plugin__control solo"></div>
                     <div class="plugin__control pan"></div>
@@ -365,8 +345,8 @@
                 <span class="ctrl__label ctrl__text"></span>
             </li>
         </div>
-        <div id="template-ctrl-transport">
-            <li class="ctrl ctrl--transport">
+        <div id="template-ctrl-controlbar">
+            <li class="ctrl ctrl--controlbar">
                 <div class="ctrl__layer ctrl__background"></div>
                 <div class="ctrl__layer ctrl__hilight"></div>
                 <span class="ctrl__label ctrl__text"></span>
@@ -401,22 +381,26 @@
     <script src="static/js/arrangement/wh.arrangement.songpart.js"></script>
     <script src="static/js/arrangement/wh.arrangement.step.js"></script>
     <script src="static/js/arrangement/wh.arrangement.track.js"></script>
+    <script src="static/js/view/wh.view.app.js"></script>
+    <script src="static/js/view/wh.view.base.js"></script>
+    <script src="static/js/view/wh.view.channelselect.js"></script>
+    <script src="static/js/view/wh.view.controlbar.js"></script>
+    <script src="static/js/view/wh.view.dialog.js"></script>
+    <script src="static/js/view/wh.view.parameter.js"></script>
+    <script src="static/js/view/wh.view.pluginrack.js"></script>
+    <script src="static/js/view/wh.view.patternselect.js"></script>
+    <script src="static/js/view/wh.view.plugin.js"></script>
+    <script src="static/js/view/wh.view.pluginrack.js"></script>
+    <script src="static/js/view/wh.view.song.js"></script>
+    <script src="static/js/view/wh.view.steps.js"></script>
+    <script src="static/js/view/wh.view.tabs.js"></script>
+    <script src="static/js/view/wh.view.tracks.js"></script>
     <script src="static/js/wh.conf.js"></script>
     <script src="static/js/wh.core.js"></script>
     <script src="static/js/wh.extension.js"></script>
+    <script src="static/js/wh.pubsub.js"></script>
     <script src="static/js/wh.studio.js"></script>
     <script src="static/js/wh.transport.js"></script>
     <script src="static/js/wh.util.js"></script>
-    <script src="static/js/view/wh.view.abstract.js"></script>
-    <script src="static/js/view/wh.view.base.js"></script>
-    <script src="static/js/view/wh.view.js"></script>
-    <script src="static/js/view/wh.view.channelselects.js"></script>
-    <script src="static/js/view/wh.view.controls.js"></script>
-    <script src="static/js/view/wh.view.dialog.js"></script>
-    <script src="static/js/view/wh.view.pattern.js"></script>
-    <script src="static/js/view/wh.view.plugin.js"></script>
-    <script src="static/js/view/wh.view.song.js"></script>
-    <script src="static/js/view/wh.view.steps.js"></script>
-    <script src="static/js/view/wh.view.tracks.js"></script>
 </body>
 </html>

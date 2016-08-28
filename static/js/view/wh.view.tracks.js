@@ -10,6 +10,7 @@ window.WH = window.WH || {};
     function createTracksView(specs, my) {
         var that,
             conf = specs.conf,
+            rootEl = $('#tracks'),
             trackCount = conf.getTrackCount(),
             stepCount = conf.getStepCount(),
             stepEls = [],
@@ -23,11 +24,12 @@ window.WH = window.WH || {};
                 var i, j, trackEl, stepEl, colorClass,
                     trackTemplate = $('#template-tracks-track'),
                     stepTemplate = $('#template-tracks-step');
+                    
                 for (i = 0; i < trackCount; i++) {
                     trackEl = trackTemplate.children().first().clone();
                     my.rootEl.append(trackEl);
                     stepEls.push([]);
-                    colorClass = conf.getColor(i);
+                    colorClass = my.classes.colors[i];
                     for (j = 0; j < stepCount; j++) {
                         stepEl = stepTemplate.children().first().clone();
                         stepEl.addClass(colorClass);
@@ -62,7 +64,7 @@ window.WH = window.WH || {};
             };
             
         var my = my || {};
-        my.rootEl = $('#tracks');
+        my.rootEl = rootEl;
         
         that = WH.createBaseView(specs, my);
         
