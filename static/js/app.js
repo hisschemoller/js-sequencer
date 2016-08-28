@@ -36,9 +36,6 @@ $(function() {
             tracksView = {},
             transport = {};
         
-        // create old style modules
-        var view = WH.createView({});
-        
         // add functionality and inject dependencies
         WH.createAppView({
             that: appView,
@@ -135,8 +132,7 @@ $(function() {
             core: core,
             mixerView: mixerView,
             pluginManager: pluginManager,
-            rackView: rackView,
-            view: view
+            rackView: rackView
         });
         WH.createTabsView({
             that: tabsView,

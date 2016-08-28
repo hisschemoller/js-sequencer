@@ -21,7 +21,6 @@ window.WH = window.WH || {};
             mixerView = specs.mixerView,
             rackView = specs.rackView,
             pluginManager = specs.pluginManager,
-            view = specs.view,
             
             /**
              * Channel plugins that form a mixer.
@@ -67,7 +66,7 @@ window.WH = window.WH || {};
                 instruments = new Array(n);
 
                 for (i; i < n; i++) {
-                    var channel = pluginManager.createPlugin('channel');
+                    channel = pluginManager.createPlugin('channel');
                     channel.setSoloCallback(onSoloChange);
                     channel.to(core.getMainOut());
                     channels.push(channel);
@@ -82,16 +81,11 @@ window.WH = window.WH || {};
              * @param {Array} data Studio setup data.
              */
             setData = function(data) {
-                var rack,
-                    instrument,
+                var instrument,
                     channel,
                     i = 0,
                     trackCount = conf.getTrackCount(),
-                    param,
-                    paramKey,
-                    soloedChannel,
-                    pluginId,
-                    preset;
+                    soloedChannel;
 
                 for (i; i < trackCount; i++) {
 
@@ -119,12 +113,6 @@ window.WH = window.WH || {};
                     // if there's channels soloed, remember one of them
                     if (channel.getParamValue('solo')) {
                         soloedChannel = channel;
-                    }
-                    
-                    preset = channel.getPreset();
-                    pluginId = channel.getId();
-                    for (paramKey in preset) {
-                        view.updatePluginControl(pluginId, paramKey, channel.getParam(paramKey));
                     }
                 }
 
