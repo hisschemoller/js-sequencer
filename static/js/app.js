@@ -125,6 +125,7 @@ $(function() {
         });
         WH.createSongView({
             that: songView,
+            arrangement: arrangement,
             conf: conf
         });
         WH.createStudio({

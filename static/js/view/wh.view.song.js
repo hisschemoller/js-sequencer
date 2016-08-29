@@ -10,6 +10,7 @@ window.WH = window.WH || {};
 
     function createSongView(specs, my) {
         var that,
+            arrangement = specs.arrangement,
             conf = specs.conf,
             rootEl = $('.song'),
             listEl,
@@ -37,16 +38,21 @@ window.WH = window.WH || {};
                 rootEl.on(my.eventType.click, onClick);
             },
 
+            /** 
+             * Click on song part.
+             * @param  {event} e Mouse or touch event.
+             */
             onClick = function(e) {
                 e.preventDefault();
                 var el, partEl, muteIndex, partIndex;
 
-                el = $(e.target);
+                el = $(e.target).closest(selectors.mute);
                 if (el.hasClass(classes.mute)) {
                     partEl = el.closest(selectors.part);
                     partIndex = rootEl.find(selectors.part).index(partEl);
                     muteIndex = el.closest(selectors.mutes).find(selectors.mute).index(el);
-                    console.log(partIndex, muteIndex);
+
+                    arrangement.toggleSongMute(partIndex, muteIndex);
                 }
             },
             
@@ -84,6 +90,20 @@ window.WH = window.WH || {};
                 }
                 partEls = listEl.find(selectors.part);
             },
+
+            /**
+             * Update all mute elements' selected state.
+             * @param {number} partIndex Song part in which to update the mutes.
+             * @param {array} mutes Mute values to use.
+             */
+            updateMutes = function(partIndex, mutes) {
+                var partEls = rootEl.find(selectors.part),
+                    muteEls = $(partEls[partIndex]).find(selectors.mute),
+                    i, n = muteEls.length;
+                for (i = 0; i < n; i++) {
+                    $(muteEls[i]).toggleClass(my.classes.selected, !!mutes[i]);
+                }
+            }
             
             /**
              * Show an active song part.
@@ -104,6 +124,7 @@ window.WH = window.WH || {};
         init();
         
         that.setSong = setSong;
+        that.updateMutes = updateMutes;
         that.setActivePart = setActivePart;
         return that;
     }

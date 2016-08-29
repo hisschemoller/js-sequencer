@@ -34,6 +34,14 @@ window.WH = window.WH || {};
             },
 
             /**
+             * Toggle the mute with the given index.
+             * @param  {number} index Index of the mute to toggle.
+             */
+            toggleMute = function(index) {
+                mutes[index] = !mutes[index];
+            },
+
+            /**
              * Get all settings that should be saved with a project.
              * @return {Object} Object with all songPart data to save.
              */
@@ -96,7 +104,7 @@ window.WH = window.WH || {};
         init();
         
         that = {};
-        that.id = Math.random();
+        that.toggleMute = toggleMute;
         that.getData = getData;
         that.getPatternIndex = getPatternIndex;
         that.getRepeats = getRepeats;

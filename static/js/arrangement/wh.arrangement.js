@@ -207,6 +207,23 @@ window.WH = window.WH || {};
             },
 
             /**
+             * Toggle one of the mutes in one of the song parts.
+             * @param {number} partIndex Song part index.
+             * @param {number} muteIndex Mute's channel index.
+             */
+            toggleSongMute = function(partIndex, muteIndex) {
+                // toggle the mute value in the song part
+                song[partIndex].toggleMute(muteIndex);
+                songView.updateMutes(partIndex, song[partIndex].getMutes());
+
+                // if the song plays the part that is changed here,
+                // reset the channel mute
+                if (isSongMode && songPartIndex === partIndex) { 
+                    studio.setChannelMutes(song[songPartIndex].getMutes());
+                }
+            },
+
+            /**
              * Get steps of the track at index on the current pattern.
              * @param  {Number} index Track index.
              * @return {Array} Array of Step objects.
@@ -233,6 +250,7 @@ window.WH = window.WH || {};
         that.getData = getData;
         that.scanEvents = scanEvents;
         that.toggleSongMode = toggleSongMode;
+        that.toggleSongMute = toggleSongMute;
         that.getTrackSteps = getTrackSteps;
         that.setSelectedPattern = setSelectedPattern;
         return that;
