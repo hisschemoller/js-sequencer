@@ -160,7 +160,7 @@ window.WH = window.WH || {};
             },
             
             /**
-             * Add instuments and connect them to the output.
+             * 
              * @param {Array} playbackQueue Array to collect Steps.
              */
             playEvents = function(playbackQueue) {
@@ -177,44 +177,15 @@ window.WH = window.WH || {};
             },
 
             /**
-             * Set the value of a parameters of one of the plugins.
-             * Typically after a user interacted with the UI.
-             * @param {Number} pluginId Unique ID of the plugin.
-             * @param {String} paramKey The parameter to change.
-             * @param {number|boolean} paramValue The new value for the parameter.
-             * paramValue for a Boolean parameter is a Boolean.,
-             * paramValue for a Generic parameter is a normalized value between 0 and 1,
-             * paramValue for an Itemized parameter is the index number of the selected item.
+             * Set mutes of all mixer channels.
+             * Used in song playback to update mutes per song part.
+             * @param {array} mutes Booleans that indicate channel mute setting.
              */
-            setParameter = function(pluginId, paramKey, paramValue) {
-                var i = 0,
-                    n,
-                    plugin;
-
-                // is it a generator?
-                n = instruments.length;
-                for (i; i < n; i++) {
-                    if (instruments[i] && pluginId == instruments[i].getId()) {
-                        plugin = instruments[i];
-                        break;
-                    }
-                }
-
-                // is it a channel?
-                if (!plugin) {
-                    i = 0;
-                    n = channels.length;
-                    for (i; i < n; i++) {
-                        if (pluginId == channels[i].getId()) {
-                            plugin = channels[i];
-                            break;
-                        }
-                    }
-                }
-
-                if (plugin) {
-                    plugin.setParamValue(paramKey, paramValue);
-                    view.updatePluginControl(pluginId, paramKey, plugin.getParam(paramKey));
+            setChannelMutes = function(mutes) {
+                var i, n;
+                n = conf.getTrackCount();
+                for (i = 0; i < n; i++) {
+                    channels[i].setParamValue('mute', mutes[i]);
                 }
             };
         
@@ -223,7 +194,7 @@ window.WH = window.WH || {};
         that.setData = setData;
         that.getData = getData;
         that.playEvents = playEvents;
-        that.setParameter = setParameter;
+        that.setChannelMutes = setChannelMutes;
         return that;
     }
     

@@ -20,6 +20,7 @@ window.WH = window.WH || {};
             patternSelectView = specs.patternSelectView,
             songView = specs.songView,
             stepsView = specs.stepsView,
+            studio = specs.studio,
             tracksView = specs.tracksView,
             transport = specs.transport,
             patterns = [],
@@ -44,7 +45,7 @@ window.WH = window.WH || {};
              * @param {Object} data Data object.
              */
             setData = function(data) {
-                var i = 0,
+                var i,
                     patternCount = conf.getPatternCount(),
                     songLength = data.song.length,
                     songPartData,
@@ -54,7 +55,7 @@ window.WH = window.WH || {};
                 clearData();
 
                 // create the patterns
-                for (i; i < patternCount; i++) {
+                for (i = 0; i < patternCount; i++) {
                     patterns.push(WH.createPattern({
                         data: data.patterns[i],
                         conf: conf
@@ -68,11 +69,13 @@ window.WH = window.WH || {};
                         songPartData.absoluteStart = songPartEnd;
                         songPartEnd += patterns[songPartData.patternIndex].getDuration() * songPartData.repeats;
                         songPartData.absoluteEnd = songPartEnd;
-                        song.push(WH.createSongPart(songPartData));
+                        songPartData.trackCount = conf.getTrackCount();
+                        var songPart = WH.createSongPart(songPartData);
+                        song.push(songPart);
                     }
-                    songView.setSong(song);
                 }
 
+                songView.setSong(song);
                 setSelectedPattern(0);
             },
 
@@ -109,6 +112,7 @@ window.WH = window.WH || {};
              * @param {Array} playbackQueue Events that happen within the time range.
              */
             scanEvents = function (start, end, playbackQueue) {
+                var i, n, mutes;
 
                 if (isSongMode) {
 
@@ -154,6 +158,8 @@ window.WH = window.WH || {};
                             setSelectedPattern(song[songPartIndex].getPatternIndex());
                             // scan the first bit of the new song part
                             patterns[patternIndex].scanEvents(song[songPartIndex].getStart(), end, playbackQueue);
+                            // set the mixer channel mutes
+                            studio.setChannelMutes(song[songPartIndex].getMutes());
                             // update the view
                             songView.setActivePart(songPartIndex);
                         } else {
@@ -193,6 +199,8 @@ window.WH = window.WH || {};
                     songPartEnd = song[songPartIndex].getEnd();
                     songPartNextIndex = 0;
                     songPartNextStart = song[songPartNextIndex].getStart();
+                    // set the mixer channel mutes
+                    studio.setChannelMutes(song[songPartIndex].getMutes());
                 } else {
                     songView.setActivePart(null);
                 }

@@ -16,10 +16,22 @@ window.WH = window.WH || {};
     function createSongPart(specs) {
 
         var that,
+            trackCount = specs.trackCount,
             patternIndex = specs.patternIndex,
             repeats = specs.repeats,
             absoluteStart = specs.absoluteStart,
             absoluteEnd = specs.absoluteEnd, // end tick of this part relative to song start
+            mutes = specs.mutes,
+
+            init = function() {
+                var i;
+                if (!mutes) {
+                    mutes = [];
+                    for (i = 0; i < trackCount; i++) {
+                        mutes.push(false);
+                    }
+                }
+            },
 
             /**
              * Get all settings that should be saved with a project.
@@ -28,7 +40,8 @@ window.WH = window.WH || {};
             getData = function() {
                 return {
                     patternIndex: patternIndex,
-                    repeats: repeats
+                    repeats: repeats,
+                    mutes: mutes
                 };
             },
 
@@ -62,15 +75,36 @@ window.WH = window.WH || {};
              */
             getEnd = function() {
                 return absoluteEnd;
+            }, 
+
+            /**
+             * Return muted tracks in this part.
+             * @return {array} Array of Booleans.
+             */
+            getMutes = function() {
+                return mutes;
+            },
+
+            /**
+             * Return object properties as a string.
+             * @return {string} Info string.
+             */
+            getInfo = function() {
+                return 'SongPart, index: ' + patternIndex + ', repeats: ' + repeats;
             };
-            
-            that = {};
-            that.getData = getData;
-            that.getPatternIndex = getPatternIndex;
-            that.getRepeats = getRepeats;
-            that.getStart = getStart;
-            that.getEnd = getEnd;
-            return that;
+
+        init();
+        
+        that = {};
+        that.id = Math.random();
+        that.getData = getData;
+        that.getPatternIndex = getPatternIndex;
+        that.getRepeats = getRepeats;
+        that.getStart = getStart;
+        that.getEnd = getEnd;
+        that.getMutes = getMutes;
+        that.getInfo = getInfo;
+        return that;
     };
 
     /**
