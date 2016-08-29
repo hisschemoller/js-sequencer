@@ -108,6 +108,9 @@ button:focus {
     .tile--12 {
         width: 12.5%;
     }
+    .tile--25 {
+        width: 25%;
+    }
 .clearfix,
 .ctrls:after {
     clear: both;
@@ -335,9 +338,42 @@ button:focus {
         .song-part.active .ctrl__text {
             color: #fff;
         }
+        .song-part__mutes {
+            border: none;
+        }
+            .song-part__mute {
+                border: 1px solid #fff;
+                cursor: pointer;
+                float: left;
+                height: 20px;
+                position: relative;
+                width: 25%;
+            }
+            .song-part__mute:before {
+                background-color: #ddd;
+                bottom: 0;
+                content: '';
+                left: 0;
+                opacity: 0.9;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+            .song-part__mute.selected:before {
+                content: '';
+                opacity: 0.6;
+            }
+                .song-part__mute .ctrl__text {
+                    display: none;
+                    font-size: 12px;
+                    line-height: 20px;
+                }
+                .song-part__mute.selected .ctrl__text {
+                    display: block;
+                }
         .song-part__filler,
         .song__header-filler {
-            width: 62.5%;
+            width: 37.5%;
         }
 .rack {
     bottom: 40px;

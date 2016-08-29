@@ -50,6 +50,7 @@ $(function() {
             patternSelectView: patternSelectView,
             songView: songView,
             stepsView: stepsView,
+            studio: studio,
             tracksView: tracksView,
             transport: transport
         });
@@ -123,7 +124,9 @@ $(function() {
             conf: conf
         });
         WH.createSongView({
-            that: songView
+            that: songView,
+            arrangement: arrangement,
+            conf: conf
         });
         WH.createStudio({
             that: studio,

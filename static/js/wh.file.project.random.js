@@ -121,6 +121,7 @@ window.WH = window.WH || {};
             createRackE = function() {
                 var channel = 4, rack = data.racks[channel];
                 rack.instrument.name = 'noise';
+                rack.instrument.preset.noisetype = 'brown';
                 rack.channel.preset.level = 1.0;
                 rack.channel.preset.pan = 0.0;
             },
@@ -136,7 +137,9 @@ window.WH = window.WH || {};
             },
 
             createSong = function() {
-                data.arrangement.song.push({patternIndex: 0, repeats: 8});
+                data.arrangement.song.push({patternIndex: 0, repeats: 2, mutes: [0, 0, 1, 0, 0, 1, 0, 0]});
+                data.arrangement.song.push({patternIndex: 2, repeats: 2, mutes: [0, 1, 1, 0, 0, 0, 1, 1]});
+                data.arrangement.song.push({patternIndex: 4, repeats: 2, mutes: [0, 0, 0, 1, 0, 0, 1, 1]});
             };
 
         init();
