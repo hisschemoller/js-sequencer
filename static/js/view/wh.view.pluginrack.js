@@ -62,7 +62,7 @@ window.WH = window.WH || {};
              */
             clearPlugin = function(pluginID) {
                 pluginViews[pluginID].destroy();
-                pluginViews[pluginID] = null;
+                delete pluginViews[pluginID];
             },
             
             /**

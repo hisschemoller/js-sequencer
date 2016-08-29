@@ -91,12 +91,12 @@ window.WH = window.WH || {};
 
                     // remove the old instrument, if it exists
                     if (instruments[i]) {
-                        clearInstrument(instruments[i], i);
+                        clearInstrument(i);
                     }
 
                     rackData = data[i];
                     channel = channels[i];
-
+                    
                     // add the instrument
                     if (rackData && rackData.instrument && rackData.instrument.name) {
                         instrument = pluginManager.createPlugin(rackData.instrument.name);
@@ -144,19 +144,19 @@ window.WH = window.WH || {};
             },
 
             /**
-             * Remove the instrument from the rack and delete it
-             * @param {Object} instrument Plugin Generator object.
+             * Remove the instrument from the rack and delete it.
              * @param {Number} index Rack index from which to remove the instrument.
              */
-            clearInstrument = function(instrument, index) {
+            clearInstrument = function(index) {
                 // remove plugin view
-                var pluginID = instrument.getId();
+                var instrument = instruments[index],
+                    pluginID = instrument.getId();
                 if (pluginID) {
                     rackView.clearPlugin(pluginID);
                 }
                 // remove plugin
                 instrument.cut();
-                instrument = null;
+                instruments[index] = null;
             },
             
             /**
