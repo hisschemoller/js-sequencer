@@ -79,6 +79,7 @@ window.WH = window.WH || {};
                     for (j = 0; j < trackCount; j++) {
                         muteEl = muteTemplate.children().first().clone();
                         muteEl.addClass(my.classes.colors[j]);
+                        muteEl.find(my.selectors.ctrlText).text(String.fromCharCode(65 + j));
                         mutesEl.append(muteEl);
 
                         if (partData.getMutes()[j]) {
