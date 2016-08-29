@@ -11,8 +11,6 @@ window.WH = window.WH || {};
     function createImpulsePlugin(specs, my) {   
 
         var that,
-            init = function() {
-            },
             createImpulseVoice = function(pitch, velocity, time) {
                 var osc = my.core.createOsc(),
                     filter = my.core.createFilter(),
@@ -42,8 +40,6 @@ window.WH = window.WH || {};
         };
         
         that = WH.createGeneratorPlugin(specs, my);
-            
-        init();
         
         my.defineParams({
         });
