@@ -67,7 +67,7 @@ window.WH = window.WH || {};
 
             createRackA = function() {
                 var channel = 0, rack = data.racks[channel];
-                // rack.instrument.name = 'kick';
+                rack.instrument.name = 'kick8';
                 rack.channel.preset.level = 1.0;
                 rack.channel.preset.pan = 0.0;
             },
@@ -75,6 +75,14 @@ window.WH = window.WH || {};
             createPatternsA = function() {
                 var channel = 0, track, step, i, j;
                 for (i = 0; i < patternCount; i++) {
+                    track = data.arrangement.patterns[i].tracks[channel];
+                    for(j = 0; j < stepCount; j++) {
+                        if (j % 4 == 0) {
+                            track.steps[j].velocity = 110;
+                            track.steps[j].duration = stepDuration * 4;
+                        }
+                    }
+
                 }
             },
 
