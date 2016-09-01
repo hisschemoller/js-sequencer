@@ -14,7 +14,7 @@ window.WH = window.WH || {};
             outSelectEl = document.getElementById('midi_select-out'),
             
             setup = function() {
-                midi.detectPorts(onMIDISuccess, onMIDIFailure);
+                midi.detectPorts(onMIDISuccess, onMIDIFailure, false);
             },
             
             /**

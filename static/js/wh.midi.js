@@ -9,7 +9,7 @@ window.WH = window.WH || {};
     function createMidi(specs) {
         var that,
             midiAccess,
-            midiInput,
+            midiInput,  
             midiOutput,
             
             /**
@@ -17,10 +17,10 @@ window.WH = window.WH || {};
              * @param {function} successCallback
              * @param {function} failureCallback
              */
-            detectPorts = function(successCallback, failureCallback) {
+            detectPorts = function(successCallback, failureCallback, sysex) {
                 if (navigator.requestMIDIAccess) {
                     navigator.requestMIDIAccess({
-                        sysex: false
+                        sysex: !!sysex
                     }).then(function(_midiAccess) {
                         if (!_midiAccess.inputs.size && !_midiAccess.outputs.size) {
                             failureCallback('No MIDI devices found on this system.');
