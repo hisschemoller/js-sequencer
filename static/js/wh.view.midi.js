@@ -9,12 +9,12 @@ window.WH = window.WH || {};
     function createMidiView(specs) {
         var that,
             midi = specs.midi,
-            rootEl = $('#midi'),
-            inSelectEl = rootEl.find('#midi_select-in'),
-            outSelectEl = rootEl.find('#midi_select-out'),
+            rootEl = document.getElementById('midi'),
+            inSelectEl = document.getElementById('midi_select-in'),
+            outSelectEl = document.getElementById('midi_select-out'),
             
             setup = function() {
-                midi.detectMidiPorts(onMIDISuccess, onMIDIFailure);
+                midi.detectPorts(onMIDISuccess, onMIDIFailure);
             },
             
             /**
@@ -25,29 +25,37 @@ window.WH = window.WH || {};
                 var port, option,
                     inputs = midiAccess.inputs.values(),
                     outputs = midiAccess.outputs.values();
+                console.log(midiAccess);
+                console.log(midiAccess.inputs);
                 
                 for (port = inputs.next(); port && !port.done; port = inputs.next()) {
                     console.log('MIDI input port:', port.value.name + ' (' + port.value.manufacturer + ')');
-                    $('<option>')
-                        .val(port.value.name)
-                        .text(port.value.name + ' (' + port.value.manufacturer + ')')
-                        .appendTo(inSelectEl);
+                    option = document.createElement('option');
+                    option.text = port.value.name;
+                    option.value = port.value.id;
+                    inSelectEl.add(option);
                 }
                 for (port = outputs.next(); port && !port.done; port = outputs.next()) {
                     console.log('MIDI output port:', port.value.name + ' (' + port.value.manufacturer + ')');
-                    $('<option>')
-                        .val(port.value.name)
-                        .text(port.value.name + ' (' + port.value.manufacturer + ')')
-                        .appendTo(outSelectEl);
+                    option = document.createElement('option');
+                    option.text = port.value.name;
+                    option.value = port.value.id;
+                    outSelectEl.add(option);
                 }
+                
+                inSelectEl.addEventListener('change', onInputSelect);
             },
+            
+            onInputSelect = function(e) {
+                midi.openPort(inSelectEl.value, true);
+            }
         
             /**
              * MIDI access request failed.
-             * @param {String}  
+             * @param {String} errorMessage 
              */
-            onMIDIFailure = function(errorString) {
-                
+            onMIDIFailure = function(errorMessage) {
+                console.log(errorMessage)
             };
         
         that = specs.that;
