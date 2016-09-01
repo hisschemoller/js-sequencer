@@ -7,11 +7,33 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" name="viewport">
 </head>
 <body>
+    <div id="midi">
+        <div>
+            <label for="midi_select-in">MIDI In</label>
+            <select id="midi_select-in"></select>
+        </div>
+        <div>
+            <label for="midi_select-out">MIDI Out</label>
+            <select id="midi_select-out"></select>
+        </div>
+    </div>
     <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="static/js/wh.midi.js"></script>
+    <script src="static/js/wh.view.midi.js"></script>
     <script>
-        $(function() {
-            WH.midi.detectMidiPorts();
+        document.addEventListener('DOMContentLoaded', function() {
+            var midi = {},
+                midiView = {};
+            
+            WH.createMidi({
+                that: midi
+            });
+            WH.createMidiView({
+                that: midiView,
+                midi: midi
+            });
+            
+            midiView.setup();
         });
     </script>
 </body>
