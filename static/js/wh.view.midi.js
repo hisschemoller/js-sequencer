@@ -44,18 +44,41 @@ window.WH = window.WH || {};
                 }
                 
                 inSelectEl.addEventListener('change', onInputSelect);
+                outSelectEl.addEventListener('change', onOutputSelect);
             },
-            
-            onInputSelect = function(e) {
-                midi.openPort(inSelectEl.value, true);
-            }
         
             /**
              * MIDI access request failed.
              * @param {String} errorMessage 
              */
             onMIDIFailure = function(errorMessage) {
-                console.log(errorMessage)
+                console.log(errorMessage);
+            },
+            
+            onInputSelect = function(e) {
+                midi.selectPort(inSelectEl.value, true);
+                midi.getSelectedPort(true).onmidimessage = function(e) {
+                    console.log(e.data);
+                }
+            },
+            
+            /**
+             * Send MIDI notes with pitch depending on keyCode.
+             */
+            onOutputSelect = function(e) {
+                e.preventDefault();
+                var outPort, pitch, velocity = 100;
+                midi.selectPort(outSelectEl.value);
+                outPort = midi.getSelectedPort();
+                window.addEventListener('keydown', function(e) {
+                    console.log(e.keyCode);
+                    pitch = Math.max(0, Math.min(e.keyCode, 127));
+                    outPort.send([0x90, pitch, velocity]);
+                });
+                window.addEventListener('keyup', function(e) {
+                    pitch = Math.max(0, Math.min(e.keyCode, 127));
+                    outPort.send([0x80, pitch, velocity]);
+                });
             };
         
         that = specs.that;

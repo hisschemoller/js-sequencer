@@ -9,9 +9,13 @@ window.WH = window.WH || {};
     function createMidi(specs) {
         var that,
             midiAccess,
+            midiInput,
+            midiOutput,
             
             /**
              * Request system for access to MIDI ports.
+             * @param {function} successCallback
+             * @param {function} failureCallback
              */
             detectPorts = function(successCallback, failureCallback) {
                 if (navigator.requestMIDIAccess) {
@@ -32,24 +36,28 @@ window.WH = window.WH || {};
                 }
             },
             
-            openPort = function(id, isInput) {
+            selectPort = function(id, isInput) {
                 var port, portMap;
                 portMap = isInput ? midiAccess.inputs.values() : midiAccess.outputs.values();
                 for (port = portMap.next(); port && !port.done; port = portMap.next()) {
                     if (port.value.id === id) {
-                        port.value.onmidimessage = onMessage;
-                        console.log(port);
+                        if (isInput) {
+                            midiInput = port.value;
+                        } else {
+                            midiOutput = port.value;
+                        }
                     }
                 }
             },
             
-            onMessage = function(e) {
-                console.log(e.data);
+            getSelectedPort = function(isInput) {
+                return isInput ? midiInput : midiOutput;
             };
         
         that = specs.that;
         that.detectPorts = detectPorts;
-        that.openPort = openPort;
+        that.selectPort = selectPort;
+        that.getSelectedPort = getSelectedPort;
         return that;
     }
     
